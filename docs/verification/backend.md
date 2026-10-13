@@ -6,7 +6,8 @@
 - Authenticated draft and feedback APIs. Request ownership fields are rejected.
 - Private PostgreSQL schema with owner row-level security on drafts, submissions, feedback, and AI usage.
 - Drizzle save/reopen/revision queries and serialized daily check reservations.
-- DeepSeek server integration with Markdown prompt, strict output validation, one retry, and a shared 60-second deadline.
+- DeepSeek server integration with Markdown prompt, strict output validation, one retry, and a shared 45-second deadline.
+- Recoverable checks, bounded request bodies, and the current 20-check UTC daily allowance. See [AI check hardening](ai-check.md).
 - Highlighted corrections, strengths-first feedback, crisis support state, rewrite, and revision action.
 - Saved-feedback list and a wider Today layout. Desktop Today exceeds 1000 pixels at a 1440-pixel viewport.
 - English/Arabic UI messages, Prettier formatting, and direct self-review. No subagents.
@@ -33,7 +34,7 @@ Browser tests intercept save/check APIs and render labeled sample feedback. They
 
 ### Hosted verification
 
-Created dedicated project `fkeczvedaevjidpnjevg` in Seoul on the Free organization plan.
+Created a dedicated Supabase project on the Free plan.
 The unrelated project was not changed. No paid Supabase plan or upgrade was selected.
 Configured local credentials privately, applied both migrations, and kept `writing` outside the Data API exposed schemas.
 Email sign-in and local callback URLs are configured. Email confirmation remains enabled.

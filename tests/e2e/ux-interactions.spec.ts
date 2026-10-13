@@ -38,6 +38,103 @@ test('checking freezes word-bank editing and prevents duplicate requests', async
   await expect(writing).toHaveValue(message);
 });
 
+test('a lost coach response opens saved feedback without a duplicate check', async ({ page }) => {
+  let paidRequests = 0;
+  await page.route('**/api/feedback', async (route) => {
+    paidRequests++;
+    expect(route.request().headers()['idempotency-key']).toMatch(/^[a-f0-9-]{36}$/);
+    await route.abort('failed');
+  });
+  await page.route('**/api/feedback?requestKey=*', (route) =>
+    route.fulfill({
+      json: {
+        ok: true,
+        data: { status: 'completed', submissionId: 'recovered' },
+      },
+    }),
+  );
+  await page.goto('/dev/preview/live-write');
+  await page.getByRole('textbox', { name: 'Your writing' }).fill(message);
+  await page.getByRole('button', { name: 'Check my writing' }).click();
+  await expect(page.getByRole('heading', { name: 'Your marked page', exact: true })).toBeVisible();
+  expect(paidRequests).toBe(1);
+});
+test('reload recovers an existing check without sending the writing again', async ({ page }) => {
+  let paidRequests = 0;
+  await page.route('**/api/feedback', () => {
+    paidRequests++;
+  });
+  await page.route('**/api/feedback?requestKey=*', (route) =>
+    route.fulfill({
+      json: {
+        ok: true,
+        data: { status: 'completed', submissionId: 'saved-before-reload' },
+      },
+    }),
+  );
+  await page.goto('/dev/preview/live-write');
+  // Wait for hydration before seeding the reload fixture. The initial mount must finish first.
+  await page.getByRole('checkbox', { name: 'Say where you went' }).check();
+  await expect(page.getByRole('checkbox', { name: 'Say where you went' })).toBeChecked();
+  await page.evaluate(() =>
+    sessionStorage.setItem(
+      'coach-check:/dev/preview/live-write',
+      '00000000-0000-4000-8000-000000000015',
+    ),
+  );
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Your marked page', exact: true })).toBeVisible();
+  expect(paidRequests).toBe(0);
+});
+test('a pending check offers saved-result recovery and preserves the writing', async ({ page }) => {
+  let completed = false;
+  let paidRequests = 0;
+  await page.route('**/api/feedback', (route) => {
+    paidRequests++;
+    return route.fulfill({ status: 202, json: { ok: true, data: { status: 'pending' } } });
+  });
+  await page.route('**/api/feedback?requestKey=*', (route) =>
+    route.fulfill({
+      json: {
+        ok: true,
+        data: completed ? { status: 'completed', submissionId: 'later' } : { status: 'pending' },
+      },
+    }),
+  );
+  await page.goto('/dev/preview/live-write');
+  const writing = page.getByRole('textbox', { name: 'Your writing' });
+  await writing.fill(message);
+  await page.getByRole('button', { name: 'Check my writing' }).click();
+  const recovery = page.getByRole('button', { name: 'Look for my feedback', exact: true });
+  await expect(recovery).toBeVisible({ timeout: 20000 });
+  await expect(writing).toHaveValue(message);
+  await expect(writing).toBeEnabled();
+  completed = true;
+  await recovery.click();
+  await expect(page.getByRole('heading', { name: 'Your marked page', exact: true })).toBeVisible();
+  expect(paidRequests).toBe(1);
+});
+test('coach failure preserves writing and provides a clear retry action', async ({ page }) => {
+  await page.route('**/api/feedback', (route) =>
+    route.fulfill({
+      status: 502,
+      json: {
+        ok: false,
+        error: { code: 'COACH_TIMEOUT' },
+      },
+    }),
+  );
+  await page.goto('/dev/preview/live-write');
+  const writing = page.getByRole('textbox', { name: 'Your writing' });
+  await writing.fill(message);
+  await page.getByRole('button', { name: 'Check my writing' }).click();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'The coach took too long' }),
+  ).toBeVisible();
+  await expect(writing).toBeEnabled();
+  await expect(writing).toHaveValue(message);
+  await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeVisible();
+});
 test('reload warns before discarding unsaved writing', async ({ page }) => {
   await page.goto('/dev/preview/live-write');
   const writing = page.getByRole('textbox', { name: 'Your writing' });

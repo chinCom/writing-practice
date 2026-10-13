@@ -1,0 +1,66 @@
+[
+  {
+    "configuration": "desktop",
+    "state": "page",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 36
+      },
+      {
+        "id": "duplicate-id-aria",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "state": "page",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "duplicate-id-aria",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "state": "correction-sheet",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodes": 1
+      },
+      {
+        "id": "aria-prohibited-attr",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "nodes": 4
+      },
+      {
+        "id": "duplicate-id-aria",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "dark-arabic-desktop",
+    "state": "page",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 25
+      },
+      {
+        "id": "duplicate-id-aria",
+        "nodes": 1
+      }
+    ]
+  }
+]

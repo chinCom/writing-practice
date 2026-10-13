@@ -9,6 +9,7 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
+import type { Explanation } from '@/lib/feedback/explanation';
 
 const writing = pgSchema('writing');
 const createdAt = () => timestamp('created_at', { withTimezone: true }).notNull().defaultNow();
@@ -31,6 +32,8 @@ export const submissions = writing.table('submissions', {
   attempt: integer('attempt').notNull(),
   parentSubmissionId: uuid('parent_submission_id'),
   status: text('status').notNull().default('pending'),
+  requestKey: uuid('request_key'),
+  startedAt: timestamp('started_at', { withTimezone: true }),
   createdAt: createdAt(),
 });
 export const feedbackRows = writing.table('feedback', {
@@ -39,6 +42,28 @@ export const feedbackRows = writing.table('feedback', {
   json: jsonb('json').$type<LocatedFeedback>().notNull(),
   model: text('model').notNull(),
   promptVersion: text('prompt_version').notNull(),
+  createdAt: createdAt(),
+});
+export const explanationRows = writing.table(
+  'correction_explanations',
+  {
+    submissionId: uuid('submission_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    correctionIndex: integer('correction_index').notNull(),
+    promptVersion: text('prompt_version').notNull(),
+    status: text('status').notNull(),
+    json: jsonb('json').$type<Explanation>(),
+    mock: boolean('mock').notNull().default(false),
+    requestKey: uuid('request_key').notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.submissionId, table.correctionIndex, table.promptVersion] }),
+  ],
+);
+export const explanationRequests = writing.table('explanation_requests', {
+  id: uuid('id').primaryKey(),
+  userId: uuid('user_id').notNull(),
   createdAt: createdAt(),
 });
 export const aiUsage = writing.table('ai_usage', {

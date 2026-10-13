@@ -1,0 +1,65 @@
+{
+  "synthetic": true,
+  "results": [
+    {
+      "input": {
+        "text": "Last weekend I go to the beach.",
+        "original": "go",
+        "suggestion": "went",
+        "tag": "verb-tense",
+        "explanation": "Use the past tense for last weekend."
+      },
+      "explanation": {
+        "why_original": "The word last weekend shows a past time. The verb go is present tense, so it does not match that past time.",
+        "why_suggestion": "Went is the past tense form of go. It shows the beach trip happened before now."
+      },
+      "latencyMs": 1351,
+      "model": "deepseek-flash",
+      "usage": {
+        "promptTokens": 378,
+        "completionTokens": 55,
+        "cacheHitTokens": 0
+      }
+    },
+    {
+      "input": {
+        "text": "I would like to invite you come to my house.",
+        "original": "invite you come",
+        "suggestion": "invite you to come",
+        "tag": "missing-word",
+        "explanation": "Add to before come after invite."
+      },
+      "explanation": {
+        "why_original": "The word \"invite\" needs a small linking word before the action. \"Invite you come\" misses that word.",
+        "why_suggestion": "\"Invite you to come\" is the correct pattern. The word \"to\" links \"invite\" with the action \"come\"."
+      },
+      "latencyMs": 1013,
+      "model": "deepseek-flash",
+      "usage": {
+        "promptTokens": 386,
+        "completionTokens": 65,
+        "cacheHitTokens": 128
+      }
+    },
+    {
+      "input": {
+        "text": "After a long week of working, I can finally relax.",
+        "original": "a long week of working",
+        "suggestion": "a long week of work",
+        "tag": "word-choice",
+        "explanation": "Work is a more natural noun here."
+      },
+      "explanation": {
+        "why_original": "The phrase 'a long week of working' is not wrong. It is a little less common. The gerund 'working' names the activity.",
+        "why_suggestion": "The phrase 'a long week of work' sounds more natural. 'Work' is a noun here. It names the thing that filled your week."
+      },
+      "latencyMs": 1062,
+      "model": "deepseek-flash",
+      "usage": {
+        "promptTokens": 389,
+        "completionTokens": 71,
+        "cacheHitTokens": 128
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "configuration": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "state": "explanation-open",
+    "axeVersion": "4.12.1",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodeCount": 36
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": "explanation-open",
+    "axeVersion": "4.12.1",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodeCount": 1
+      },
+      {
+        "id": "color-contrast",
+        "nodeCount": 1
+      }
+    ]
+  }
+]

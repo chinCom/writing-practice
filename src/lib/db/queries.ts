@@ -27,10 +27,70 @@ export async function saveDraft(userId: string, text: string) {
       });
   });
 }
-export async function reserveSubmission(userId: string, input: FeedbackInput) {
+async function expireChecks(database: Parameters<Parameters<typeof withUserDatabase>[1]>[0]) {
+  await database
+    .update(submissions)
+    .set({ status: 'failed' })
+    .where(
+      and(
+        eq(submissions.status, 'pending'),
+        sql`${submissions.createdAt} < now() - interval '2 minutes'`,
+      ),
+    );
+}
+export async function loadCheck(userId: string, requestKey: string) {
+  return withUserDatabase(userId, async (database) => {
+    await expireChecks(database);
+    return (
+      (
+        await database.select().from(submissions).where(eq(submissions.requestKey, requestKey))
+      )[0] ?? null
+    );
+  });
+}
+export async function claimSubmission(userId: string, submissionId: string) {
+  return withUserDatabase(userId, async (database) => {
+    const rows = await database
+      .update(submissions)
+      .set({ startedAt: new Date() })
+      .where(
+        and(
+          eq(submissions.id, submissionId),
+          eq(submissions.status, 'pending'),
+          sql`${submissions.startedAt} IS NULL`,
+        ),
+      )
+      .returning({ id: submissions.id });
+    return rows.length === 1;
+  });
+}
+export async function reserveSubmission(userId: string, input: FeedbackInput, requestKey?: string) {
   return withUserDatabase(userId, async (database) => {
     // Serialize reservations across tabs and server instances. Pending calls consume quota too.
     await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 0))`);
+    await expireChecks(database);
+    if (requestKey) {
+      const [existing] = await database
+        .select()
+        .from(submissions)
+        .where(eq(submissions.requestKey, requestKey));
+      if (existing) {
+        if (
+          existing.text !== input.text ||
+          existing.taskId !== input.taskId ||
+          existing.attempt !== input.attempt ||
+          existing.parentSubmissionId !== (input.parentSubmissionId ?? null)
+        )
+          throw new Error('CHECK_CONFLICT');
+        return existing.id;
+      }
+      const [active] = await database
+        .select({ id: submissions.id })
+        .from(submissions)
+        .where(and(eq(submissions.status, 'pending'), sql`${submissions.requestKey} IS NOT NULL`))
+        .limit(1);
+      if (active) throw new Error('CHECK_IN_PROGRESS');
+    }
     const day = new Date();
     day.setUTCHours(0, 0, 0, 0);
     const rows = await database
@@ -55,6 +115,7 @@ export async function reserveSubmission(userId: string, input: FeedbackInput) {
       .insert(submissions)
       .values({
         userId,
+        requestKey,
         taskId: input.taskId,
         text: input.text,
         wordCount: countWords(input.text),
@@ -79,6 +140,12 @@ export async function completeSubmission(
   result: Awaited<ReturnType<typeof gradeWriting>>,
 ) {
   return withUserDatabase(userId, async (database) => {
+    const updated = await database
+      .update(submissions)
+      .set({ status: 'completed' })
+      .where(and(eq(submissions.id, submissionId), eq(submissions.status, 'pending')))
+      .returning({ id: submissions.id });
+    if (updated.length !== 1) throw new Error('CHECK_EXPIRED');
     await database.insert(feedbackRows).values({
       userId,
       submissionId,
@@ -94,10 +161,6 @@ export async function completeSubmission(
       latencyMs: result.latencyMs,
       mock: result.mock,
     });
-    await database
-      .update(submissions)
-      .set({ status: 'completed' })
-      .where(eq(submissions.id, submissionId));
   });
 }
 export async function failSubmission(userId: string, submissionId: string) {
@@ -105,7 +168,7 @@ export async function failSubmission(userId: string, submissionId: string) {
     await database
       .update(submissions)
       .set({ status: 'failed' })
-      .where(eq(submissions.id, submissionId));
+      .where(and(eq(submissions.id, submissionId), eq(submissions.status, 'pending')));
   });
 }
 export async function loadFeedback(userId: string, submissionId: string) {

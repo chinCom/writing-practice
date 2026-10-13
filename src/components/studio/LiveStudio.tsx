@@ -1,6 +1,6 @@
 'use client';
-import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -8,8 +8,9 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import LinearProgress from '@mui/material/LinearProgress';
-import WritingField from '@/components/ui/WritingField';
+import CoachStatus from './CoachStatus';
+import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
+import WritingCanvas from './WritingCanvas';
 import TaskBrief from './TaskBrief';
 import { countWords } from '@/lib/draft';
 import NextLink from 'next/link';
@@ -30,14 +31,25 @@ export default function LiveStudio({
   const t = useTranslations('studio');
   const live = useTranslations('liveStudio');
   const router = useRouter();
+  const pathname = usePathname();
+  const recoveryStorageKey = 'coach-check:' + pathname;
   const [text, setText] = useState(initialText);
   const [savedText, setSavedText] = useState(initialText);
   const [busy, setBusy] = useState<'save' | 'check' | null>(null);
   const [error, setError] = useState<
-    'saveError' | 'error' | 'dailyLimit' | 'sessionExpired' | null
+    | 'saveError'
+    | 'error'
+    | 'dailyLimit'
+    | 'sessionExpired'
+    | 'timeout'
+    | 'inProgress'
+    | 'recoverable'
+    | null
   >(null);
   const allowNavigation = useUnsavedWriting(text !== savedText, live('leaveWarning'));
   const input = useRef<HTMLTextAreaElement>(null);
+  const checking = useRef(false);
+  const requestKey = useRef<string | null>(null);
   const words = countWords(text);
   async function save() {
     setBusy('save');
@@ -61,35 +73,79 @@ export default function LiveStudio({
       setBusy(null);
     }
   }
-  async function check() {
+  function rememberCheck(value: string | null) {
+    requestKey.current = value;
+    try {
+      if (value) sessionStorage.setItem(recoveryStorageKey, value);
+      else sessionStorage.removeItem(recoveryStorageKey);
+    } catch {
+      // Browser storage can be blocked. In-memory recovery remains available.
+    }
+  }
+  function handleCoachResult(result: CoachResult) {
+    if (result.status === 'completed') {
+      rememberCheck(null);
+      allowNavigation();
+      router.push(preview ? '/dev/preview/feedback' : '/feedback/' + result.submissionId);
+      return;
+    }
+    if (result.status === 'pending') {
+      setError('recoverable');
+      return;
+    }
+    rememberCheck(null);
+    const errors: Record<string, 'sessionExpired' | 'dailyLimit' | 'timeout' | 'inProgress'> = {
+      UNAUTHENTICATED: 'sessionExpired',
+      DAILY_LIMIT: 'dailyLimit',
+      COACH_TIMEOUT: 'timeout',
+      CHECK_IN_PROGRESS: 'inProgress',
+    };
+    setError(errors[result.code] ?? 'error');
+  }
+  async function check(recover = false) {
+    if (checking.current) return;
+    checking.current = true;
     setBusy('check');
     setError(null);
     try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ taskId: 'weekend', text, attempt, parentSubmissionId }),
-      });
-      const result: { ok: boolean; data?: { submissionId: string }; error?: { code: string } } =
-        await response.json();
-      if (!response.ok || !result.ok || !result.data) {
-        setError(
-          response.status === 401
-            ? 'sessionExpired'
-            : result.error?.code === 'DAILY_LIMIT'
-              ? 'dailyLimit'
-              : 'error',
-        );
-        return;
-      }
-      allowNavigation();
-      router.push(preview ? '/dev/preview/feedback' : '/feedback/' + result.data.submissionId);
+      rememberCheck(requestKey.current ?? crypto.randomUUID());
+      const result = recover
+        ? await recoverCoach(requestKey.current!)
+        : await requestCoach(
+            { taskId: 'weekend', text, attempt, parentSubmissionId },
+            requestKey.current!,
+          );
+      handleCoachResult(result);
     } catch {
-      setError('error');
+      setError('recoverable');
     } finally {
+      checking.current = false;
       setBusy(null);
     }
   }
+  const recoverOnMount = useEffectEvent(() => {
+    try {
+      if (parentSubmissionId) {
+        const revisionKey = 'feedback-revision:' + parentSubmissionId;
+        const revision = sessionStorage.getItem(revisionKey);
+        if (revision !== null && revision.length <= 1200) {
+          setText(revision);
+          sessionStorage.removeItem(revisionKey);
+        }
+      }
+      const savedKey = sessionStorage.getItem(recoveryStorageKey);
+      if (savedKey && /^[a-f0-9-]{36}$/i.test(savedKey)) {
+        requestKey.current = savedKey;
+        void check(true);
+      }
+    } catch {
+      // Do not block writing when browser storage is unavailable.
+    }
+  });
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => recoverOnMount());
+    return () => cancelAnimationFrame(frame);
+  }, [recoveryStorageKey]);
   function insertPhrase(phrase: string) {
     if (busy === 'check') return;
     const start = input.current?.selectionStart ?? text.length;
@@ -113,25 +169,11 @@ export default function LiveStudio({
           variant="outlined"
           sx={{ flexBasis: 0, flexGrow: 999, minInlineSize: 'min(100%, 55%)', p: { xs: 2, md: 4 } }}
         >
-          <WritingField
+          <WritingCanvas
             inputRef={input}
-            multiline
-            fullWidth
-            variant="standard"
             value={text}
             disabled={busy === 'check'}
             onChange={(event) => setText(event.target.value)}
-            slotProps={{
-              input: {
-                disableUnderline: true,
-                sx: (theme) => ({
-                  ...theme.typography.canvas,
-                  minHeight: theme.layout.canvasMinHeight,
-                  alignItems: 'start',
-                }),
-              },
-              htmlInput: { 'aria-label': t('writing'), maxLength: 1200 },
-            }}
           />
           <Stack sx={{ gap: 2, mt: 3 }}>
             <Typography variant="caption" role="status">
@@ -149,25 +191,32 @@ export default function LiveStudio({
               >
                 {live(busy === 'save' ? 'saving' : 'save')}
               </Button>
-              <Button variant="contained" disabled={busy !== null || words < 40} onClick={check}>
+              <Button
+                variant="contained"
+                disabled={busy !== null || words < 40 || error === 'recoverable'}
+                onClick={() => check()}
+              >
                 {t('check')}
               </Button>
             </Stack>
             {words < 40 ? (
               <Typography variant="caption">{t('remaining', { n: 40 - words })}</Typography>
             ) : null}
-            {busy === 'check' ? (
-              <>
-                <LinearProgress />
-                <Typography role="status">{live('checking')}</Typography>
-              </>
-            ) : null}
+            {busy === 'check' ? <CoachStatus /> : null}
             {error ? (
               <Alert severity="error">
                 {live(error)}
                 {error === 'sessionExpired' ? (
                   <Button component={NextLink} href="/login">
                     {live('signInAgain')}
+                  </Button>
+                ) : error === 'recoverable' ? (
+                  <Button disabled={busy !== null} onClick={() => check(true)}>
+                    {live('recover')}
+                  </Button>
+                ) : error === 'error' || error === 'timeout' ? (
+                  <Button disabled={busy !== null} onClick={() => check()}>
+                    {live('retry')}
                   </Button>
                 ) : null}
               </Alert>

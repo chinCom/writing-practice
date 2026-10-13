@@ -69,14 +69,13 @@ test('live editor has a page heading', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Writing Studio', level: 1 })).toBeVisible();
 });
 
-test('feedback highlights link to keyboard-reachable correction notes', async ({
-  page,
-}, testInfo) => {
+test('feedback marks open keyboard-reachable correction details', async ({ page }, testInfo) => {
   await page.goto('/dev/preview/feedback');
-  const correction = page.getByRole('link', { name: 'go: went', exact: true });
+  const correction = page.getByRole('button', { name: 'go: went', exact: true });
   await correction.focus();
   await page.keyboard.press('Enter');
-  await expect(page.locator('#correction-0')).toBeFocused();
+  await expect(page.locator('#correction-details').filter({ visible: true })).toContainText('went');
+  if (testInfo.project.name === 'mobile') await page.keyboard.press('Escape');
   await expect(
     page.getByRole('link', {
       name: testInfo.project.name === 'mobile' ? 'Write' : 'Writing Studio',
@@ -116,7 +115,7 @@ test('daily quota explains when checking can resume', async ({ page }) => {
   const writing = await openEditor(page);
   await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
   await expect(
-    page.getByText('You have used today’s 3 checks. Return tomorrow (UTC).'),
+    page.getByText('You have used today’s 20 checks. Return tomorrow (UTC).'),
   ).toBeVisible();
   await expect(writing).toHaveValue(message);
 });

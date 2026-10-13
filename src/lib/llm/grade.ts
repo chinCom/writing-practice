@@ -9,6 +9,7 @@ export interface GradeOptions {
   baseURL: string;
   model: string;
   mock: boolean;
+  timeoutMs?: number;
 }
 export class LlmError extends Error {}
 export async function gradeWriting(text: string, options: GradeOptions) {
@@ -30,14 +31,14 @@ export async function gradeWriting(text: string, options: GradeOptions) {
     resolve(process.cwd(), 'src/lib/prompts/feedback.system.md'),
     'utf8',
   );
-  const signal = AbortSignal.timeout(60000);
+  const signal = AbortSignal.timeout(options.timeoutMs ?? 45000);
   // Escape delimiters so learner input cannot create a new trusted message boundary.
   const learnerText = text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
   for (let attempt = 0; attempt < 2; attempt++) {
     let completion;
     try {
       const request: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming & {
-        thinking: { type: 'enabled' };
+        thinking: { type: 'disabled' };
       } = {
         model: options.model,
         messages: [
@@ -51,9 +52,8 @@ export async function gradeWriting(text: string, options: GradeOptions) {
           },
         ],
         response_format: { type: 'json_object' },
-        max_tokens: 5000,
-        reasoning_effort: 'low',
-        thinking: { type: 'enabled' },
+        max_tokens: 2400,
+        thinking: { type: 'disabled' },
       };
       completion = await client.chat.completions.create(request, { signal });
     } catch {
@@ -68,7 +68,9 @@ export async function gradeWriting(text: string, options: GradeOptions) {
         : tokens?.prompt_tokens_details?.cached_tokens;
     usage.cacheHitTokens += typeof cacheTokens === 'number' ? cacheTokens : 0;
     try {
-      const data = FeedbackSchema.parse(JSON.parse(completion.choices[0]?.message.content ?? ''));
+      const choice = completion.choices[0];
+      if (choice?.finish_reason !== 'stop') throw new Error('Incomplete feedback');
+      const data = FeedbackSchema.parse(JSON.parse(choice.message.content ?? ''));
       if (data.corrections.length > 8) throw new Error('Too many A2 corrections');
       return { data, usage, model: options.model, latencyMs: Date.now() - started, mock: false };
     } catch {

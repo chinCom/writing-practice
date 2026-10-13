@@ -44,7 +44,7 @@ test('synthetic editor flow submits writing and opens a marked feedback page', a
   await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Your marked page', exact: true })).toBeVisible();
   await expect(page.getByText('Mock feedback · No AI service was called.')).toBeVisible();
-  await expect(page.locator('mark').first()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'go: went', exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );

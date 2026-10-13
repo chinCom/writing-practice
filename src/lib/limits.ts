@@ -9,4 +9,4 @@ export const textLimits: Record<z.infer<typeof Level>, number> = {
   C1: 5000,
   C2: 6500,
 };
-export const freeDailySubmissions = 3;
+export const freeDailySubmissions = 20;

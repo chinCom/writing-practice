@@ -1,5 +1,47 @@
 # Learner journey review
 
+## Correction explanations
+
+The active correction now offers **Explain** on desktop and mobile. It shows why the original needs a change and why the suggestion fits. Loading and explicit retry preserve the correction and writing. The server saves explanations for owner-only reuse.
+
+Current checks: 47 local tests passed, 72 browser checks passed, and three live synthetic explanation samples passed. Two accessibility scans found zero violations, with contrast and modal focus checks inconclusive. The new hosted migration is applied. See [explanation evidence and limits](../explanations.md) for commands, security checks, sample latency, and screenshots.
+
+## Writing box scrolling
+
+The writing box now has a viewport-based height. Long writing scrolls inside the textbox instead of expanding the document. Word count, character count, Save draft, and Check my writing remain outside the scrolling text. Desktop and mobile use the same `WritingCanvas` component. Automatic correction remains disabled, and English writing stays left-to-right.
+
+The new regression failed on both editors before the fix. It now passes on desktop 1280×720 and mobile. The test verifies internal scrolling, stable document height, keyboard cursor movement, and unchanged text. Existing tests verify draft saving, phrase insertion, revision transfer, and coach recovery.
+
+Verified commands:
+
+- `npm run check`: formatting, TypeScript, lint, and design rules passed; 43 tests passed, one opt-in live AI test skipped.
+- `npm run test:e2e -- --workers=2`: 68 passed, six intentional skips. Public Supabase variables and `DATABASE_URL` were empty; Google was disabled. API responses in browser tests are synthetic.
+- `npm run build`: passed.
+- Desktop and mobile accessibility scans found zero WCAG A/AA violations. Details: `writing-scroll-accessibility.json`.
+
+Reviewed `screenshots/writing-scroll-desktop.png` and `screenshots/writing-scroll-mobile.png`. These captures use synthetic writing. The configured development server was restored after testing. This change is included in the current implementation commit. It is not pushed or deployed. No paid AI requests were made.
+
+## Marked-page redesign
+
+The feedback page now follows `The marked page writing coach.png`. The learner’s writing stays on a paper surface. Colored underline styles connect words to compact margin cards. Scores and strength chips sit above the writing.
+
+Desktop shows one active correction and up to two nearby corrections. Select a marked phrase or use Previous/Next to review every correction. The active card keeps its position as the learner moves through eight corrections. Mobile uses a bottom sheet instead of a long notes list. Keyboard navigation retains focus on Next.
+
+“Try it yourself” checks a local answer. “Apply fix” changes only the local revision and supports Undo. “Revise your writing” transfers applied fixes to the editor. The saved original and saved feedback remain unchanged. The rewrite expands only when requested.
+
+Verified commands for this slice:
+
+- `npm run check`: formatting, TypeScript, lint, and design rules passed; 43 tests passed, one opt-in live AI test skipped.
+- `npm run test:e2e`: 64 passed, six intentional skips. Run with empty public Supabase variables, an empty `DATABASE_URL`, and Google disabled. These browser responses are synthetic.
+- `npm run build`: passed.
+- `node scripts/audit-marked-page.mjs`: four accessibility scans found zero WCAG A/AA violations. Automated scans do not replace manual accessibility review.
+
+Reviewed desktop 1440×1000, mobile 390×844, short desktop 1280×720, and dark Arabic right-to-left layouts. English writing remains left-to-right. Screenshot captures use the labeled eight-correction preview, not private learner writing. Evidence: `screenshots/marked-page-desktop.png`, `screenshots/marked-page-mobile.png`, `screenshots/marked-page-mobile-sheet.png`, and `screenshots/marked-page-dark-arabic-desktop.png`. Scan details: `marked-page-accessibility.json`.
+
+The configured development server was restored after testing. This redesign is included in the current implementation commit. It is not pushed or deployed. AI checks were not called during this UI verification.
+
+## Earlier learner journey review
+
 Scope: local app at http://127.0.0.1:3000. Desktop 1440×1000 and mobile 390×844. No subagents. Google is now configured; email delivery configuration remains separate.
 
 ## Findings before fixes

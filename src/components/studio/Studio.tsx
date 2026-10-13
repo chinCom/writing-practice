@@ -13,7 +13,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
-import WritingField from '@/components/ui/WritingField';
+import WritingCanvas from './WritingCanvas';
 import TaskBrief from './TaskBrief';
 import CoachHint from './CoachHint';
 import { countWords, decodeDraft, DRAFT_KEY } from '@/lib/draft';
@@ -103,32 +103,17 @@ export default function Studio() {
         variant="outlined"
         sx={{
           p: { xs: 2, md: 4 },
-          minHeight: (theme) => theme.layout.canvasMinHeight,
           display: 'flex',
           flexDirection: 'column',
         }}
       >
-        <WritingField
+        <WritingCanvas
           inputRef={input}
-          multiline
-          fullWidth
-          variant="standard"
           value={text}
           onChange={(event) => saveDraft(event.target.value)}
-          slotProps={{
-            input: {
-              disableUnderline: true,
-              sx: (theme) => ({
-                ...theme.typography.canvas,
-                color: theme.vars.palette.text.primary,
-                alignItems: 'flex-start',
-              }),
-            },
-            htmlInput: { 'aria-label': t('writing'), maxLength: 20000 },
-          }}
-          sx={{ flex: 1, mb: 3 }}
+          maxLength={20000}
         />
-        <Divider sx={{ mb: 2 }} />
+        <Divider sx={{ marginBlockStart: 3, marginBlockEnd: 2 }} />
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           sx={{ alignItems: { xs: 'stretch', sm: 'center' }, gap: 2 }}

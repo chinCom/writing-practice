@@ -7,9 +7,7 @@ test('daily preview opens a locally saved writing draft without automatic correc
   await page.getByRole('link', { name: 'Start writing', exact: true }).click();
   const writing = page.getByRole('textbox', { name: 'Your writing' });
   await expect(writing).toHaveAttribute('spellcheck', 'false');
-  await expect
-    .poll(() => writing.evaluate((element) => element.scrollHeight <= element.clientHeight + 1))
-    .toBe(true);
+  await expect(writing).toHaveCSS('overflow-y', 'auto');
   for (const name of ['autocorrect', 'autocapitalize', 'autocomplete'])
     await expect(writing).toHaveAttribute(name, 'off');
   for (const name of ['data-gramm', 'data-gramm_editor', 'data-enable-grammarly'])

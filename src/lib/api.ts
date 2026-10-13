@@ -20,7 +20,7 @@ export function apiFailure(error: unknown) {
         message: known ? error.code : 'Request could not be completed.',
       },
     },
-    { status: known ? error.status : 500 },
+    { status: known ? error.status : 500, headers: { 'Cache-Control': 'private, no-store' } },
   );
 }
 export async function requireApiUser(request: Request) {
@@ -45,8 +45,27 @@ export async function requireApiUser(request: Request) {
   return user;
 }
 export async function readJson(request: Request) {
-  const body = await request.text();
-  if (body.length > 20000) throw new ApiError('INVALID_INPUT', 400);
+  if (!request.body || Number(request.headers.get('content-length')) > 20000)
+    throw new ApiError('INVALID_INPUT', 400);
+  const reader = request.body.getReader();
+  const decoder = new TextDecoder();
+  let body = '';
+  let bytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      bytes += value.byteLength;
+      if (bytes > 20000) {
+        await reader.cancel();
+        throw new ApiError('INVALID_INPUT', 400);
+      }
+      body += decoder.decode(value, { stream: true });
+    }
+    body += decoder.decode();
+  } finally {
+    reader.releaseLock();
+  }
   try {
     return JSON.parse(body) as unknown;
   } catch {
