@@ -1,0 +1,9 @@
+{
+  "hostedRefreshTokenRotation": true,
+  "refreshedCookiesSurviveReload": true,
+  "privateResponseHeaders": true,
+  "revokedRefreshTokenRejected": true,
+  "expiryMethod": "Simulated cached expires_at; hosted access JWT was not allowed to expire",
+  "emailDeliveryTested": false,
+  "timestamp": "2026-10-13T10:30:16.207Z"
+}

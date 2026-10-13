@@ -1,0 +1,30 @@
+import { z } from 'zod';
+import { errorTags } from './taxonomy';
+
+export const Level = z.enum(['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+export const ErrorTag = z.enum(errorTags);
+const explanation = z.string().min(1).max(1000);
+const score = z.number().int().min(0).max(5);
+export const CorrectionSchema = z.strictObject({
+  original: z.string().min(1).max(300),
+  suggestion: z.string().min(1).max(300),
+  tag: ErrorTag,
+  severity: z.enum(['major', 'minor', 'style']),
+  explanation,
+  explanation_l1: explanation.optional(),
+  confidence: z.number().min(0).max(1),
+});
+export const FeedbackSchema = z.strictObject({
+  cefr_estimate: Level,
+  scores: z.strictObject({ task: score, organization: score, grammar: score, vocabulary: score }),
+  strengths: z.array(explanation).min(1).max(3),
+  priorities: z.array(z.strictObject({ tag: ErrorTag, why: explanation })).max(3),
+  corrections: z.array(CorrectionSchema).max(12),
+  level_up_rewrite: z.string().max(10000),
+  next_step: explanation,
+  safety_flag: z.boolean(),
+});
+export type Feedback = z.infer<typeof FeedbackSchema>;
+export type Correction = z.infer<typeof CorrectionSchema>;
+export type LocatedCorrection = Correction & { start: number | null; end: number | null };
+export type LocatedFeedback = Omit<Feedback, 'corrections'> & { corrections: LocatedCorrection[] };

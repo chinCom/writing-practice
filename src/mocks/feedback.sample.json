@@ -1,0 +1,20 @@
+{
+  "cefr_estimate": "A2",
+  "scores": {
+    "task": 3,
+    "organization": 3,
+    "grammar": 2,
+    "vocabulary": 3
+  },
+  "strengths": ["You described a weekend activity."],
+  "priorities": [
+    {
+      "tag": "verb-tense",
+      "why": "Use past forms for finished activities."
+    }
+  ],
+  "corrections": [],
+  "level_up_rewrite": "",
+  "next_step": "Check each past-tense verb before you revise.",
+  "safety_flag": false
+}
