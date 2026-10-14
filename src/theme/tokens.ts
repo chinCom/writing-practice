@@ -19,6 +19,14 @@ export const tokens = {
     tonalPrimary: '#ECEAFB',
     tonalSuccess: '#DDF3EA',
   },
+  today: {
+    ink: '#19154F',
+    muted: '#393774',
+    mint: '#009C79',
+    highlightSoft: '#FFF8E1',
+    navWidth: 244,
+    ringSize: 150,
+  },
   dark: {
     ink: '#E4E1FF',
     text: '#ECEBFF',

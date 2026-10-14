@@ -590,7 +590,9 @@ it('saves writing, completes feedback, reopens it and validates revision ownersh
   });
   expect((await loadFeedback(bob, id))?.feedback.json).toEqual(feedback);
   expect(await loadFeedback(alice, id)).toBeNull();
-  expect(await recentSubmissions(bob)).toEqual([expect.objectContaining({ id, attempt: 1 })]);
+  expect(await recentSubmissions(bob)).toEqual([
+    expect.objectContaining({ id, attempt: 1, taskId: 'weekend' }),
+  ]);
   expect((await asUser(alice, 'SELECT * FROM writing.ai_usage')).rows).toEqual([]);
   await expect(
     reserveSubmission(alice, {

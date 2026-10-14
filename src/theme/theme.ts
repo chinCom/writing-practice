@@ -28,10 +28,14 @@ declare module '@mui/material/styles' {
     stat?: CSSObject;
   }
   interface Theme {
-    layout: typeof tokens.layout;
+    layout: {
+      [Key in keyof typeof tokens.layout]: (typeof tokens.layout)[Key] extends number
+        ? number
+        : string;
+    };
   }
   interface ThemeOptions {
-    layout?: typeof tokens.layout;
+    layout?: Theme['layout'];
   }
 }
 declare module '@mui/material/Typography' {
@@ -50,7 +54,7 @@ declare module '@mui/material/styles' {
     enabled: true;
   }
 }
-function palette(t: typeof tokens.light | typeof tokens.dark): PaletteOptions {
+function palette(t: { [Key in keyof typeof tokens.light]: string }): PaletteOptions {
   return {
     primary: { main: t.ink, contrastText: t.onPrimary },
     secondary: { main: t.violet },
@@ -73,18 +77,35 @@ function palette(t: typeof tokens.light | typeof tokens.dark): PaletteOptions {
   };
 }
 const serif = 'var(--font-canvas), var(--font-canvas-vietnamese), Georgia, serif';
-export function makeTheme() {
+export function makeTheme(today = false) {
   return createTheme({
     direction: 'ltr',
     cssVariables: { colorSchemeSelector: '[data-mui-color-scheme="%s"]' },
     colorSchemes: {
-      light: { palette: palette(tokens.light) },
+      light: {
+        palette: palette(
+          today
+            ? {
+                ...tokens.light,
+                ink: tokens.today.ink,
+                text: tokens.today.ink,
+                muted: tokens.today.muted,
+                mint: tokens.today.mint,
+                highlightSoft: tokens.today.highlightSoft,
+              }
+            : tokens.light,
+        ),
+      },
       dark: { palette: palette(tokens.dark) },
     },
-    layout: tokens.layout,
-    shape: { borderRadius: 12 },
+    layout: today
+      ? { ...tokens.layout, navWidth: tokens.today.navWidth, ringSize: tokens.today.ringSize }
+      : tokens.layout,
+    shape: { borderRadius: today ? 10 : 12 },
     typography: {
-      fontFamily: 'var(--font-ui), var(--font-ui-vietnamese), system-ui, sans-serif',
+      fontFamily: today
+        ? 'Arial, var(--font-ui-vietnamese), sans-serif'
+        : 'var(--font-ui), var(--font-ui-vietnamese), system-ui, sans-serif',
       h1: {
         fontFamily: serif,
         fontSize: '2rem',
@@ -107,6 +128,29 @@ export function makeTheme() {
         '@media (max-width:599.95px)': { fontSize: '1.1875rem', lineHeight: 1.6 },
       },
       stat: { fontFamily: serif, fontSize: '1.75rem', lineHeight: 1.1, fontWeight: 600 },
+      ...(today
+        ? {
+            h1: {
+              fontFamily: 'inherit',
+              fontSize: '2.5rem',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              '@media (max-width:599.95px)': { fontSize: '1.875rem' },
+            },
+            h2: { fontFamily: 'inherit', fontSize: '1.875rem', fontWeight: 700, lineHeight: 1.3 },
+            h3: { fontSize: '1.625rem', fontWeight: 700, lineHeight: 1.3 },
+            subtitle1: { fontSize: '1.25rem', fontWeight: 600, lineHeight: 1.5 },
+            body1: { fontSize: '1.25rem', lineHeight: 1.5 },
+            body2: { fontSize: '1rem', lineHeight: 1.5 },
+            caption: { fontSize: '0.875rem', lineHeight: 1.4 },
+            button: {
+              fontSize: '1.125rem',
+              fontWeight: 650,
+              lineHeight: 1.25,
+              textTransform: 'none',
+            },
+          }
+        : {}),
     },
     components: {
       MuiCssBaseline: {
@@ -130,7 +174,11 @@ export function makeTheme() {
       MuiButton: {
         defaultProps: { disableElevation: true },
         styleOverrides: {
-          root: { borderRadius: tokens.radius.md, minHeight: 44, paddingInline: 20 },
+          root: {
+            borderRadius: today ? tokens.radius.sm : tokens.radius.md,
+            minHeight: 44,
+            paddingInline: today ? 24 : 20,
+          },
           outlined: ({ theme }) => ({ borderColor: theme.vars.palette.divider }),
         },
       },
@@ -138,10 +186,28 @@ export function makeTheme() {
       MuiCheckbox: { styleOverrides: { root: { minHeight: 44, minWidth: 44 } } },
       MuiCard: {
         defaultProps: { variant: 'outlined' },
-        styleOverrides: { root: { borderRadius: tokens.radius.lg } },
+        styleOverrides: { root: { borderRadius: today ? 10 : tokens.radius.lg } },
       },
-      MuiPaper: { styleOverrides: { outlined: { borderRadius: tokens.radius.lg } } },
+      MuiPaper: { styleOverrides: { outlined: { borderRadius: today ? 10 : tokens.radius.lg } } },
+      MuiTableCell: {
+        styleOverrides: {
+          root: today
+            ? {
+                fontSize: '1rem',
+                color: 'inherit',
+                padding: '3px 2px',
+                borderColor: 'var(--mui-palette-divider)',
+              }
+            : {},
+          head: today ? { fontWeight: 400 } : {},
+        },
+      },
       MuiChip: {
+        styleOverrides: {
+          sizeSmall: today
+            ? { height: 34, fontSize: '1rem', '& .MuiChip-label': { paddingInline: 14 } }
+            : {},
+        },
         variants: [
           {
             props: { variant: 'tonal', color: 'primary' },
@@ -170,7 +236,7 @@ export function makeTheme() {
         styleOverrides: {
           root: ({ theme }) => ({
             borderRadius: tokens.radius.sm,
-            minHeight: 44,
+            minHeight: today ? 52 : 44,
             marginBlock: theme.spacing(0.75),
             '&.Mui-selected': {
               backgroundColor: theme.vars.palette.highlighter.main,
@@ -180,7 +246,10 @@ export function makeTheme() {
           }),
         },
       },
-      MuiListItemIcon: { styleOverrides: { root: { minWidth: 36, color: 'inherit' } } },
+      MuiListItemIcon: {
+        styleOverrides: { root: { minWidth: today ? 44 : 36, color: 'inherit' } },
+      },
+      MuiListItemText: { styleOverrides: { primary: today ? { fontSize: '1.125rem' } : {} } },
       MuiBottomNavigationAction: {
         styleOverrides: {
           root: ({ theme }) => ({

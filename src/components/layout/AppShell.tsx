@@ -1,6 +1,11 @@
 'use client';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signOut } from '@/app/login/actions';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
 import { usePathname } from 'next/navigation';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -44,17 +49,56 @@ function Logo() {
       <Box sx={{ borderBottom: 3, borderColor: 'highlighter.main', display: 'flex', pb: 0.25 }}>
         <DescriptionOutlined />
       </Box>
-      <Typography variant="subtitle1" component="p">
+      <Typography variant="subtitle1" component="p" sx={{ fontWeight: 700 }}>
         {t('name')}
       </Typography>
     </Stack>
   );
 }
-export default function AppShell({ children }: { children: ReactNode }) {
+function AccountFooter({ signedIn, preview }: { signedIn: boolean; preview: boolean }) {
+  const router = useRouter();
+  const t = useTranslations('app');
+  return (
+    <Box component="footer" sx={{ mt: 'auto', px: 1, pb: 0.25 }}>
+      <Divider sx={{ mb: 2.5 }} />
+      <Stack direction="row" sx={{ gap: 2, alignItems: 'center', mb: 2 }}>
+        <Avatar sx={{ bgcolor: 'tonal.primary', color: 'primary.main' }}>
+          {preview ? 'N' : t('account').slice(0, 1)}
+        </Avatar>
+        <Typography variant="body2">{t('account')}</Typography>
+      </Stack>
+      {signedIn ? (
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={async () => {
+            await signOut();
+            router.replace('/login');
+            router.refresh();
+          }}
+        >
+          {t('signOut')}
+        </Button>
+      ) : (
+        <Button fullWidth variant="outlined" component={NextLink} href="/login">
+          {t('signIn')}
+        </Button>
+      )}
+    </Box>
+  );
+}
+export default function AppShell({
+  children,
+  signedIn = false,
+}: {
+  children: ReactNode;
+  signedIn?: boolean;
+}) {
   const pathname = usePathname();
   const t = useTranslations('app');
   const [menu, setMenu] = useState(false);
   const preview = pathname.startsWith('/dev/preview');
+  const today = pathname === '/today' || pathname.startsWith('/dev/preview/today');
   const active =
     pathname.includes('write') || pathname.includes('feedback')
       ? 'write'
@@ -97,7 +141,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
           onClick={() => setMenu(false)}
         >
           <ListItemIcon>
-            <item.icon fontSize="small" />
+            <item.icon fontSize={today ? 'medium' : 'small'} />
           </ListItemIcon>
           <ListItemText primary={t(item.id)} />
         </ListItemButton>
@@ -135,10 +179,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
           },
         }}
       >
-        <Box sx={{ pt: 1, pb: 4, px: 1 }}>
+        <Box component="header" sx={{ pt: 1, pb: 3.5, px: 1 }}>
           <Logo />
         </Box>
         {navigation}
+        {today ? <AccountFooter signedIn={signedIn} preview={preview} /> : null}
       </Drawer>
       <AppBar
         position="fixed"
@@ -175,6 +220,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         </IconButton>
         <Logo />
         {navigation}
+        {today ? <AccountFooter signedIn={signedIn} preview={preview} /> : null}
       </Drawer>
       <Box
         component="main"
@@ -184,22 +230,28 @@ export default function AppShell({ children }: { children: ReactNode }) {
           marginInlineStart: { md: theme.layout.navWidth + 'px' },
           paddingBlockStart: {
             xs: 'calc(' + theme.layout.topBarHeight + 'px + ' + theme.spacing(3) + ')',
-            md: theme.spacing(4),
+            md: theme.spacing(today ? 2.5 : 4),
           },
           paddingBlockEnd: {
             xs: 'calc(' + theme.layout.bottomNavHeight + 'px + ' + theme.spacing(3) + ')',
             md: theme.spacing(4),
           },
-          px: { xs: 2, md: 3 },
+          paddingInlineStart: { xs: 2, md: today ? 4.25 : 3 },
+          paddingInlineEnd: { xs: 2, md: today ? 2.75 : 3 },
           minHeight: '100dvh',
         })}
       >
-        {preview ? (
+        {preview && !today ? (
           <Alert severity="info" sx={{ mb: 3 }}>
             {t('preview')}
           </Alert>
         ) : null}
         {children}
+        {preview && today ? (
+          <Alert severity="info" sx={{ mt: 3 }}>
+            {t('preview')}
+          </Alert>
+        ) : null}
       </Box>
       <BottomNavigation
         component="nav"

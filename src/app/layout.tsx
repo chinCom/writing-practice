@@ -6,6 +6,7 @@ import { getLocale } from 'next-intl/server';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Providers from '@/components/layout/Providers';
 import AppShell from '@/components/layout/AppShell';
+import { currentUser } from '@/lib/auth/server';
 const ui = localFont({
   src: '../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-latin-wght-normal.woff2',
   variable: '--font-ui',
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
   description: 'A quiet space to practice English writing.',
 };
 export default async function Layout({ children }: { children: ReactNode }) {
-  const locale = await getLocale();
+  const [locale, user] = await Promise.all([getLocale(), currentUser()]);
   return (
     <html
       lang={locale}
@@ -60,7 +61,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         <InitColorSchemeScript attribute="data-mui-color-scheme" />
         <NextIntlClientProvider>
           <Providers>
-            <AppShell>{children}</AppShell>
+            <AppShell signedIn={Boolean(user)}>{children}</AppShell>
           </Providers>
         </NextIntlClientProvider>
       </body>

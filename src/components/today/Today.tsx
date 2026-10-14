@@ -10,26 +10,45 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import CheckCircle from '@mui/icons-material/CheckCircle';
-import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
+import ShowChart from '@mui/icons-material/ShowChart';
 import SavedFeedback, { type SavedSubmission } from './SavedFeedback';
 import AccountActivity from './AccountActivity';
+import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot';
 import type { ProgressSummary } from '@/lib/progress';
 
-function NextTaskCard({ preview = false }: { preview?: boolean }) {
+function NextTaskCard({ preview }: { preview: boolean }) {
   const t = useTranslations('today');
   return (
-    <Card>
-      <CardContent sx={{ p: 2.5 }}>
-        <Chip label="A2" color="primary" variant="tonal" size="small" sx={{ mb: 1.5 }} />
-        <Typography variant="h2" sx={{ mb: 1.5 }}>
+    <Card data-testid="today-task">
+      <CardContent sx={{ p: 2.75, '&:last-child': { pb: 1.75 } }}>
+        <Stack direction="row" sx={{ alignItems: 'center', gap: 1.625, mb: 1.75 }}>
+          <Chip label="A2" color="primary" variant="tonal" size="small" />
+          <Typography variant="body2">{t('taskLabel')}</Typography>
+        </Stack>
+        <Typography variant="h2" sx={{ mb: 0.75 }}>
           {t('taskTitle')}
         </Typography>
-        <Typography sx={{ mb: 1 }}>{t('description')}</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5 }}>
+        <Typography sx={{ mb: 0.5 }}>{t('description')}</Typography>
+        <Typography variant="body2" sx={{ mb: 2.125 }}>
           {t('wordRange')}
         </Typography>
+        <Divider />
+        <Box
+          sx={{
+            bgcolor: 'background.default',
+            borderRadius: 1,
+            minHeight: 130,
+            display: 'flex',
+            alignItems: 'center',
+            py: 4.75,
+            px: 3,
+            mb: 2.75,
+          }}
+        >
+          <Typography variant="canvas" sx={{ fontStyle: 'italic', lineHeight: 1.5 }}>
+            {t('opening')}
+          </Typography>
+        </Box>
         <Button
           component={NextLink}
           href={preview ? '/dev/preview/write' : '/write/weekend'}
@@ -37,95 +56,21 @@ function NextTaskCard({ preview = false }: { preview?: boolean }) {
         >
           {t('start')}
         </Button>
-        <Divider sx={{ my: 2 }} />
+        <Divider sx={{ mt: 2.5, mb: 1.75 }} />
         <Typography variant="body2">{t('focus')}</Typography>
       </CardContent>
     </Card>
   );
 }
-
-function WeekOverview() {
-  const t = useTranslations('today');
-  const format = useFormatter();
-  return (
-    <Stack
-      direction={{ xs: 'column', sm: 'row' }}
-      sx={{ gap: 3, alignItems: { xs: 'stretch', sm: 'center' } }}
-    >
-      <Box sx={{ flex: 1 }}>
-        <Typography variant="h3" sx={{ mb: 2 }}>
-          {t('week')}
-        </Typography>
-        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-          {Array.from({ length: 7 }, (_, i) => {
-            const day = new Date('2026-10-12T12:00:00Z');
-            day.setUTCDate(day.getUTCDate() + i);
-            const label = format.dateTime(day, { weekday: 'long' });
-            return (
-              <Stack
-                key={i}
-                role="img"
-                sx={{ alignItems: 'center', gap: 1 }}
-                aria-label={t(i < 2 ? 'done' : 'future', { day: label })}
-              >
-                <Typography variant="caption" color="text.secondary">
-                  {format.dateTime(day, { weekday: 'short' })}
-                </Typography>
-                {i < 2 ? (
-                  <CheckCircle sx={{ color: 'success.main' }} />
-                ) : (
-                  <RadioButtonUnchecked sx={{ color: 'divider' }} />
-                )}
-              </Stack>
-            );
-          })}
-        </Stack>
-      </Box>
-      <Divider orientation="vertical" flexItem sx={{ display: { xs: 'none', sm: 'block' } }} />
-      <Box sx={{ textAlign: { xs: 'start', sm: 'center' } }}>
-        <Typography variant="h3" sx={{ mb: 1.5 }}>
-          {t('goal')}
-        </Typography>
-        <Box
-          role="img"
-          aria-label={t('goalCount', { done: 3, goal: 5 }) + ' ' + t('sessions')}
-          sx={{
-            position: 'relative',
-            width: (theme) => theme.layout.ringSize,
-            height: (theme) => theme.layout.ringSize,
-            display: 'grid',
-            placeItems: 'center',
-          }}
-        >
-          <CircularProgress
-            aria-hidden="true"
-            variant="determinate"
-            value={100}
-            size={96}
-            thickness={4}
-            sx={{ position: 'absolute', color: 'divider' }}
-          />
-          <CircularProgress
-            aria-hidden="true"
-            variant="determinate"
-            value={60}
-            size={96}
-            thickness={4}
-            sx={{ position: 'absolute', color: 'success.main' }}
-          />
-          <Box>
-            <Typography variant="subtitle1">{t('goalCount', { done: 3, goal: 5 })}</Typography>
-            <Typography variant="caption" color="text.secondary">
-              {t('sessions')}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-    </Stack>
-  );
-}
-
-function ReviewPrompt() {
+function ReviewPrompt({
+  due,
+  preview,
+  pastTense,
+}: {
+  due: number;
+  preview: boolean;
+  pastTense: boolean;
+}) {
   const t = useTranslations('today');
   return (
     <Stack
@@ -134,40 +79,34 @@ function ReviewPrompt() {
         gap: 2,
         alignItems: { xs: 'stretch', sm: 'center' },
         justifyContent: 'space-between',
+        bgcolor: 'highlighter.light',
+        border: 1,
+        borderColor: 'highlighter.main',
+        borderRadius: 1.25,
+        py: 1.5,
+        px: 3,
       }}
     >
-      <Box>
-        <Typography variant="subtitle1">{t('reviewTitle')}</Typography>
-        <Typography variant="caption" color="text.secondary">
-          {t('reviewDescription')}
-        </Typography>
-      </Box>
-      <Button component={NextLink} href="/practice" variant="outlined">
-        {t('review')}
+      <Stack direction="row" sx={{ gap: 3.75, alignItems: 'center' }}>
+        <ShowChart sx={{ fontSize: '3rem' }} />
+        <Box>
+          <Typography variant="subtitle1" component="h2">
+            {t(pastTense ? 'reviewTitle' : 'reviewGeneral')}
+          </Typography>
+          <Typography variant="body2">{t('reviewReady', { n: due })}</Typography>
+        </Box>
+      </Stack>
+      <Button
+        component={NextLink}
+        href={preview ? '/dev/preview/practice-page' : '/practice'}
+        variant="outlined"
+        sx={{ flexShrink: 0, borderColor: 'primary.main' }}
+      >
+        {t('due', { n: due })}
       </Button>
     </Stack>
   );
 }
-
-function LearningEmptyState() {
-  const t = useTranslations('today');
-  return (
-    <Box sx={{ mt: 4 }}>
-      <Typography variant="h3" sx={{ mb: 1 }}>
-        {t('emptyTitle')}
-      </Typography>
-      <Typography color="text.secondary" sx={{ mb: 3 }}>
-        {t('emptyBody')}
-      </Typography>
-      {process.env.NODE_ENV === 'development' ? (
-        <Button variant="contained" component={NextLink} href="/dev/preview/today">
-          {t('preview')}
-        </Button>
-      ) : null}
-    </Box>
-  );
-}
-
 export default function Today({
   preview = false,
   signedIn = false,
@@ -175,6 +114,9 @@ export default function Today({
   progress,
   due = 0,
   weeklyGoal = 5,
+  path,
+  pastTense = false,
+  now,
 }: {
   preview?: boolean;
   signedIn?: boolean;
@@ -182,65 +124,82 @@ export default function Today({
   progress?: ProgressSummary;
   due?: number;
   weeklyGoal?: number;
+  path?: LearningSnapshotData;
+  pastTense?: boolean;
+  now?: string;
 }) {
   const t = useTranslations('today');
   const format = useFormatter();
-  const date = new Date('2026-10-13T12:00:00Z');
+  const date = new Date(now ?? progress?.asOf ?? new Date().toISOString());
+  const account = preview || signedIn;
   return (
     <Container data-testid="today-layout" maxWidth={false} disableGutters>
       <Typography variant="h1" sx={{ mb: 1 }}>
         {t('title')}
       </Typography>
-      {preview ? (
+      <Typography sx={{ mb: 3, fontWeight: 550, lineHeight: 1.2 }}>
+        {format.dateTime(date, { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' })}
+      </Typography>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1.45fr) minmax(0, 1fr)' },
+          gap: 2,
+          alignItems: 'stretch',
+        }}
+      >
+        <NextTaskCard preview={preview} />
+        {account && progress ? (
+          <AccountActivity progress={progress} goal={weeklyGoal} preview={preview} />
+        ) : (
+          <Card>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h3" component="h2" sx={{ mb: 2 }}>
+                {t('emptyTitle')}
+              </Typography>
+              <Typography color="text.secondary">{t('emptyBody')}</Typography>
+              {process.env.NODE_ENV === 'development' ? (
+                <Button
+                  variant="outlined"
+                  component={NextLink}
+                  href="/dev/preview/today"
+                  sx={{ mt: 3 }}
+                >
+                  {t('preview')}
+                </Button>
+              ) : null}
+            </CardContent>
+          </Card>
+        )}
+      </Box>
+      {account ? (
         <>
-          <Typography color="text.secondary" sx={{ mb: 3 }}>
-            {format.dateTime(date, { weekday: 'long', month: 'long', day: 'numeric' })}
-          </Typography>
+          <Box sx={{ my: 2.25 }}>
+            {due > 0 ? (
+              <ReviewPrompt due={due} preview={preview} pastTense={pastTense} />
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                {t('noReviews')}
+              </Typography>
+            )}
+          </Box>
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
-              gap: 4,
-              alignItems: 'start',
+              gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1.46fr) minmax(0, 1fr)' },
+              gap: 2,
             }}
           >
-            <NextTaskCard preview />
-            <Stack sx={{ gap: 3, py: 2 }}>
-              <WeekOverview />
-              <Divider />
-              <ReviewPrompt />
-            </Stack>
+            <SavedFeedback submissions={submissions} preview={preview} />
+            <LearningSnapshot path={path} preview={preview} />
           </Box>
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 4 }}>
-            {t('localNotice')}
-          </Typography>
         </>
-      ) : (
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
-            gap: 4,
-            mt: 3,
-            alignItems: 'start',
-          }}
-        >
-          <NextTaskCard />
-          {signedIn ? (
-            <Stack sx={{ gap: 4 }}>
-              {progress ? (
-                <AccountActivity progress={progress} due={due} goal={weeklyGoal} />
-              ) : null}
-              <Button component={NextLink} href="/path" variant="outlined">
-                {t('learningPath')}
-              </Button>
-              <SavedFeedback submissions={submissions} />
-            </Stack>
-          ) : (
-            <LearningEmptyState />
-          )}
-        </Box>
-      )}
+      ) : null}
+      {preview ? (
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 3 }}>
+          {t('localNotice')}
+        </Typography>
+      ) : null}
     </Container>
   );
 }

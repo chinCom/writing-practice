@@ -19,6 +19,7 @@ import { sampleDraft } from '@/mocks/draft.sample';
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { manyCorrectionsSample, manyCorrectionsText } from '@/mocks/manyCorrections.sample';
 import { progressSample } from '@/mocks/progress.sample';
+import { todayProgressSample, todaySubmissionsSample, todayPathSample } from '@/mocks/today.sample';
 export default async function Page({
   params,
   searchParams,
@@ -34,7 +35,17 @@ export default async function Page({
   if (screen === 'curriculum-write')
     return <LiveStudio initialText="" task={pathSample.units[0].lessons[0].task} preview />;
   if (screen === 'onboarding') return <Onboarding preview />;
-  if (screen === 'today') return <Today preview />;
+  if (screen === 'today')
+    return (
+      <Today
+        preview
+        progress={todayProgressSample}
+        submissions={todaySubmissionsSample}
+        due={12}
+        path={todayPathSample}
+        pastTense
+      />
+    );
   if (screen === 'today-goal') return <GoalPreview />;
   if (screen === 'settings')
     return <Settings preferences={{ explanation: 'en', daily: '15' }} signedIn preview />;

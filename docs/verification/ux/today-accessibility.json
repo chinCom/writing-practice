@@ -1,0 +1,26 @@
+[
+  {
+    "configuration": "desktop",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "dark-mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  }
+]

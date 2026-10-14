@@ -192,6 +192,7 @@ export async function recentSubmissions(userId: string) {
         createdAt: submissions.createdAt,
         wordCount: submissions.wordCount,
         attempt: submissions.attempt,
+        taskId: submissions.taskId,
       })
       .from(submissions)
       .where(eq(submissions.status, 'completed'))

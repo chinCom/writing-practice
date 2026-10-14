@@ -1,59 +1,115 @@
 'use client';
 import NextLink from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useFormatter, useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { signOut } from '@/app/login/actions';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
 
 export interface SavedSubmission {
   id: string;
   createdAt: string;
   wordCount: number;
   attempt: number;
+  title?: string | null;
 }
-export default function SavedFeedback({ submissions }: { submissions: SavedSubmission[] }) {
-  const t = useTranslations('learning');
-  const auth = useTranslations('auth');
-  const portfolio = useTranslations('portfolio');
+export default function SavedFeedback({
+  submissions,
+  preview = false,
+}: {
+  submissions: SavedSubmission[];
+  preview?: boolean;
+}) {
+  const t = useTranslations('today');
+  const learning = useTranslations('learning');
   const format = useFormatter();
-  const router = useRouter();
-  async function leaveAccount() {
-    await signOut();
-    router.refresh();
-  }
   return (
-    <Stack sx={{ gap: 2 }}>
-      <Typography variant="h3">{t('recent')}</Typography>
-      {submissions.length ? (
-        submissions.map((submission) => (
-          <Paper key={submission.id} variant="outlined" sx={{ p: 2 }}>
-            <Typography variant="subtitle1">
-              {format.dateTime(new Date(submission.createdAt), {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 1 }}>
-              {t('words', { n: submission.wordCount })} · {t('attempt', { n: submission.attempt })}
-            </Typography>
-            <Button component={NextLink} href={'/feedback/' + submission.id}>
-              {t('open')}
-            </Button>
-          </Paper>
-        ))
-      ) : (
-        <Typography color="text.secondary">{t('empty')}</Typography>
-      )}
-      <Button component={NextLink} href="/portfolio" sx={{ alignSelf: 'start' }}>
-        {portfolio('title')}
-      </Button>
-      <Button variant="outlined" onClick={leaveAccount} sx={{ alignSelf: 'start' }}>
-        {auth('signOut')}
-      </Button>
-    </Stack>
+    <Card>
+      <CardContent sx={{ p: 3 }}>
+        <Stack
+          direction="row"
+          sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 1.5 }}
+        >
+          <Typography variant="h3" component="h2">
+            {t('saved')}
+          </Typography>
+          <Button
+            component={NextLink}
+            href={preview ? '/dev/preview/portfolio' : '/portfolio'}
+            sx={{ px: 0, minHeight: 32, fontSize: '1rem' }}
+          >
+            {t('portfolio')}
+          </Button>
+        </Stack>
+        {submissions.length ? (
+          <TableContainer>
+            <Table size="small" aria-label={t('saved')}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{t('writing')}</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                    {t('date')}
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                    {t('words')}
+                  </TableCell>
+                  <TableCell>{t('action')}</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submissions.slice(0, 3).map((submission) => (
+                  <TableRow key={submission.id}>
+                    <TableCell component="th" scope="row">
+                      <Stack direction="row" sx={{ alignItems: 'center', gap: 2.75 }}>
+                        <DescriptionOutlined
+                          sx={{ fontSize: '1.5rem', display: { xs: 'none', sm: 'block' } }}
+                        />
+                        <Typography variant="body2" sx={{ fontWeight: 550 }}>
+                          {submission.title ?? learning('attempt', { n: submission.attempt })}
+                        </Typography>
+                      </Stack>
+                    </TableCell>
+                    <TableCell
+                      sx={{ whiteSpace: 'nowrap', display: { xs: 'none', sm: 'table-cell' } }}
+                    >
+                      {format.dateTime(new Date(submission.createdAt), {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        timeZone: 'UTC',
+                      })}
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      {format.number(submission.wordCount)}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        component={NextLink}
+                        href={preview ? '/dev/preview/feedback' : '/feedback/' + submission.id}
+                        sx={{ px: 0, fontSize: '1rem', whiteSpace: 'nowrap' }}
+                      >
+                        {learning('open')}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Typography color="text.secondary" sx={{ py: 3 }}>
+            {learning('empty')}
+          </Typography>
+        )}
+      </CardContent>
+    </Card>
   );
 }
