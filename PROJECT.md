@@ -314,13 +314,14 @@ Display groups and underline styles (also in §17): grammar = wavy violet, spell
 | `placement` | `/api/placement` | on (low) | JSON | 3,000 |
 | `feedback` | `/api/feedback` | off for the current A2 task; re-evaluate for higher levels | JSON | by level (§16) |
 | `explanation` | `/api/explanation` | off | JSON | saved A2 writing, at most 1,200 characters |
+| `development` | `/api/development` | off | JSON | by task level (§16); no word minimum |
 | `revision_check` | `/api/revision-check` (planned; current revisions use `/api/feedback`) | off | JSON | by level |
 | `hint` | `/api/hint` | off | streamed text | 1,000 |
 | `drills` | Inngest job | off | JSON | n/a |
 
 ### 9.3 Wrapper contract (`lib/llm/client.ts`)
 
-**Current implementation:** `src/lib/llm/grade.ts` and `src/lib/llm/explain.ts` are the working provider adapters. Feedback uses a shared 45-second deadline and 2,400-token maximum. Explanations use 15 seconds and 600 tokens. Both use non-thinking output. Placement uses `src/lib/llm/placement.ts`, enabled thinking with `reasoning_effort: "low"`, a shared 25-second deadline, and a 4,096-token budget for reasoning plus JSON. All three use strict validation, one validation retry, and no automatic transport retries. See [provider latency measurements](docs/verification/ai-latency.md). Token counts, cache-hit tokens, model, and latency are stored; call-type and estimated-cost columns are not implemented. The generic wrapper below is a future contract.
+**Current implementation:** `src/lib/llm/grade.ts` and `src/lib/llm/explain.ts` are the working provider adapters. Feedback uses a shared 45-second deadline and 2,400-token maximum. Explanations use 15 seconds and 600 tokens. Both use non-thinking output. Placement uses `src/lib/llm/placement.ts`, enabled thinking with `reasoning_effort: "low"`, a shared 25-second deadline, and a 4,096-token budget for reasoning plus JSON. All three use strict validation, one validation retry, and no automatic transport retries. On-demand development uses `src/lib/llm/develop.ts`, non-thinking JSON, a shared 15-second deadline, and 500 tokens. It returns one question, an optional incomplete frame, encouragement, and a small next step. It uses the chosen path level, then the profile level, then the task level. It does not grade, create submissions, or change progression. Only its request count is stored; development token usage is not persisted in `ai_usage`, which requires a submission. See [provider latency measurements](docs/verification/ai-latency.md). Token counts, cache-hit tokens, model, and latency are stored; call-type and estimated-cost columns are not implemented. The generic wrapper below is a future contract.
 
 ```ts
 type LlmCall = "placement" | "feedback" | "revision_check" | "hint" | "drills";
@@ -520,7 +521,7 @@ The table below is the target plan. Shared free writing and explanation allowanc
 
 Max text length by level (characters): PRE_A1 300, A1 600, A2 1,200, B1 2,000, B2 3,500, C1 5,000, C2 6,500.
 
-Current enforcement uses PostgreSQL owner locks and daily counts: 20 writing checks and 60 new explanation attempts per UTC day. Pending and failed attempts count. Cached explanations do not consume another attempt. Pro plans, hints, per-IP limits, and Upstash are not implemented.
+Current enforcement uses PostgreSQL owner locks and daily counts: 20 writing checks and 60 shared new explanation or development-help attempts per UTC day. Pending and failed attempts count. Cached explanations do not consume another attempt. Pro plans, hints, per-IP limits, and Upstash are not implemented.
 
 Target rate limits: per user and per IP via Upstash. Return a friendly "Come back tomorrow, or upgrade" state, never a raw 429.
 

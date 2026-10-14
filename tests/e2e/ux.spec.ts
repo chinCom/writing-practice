@@ -56,7 +56,7 @@ test('settings distinguish active account storage from deferred preferences', as
   await page.goto('/settings');
   await expect(
     page.getByText(
-      'Saved drafts and feedback are stored privately in your account. Checking sends your writing to the AI coach. Export and account deletion are not available yet.',
+      'Saved drafts and feedback are stored privately in your account. Checking or requesting development help sends your writing to the AI coach. Export and account deletion are not available yet.',
     ),
   ).toBeVisible();
   await expect(page.getByRole('combobox', { name: 'Explanation language' })).toBeDisabled();

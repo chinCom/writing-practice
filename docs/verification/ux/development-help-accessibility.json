@@ -1,0 +1,35 @@
+[
+  {
+    "configuration": "desktop",
+    "overflow": false,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-dark-mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  }
+]

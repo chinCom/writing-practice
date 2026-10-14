@@ -121,7 +121,7 @@
     "saved": "Preferences saved on this device.",
     "saveError": "Preferences could not be saved. Enable browser storage and try again.",
     "privacy": "Data and privacy",
-    "privacyBody": "Saved drafts and feedback are stored privately in your account. Checking sends your writing to the AI coach. Export and account deletion are not available yet.",
+    "privacyBody": "Saved drafts and feedback are stored privately in your account. Checking or requesting development help sends your writing to the AI coach. Export and account deletion are not available yet.",
     "goalSignIn": "Sign in to save a weekly goal to your account.",
     "goalLoading": "Loading your weekly goal…",
     "goalSaving": "Saving your weekly goal…",
@@ -171,7 +171,8 @@
       "paragraphs": "Group related ideas into paragraphs. Start a new paragraph when your main point changes."
     },
     "reveal": "View a writing tip",
-    "taskWordRange": "{min}–{max} words"
+    "taskWordRange": "{min}–{max} words",
+    "privacy": "Your writing stays private. We send writing to the AI coach only when you request a check or development help."
   },
   "unavailable": {
     "title": "This part comes next",
@@ -188,7 +189,7 @@
     "sending": "Sending…",
     "sent": "Check your email for the sign-in link. Open the link in this browser to finish signing in.",
     "error": "Sign-in could not be completed. Try a new link.",
-    "privacy": "Your writing stays private. We send writing to the AI coach only when you select Check my writing.",
+    "privacy": "Your writing stays private. We send writing to the AI coach only when you request a check or development help.",
     "signOut": "Sign out",
     "googleUnavailable": "Google sign-in is not available yet. Use an email link."
   },
@@ -312,7 +313,7 @@
     "explainTimeout": "The explanation took too long. Try again to check for a saved result.",
     "explainError": "The explanation is not available. Your correction has not changed. Try again.",
     "explainSession": "Your session ended. Sign in again to request an explanation.",
-    "explainLimit": "You reached the daily explanation limit. Saved explanations are still available.",
+    "explainLimit": "You reached the shared daily limit for new explanations and development help. Saved explanations are still available.",
     "choiceLoadError": "Saved choices could not be loaded. Reload them before making changes.",
     "choiceLeave": "Your correction choices are still saving or have failed to save. Leave without saving?",
     "newDraft": "Start a new draft",
@@ -493,5 +494,17 @@
     "practiceNeeded": "Practice needed",
     "writingDone": "Writing complete",
     "writingNeeded": "Writing needed"
+  },
+  "development": {
+    "title": "Develop your ideas",
+    "button": "Help me develop this",
+    "pending": "Thinking about your ideas…",
+    "intro": "A short draft is enough. Get one question and one small next step. You write the answer yourself.",
+    "notice": "Only pressing this button sends your draft to the AI coach. Guidance is in English. Shares 60 new requests per UTC day with Explain; failed attempts count. No grade or lesson completion.",
+    "error": "Help could not load. Your writing is still here. Press the button to try again.",
+    "unavailable": "AI help is not configured or is temporarily unavailable. Your writing is still here.",
+    "session": "Sign in again to request help. Your writing is still here.",
+    "limit": "You reached the shared daily limit for development help and new explanations. Return tomorrow (UTC).",
+    "safety": "Your wellbeing comes first. Contact someone you trust. If you are in immediate danger, contact local emergency services."
   }
 }

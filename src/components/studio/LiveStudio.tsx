@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
 import CoachHint from './CoachHint';
+import DevelopmentHelp from './DevelopmentHelp';
 import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
 import WritingCanvas from './WritingCanvas';
 import ReadSweep from './ReadSweep';
@@ -44,6 +45,7 @@ export default function LiveStudio({
   const courseDraftKey = 'course-draft:' + task.id;
   const [text, setText] = useState(initialText);
   const [savedText, setSavedText] = useState(initialText);
+  const [developing, setDeveloping] = useState(false);
   const [busy, setBusy] = useState<'save' | 'check' | null>(null);
   const [error, setError] = useState<
     | 'saveError'
@@ -139,7 +141,7 @@ export default function LiveStudio({
     setError(errors[result.code] ?? 'error');
   }
   async function check(recover = false) {
-    if (checking.current) return;
+    if (checking.current || developing) return;
     checking.current = true;
     setBusy('check');
     setError(null);
@@ -265,6 +267,7 @@ export default function LiveStudio({
                 variant="contained"
                 disabled={
                   busy !== null ||
+                  developing ||
                   words < task.minWords ||
                   text.length > limit ||
                   error === 'recoverable'
@@ -309,6 +312,12 @@ export default function LiveStudio({
               {live('notice')}
             </Typography>
           </Stack>
+          <DevelopmentHelp
+            text={text}
+            task={task}
+            disabled={busy === 'check'}
+            onPending={setDeveloping}
+          />
         </Paper>
         <CoachHint text={text} task={task} />
       </Box>

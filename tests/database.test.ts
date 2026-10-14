@@ -21,7 +21,10 @@ import { currentUser } from '@/lib/auth/server';
 import { gradeWriting } from '@/lib/llm/grade';
 import { explainCorrection } from '@/lib/llm/explain';
 import { POST as explainSavedCorrection } from '@/app/api/explanation/route';
-import { reserveExplanation, failExplanation } from '@/lib/db/explanations';
+import { reserveExplanation, failExplanation, reserveDevelopment } from '@/lib/db/explanations';
+import { POST as developDraft } from '@/app/api/development/route';
+import { developWriting } from '@/lib/llm/develop';
+vi.mock('@/lib/llm/develop', () => ({ developWriting: vi.fn() }));
 import { loadPractice, answerPractice } from '@/lib/db/practice';
 import { POST as submitPracticeAnswer } from '@/app/api/practice/route';
 import { GET as getProgress } from '@/app/api/progress/route';
@@ -880,4 +883,90 @@ it('explains saved corrections once, caches by owner and rejects forged or forei
   );
   await expect(reserveExplanation(owner, id, 2)).rejects.toThrow('EXPLANATION_LIMIT');
   expect((await reserveExplanation(owner, id, 0)).kind).toBe('completed');
+});
+
+it('development accepts short writing privately without creating a submission, and shares the explanation allowance', async () => {
+  const owner = '00000000-0000-4000-8000-000000000090';
+  const other = '00000000-0000-4000-8000-000000000091';
+  await database.query('INSERT INTO auth.users VALUES ($1), ($2)', [owner, other]);
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const result = {
+    data: {
+      encouragement: 'A start.',
+      question: 'What did you like?',
+      sentence_starter: 'I liked ___.',
+      next_step: 'Add a detail.',
+      safety_flag: false,
+    },
+    usage: { promptTokens: 50, completionTokens: 30, cacheHitTokens: 0 },
+    model: 'test',
+    latencyMs: 10,
+    mock: false,
+  };
+  vi.stubEnv('DEEPSEEK_API_KEY', 'synthetic-test-key');
+  vi.mocked(developWriting).mockResolvedValue(result);
+  const request = (value: unknown, origin = 'http://localhost') =>
+    new Request('http://localhost/api/development', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', origin },
+      body: JSON.stringify(value),
+    });
+  expect((await developDraft(request({ taskId: 'weekend', text: 'I like food.' }))).status).toBe(
+    200,
+  );
+  expect(vi.mocked(developWriting).mock.calls.at(-1)?.slice(0, 3)).toEqual([
+    'I like food.',
+    'A2',
+    expect.objectContaining({ id: 'weekend' }),
+  ]);
+  expect(
+    (
+      await database.query<{ total: number }>(
+        'SELECT count(*)::int AS total FROM writing.submissions WHERE user_id=$1',
+        [owner],
+      )
+    ).rows[0].total,
+  ).toBe(0);
+  expect(
+    (
+      await database.query<{ total: number }>(
+        'SELECT count(*)::int AS total FROM writing.explanation_requests WHERE user_id=$1',
+        [owner],
+      )
+    ).rows[0].total,
+  ).toBe(1);
+  expect((await developDraft(request({ taskId: 'weekend', text: 'hi', level: 'C2' }))).status).toBe(
+    400,
+  );
+  expect(
+    (await developDraft(request({ taskId: 'weekend', text: 'hi' }, 'https://evil.example'))).status,
+  ).toBe(403);
+  expect((await developDraft(request({ taskId: 'unknown', text: 'hi' }))).status).toBe(404);
+  await database.query(
+    "INSERT INTO writing.placement_results (user_id,status,chosen_level,calls_today,call_day,started_at,updated_at) VALUES ($1,'completed','A1',1,'2026-10-14',now(),now())",
+    [owner],
+  );
+  expect((await developDraft(request({ taskId: 'weekend', text: 'hi' }))).status).toBe(200);
+  expect(vi.mocked(developWriting).mock.calls.at(-1)?.[1]).toBe('A1');
+  vi.mocked(developWriting).mockRejectedValueOnce(new Error('synthetic provider failure'));
+  expect((await developDraft(request({ taskId: 'weekend', text: 'hi' }))).status).toBe(500);
+  expect(
+    (
+      await database.query<{ total: number }>(
+        'SELECT count(*)::int AS total FROM writing.explanation_requests WHERE user_id=$1',
+        [owner],
+      )
+    ).rows[0].total,
+  ).toBe(3);
+  await database.query(
+    'INSERT INTO writing.explanation_requests (id,user_id) SELECT gen_random_uuid(), $1 FROM generate_series(1,57)',
+    [owner],
+  );
+  expect((await developDraft(request({ taskId: 'weekend', text: 'hi' }))).status).toBe(429);
+  await expect(reserveDevelopment(owner, 'A2')).rejects.toThrow('EXPLANATION_LIMIT');
+  expect((await reserveDevelopment(other, 'B1')).level).toBe('B1');
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect((await developDraft(request({ taskId: 'weekend', text: 'hi' }))).status).toBe(401);
 });

@@ -115,7 +115,7 @@ Browser navigation warns before leaving unsaved writing. Save important writing 
 
 Explanations use short, direct English. The coach distinguishes errors from optional improvements.
 The app saves each explanation for reuse. Reopening a saved explanation does not make another AI call.
-Accounts can request 60 new explanation attempts per UTC day. Failed attempts count toward this limit.
+Accounts can request 60 new explanation or development-help attempts per UTC day, shared across both features. Failed attempts count toward this limit.
 
 Open `/today` to see writing activity, due Practice, and saved feedback.
 Open `/progress` to see writing totals, UTC streaks, estimated levels, and review results by error tag.
@@ -132,6 +132,11 @@ A decorative highlighter sweep runs during checking. Reduced-motion users see th
 **A little help** checks the current draft after a 500 ms typing pause. A browser Web Worker runs narrow grammar, task-length, invitation, and paragraph checks.
 The panel ignores stale results and never changes the writing. These local checks do not call DeepSeek or count toward daily AI limits.
 Select **Check my writing** for a full AI review. Local hints are not a complete grammar assessment.
+
+Select **Help me develop this** below the editor for on-demand AI guidance, even before the task minimum. The coach offers one question, an optional incomplete sentence starter, and one small next step. You write the answer yourself.
+The app sends writing only when you press the button. It uses your chosen learning-path level, then your saved profile level, or the task level as a fallback. Guidance stays in English.
+Development help does not grade, rewrite, save a submission, or unlock lessons. The editor stays usable during the request. Changed writing hides older guidance.
+The app stores a request count, not the short draft or generated guidance. Development requests share the 60-attempt allowance with new explanations. No database migration is needed.
 
 Open `/practice` to review mistakes from saved writing. Type the corrected phrase, then select **Check answer**.
 You get one retry after a wrong answer. The app saves each result and schedules the next review.

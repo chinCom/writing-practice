@@ -16,6 +16,7 @@ import Collapse from '@mui/material/Collapse';
 import WritingCanvas from './WritingCanvas';
 import TaskBrief from './TaskBrief';
 import CoachHint from './CoachHint';
+import DevelopmentHelp from './DevelopmentHelp';
 import { countWords, decodeDraft, DRAFT_KEY } from '@/lib/draft';
 import { sampleDraft } from '@/mocks/draft.sample';
 import { weekendTask } from '@/lib/curriculum';
@@ -149,6 +150,7 @@ export default function Studio() {
             {t('local')}
           </Alert>
         </Collapse>
+        <DevelopmentHelp text={text} task={weekendTask} />
       </Paper>
       <CoachHint text={text} task={weekendTask} />
     </Box>

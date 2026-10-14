@@ -2,7 +2,14 @@ import 'server-only';
 import { randomUUID } from 'node:crypto';
 import { and, eq, sql } from 'drizzle-orm';
 import { withUserDatabase } from './client';
-import { aiUsage, explanationRequests, explanationRows } from './schema';
+import {
+  aiUsage,
+  explanationRequests,
+  explanationRows,
+  placementResults,
+  profiles,
+} from './schema';
+import { curriculumLevel, type CurriculumLevel } from '@/lib/curriculum';
 import { explanationPromptVersion } from '@/lib/feedback/explanation';
 import type { explainCorrection } from '@/lib/llm/explain';
 
@@ -55,6 +62,27 @@ export async function reserveExplanation(
         set: { status: 'pending', requestKey, updatedAt: new Date() },
       });
     return { kind: 'claimed' as const, requestKey };
+  });
+}
+// Development uses the same owner lock and request ledger as new explanations.
+// Only a request count is stored; the short draft and guidance are not persisted.
+export async function reserveDevelopment(userId: string, fallback: CurriculumLevel) {
+  return withUserDatabase(userId, async (database) => {
+    await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 0))`);
+    const [count] = await database
+      .select({ total: sql<number>`count(*)::int` })
+      .from(explanationRequests)
+      .where(
+        sql`${explanationRequests.createdAt} >= date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'`,
+      );
+    if (count.total >= 60) throw new Error('EXPLANATION_LIMIT');
+    const [placement] = await database
+      .select({ level: placementResults.chosenLevel })
+      .from(placementResults);
+    const [profile] = await database.select({ level: profiles.startingLevel }).from(profiles);
+    const chosen = curriculumLevel.safeParse(placement?.level ?? profile?.level);
+    await database.insert(explanationRequests).values({ id: randomUUID(), userId });
+    return { level: chosen.success ? chosen.data : fallback };
   });
 }
 export async function finishExplanation(

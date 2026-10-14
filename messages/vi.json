@@ -121,7 +121,7 @@
     "saved": "Đã lưu tùy chọn trên thiết bị này.",
     "saveError": "Không thể lưu tùy chọn. Hãy cho phép trình duyệt lưu dữ liệu và thử lại.",
     "privacy": "Dữ liệu và quyền riêng tư",
-    "privacyBody": "Bản nháp và nhận xét được lưu riêng tư trong tài khoản của bạn. Khi kiểm tra, bài viết được gửi đến trợ lý AI. Chức năng xuất dữ liệu và xóa tài khoản chưa khả dụng.",
+    "privacyBody": "Bản nháp và nhận xét được lưu riêng tư trong tài khoản của bạn. Khi kiểm tra hoặc yêu cầu gợi ý phát triển, bài viết được gửi đến trợ lý AI. Chức năng xuất dữ liệu và xóa tài khoản chưa khả dụng.",
     "goalSignIn": "Đăng nhập để lưu mục tiêu hằng tuần vào tài khoản.",
     "goalLoading": "Đang tải mục tiêu hằng tuần…",
     "goalSaving": "Đang lưu mục tiêu hằng tuần…",
@@ -171,7 +171,8 @@
       "paragraphs": "Nhóm các ý liên quan thành đoạn văn. Bắt đầu đoạn mới khi chuyển sang ý chính khác."
     },
     "reveal": "Xem gợi ý viết",
-    "taskWordRange": "{min}–{max} từ"
+    "taskWordRange": "{min}–{max} từ",
+    "privacy": "Bài viết được giữ riêng tư. Chúng tôi chỉ gửi bài viết đến trợ lý AI khi bạn yêu cầu kiểm tra hoặc gợi ý phát triển."
   },
   "unavailable": {
     "title": "Phần này sẽ có sau",
@@ -188,7 +189,7 @@
     "sending": "Đang gửi…",
     "sent": "Kiểm tra email để nhận liên kết đăng nhập. Mở liên kết trong trình duyệt này để hoàn tất đăng nhập.",
     "error": "Không thể hoàn tất đăng nhập. Hãy thử một liên kết mới.",
-    "privacy": "Bài viết của bạn được giữ riêng tư. Chúng tôi chỉ gửi bài viết đến trợ lý AI khi bạn chọn Kiểm tra bài viết.",
+    "privacy": "Bài viết được giữ riêng tư. Chúng tôi chỉ gửi bài viết đến trợ lý AI khi bạn yêu cầu kiểm tra hoặc gợi ý phát triển.",
     "signOut": "Đăng xuất",
     "googleUnavailable": "Đăng nhập bằng Google chưa khả dụng. Hãy dùng liên kết qua email."
   },
@@ -312,7 +313,7 @@
     "explainTimeout": "Giải thích mất quá nhiều thời gian. Thử lại để tìm kết quả đã lưu.",
     "explainError": "Chưa có giải thích. Chỗ sửa của bạn không thay đổi. Hãy thử lại.",
     "explainSession": "Phiên đăng nhập đã kết thúc. Đăng nhập lại để yêu cầu giải thích.",
-    "explainLimit": "Bạn đã đạt giới hạn giải thích hôm nay. Bạn vẫn có thể xem các giải thích đã lưu.",
+    "explainLimit": "Bạn đã dùng hết giới hạn chung cho giải thích mới và gợi ý phát triển hôm nay. Các giải thích đã lưu vẫn có thể xem.",
     "choiceLoadError": "Không thể tải lựa chọn đã lưu. Hãy tải lại trước khi thay đổi.",
     "choiceLeave": "Lựa chọn sửa lỗi vẫn đang lưu hoặc lưu thất bại. Rời đi mà không lưu?",
     "newDraft": "Bắt đầu bản nháp mới",
@@ -493,5 +494,17 @@
     "practiceNeeded": "Cần luyện tập",
     "writingDone": "Đã viết",
     "writingNeeded": "Cần viết"
+  },
+  "development": {
+    "title": "Phát triển ý tưởng",
+    "button": "Giúp tôi phát triển bài viết",
+    "pending": "Đang xem xét ý tưởng của bạn…",
+    "intro": "Một bản nháp ngắn cũng đủ. Nhận một câu hỏi và một bước nhỏ tiếp theo. Bạn tự viết câu trả lời.",
+    "notice": "Chỉ khi nhấn nút này, bản nháp mới được gửi đến trợ lý AI. Gợi ý bằng tiếng Anh. Dùng chung 60 yêu cầu mới mỗi ngày UTC với Giải thích; lượt thất bại vẫn được tính. Không chấm điểm hay hoàn thành bài học.",
+    "error": "Chưa tải được gợi ý. Bài viết vẫn ở đây. Nhấn nút để thử lại.",
+    "unavailable": "Trợ lý AI chưa được cấu hình hoặc tạm thời không khả dụng. Bài viết vẫn ở đây.",
+    "session": "Đăng nhập lại để nhận gợi ý. Bài viết vẫn ở đây.",
+    "limit": "Bạn đã dùng hết giới hạn chung cho gợi ý phát triển và giải thích mới hôm nay. Hãy quay lại vào ngày mai (UTC).",
+    "safety": "Sức khỏe của bạn quan trọng nhất. Hãy liên hệ người bạn tin tưởng. Nếu đang gặp nguy hiểm tức thời, hãy liên hệ dịch vụ khẩn cấp tại địa phương."
   }
 }
