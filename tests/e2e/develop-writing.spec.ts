@@ -6,6 +6,7 @@ const guidance = {
   sentence_starter: 'I liked ___ because ___.',
   next_step: 'Add one detail about the food in your own words.',
   safety_flag: false,
+  focus_text: 'It was good.',
 };
 
 test('short drafts get development help only on click without grading or changing the draft', async ({
@@ -37,6 +38,37 @@ test('short drafts get development help only on click without grading or changin
   await writing.fill('I liked the noodles.');
   await expect(panel).not.toContainText(guidance.question);
   expect(calls).toBe(1);
+});
+
+test('development guidance sits with the task and points to exact writing without changing it', async ({
+  page,
+}, testInfo) => {
+  await page.route('**/api/development', (route) =>
+    route.fulfill({ json: { ok: true, data: guidance } }),
+  );
+  await page.goto('/dev/preview/live-write');
+  const text = 'I went to a restaurant. It was good.';
+  const writing = page.getByRole('textbox', { name: 'Your writing' });
+  await writing.fill(text);
+  await page.getByRole('button', { name: 'Help me develop this', exact: true }).click();
+  const panel = page.getByRole('region', { name: 'Develop your ideas' });
+  if (testInfo.project.name === 'desktop') {
+    const box = await panel.boundingBox();
+    const editor = await writing.boundingBox();
+    expect(box!.x + box!.width).toBeLessThan(editor!.x);
+  }
+  await panel.getByRole('button', { name: 'Show in my writing: It was good.' }).click();
+  await expect(writing).toBeFocused();
+  expect(
+    await writing.evaluate((element: HTMLTextAreaElement) =>
+      element.value.slice(element.selectionStart, element.selectionEnd),
+    ),
+  ).toBe('It was good.');
+  await expect(writing).toHaveValue(text);
+  await writing.fill('Something different.');
+  await expect(panel.getByRole('button', { name: 'Show in my writing: It was good.' })).toHaveCount(
+    0,
+  );
 });
 
 test('failed development help preserves writing and retries only when pressed', async ({
@@ -129,8 +161,29 @@ test('the other editor also requests guidance only on click', async ({ page }) =
   await page.getByRole('textbox', { name: 'Your writing' }).fill('A short start.');
   expect(calls).toBe(0);
   await page.getByRole('button', { name: 'Help me develop this', exact: true }).click();
-  await expect(page.getByRole('region', { name: 'Develop your ideas' })).toContainText(
-    guidance.question,
+  const panel = page.getByRole('region', { name: 'Develop your ideas' });
+  await expect(panel).toContainText(guidance.question);
+  await expect(panel.getByRole('button', { name: 'Show in my writing: It was good.' })).toHaveCount(
+    0,
   );
   expect(calls).toBe(1);
+});
+
+test('the other editor selects the linked passage, including leading spaces', async ({ page }) => {
+  await page.route('**/api/development', (route) =>
+    route.fulfill({ json: { ok: true, data: guidance } }),
+  );
+  await page.goto('/dev/preview/write');
+  const writing = page.getByRole('textbox', { name: 'Your writing' });
+  const text = '  I went to a restaurant. It was good.';
+  await writing.fill(text);
+  await page.getByRole('button', { name: 'Help me develop this', exact: true }).click();
+  await page.getByRole('button', { name: 'Show in my writing: It was good.' }).click();
+  await expect(writing).toBeFocused();
+  expect(
+    await writing.evaluate((element: HTMLTextAreaElement) =>
+      element.value.slice(element.selectionStart, element.selectionEnd),
+    ),
+  ).toBe('It was good.');
+  await expect(writing).toHaveValue(text);
 });

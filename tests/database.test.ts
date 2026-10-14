@@ -899,6 +899,7 @@ it('development accepts short writing privately without creating a submission, a
       sentence_starter: 'I liked ___.',
       next_step: 'Add a detail.',
       safety_flag: false,
+      focus_text: '',
     },
     usage: { promptTokens: 50, completionTokens: 30, cacheHitTokens: 0 },
     model: 'test',

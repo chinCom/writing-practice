@@ -133,7 +133,7 @@ A decorative highlighter sweep runs during checking. Reduced-motion users see th
 The panel ignores stale results and never changes the writing. These local checks do not call DeepSeek or count toward daily AI limits.
 Select **Check my writing** for a full AI review. Local hints are not a complete grammar assessment.
 
-Select **Help me develop this** below the editor for on-demand AI guidance, even before the task minimum. The coach offers one question, an optional incomplete sentence starter, and one small next step. You write the answer yourself.
+Select **Help me develop this** under the task word bank for on-demand AI guidance, even before the task minimum. The coach offers one question, an optional incomplete sentence starter, and one small next step. You write the answer yourself. Select **Show in my writing** to highlight the quoted passage without changing your draft.
 The app sends writing only when you press the button. It uses your chosen learning-path level, then your saved profile level, or the task level as a fallback. Guidance stays in English.
 Development help does not grade, rewrite, save a submission, or unlock lessons. The editor stays usable during the request. Changed writing hides older guidance.
 The app stores a request count, not the short draft or generated guidance. Development requests share the 60-attempt allowance with new explanations. No database migration is needed.

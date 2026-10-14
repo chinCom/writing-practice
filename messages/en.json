@@ -497,6 +497,7 @@
   },
   "development": {
     "title": "Develop your ideas",
+    "showText": "Show in my writing: {text}",
     "button": "Help me develop this",
     "pending": "Thinking about your ideas…",
     "intro": "A short draft is enough. Get one question and one small next step. You write the answer yourself.",

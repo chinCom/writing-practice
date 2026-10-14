@@ -62,6 +62,13 @@ export default function Studio() {
     }
   }
 
+  function focusWriting(start: number, end: number) {
+    const field = input.current;
+    if (!field) return;
+    field.scrollIntoView({ block: 'center' });
+    field.focus({ preventScroll: true });
+    field.setSelectionRange(start, end);
+  }
   function insertPhrase(phrase: string) {
     const start = input.current?.selectionStart ?? text.length;
     const end = input.current?.selectionEnd ?? start;
@@ -92,20 +99,23 @@ export default function Studio() {
       <Typography variant="h1" sx={{ gridColumn: '1 / -1' }}>
         {app('write')}
       </Typography>
-      <Box sx={{ display: { xs: 'none', lg: 'block' }, py: 2 }}>
-        <TaskBrief onInsert={insertPhrase} />
-      </Box>
-      <Box sx={{ display: { lg: 'none' } }}>
-        <Accordion disableGutters elevation={0} defaultExpanded slots={{ heading: 'h2' }}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography component="span" variant="h3">
-              {t('title')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <TaskBrief onInsert={insertPhrase} />
-          </AccordionDetails>
-        </Accordion>
+      <Box>
+        <Box sx={{ display: { xs: 'none', lg: 'block' }, py: 2 }}>
+          <TaskBrief onInsert={insertPhrase} />
+        </Box>
+        <Box sx={{ display: { lg: 'none' } }}>
+          <Accordion disableGutters elevation={0} defaultExpanded slots={{ heading: 'h2' }}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography component="span" variant="h3">
+                {t('title')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <TaskBrief onInsert={insertPhrase} />
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        <DevelopmentHelp text={text} task={weekendTask} onFocus={focusWriting} />
       </Box>
       <Paper
         variant="outlined"
@@ -150,7 +160,6 @@ export default function Studio() {
             {t('local')}
           </Alert>
         </Collapse>
-        <DevelopmentHelp text={text} task={weekendTask} />
       </Paper>
       <CoachHint text={text} task={weekendTask} />
     </Box>

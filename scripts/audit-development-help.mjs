@@ -31,6 +31,7 @@ try {
             sentence_starter: 'I liked ___ because ___.',
             next_step: 'Add one detail about the food in your own words.',
             safety_flag: false,
+            focus_text: 'It was good.',
           },
         },
       }),
@@ -50,6 +51,7 @@ try {
       .getByText(/32/)
       .waitFor();
     await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(() => scrollTo(0, 0));
     await page.screenshot({
       path: directory + '/screenshots/development-help-' + config.name + '.png',
       fullPage: true,

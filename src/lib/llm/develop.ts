@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import OpenAI from 'openai';
 import type { CurriculumLevel, CurriculumTask } from '@/lib/curriculum';
-import { DevelopmentSchema } from '@/lib/feedback/development';
+import { DevelopmentSchema, developmentFocus } from '@/lib/feedback/development';
 import { LlmError, type GradeOptions } from './grade';
 
 let prompt: Promise<string> | undefined;
@@ -64,6 +64,7 @@ export async function developWriting(
         )
       )
         throw new Error('Guidance too long');
+      if (data.safety_flag || !developmentFocus(text, data.focus_text)) data.focus_text = '';
       return { data, usage, model: options.model, mock: false, latencyMs: Date.now() - started };
     } catch {
       if (attempt === 1) throw new LlmError('LLM_INVALID_RESPONSE');

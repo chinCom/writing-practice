@@ -10,6 +10,7 @@ const valid = {
   sentence_starter: 'I liked ___ because ___.',
   next_step: 'Add one detail in your own words.',
   safety_flag: false,
+  focus_text: 'liked it',
 };
 let content = JSON.stringify(valid);
 let body = '';
@@ -91,6 +92,21 @@ it('rejects invented assessment fields and excessive output after one validation
     await expect(developWriting('Hi.', 'A1', weekendTask, options())).rejects.toThrow(
       'LLM_INVALID_RESPONSE',
     );
+  } finally {
+    content = JSON.stringify(valid);
+  }
+});
+it('removes invented or ambiguous focus text without losing useful guidance', async () => {
+  try {
+    content = JSON.stringify({ ...valid, focus_text: 'not in this draft' });
+    expect(
+      (await developWriting('I liked it.', 'A1', weekendTask, options())).data.focus_text,
+    ).toBe('');
+    content = JSON.stringify({ ...valid, focus_text: 'liked it' });
+    expect(
+      (await developWriting('I liked it. I liked it.', 'A1', weekendTask, options())).data
+        .focus_text,
+    ).toBe('');
   } finally {
     content = JSON.stringify(valid);
   }

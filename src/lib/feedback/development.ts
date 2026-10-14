@@ -8,7 +8,15 @@ export const DevelopmentSchema = z.strictObject({
   sentence_starter: z.string().trim().max(180),
   next_step: z.string().trim().min(1).max(220),
   safety_flag: z.boolean(),
+  focus_text: z.string().trim().max(180).optional().default(''),
 });
+// Only point to a unique, literal passage. Never guess an offset from model output.
+export function developmentFocus(text: string, phrase: string) {
+  if (!phrase) return null;
+  const start = text.indexOf(phrase);
+  if (start < 0 || text.indexOf(phrase, start + 1) >= 0) return null;
+  return { start, end: start + phrase.length };
+}
 export type Development = z.infer<typeof DevelopmentSchema>;
 export const developmentInput = z.strictObject({
   taskId: z.string().regex(/^[a-z0-9-]{1,80}$/),

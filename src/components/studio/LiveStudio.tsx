@@ -201,6 +201,13 @@ export default function LiveStudio({
       }
     }
   }
+  function focusWriting(start: number, end: number) {
+    const field = input.current;
+    if (!field || busy === 'check') return;
+    field.scrollIntoView({ block: 'center' });
+    field.focus({ preventScroll: true });
+    field.setSelectionRange(start, end);
+  }
   function insertPhrase(phrase: string) {
     if (busy === 'check') return;
     const start = input.current?.selectionStart ?? text.length;
@@ -232,6 +239,13 @@ export default function LiveStudio({
             onInsert={insertPhrase}
             disabled={busy === 'check'}
             task={task.id === 'weekend' ? undefined : task}
+          />
+          <DevelopmentHelp
+            text={text}
+            task={task}
+            disabled={busy === 'check'}
+            onPending={setDeveloping}
+            onFocus={focusWriting}
           />
         </Box>
         <Paper variant="outlined" sx={{ minInlineSize: 0, p: { xs: 2, md: 4 } }}>
@@ -312,12 +326,6 @@ export default function LiveStudio({
               {live('notice')}
             </Typography>
           </Stack>
-          <DevelopmentHelp
-            text={text}
-            task={task}
-            disabled={busy === 'check'}
-            onPending={setDeveloping}
-          />
         </Paper>
         <CoachHint text={text} task={task} />
       </Box>

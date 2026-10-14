@@ -497,6 +497,7 @@
   },
   "development": {
     "title": "Phát triển ý tưởng",
+    "showText": "Xem trong bài viết: {text}",
     "button": "Giúp tôi phát triển bài viết",
     "pending": "Đang xem xét ý tưởng của bạn…",
     "intro": "Một bản nháp ngắn cũng đủ. Nhận một câu hỏi và một bước nhỏ tiếp theo. Bạn tự viết câu trả lời.",

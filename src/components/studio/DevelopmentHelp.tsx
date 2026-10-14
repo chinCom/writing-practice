@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import { DevelopmentSchema, type Development } from '@/lib/feedback/development';
+import { DevelopmentSchema, developmentFocus, type Development } from '@/lib/feedback/development';
 import type { CurriculumTask } from '@/lib/curriculum';
 import { textLimits } from '@/lib/limits';
 
@@ -15,11 +15,13 @@ export default function DevelopmentHelp({
   task,
   disabled = false,
   onPending,
+  onFocus,
 }: {
   text: string;
   task: CurriculumTask;
   disabled?: boolean;
   onPending?: (pending: boolean) => void;
+  onFocus?: (start: number, end: number) => void;
 }) {
   const t = useTranslations('development');
   const [pending, setPending] = useState(false);
@@ -27,6 +29,7 @@ export default function DevelopmentHelp({
   const running = useRef(false);
   const snapshot = task.id + ':' + text.trim();
   const shown = result?.snapshot === snapshot ? result : null;
+  const focus = shown?.data ? developmentFocus(text, shown.data.focus_text) : null;
   async function requestHelp() {
     if (
       running.current ||
@@ -63,7 +66,7 @@ export default function DevelopmentHelp({
     }
   }
   return (
-    <Stack component="section" aria-label={t('title')} sx={{ gap: 1.5, mt: 3 }}>
+    <Stack component="section" aria-label={t('title')} sx={{ gap: 1.5, marginBlockStart: 3 }}>
       <Typography variant="h3" component="h2">
         {t('title')}
       </Typography>
@@ -92,6 +95,15 @@ export default function DevelopmentHelp({
         ) : (
           <Stack sx={{ gap: 1 }} aria-live="polite">
             <Typography>{shown.data.encouragement}</Typography>
+            {focus && onFocus ? (
+              <Button
+                variant="outlined"
+                onClick={() => onFocus(focus.start, focus.end)}
+                sx={{ textAlign: 'start', overflowWrap: 'anywhere' }}
+              >
+                {t('showText', { text: shown.data.focus_text })}
+              </Button>
+            ) : null}
             <Typography sx={{ fontWeight: 'bold' }}>{shown.data.question}</Typography>
             {shown.data.sentence_starter ? (
               <Typography>{shown.data.sentence_starter}</Typography>
