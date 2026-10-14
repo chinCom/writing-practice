@@ -24,7 +24,6 @@ export const tokens = {
     muted: '#393774',
     mint: '#009C79',
     highlightSoft: '#FFF8E1',
-    navWidth: 244,
     ringSize: 150,
   },
   dark: {
@@ -48,7 +47,7 @@ export const tokens = {
     tonalSuccess: '#164A3D',
   },
   layout: {
-    navWidth: 208,
+    navWidth: 244,
     topBarHeight: 72,
     bottomNavHeight: 72,
     taskRail: 280,

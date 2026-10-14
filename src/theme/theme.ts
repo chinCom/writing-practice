@@ -77,10 +77,10 @@ function palette(t: { [Key in keyof typeof tokens.light]: string }): PaletteOpti
   };
 }
 const serif = 'var(--font-canvas), var(--font-canvas-vietnamese), Georgia, serif';
-export function makeTheme(today = false) {
+export function makeTheme(today = false, cssVarPrefix = 'mui') {
   return createTheme({
     direction: 'ltr',
-    cssVariables: { colorSchemeSelector: '[data-mui-color-scheme="%s"]' },
+    cssVariables: { colorSchemeSelector: '[data-mui-color-scheme="%s"]', cssVarPrefix },
     colorSchemes: {
       light: {
         palette: palette(
@@ -98,9 +98,7 @@ export function makeTheme(today = false) {
       },
       dark: { palette: palette(tokens.dark) },
     },
-    layout: today
-      ? { ...tokens.layout, navWidth: tokens.today.navWidth, ringSize: tokens.today.ringSize }
-      : tokens.layout,
+    layout: today ? { ...tokens.layout, ringSize: tokens.today.ringSize } : tokens.layout,
     shape: { borderRadius: today ? 10 : 12 },
     typography: {
       fontFamily: today
