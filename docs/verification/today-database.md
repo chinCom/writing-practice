@@ -35,6 +35,23 @@ Repeat the hosted loader check:
 RUN_DATABASE_DEADLINES=true node --env-file=.env node_modules/vitest/vitest.mjs run tests/today-live.test.ts --reporter=verbose
 ```
 
+## Hosted schema upgrade
+
+After the merge into `master`, the configured database still had migrations `0000`–`0008`. Today failed with `42P01: relation "writing.practice_sources" does not exist`.
+
+With user approval, `npm run db:migrate` applied only `0009_writing_course.sql`. The migration transaction completed. The recorded SHA-256 matches the committed SQL file.
+
+Read-only catalog checks confirmed:
+
+- `writing.practice_sources` exists and has row-level security enabled.
+- The `authenticated` role has `SELECT` and `INSERT` privileges.
+- `practice_source_owner` checks `auth.uid() = user_id` for visibility and inserted rows.
+- Neither `anon` nor `PUBLIC` has an explicit table grant.
+
+Both hosted tests in `tests/today-live.test.ts` passed with the explicit `.env` command above. They use synthetic owners, create no learner rows, and make no AI calls. An initial command without `.env` failed because `DATABASE_URL` was absent; that was a test configuration error.
+
+No curriculum seed or learner-record changes were performed. The signed-in browser session remains unverified; reload `/today` to confirm recovery.
+
 ## Limits
 
 This fixes self-induced queue saturation during one Today load. It does not remove bounded failure under concurrent request saturation, database outages, or unusually large learner histories. The hosted check proves database loading, not the user's authenticated browser session. Reload `/today` to confirm the reported session also recovers.

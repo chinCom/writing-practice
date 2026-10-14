@@ -1,6 +1,6 @@
 # Writing course and audit fixes verification
 
-Branch: `feat/writing-course`. Implementation is local; hosted migration and publication remain gated. No subagents were used.
+Branch: `feat/writing-course`. Implementation is merged into local `master`. Hosted migration `0009` is applied; content publication remains gated. No subagents were used.
 
 The [research and implementation plan](../superpowers/plans/2026-10-14-writing-course.md) records sources, scope, and decisions. [Publication instructions](../../curriculum/README.md) are authoritative for content approval.
 
@@ -66,7 +66,7 @@ Browser checks require the test development server on port 3000 with explicit em
 ## Limits and release gates
 
 - No teacher approval was fabricated. The exact-hash seed gate rejects absent or stale approval.
-- Migration `drizzle/0009_writing_course.sql` was tested locally, not applied to hosted Supabase. Deploying this code without that migration would leave incompatible database contracts.
+- Migration `drizzle/0009_writing_course.sql` was initially tested only locally. It was subsequently applied to the configured hosted Supabase database with user approval. See [hosted schema verification](today-database.md#hosted-schema-upgrade). Other databases require this migration before running the merged code.
 - The course is an offline draft, not the original 15-unit-per-level target, CEFR certification, or evidence of educational effectiveness.
 - Original models use fictional details. The supplied private motivation letter was not copied into fixtures or research requests.
 - New live higher-level grading, hosted course publication, live sign-out failure handling, sustained load, and actual learner progress remain unverified.

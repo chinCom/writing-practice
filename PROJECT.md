@@ -10,7 +10,7 @@
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
 - Last implemented slice: seven audit fixes, immediate Apply with next-correction selection and ordered saves, and an original 21-unit/63-lesson PRE_A1–C2 draft course
 - Verification: local checks and all-lesson database traversal passed. See [course evidence](docs/verification/writing-course.md) for final counts, browser artifacts, and limits; [database deadline evidence](docs/verification/database-deadlines.md) and [evaluation scope](evals/README.md) describe separate checks
-- Current implementation slice: course and correction flows work locally. Teacher approval and hosted migration `0009_writing_course.sql` remain publication gates. The broad quality milestone remains incomplete
+- Current implementation slice: course and correction flows work locally. Hosted migration `0009_writing_course.sql` is applied. Teacher approval and reviewed-content seeding remain publication gates. The broad quality milestone remains incomplete
 - Open decisions: §22; the larger 15-unit-per-level curriculum, teacher approval of the seven-level draft, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
 - Code maintenance: Prettier + EditorConfig; run `npm run format` and `npm run check`; no subagents
 - Release state: PR #1 was merged as `a1a83d7`. Current course/audit changes and earlier local fixes are on `feat/writing-course`. No course migration, seed, push, or deployment was performed
@@ -28,7 +28,7 @@
 | Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery, bounded database queue and operation deadlines | Durable background worker and sustained-load verification |
 | Feedback and revision | Marked text, immediate Apply/Undo with ordered saves and error retry, automatic next correction, mobile sheet, reporting, and revision/compare with a 20-attempt boundary | New hosted signed-in correction workflow verification and report review tools |
 | Explain | On-demand short English explanations, owner-only saved reuse, loading/retry, 60 new attempts per UTC day | Native-language explanations and new hosted browser workflow verification |
-| Learning path | A1–B1 placement estimate, seven-level starts, 21-unit/63-lesson draft, private server grading, writing-required progression, and checkpoint locks | Teacher review, hosted migration/publication, larger course, and validated exams |
+| Learning path | A1–B1 placement estimate, seven-level starts, 21-unit/63-lesson draft, private server grading, writing-required progression, and checkpoint locks | Teacher review/publication, larger course, and validated exams |
 | Practice | Saved correction exercises, server-side answer checks, one retry, owner-only history, 1/3/7/14/30-day review, dismissal/restoration, and refreshed multi-batch completion | Varied AI-generated drills and nightly generation |
 | Progress | Real writing/review aggregates, CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation |
 | Landing and portfolio | `/` redirects to Today; owner-only paginated portfolio and parent-revision comparison | Public live demo |
@@ -474,7 +474,7 @@ Use Server Actions for simple mutations (settings, onboarding, marking a lesson 
 
 ## 14. Data model (Postgres via Drizzle; RLS on every user-owned table)
 
-**Implemented in the private `writing` schema:** `drafts`, `submissions`, `feedback`, `ai_usage`, `correction_explanations`, `explanation_requests`, `practice_drills`, `practice_answers`, `correction_choices`, `correction_reports`, and `preferences`. Every owned table has row-level security. Submissions include status, request key, and worker start time. Located corrections remain inside validated feedback JSON. Migrations `0000` through `0006` are applied to the configured hosted database. Practice stores per-correction review state and versioned answer results. Preferences store the weekly goal.
+**Implemented in the private `writing` schema:** `drafts`, `submissions`, `feedback`, `ai_usage`, `correction_explanations`, `explanation_requests`, `practice_drills`, `practice_answers`, `correction_choices`, `correction_reports`, and `preferences`. Every owned table has row-level security. Submissions include status, request key, and worker start time. Located corrections remain inside validated feedback JSON. Migrations `0000` through `0009` are applied to the configured hosted database. Migration `0009` adds owner-protected `practice_sources` markers and extends course limits. Practice stores per-correction review state and versioned answer results. Preferences store the weekly goal.
 
 The list below is the target model. Profiles, curriculum, persisted per-tag mastery, and AI-generated drills are not implemented. Progress is computed from saved activity; correction reports are saved without review tools.
 
@@ -639,7 +639,7 @@ Checkboxes mark verified delivered behavior, not planned code. Phase completion 
 **Phase 3 — Curriculum and path (weeks 4–5)**
 - [x] Placement flow: two writings, three grammar answers, A1–B1 practice estimate, and starting-level choice
 - [x] Bounded PRE_A1–C2 draft course implemented: 21 units, 63 lessons, private answers, and writing-required progression
-- [ ] Draft course reviewed and seeded (teacher approval and hosted migration/publication still required)
+- [ ] Draft course reviewed and seeded (teacher approval and publication still required)
 - [x] Learning path map, unit unlocking, auto-graded warm-ups
 - [x] Real XP, UTC streak, saved editable weekly goal, Today and Progress pages
 

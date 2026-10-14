@@ -216,7 +216,7 @@ Use descriptive names and small components. Format code with Prettier.
 
 The standalone weekend task remains available at A2. Coach explanations remain in English.
 Placement estimates remain A1–B1. The learning path supports seven starting levels and a draft PRE_A1–C2 course with 21 units and 63 lessons.
-Hosted lessons await teacher approval and migration `0009_writing_course.sql`.
+Hosted migration `0009_writing_course.sql` is applied. Hosted lessons still await teacher approval and reviewed-content seeding.
 See [curriculum review](curriculum/README.md) and [course evidence](docs/verification/writing-course.md).
 The larger 15-unit-per-level curriculum, certified level exams, and nightly generated drills are not available.
 Learning profiles and weekly goals are available. Broader AI evaluation and sustained-load testing remain outstanding.

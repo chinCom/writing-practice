@@ -41,7 +41,7 @@ Warm-up checks run on the server. Synthetic writing results exercise progression
 7. Run `npm run db:migrate` with the intended `DATABASE_URL`. Migration `0009_writing_course.sql` extends course limits and adds owner-protected Practice source markers.
 8. Run `npm run curriculum:seed` with the intended `DATABASE_URL`.
 
-The seed command rejects missing approval and changed content. It upserts reviewed units in one transaction. It does not delete learner writing or progress. No teacher approval, hosted migration, or content publication was performed during local implementation.
+The seed command rejects missing approval and changed content. It upserts reviewed units in one transaction. It does not delete learner writing or progress. No teacher approval or content publication was performed. Hosted migration `0009` was subsequently applied with user approval. See the [hosted migration verification](../docs/verification/today-database.md#hosted-schema-upgrade).
 
 ## Progression
 
