@@ -37,7 +37,7 @@ export default function LessonView({
   const warmup = lesson.warmups[index];
   const done = lesson.warmups.every((_, i) => answers[String(i)]);
   async function check() {
-    if (busy || !answer.trim()) return;
+    if (busy || done || result?.correct || !answer.trim()) return;
     setBusy(true);
     setError(null);
     try {
@@ -90,7 +90,15 @@ export default function LessonView({
             </Typography>
           </Stack>
         </Paper>
-        <Paper variant="outlined" sx={{ p: 3 }}>
+        <Paper
+          component="form"
+          variant="outlined"
+          sx={{ p: 3 }}
+          onSubmit={(event) => {
+            event.preventDefault();
+            void check();
+          }}
+        >
           <Stack sx={{ gap: 2 }}>
             <Typography variant="h2">{t('warmups')}</Typography>
             {error ? <Alert severity="error">{t(error)}</Alert> : null}
@@ -151,6 +159,7 @@ export default function LessonView({
                 ) : null}
                 {result?.correct ? (
                   <Button
+                    type="button"
                     variant="outlined"
                     onClick={() => {
                       setIndex(index + 1);
@@ -161,11 +170,7 @@ export default function LessonView({
                     {t('nextWarmup')}
                   </Button>
                 ) : (
-                  <Button
-                    variant="contained"
-                    disabled={busy || !answer.trim()}
-                    onClick={() => void check()}
-                  >
+                  <Button type="submit" variant="contained" disabled={busy || !answer.trim()}>
                     {t('check')}
                   </Button>
                 )}

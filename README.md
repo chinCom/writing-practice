@@ -129,6 +129,10 @@ Dismissed suggestions leave Practice until you restore them.
 Select **Report correction** to save a reason for later quality review. Reports do not change the saved AI feedback.
 A decorative highlighter sweep runs during checking. Reduced-motion users see the status without the sweep.
 
+**A little help** checks the current draft after a 500 ms typing pause. A browser Web Worker runs narrow grammar, task-length, invitation, and paragraph checks.
+The panel ignores stale results and never changes the writing. These local checks do not call DeepSeek or count toward daily AI limits.
+Select **Check my writing** for a full AI review. Local hints are not a complete grammar assessment.
+
 Open `/practice` to review mistakes from saved writing. Type the corrected phrase, then select **Check answer**.
 You get one retry after a wrong answer. The app saves each result and schedules the next review.
 Practice checks answers without an AI call. It accepts the saved phrase with differences in case or spacing, not alternative wording.

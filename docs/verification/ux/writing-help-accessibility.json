@@ -1,0 +1,44 @@
+[
+  {
+    "screen": "write",
+    "configuration": "desktop",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "live-write",
+    "configuration": "desktop",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "write",
+    "configuration": "mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "live-write",
+    "configuration": "mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "write",
+    "configuration": "vietnamese-dark-mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "live-write",
+    "configuration": "vietnamese-dark-mobile",
+    "overflow": false,
+    "violations": [],
+    "incomplete": []
+  }
+]

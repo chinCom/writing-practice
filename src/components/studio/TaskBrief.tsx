@@ -28,7 +28,9 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
         direction="row"
         sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 2 }}
       >
-        <Typography variant="h3">{task?.title ?? t('title')}</Typography>
+        <Typography component="h2" variant="h3">
+          {task?.title ?? t('title')}
+        </Typography>
         <Chip label={task?.targetLevel ?? 'A2'} variant="tonal" color="primary" size="small" />
       </Stack>
       <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>

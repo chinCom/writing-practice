@@ -18,6 +18,7 @@ import TaskBrief from './TaskBrief';
 import CoachHint from './CoachHint';
 import { countWords, decodeDraft, DRAFT_KEY } from '@/lib/draft';
 import { sampleDraft } from '@/mocks/draft.sample';
+import { weekendTask } from '@/lib/curriculum';
 
 const DRAFT_CHANGE_EVENT = 'preview-draft-change';
 
@@ -40,6 +41,7 @@ function readSavedDraft() {
 
 export default function Studio() {
   const t = useTranslations('studio');
+  const app = useTranslations('app');
   const saved = useSyncExternalStore(subscribeToDraft, readSavedDraft, () => sampleDraft);
   const [edited, setEdited] = useState<string | null>(null);
   const text = edited ?? saved;
@@ -86,13 +88,18 @@ export default function Studio() {
         alignItems: 'start',
       })}
     >
+      <Typography variant="h1" sx={{ gridColumn: '1 / -1' }}>
+        {app('write')}
+      </Typography>
       <Box sx={{ display: { xs: 'none', lg: 'block' }, py: 2 }}>
         <TaskBrief onInsert={insertPhrase} />
       </Box>
       <Box sx={{ display: { lg: 'none' } }}>
-        <Accordion disableGutters elevation={0} defaultExpanded>
+        <Accordion disableGutters elevation={0} defaultExpanded slots={{ heading: 'h2' }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography variant="h3">{t('title')}</Typography>
+            <Typography component="span" variant="h3">
+              {t('title')}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TaskBrief onInsert={insertPhrase} />
@@ -143,7 +150,7 @@ export default function Studio() {
           </Alert>
         </Collapse>
       </Paper>
-      <CoachHint />
+      <CoachHint text={text} task={weekendTask} />
     </Box>
   );
 }

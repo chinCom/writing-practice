@@ -155,7 +155,21 @@
     "coach": "Một chút gợi ý",
     "question": "Làm thế nào để mời Maria?",
     "hint": "Thử kết thúc bằng một câu hỏi rõ ràng. Bạn muốn Maria làm gì?",
-    "local": "Nhận xét trực tiếp chưa được kết nối trong bản xem trước này.",
+    "local": "Bản nháp xem trước chỉ được lưu trong trình duyệt này. Đăng nhập vào Phòng viết để nhận đánh giá AI.",
+    "helpStart": "Bắt đầu viết. Gợi ý sẽ cập nhật sau khi bạn ngừng gõ một lúc.",
+    "helpChecking": "Đang kiểm tra bài viết mới nhất…",
+    "helpClear": "Kiểm tra cục bộ chưa tìm thấy lỗi rõ ràng. Chọn Kiểm tra bài viết để nhận đánh giá đầy đủ.",
+    "helpUnavailable": "Gợi ý chạy nền không khả dụng trong trình duyệt này. Bạn vẫn có thể viết và chọn Kiểm tra bài viết.",
+    "helpLocal": "Kiểm tra cục bộ · Các kiểm tra này không gửi bài viết đến máy chủ. Đây không phải đánh giá AI.",
+    "helpHints": {
+      "verb": "Kiểm tra “{original}”. Với sự việc trong quá khứ, cân nhắc dùng “{suggestion}”.",
+      "past": "“{original}” mô tả sự việc đã kết thúc. Kiểm tra xem bạn có cần dùng “{suggestion}” không.",
+      "repeat": "Kiểm tra xem có từ nào bị lặp do gõ nhầm không.",
+      "short": "Viết thêm {remaining} từ để đạt mức tối thiểu. Phát triển ý của chính bạn.",
+      "long": "Bài viết vượt phạm vi của nhiệm vụ {excess} từ. Cân nhắc bỏ các ý lặp lại.",
+      "invitation": "Tin nhắn đã mời bạn của bạn chưa? Kết thúc bằng lời mời hoặc câu hỏi rõ ràng.",
+      "paragraphs": "Nhóm các ý liên quan thành đoạn văn. Bắt đầu đoạn mới khi chuyển sang ý chính khác."
+    },
     "reveal": "Xem gợi ý viết",
     "taskWordRange": "{min}–{max} từ"
   },

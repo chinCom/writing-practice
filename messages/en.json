@@ -155,7 +155,21 @@
     "coach": "A little help",
     "question": "How do I invite Maria?",
     "hint": "Try ending with a clear question. What would you like Maria to do?",
-    "local": "Live feedback is not connected in this preview.",
+    "local": "Preview draft saved only in this browser. Use the signed-in Writing Studio for AI grading.",
+    "helpStart": "Start writing. Suggestions will update after a short pause.",
+    "helpChecking": "Checking your latest writing…",
+    "helpClear": "No obvious issue found by these local checks. Use Check my writing for a full review.",
+    "helpUnavailable": "Background help is unavailable in this browser. You can keep writing and use Check my writing.",
+    "helpLocal": "Local checks · These checks do not send your writing to a server. They are not an AI grade.",
+    "helpHints": {
+      "verb": "Check “{original}”. For a past event, consider “{suggestion}”.",
+      "past": "“{original}” describes a finished event. Check whether you need “{suggestion}”.",
+      "repeat": "Check for an accidentally repeated word.",
+      "short": "Add {remaining} words to reach this task’s minimum. Develop your own ideas.",
+      "long": "You are {excess} words above the task range. Consider removing repeated ideas.",
+      "invitation": "Does your message invite your friend? End with a clear invitation or question.",
+      "paragraphs": "Group related ideas into paragraphs. Start a new paragraph when your main point changes."
+    },
     "reveal": "View a writing tip",
     "taskWordRange": "{min}–{max} words"
   },

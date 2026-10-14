@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
+import CoachHint from './CoachHint';
 import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
 import WritingCanvas from './WritingCanvas';
 import ReadSweep from './ReadSweep';
@@ -213,18 +214,25 @@ export default function LiveStudio({
   return (
     <Stack sx={{ gap: 3 }}>
       <Typography variant="h1">{app('write')}</Typography>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, alignItems: 'start' }}>
-        <Box sx={{ flexBasis: 280, flexGrow: 1, py: 2 }}>
+      <Box
+        sx={(theme) => ({
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'minmax(0, 1fr)',
+            lg: theme.layout.taskRail + 'px minmax(0, 1fr) ' + theme.layout.coachRail + 'px',
+          },
+          gap: 3,
+          alignItems: 'start',
+        })}
+      >
+        <Box sx={{ py: 2 }}>
           <TaskBrief
             onInsert={insertPhrase}
             disabled={busy === 'check'}
             task={task.id === 'weekend' ? undefined : task}
           />
         </Box>
-        <Paper
-          variant="outlined"
-          sx={{ flexBasis: 0, flexGrow: 999, minInlineSize: 'min(100%, 55%)', p: { xs: 2, md: 4 } }}
-        >
+        <Paper variant="outlined" sx={{ minInlineSize: 0, p: { xs: 2, md: 4 } }}>
           <Box sx={{ position: 'relative' }}>
             <WritingCanvas
               inputRef={input}
@@ -302,6 +310,7 @@ export default function LiveStudio({
             </Typography>
           </Stack>
         </Paper>
+        <CoachHint text={text} task={task} />
       </Box>
     </Stack>
   );
