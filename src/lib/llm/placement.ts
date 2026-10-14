@@ -22,7 +22,7 @@ export async function estimatePlacement(
     let completion;
     try {
       const body: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming & {
-        thinking: { type: 'disabled' };
+        thinking: { type: 'enabled' };
       } = {
         model: options.model,
         messages: [
@@ -30,8 +30,10 @@ export async function estimatePlacement(
           { role: 'user', content: JSON.stringify(input) },
         ],
         response_format: { type: 'json_object' },
-        max_tokens: 400,
-        thinking: { type: 'disabled' },
+        // Leave room for reasoning tokens as well as the short JSON result.
+        max_tokens: 4096,
+        thinking: { type: 'enabled' },
+        reasoning_effort: 'low',
       };
       completion = await client.chat.completions.create(body, { signal });
     } catch {

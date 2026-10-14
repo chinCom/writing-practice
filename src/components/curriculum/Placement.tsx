@@ -12,7 +12,12 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import WritingField from '@/components/ui/WritingField';
-import { placementQuestions, type PlacementResult, type CurriculumLevel } from '@/lib/curriculum';
+import {
+  curriculumLevel,
+  placementQuestions,
+  type PlacementResult,
+  type CurriculumLevel,
+} from '@/lib/curriculum';
 export default function Placement({
   initialResult = null,
   preview = false,
@@ -98,7 +103,7 @@ export default function Placement({
                     onChange={(event) => setLevel(event.target.value as CurriculumLevel)}
                     slotProps={{ select: { native: true } }}
                   >
-                    {['A1', 'A2', 'B1'].map((value) => (
+                    {curriculumLevel.options.map((value) => (
                       <Box component="option" key={value} value={value}>
                         {value}
                       </Box>

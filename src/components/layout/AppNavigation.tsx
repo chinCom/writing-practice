@@ -6,12 +6,12 @@ import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import { ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import Alert from '@mui/material/Alert';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -87,27 +87,38 @@ function Logo() {
   );
 }
 
-function AccountFooter({ signedIn, preview }: { signedIn: boolean; preview: boolean }) {
+function AccountFooter({ signedIn }: { signedIn: boolean }) {
   const router = useRouter();
   const t = useTranslations('app');
 
+  const [signingOut, setSigningOut] = useState(false);
+  const [signOutFailed, setSignOutFailed] = useState(false);
   async function handleSignOut() {
-    await signOut();
-    router.replace('/login');
-    router.refresh();
+    if (signingOut) return;
+    setSigningOut(true);
+    setSignOutFailed(false);
+    try {
+      const result = await signOut();
+      if (!result.ok) {
+        setSignOutFailed(true);
+        return;
+      }
+      router.replace('/login');
+      router.refresh();
+    } catch {
+      setSignOutFailed(true);
+    } finally {
+      setSigningOut(false);
+    }
   }
 
   return (
     <Box component="footer" sx={{ mt: 'auto', px: 1, pb: 0.25 }}>
       <Divider sx={{ mb: 2.5 }} />
-      <Stack direction="row" sx={{ gap: 2, alignItems: 'center', mb: 2 }}>
-        <Avatar sx={{ bgcolor: 'tonal.primary', color: 'primary.main' }}>
-          {preview ? 'N' : t('account').slice(0, 1)}
-        </Avatar>
-        <Typography variant="body2">{t('account')}</Typography>
-      </Stack>
+      {signOutFailed ? <Alert severity="error">{t('signOutError')}</Alert> : null}
+      {/* Account identity is temporarily hidden; keep sign-in and sign-out available. */}
       {signedIn ? (
-        <Button fullWidth variant="outlined" onClick={handleSignOut}>
+        <Button fullWidth variant="outlined" disabled={signingOut} onClick={handleSignOut}>
           {t('signOut')}
         </Button>
       ) : (
@@ -148,7 +159,6 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
   const pathname = usePathname();
   const t = useTranslations('app');
   const [menuOpen, setMenuOpen] = useState(false);
-  const preview = pathname.startsWith('/dev/preview');
   const active = activeItem(pathname);
 
   function closeMenu() {
@@ -177,7 +187,7 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
           <Logo />
         </Box>
         <NavigationLinks pathname={pathname} onNavigate={closeMenu} />
-        <AccountFooter signedIn={signedIn} preview={preview} />
+        <AccountFooter signedIn={signedIn} />
       </Drawer>
       <AppBar
         position="fixed"
@@ -210,7 +220,7 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
         </IconButton>
         <Logo />
         <NavigationLinks pathname={pathname} onNavigate={closeMenu} />
-        <AccountFooter signedIn={signedIn} preview={preview} />
+        <AccountFooter signedIn={signedIn} />
       </Drawer>
       <BottomNavigation
         component="nav"

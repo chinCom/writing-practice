@@ -61,6 +61,8 @@ test('apply and undo change only the local revision and retain the original save
       : page.getByRole('region', { name: 'Correction details' });
   await detail.getByRole('button', { name: 'Apply fix', exact: true }).click();
   await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I went');
+  await expect(detail).toContainText('Correction 2 of 3');
+  await detail.getByRole('button', { name: 'Previous correction', exact: true }).click();
   await expect(detail.getByRole('button', { name: 'Undo fix', exact: true })).toBeVisible();
   await detail.getByRole('button', { name: 'Undo fix', exact: true }).click();
   await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I go');

@@ -24,12 +24,14 @@ export default function LiveStudio({
   parentSubmissionId,
   attempt = 1,
   preview = false,
+  coursePreview = false,
   task = weekendTask,
 }: {
   initialText: string;
   parentSubmissionId?: string;
   attempt?: number;
   preview?: boolean;
+  coursePreview?: boolean;
   task?: CurriculumTask;
 }) {
   const app = useTranslations('app');
@@ -37,7 +39,8 @@ export default function LiveStudio({
   const live = useTranslations('liveStudio');
   const router = useRouter();
   const pathname = usePathname();
-  const recoveryStorageKey = 'coach-check:' + pathname;
+  const recoveryStorageKey = 'coach-check:' + pathname + (coursePreview ? ':' + task.id : '');
+  const courseDraftKey = 'course-draft:' + task.id;
   const [text, setText] = useState(initialText);
   const [savedText, setSavedText] = useState(initialText);
   const [busy, setBusy] = useState<'save' | 'check' | null>(null);
@@ -59,7 +62,7 @@ export default function LiveStudio({
   const words = countWords(text);
   const limit = textLimits[task.targetLevel];
   async function save() {
-    if (busy || text.length > limit) return;
+    if (coursePreview || busy || text.length > limit) return;
     setBusy('save');
     setError(null);
     const snapshot = text;
@@ -104,8 +107,21 @@ export default function LiveStudio({
         return;
       }
       rememberCheck(null);
+      if (coursePreview) {
+        try {
+          sessionStorage.setItem(courseDraftKey, submittedText.current ?? text);
+        } catch {
+          // The synthetic preview can be rewritten when browser storage is blocked.
+        }
+      }
       allowNavigation();
-      router.push(preview ? '/dev/preview/feedback' : '/feedback/' + result.submissionId);
+      router.push(
+        preview
+          ? coursePreview
+            ? '/dev/preview/course-feedback?task=' + task.id
+            : '/dev/preview/feedback'
+          : '/feedback/' + result.submissionId,
+      );
       return;
     }
     if (result.status === 'pending') {
@@ -130,10 +146,14 @@ export default function LiveStudio({
       if (!recover) submittedText.current = text;
       rememberCheck(requestKey.current ?? crypto.randomUUID());
       const result = recover
-        ? await recoverCoach(requestKey.current!)
+        ? await recoverCoach(
+            requestKey.current!,
+            coursePreview ? { endpoint: '/dev/preview/course-api' } : {},
+          )
         : await requestCoach(
             { taskId: task.id, text, attempt, parentSubmissionId },
             requestKey.current!,
+            coursePreview ? { endpoint: '/dev/preview/course-api' } : {},
           );
       handleCoachResult(result);
     } catch {
@@ -145,6 +165,11 @@ export default function LiveStudio({
   }
   const recoverOnMount = useEffectEvent(() => {
     try {
+      if (coursePreview) {
+        const draft = sessionStorage.getItem(courseDraftKey);
+        if (draft !== null && draft.length <= limit) setText(draft);
+        return;
+      }
       if (parentSubmissionId) {
         const revisionKey = 'feedback-revision:' + parentSubmissionId;
         const revision = sessionStorage.getItem(revisionKey);
@@ -221,7 +246,9 @@ export default function LiveStudio({
             <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
               <Button
                 variant="outlined"
-                disabled={busy !== null || text === savedText || text.length > limit}
+                disabled={
+                  coursePreview || busy !== null || text === savedText || text.length > limit
+                }
                 onClick={save}
               >
                 {live(busy === 'save' ? 'saving' : 'save')}

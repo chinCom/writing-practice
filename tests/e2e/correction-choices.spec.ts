@@ -83,7 +83,7 @@ test('failed report saving keeps the selected reason visible and allows retry', 
   await expect(detail).toContainText('Report saved');
 });
 
-test('failed choice saving leaves the original unchanged and supports an explicit retry', async ({
+test('failed choice saving keeps the local fix and supports an explicit retry after advancing', async ({
   page,
 }, info) => {
   let calls = 0;
@@ -104,9 +104,89 @@ test('failed choice saving leaves the original unchanged and supports an explici
       ? page.getByRole('dialog', { name: 'Correction details' })
       : page.getByRole('region', { name: 'Correction details' });
   await detail.getByRole('button', { name: 'Apply fix', exact: true }).click();
-  await expect(detail.getByRole('alert')).toContainText('Your choice could not be saved');
-  await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I go');
-  await detail.getByRole('button', { name: 'Retry saving choice', exact: true }).click();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'Your choice could not be saved' }),
+  ).toBeVisible();
   await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I went');
-  expect(calls).toBe(2);
+  await page.getByRole('button', { name: 'Retry saving choice', exact: true }).click();
+  await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I went');
+  await expect.poll(() => calls).toBe(2);
+});
+
+test('a failed initial choice load blocks editing until retry restores saved state', async ({
+  page,
+}, info) => {
+  let failLoad = true;
+  await page.route('**/dev/preview/corrections*', async (route) => {
+    if (route.request().method() !== 'GET') throw new Error('Editing must stay blocked');
+    await route.fulfill(
+      failLoad
+        ? { status: 500, json: { ok: false } }
+        : {
+            json: { ok: true, choices: [{ correctionIndex: 0, status: 'applied', reason: null }] },
+          },
+    );
+  });
+  await page.goto('/dev/preview/feedback');
+  await expect(page.getByRole('alert').filter({ hasText: 'could not be loaded' })).toBeVisible();
+  await page.getByRole('button', { name: 'go: went', exact: true }).click();
+  const detail =
+    info.project.name === 'mobile'
+      ? page.getByRole('dialog', { name: 'Correction details' })
+      : page.getByRole('region', { name: 'Correction details' });
+  await expect(detail.getByRole('button', { name: 'Apply fix', exact: true })).toBeDisabled();
+  if (info.project.name === 'mobile')
+    await detail.getByRole('button', { name: 'Close correction' }).click();
+  failLoad = false;
+  await page.getByRole('button', { name: 'Retry saving choice', exact: true }).click();
+  await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I went');
+});
+
+test('applies locally and advances before a delayed save without requesting AI', async ({
+  page,
+}, info) => {
+  let release: () => void = () => {};
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let writes = 0;
+  let aiCalls = 0;
+  let navigationWarnings = 0;
+  page.on('dialog', async (dialog) => {
+    navigationWarnings++;
+    await dialog.dismiss();
+  });
+  await page.route('**/dev/preview/corrections*', async (route) => {
+    if (route.request().method() === 'GET')
+      return route.fulfill({ json: { ok: true, choices: [] } });
+    writes++;
+    await gate;
+    await route.fulfill({ json: { ok: true } });
+  });
+  await page.route('**/api/explanation', async (route) => {
+    aiCalls++;
+    await route.abort();
+  });
+  await page.goto('/dev/preview/feedback');
+  await page.getByRole('button', { name: 'go: went', exact: true }).click();
+  const detail =
+    info.project.name === 'mobile'
+      ? page.getByRole('dialog', { name: 'Correction details' })
+      : page.getByRole('region', { name: 'Correction details' });
+  await detail.getByRole('button', { name: 'Apply fix', exact: true }).click();
+  await expect(page.locator('[data-marked-text]')).toContainText('Last weekend I went', {
+    timeout: 1000,
+  });
+  await expect(detail).toContainText('Correction 2 of', { timeout: 1000 });
+  await expect(detail.getByRole('button', { name: 'Apply fix', exact: true })).toBeEnabled();
+  await detail.getByRole('button', { name: 'Apply fix', exact: true }).click();
+  expect(writes).toBe(1);
+  if (info.project.name === 'mobile')
+    await detail.getByRole('button', { name: 'Close correction' }).click();
+  await page.getByRole('link', { name: 'Revise your writing', exact: true }).click();
+  expect(navigationWarnings).toBe(1);
+  await expect(page).toHaveURL(/preview\/feedback$/);
+  release();
+  await expect.poll(() => writes).toBe(2);
+  expect(aiCalls).toBe(0);
 });

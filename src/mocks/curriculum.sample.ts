@@ -1,4 +1,5 @@
 import { curriculumDraft } from '@/mocks/curriculum-content';
+import { publicLesson } from '@/lib/curriculum';
 import type { LearningPath } from '@/lib/db/curriculum';
 export const pathSample: LearningPath = {
   chosenLevel: 'A1',
@@ -11,9 +12,10 @@ export const pathSample: LearningPath = {
   units: curriculumDraft.map((unit, unitIndex) => ({
     ...unit,
     lessons: unit.lessons.map((lesson, index) => ({
-      ...lesson,
+      ...publicLesson(lesson),
       state: unitIndex === 0 && index === 0 ? 'current' : 'locked',
       warmupsDone: false,
+      writingDone: false,
       answers: {},
     })),
   })),

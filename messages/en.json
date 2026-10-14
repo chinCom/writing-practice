@@ -47,7 +47,8 @@
     "settings": "Settings",
     "account": "Your account",
     "signOut": "Sign out",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "signOutError": "Sign out could not be confirmed. Please try again."
   },
   "today": {
     "title": "Make room for a little writing",
@@ -204,7 +205,7 @@
     "sendReport": "Send report",
     "reportSaved": "Report saved",
     "choiceSaving": "Saving…",
-    "choiceError": "Your choice could not be saved. The correction has not changed.",
+    "choiceError": "Your choice could not be saved. Your local changes remain; retry saving.",
     "choiceRetry": "Retry saving choice",
     "choiceSession": "Your session ended. Sign in again to save your choice.",
     "savedFix": "Your choice is saved. The original writing and AI feedback stay unchanged.",
@@ -244,7 +245,7 @@
     "tryAgain": "Try again. Compare your answer with the suggestion.",
     "answer": "Your correction",
     "checkAnswer": "Check answer",
-    "localFix": "Applied to your revision only. Saved feedback is unchanged.",
+    "localFix": "Applied locally. The original writing stays unchanged.",
     "try": "Try it yourself",
     "tags": {
       "verb-tense": "Verb tense",
@@ -297,7 +298,13 @@
     "explainTimeout": "The explanation took too long. Try again to check for a saved result.",
     "explainError": "The explanation is not available. Your correction has not changed. Try again.",
     "explainSession": "Your session ended. Sign in again to request an explanation.",
-    "explainLimit": "You reached the daily explanation limit. Saved explanations are still available."
+    "explainLimit": "You reached the daily explanation limit. Saved explanations are still available.",
+    "choiceLoadError": "Saved choices could not be loaded. Reload them before making changes.",
+    "choiceLeave": "Your correction choices are still saving or have failed to save. Leave without saving?",
+    "newDraft": "Start a new draft",
+    "revisionLimit": "This writing has reached 20 checks. Start a new draft to continue; your saved versions remain available.",
+    "courseBack": "Continue learning",
+    "courseSynthetic": "Development preview: this synthetic completion tests the workflow. It does not assess your writing."
   },
   "liveStudio": {
     "save": "Save draft",
@@ -349,6 +356,9 @@
     "correct": "That’s right",
     "revealed": "Here is the suggested phrase",
     "tryAgain": "Try once more",
+    "retryModal": "You already used “{modal}”. Check “{phrase}” next: the saved correction uses “{replacement}” here.",
+    "retryPhrase": "Check “{phrase}” in your answer. This part differs from the saved correction.",
+    "retryGeneric": "Your phrase does not match the saved correction yet. Check the whole highlighted phrase, including missing or extra words.",
     "reviewDays": "Review again in {n, plural, one {# day} other {# days}}",
     "finish": "Finish practice",
     "next": "Next question",
@@ -424,7 +434,7 @@
   },
   "curriculum": {
     "placementTitle": "Find your starting level",
-    "placementIntro": "Write two short messages and answer three grammar questions. You can choose a different starting level.",
+    "placementIntro": "The short estimate covers A1–B1 only. You can choose a beginner or advanced course start; that choice is not a tested level.",
     "placementLimitNotice": "This is an A1–B1 practice estimate, not a certified CEFR test. You can check up to three times per day.",
     "loading": "Checking your writing",
     "session": "Your session ended. Sign in again.",
@@ -463,6 +473,11 @@
     "correct": "That’s right",
     "tryAgain": "Try again",
     "nextWarmup": "Next warm-up",
-    "check": "Check answer"
+    "check": "Check answer",
+    "courseScope": "A bounded writing course from first sentences to independent application letters. Completion is not CEFR certification.",
+    "practiceDone": "Practice complete",
+    "practiceNeeded": "Practice needed",
+    "writingDone": "Writing complete",
+    "writingNeeded": "Writing needed"
   }
 }

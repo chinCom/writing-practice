@@ -1,0 +1,3070 @@
+[
+  {
+    "id": "first-words",
+    "level": "PRE_A1",
+    "order": 1,
+    "title": "Words about me",
+    "theme": "Words about me",
+    "outcome": "Write names and simple statements about yourself.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "first-words-1",
+        "title": "Names and roles",
+        "miniLesson": {
+          "markdown": "A sentence can name a person and say one thing. Start with a capital letter. End with a full stop. Use I am for your role.\n\nLesson focus: Names and roles. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I am Lin. I am a student. I like books."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the sentence.",
+            "options": ["I am Lin.", "I Lin am."],
+            "answer": "I am Lin.",
+            "hint": "Put am after I."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a role.",
+            "options": ["I am a student.", "I am student a."],
+            "answer": "I am a student.",
+            "hint": "Put a before student."
+          }
+        ],
+        "task": {
+          "id": "first-words-1-task",
+          "title": "Names and roles",
+          "genre": "simple sentences",
+          "prompt": "Write your name and your role in one or two sentences.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": false,
+          "targetLevel": "PRE_A1"
+        }
+      },
+      {
+        "id": "first-words-2",
+        "title": "Things I like",
+        "miniLesson": {
+          "markdown": "A sentence can name a person and say one thing. Start with a capital letter. End with a full stop. Use I am for your role.\n\nLesson focus: Things I like. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I am Lin. I am a student. I like books."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the word order.",
+            "options": ["I like books.", "Books like I."],
+            "answer": "I like books.",
+            "hint": "Start with the person."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the ending.",
+            "options": ["I like music.", "I like music"],
+            "answer": "I like music.",
+            "hint": "A statement ends with a full stop."
+          }
+        ],
+        "task": {
+          "id": "first-words-2-task",
+          "title": "Things I like",
+          "genre": "simple sentences",
+          "prompt": "Write one or two sentences about things you like.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": false,
+          "targetLevel": "PRE_A1"
+        }
+      },
+      {
+        "id": "first-words-3",
+        "title": "My first introduction",
+        "miniLesson": {
+          "markdown": "A sentence can name a person and say one thing. Start with a capital letter. End with a full stop. Use I am for your role.\n\nLesson focus: My first introduction. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I am Lin. I am a student. I like books."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the capital letter.",
+            "options": ["I am Kim.", "i am Kim."],
+            "answer": "I am Kim.",
+            "hint": "The pronoun I is capitalized."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a complete statement.",
+            "options": ["I like tea.", "I tea."],
+            "answer": "I like tea.",
+            "hint": "Include a verb."
+          }
+        ],
+        "task": {
+          "id": "first-words-3-task",
+          "title": "My first introduction",
+          "genre": "simple sentences",
+          "prompt": "Introduce yourself with your name, role, and one thing you like.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": true,
+          "targetLevel": "PRE_A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "people-and-places",
+    "level": "PRE_A1",
+    "order": 2,
+    "title": "People and places",
+    "theme": "People and places",
+    "outcome": "Write simple sentences about someone and a place.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "people-and-places-1",
+        "title": "Introduce a person",
+        "miniLesson": {
+          "markdown": "Use this is to introduce someone. Use she is for one person and we are for a group. At home describes a place.\n\nLesson focus: Introduce a person. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "This is my friend. She is here. We are at home."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the introduction.",
+            "options": ["This is my friend.", "This my friend is is."],
+            "answer": "This is my friend.",
+            "hint": "Use this is, then the person."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the form.",
+            "options": ["She is here.", "She are here."],
+            "answer": "She is here.",
+            "hint": "Use is with she."
+          }
+        ],
+        "task": {
+          "id": "people-and-places-1-task",
+          "title": "Introduce a person",
+          "genre": "simple sentences",
+          "prompt": "Write one sentence about a friend or family member.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": false,
+          "targetLevel": "PRE_A1"
+        }
+      },
+      {
+        "id": "people-and-places-2",
+        "title": "Name a place",
+        "miniLesson": {
+          "markdown": "Use this is to introduce someone. Use she is for one person and we are for a group. At home describes a place.\n\nLesson focus: Name a place. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "This is my friend. She is here. We are at home."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the group form.",
+            "options": ["We are at home.", "We is at home."],
+            "answer": "We are at home.",
+            "hint": "Use are with we."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the place phrase.",
+            "options": ["at home", "in home at"],
+            "answer": "at home",
+            "hint": "Use at home."
+          }
+        ],
+        "task": {
+          "id": "people-and-places-2-task",
+          "title": "Name a place",
+          "genre": "simple sentences",
+          "prompt": "Write where you and a friend are.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": false,
+          "targetLevel": "PRE_A1"
+        }
+      },
+      {
+        "id": "people-and-places-3",
+        "title": "A person in a place",
+        "miniLesson": {
+          "markdown": "Use this is to introduce someone. Use she is for one person and we are for a group. At home describes a place.\n\nLesson focus: A person in a place. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "This is my friend. She is here. We are at home."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose two complete sentences.",
+            "options": ["This is Sam. We are here.", "Sam this. Here we."],
+            "answer": "This is Sam. We are here.",
+            "hint": "Each sentence needs a verb."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the singular form.",
+            "options": ["He is my brother.", "He are my brother."],
+            "answer": "He is my brother.",
+            "hint": "Use is for he."
+          }
+        ],
+        "task": {
+          "id": "people-and-places-3-task",
+          "title": "A person in a place",
+          "genre": "simple sentences",
+          "prompt": "Introduce one person and say where you are together.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": true,
+          "targetLevel": "PRE_A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "small-actions",
+    "level": "PRE_A1",
+    "order": 3,
+    "title": "Small everyday actions",
+    "theme": "Small everyday actions",
+    "outcome": "Write simple statements about familiar actions.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "small-actions-1",
+        "title": "One action",
+        "miniLesson": {
+          "markdown": "Name the person, then the action. Some actions need an object, such as a book. Keep each sentence short and clear.\n\nLesson focus: One action. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I read a book. I drink tea. I walk to school."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the action sentence.",
+            "options": ["I read a book.", "I a book read a."],
+            "answer": "I read a book.",
+            "hint": "Put read before its object."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose an object.",
+            "options": ["I drink tea.", "I drink to."],
+            "answer": "I drink tea.",
+            "hint": "Tea is something you can drink."
+          }
+        ],
+        "task": {
+          "id": "small-actions-1-task",
+          "title": "One action",
+          "genre": "simple sentences",
+          "prompt": "Write a sentence about something you do each day.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": false,
+          "targetLevel": "PRE_A1"
+        }
+      },
+      {
+        "id": "small-actions-2",
+        "title": "Two actions",
+        "miniLesson": {
+          "markdown": "Name the person, then the action. Some actions need an object, such as a book. Keep each sentence short and clear.\n\nLesson focus: Two actions. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I read a book. I drink tea. I walk to school."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the place phrase.",
+            "options": ["I walk to school.", "I walk school to."],
+            "answer": "I walk to school.",
+            "hint": "Put to before school."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the sentence boundary.",
+            "options": ["I read. I walk.", "I read I walk"],
+            "answer": "I read. I walk.",
+            "hint": "Separate the two statements."
+          }
+        ],
+        "task": {
+          "id": "small-actions-2-task",
+          "title": "Two actions",
+          "genre": "simple sentences",
+          "prompt": "Write two sentences about your day.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": false,
+          "targetLevel": "PRE_A1"
+        }
+      },
+      {
+        "id": "small-actions-3",
+        "title": "My small day",
+        "miniLesson": {
+          "markdown": "Name the person, then the action. Some actions need an object, such as a book. Keep each sentence short and clear.\n\nLesson focus: My small day. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I read a book. I drink tea. I walk to school."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a clear statement.",
+            "options": ["I cook rice.", "Cook rice I rice."],
+            "answer": "I cook rice.",
+            "hint": "Start with I, then the action."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the correct pronoun.",
+            "options": ["I drink water.", "Me drink water."],
+            "answer": "I drink water.",
+            "hint": "Use I as the subject."
+          }
+        ],
+        "task": {
+          "id": "small-actions-3-task",
+          "title": "My small day",
+          "genre": "simple sentences",
+          "prompt": "Write three short sentences about familiar actions.",
+          "scaffold": "frames",
+          "frames": ["I am …", "I like …"],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 5,
+          "maxWords": 20,
+          "isCheckpoint": true,
+          "targetLevel": "PRE_A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "first-messages",
+    "level": "A1",
+    "order": 1,
+    "title": "First messages",
+    "theme": "Introduce yourself",
+    "outcome": "I can introduce myself in a short message.",
+    "grammarFocus": ["subject-verb-agreement", "articles"],
+    "vocabulary": ["name", "live", "work", "like"],
+    "lessons": [
+      {
+        "id": "about-me",
+        "title": "Tell someone about yourself",
+        "miniLesson": {
+          "markdown": "Use I am for your name or job. Use I live for your home. Write one idea in each sentence.",
+          "modelText": "My name is Lin. I live in Hanoi. I work in a shop. I like books and music. I want to meet a new friend."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "I ___ in Hanoi.",
+            "answer": "live",
+            "hint": "Use the present form after I."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the correct sentence.",
+            "answer": "She is a teacher.",
+            "hint": "Use is after she.",
+            "options": ["She is a teacher.", "She are a teacher."]
+          }
+        ],
+        "task": {
+          "id": "about-me-task",
+          "title": "Tell someone about yourself",
+          "genre": "message",
+          "prompt": "Write a short introduction to a new classmate.",
+          "scaffold": "frames",
+          "wordBank": ["My name is", "I live in", "I like"],
+          "checklist": ["Say your name", "Say where you live", "Say one thing you like"],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1",
+          "frames": ["My name is ___.", "I live in ___."]
+        }
+      },
+      {
+        "id": "friendly-invitation",
+        "title": "Invite a friend",
+        "miniLesson": {
+          "markdown": "Use Would you like to for a friendly invitation. Give a day and a place. End with a clear question.",
+          "modelText": "Hi Mai. Would you like to meet on Saturday? We can go to the park near my house. Please come at ten. Are you free?"
+        },
+        "warmups": [
+          {
+            "type": "reorder",
+            "prompt": "Put these words in order: you / Are / free",
+            "answer": "Are you free?",
+            "hint": "Start the question with Are."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix: She are my friend.",
+            "answer": "She is my friend.",
+            "hint": "Use is after she."
+          }
+        ],
+        "task": {
+          "id": "friendly-invitation-task",
+          "title": "Invite a friend",
+          "genre": "message",
+          "prompt": "Write an invitation to a friend.",
+          "scaffold": "frames",
+          "wordBank": ["Would you like to", "We can", "Are you free"],
+          "checklist": ["Name an activity", "Give a day and place", "Ask if your friend can come"],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1",
+          "frames": ["Would you like to ___?", "We can meet at ___."]
+        }
+      },
+      {
+        "id": "first-messages-3",
+        "title": "A clear reply",
+        "miniLesson": {
+          "markdown": "Build a complete message with a purpose, supporting detail, and a clear ending.\n\nLesson focus: A clear reply. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hi Mai. Would you like to meet on Saturday? We can go to the park near my house. Please come at ten. Are you free?"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a complete sentence.",
+            "options": ["I enjoy reading.", "I enjoy."],
+            "answer": "I enjoy reading.",
+            "hint": "The verb needs an object here."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the clear invitation.",
+            "options": ["Can we meet on Saturday?", "Saturday we?"],
+            "answer": "Can we meet on Saturday?",
+            "hint": "Use a complete question."
+          }
+        ],
+        "task": {
+          "id": "first-messages-3-task",
+          "title": "A clear reply",
+          "genre": "short message",
+          "prompt": "Write a reply to a new friend. Say who you are, what you enjoy, and when you can meet.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": true,
+          "targetLevel": "A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "daily-routines",
+    "level": "A1",
+    "order": 2,
+    "title": "My everyday routine",
+    "theme": "My everyday routine",
+    "outcome": "Write simple sentences in a useful order.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "daily-routines-1",
+        "title": "A morning routine",
+        "miniLesson": {
+          "markdown": "Use the present simple for routines. Give times when they help your reader. Put actions in the order they happen.\n\nLesson focus: A morning routine. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I work in a shop. I start at nine. I eat lunch at noon. After work, I walk home. I read in the evening."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a routine.",
+            "options": ["I start work at nine.", "I starting work at nine."],
+            "answer": "I start work at nine.",
+            "hint": "Use the present simple."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the time phrase.",
+            "options": ["at nine", "on nine"],
+            "answer": "at nine",
+            "hint": "Use at with clock times."
+          }
+        ],
+        "task": {
+          "id": "daily-routines-1-task",
+          "title": "A morning routine",
+          "genre": "short message",
+          "prompt": "Tell a classmate what you do in the morning and when.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1"
+        }
+      },
+      {
+        "id": "daily-routines-2",
+        "title": "After work",
+        "miniLesson": {
+          "markdown": "Use the present simple for routines. Give times when they help your reader. Put actions in the order they happen.\n\nLesson focus: After work. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I work in a shop. I start at nine. I eat lunch at noon. After work, I walk home. I read in the evening."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a clear sequence.",
+            "options": ["After work, I walk home.", "Before work finished, after home walk."],
+            "answer": "After work, I walk home.",
+            "hint": "Name the time, then the action."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the verb.",
+            "options": ["I read every evening.", "I reads every evening."],
+            "answer": "I read every evening.",
+            "hint": "Use read with I."
+          }
+        ],
+        "task": {
+          "id": "daily-routines-2-task",
+          "title": "After work",
+          "genre": "short message",
+          "prompt": "Write a short message about what you do after work or school.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1"
+        }
+      },
+      {
+        "id": "daily-routines-3",
+        "title": "Explain your usual day",
+        "miniLesson": {
+          "markdown": "Use the present simple for routines. Give times when they help your reader. Put actions in the order they happen.\n\nLesson focus: Explain your usual day. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I work in a shop. I start at nine. I eat lunch at noon. After work, I walk home. I read in the evening."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the plural subject form.",
+            "options": ["We eat at noon.", "We eats at noon."],
+            "answer": "We eat at noon.",
+            "hint": "Use eat with we."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a specific detail.",
+            "options": ["I finish at five.", "I finish sometime always."],
+            "answer": "I finish at five.",
+            "hint": "A time helps the reader understand."
+          }
+        ],
+        "task": {
+          "id": "daily-routines-3-task",
+          "title": "Explain your usual day",
+          "genre": "short message",
+          "prompt": "Describe your usual day to a new friend. Include two times and an evening activity.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": true,
+          "targetLevel": "A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "simple-requests",
+    "level": "A1",
+    "order": 3,
+    "title": "Ask and reply",
+    "theme": "Ask and reply",
+    "outcome": "Write a clear request and a helpful reply.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "simple-requests-1",
+        "title": "Ask for an item",
+        "miniLesson": {
+          "markdown": "A short request names what you need and gives a time. Can I and can you form simple polite questions. A reply should answer the request.\n\nLesson focus: Ask for an item. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hello Mai, can you help me on Friday? I need a book for class. Can I borrow yours? I can return it on Monday. Thank you."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a question.",
+            "options": ["Can I borrow your book?", "I can borrow your book?"],
+            "answer": "Can I borrow your book?",
+            "hint": "Put can before I in this question."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the ending.",
+            "options": ["Thank you.", "Give it."],
+            "answer": "Thank you.",
+            "hint": "A polite ending suits a request."
+          }
+        ],
+        "task": {
+          "id": "simple-requests-1-task",
+          "title": "Ask for an item",
+          "genre": "short message",
+          "prompt": "Ask a friend to lend you one item. Say when you will return it.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1"
+        }
+      },
+      {
+        "id": "simple-requests-2",
+        "title": "Reply to a request",
+        "miniLesson": {
+          "markdown": "A short request names what you need and gives a time. Can I and can you form simple polite questions. A reply should answer the request.\n\nLesson focus: Reply to a request. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hello Mai, can you help me on Friday? I need a book for class. Can I borrow yours? I can return it on Monday. Thank you."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a clear reply.",
+            "options": ["Yes, I can help on Friday.", "Yes help maybe none."],
+            "answer": "Yes, I can help on Friday.",
+            "hint": "Answer yes or no and give details."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the day phrase.",
+            "options": ["on Friday", "at Friday"],
+            "answer": "on Friday",
+            "hint": "Use on with days."
+          }
+        ],
+        "task": {
+          "id": "simple-requests-2-task",
+          "title": "Reply to a request",
+          "genre": "short message",
+          "prompt": "Reply to a friend asking for help. Say whether you can help and give a time.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1"
+        }
+      },
+      {
+        "id": "simple-requests-3",
+        "title": "Arrange a small favour",
+        "miniLesson": {
+          "markdown": "A short request names what you need and gives a time. Can I and can you form simple polite questions. A reply should answer the request.\n\nLesson focus: Arrange a small favour. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hello Mai, can you help me on Friday? I need a book for class. Can I borrow yours? I can return it on Monday. Thank you."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an arrangement.",
+            "options": ["I can return it on Monday.", "I return it never soon."],
+            "answer": "I can return it on Monday.",
+            "hint": "Give a clear return time."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose an understandable reason.",
+            "options": ["I need it for class.", "For class it need."],
+            "answer": "I need it for class.",
+            "hint": "State the person, verb and purpose."
+          }
+        ],
+        "task": {
+          "id": "simple-requests-3-task",
+          "title": "Arrange a small favour",
+          "genre": "short message",
+          "prompt": "Write a request for a small favour. Explain your need and offer a practical arrangement.",
+          "scaffold": "frames",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": true,
+          "targetLevel": "A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "connected-messages",
+    "level": "A2",
+    "order": 1,
+    "title": "Messages that connect",
+    "theme": "Describe an event",
+    "outcome": "I can describe a past event and invite a friend.",
+    "grammarFocus": ["verb-tense", "connectors"],
+    "vocabulary": ["visited", "returned", "after", "evening"],
+    "lessons": [
+      {
+        "id": "past-weekend",
+        "title": "Describe your weekend",
+        "miniLesson": {
+          "markdown": "Use past forms for finished activities. Connect events with then or after that. Keep the order easy to follow.",
+          "modelText": "Last weekend, I visited my cousin in a nearby town. We cooked lunch together and walked by the river. Then we watched a film at home. I enjoyed the quiet day because we had time to talk. Next time, I would like you to join us."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Yesterday, we ___ to the beach.",
+            "answer": "went",
+            "hint": "The past of go is went."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the past-tense sentence.",
+            "answer": "We ate lunch together.",
+            "hint": "Ate is the past of eat.",
+            "options": ["We eat lunch yesterday.", "We ate lunch together."]
+          }
+        ],
+        "task": {
+          "id": "past-weekend-task",
+          "title": "Describe your weekend",
+          "genre": "message",
+          "prompt": "Write a message about your weekend.",
+          "scaffold": "checklist",
+          "wordBank": ["Last weekend", "Then", "because"],
+          "checklist": ["Say where you went", "Describe two activities", "Say how you felt"],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "plan-a-visit",
+        "title": "Plan another visit",
+        "miniLesson": {
+          "markdown": "Give the reason for your message first. Use can for a possible plan. Ask a specific question so your friend can reply.",
+          "modelText": "Hi Nam. I would like to visit the museum next Saturday because the new exhibition looks interesting. We can meet outside at ten and have lunch afterwards. Tickets cost five pounds each. Please tell me if that time works for you. Would you like to come with me?"
+        },
+        "warmups": [
+          {
+            "type": "reorder",
+            "prompt": "Put these words in order: can / outside / We / meet",
+            "answer": "We can meet outside.",
+            "hint": "Use subject, modal verb, main verb, then place."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix: I visited my friend yesterday and we watch a film.",
+            "answer": "I visited my friend yesterday and we watched a film.",
+            "hint": "Both activities happened in the past."
+          }
+        ],
+        "task": {
+          "id": "plan-a-visit-task",
+          "title": "Plan another visit",
+          "genre": "message",
+          "prompt": "Invite a friend to an activity and explain the plan.",
+          "scaffold": "checklist",
+          "wordBank": ["I would like to", "We can meet", "Would you like"],
+          "checklist": [
+            "Explain why you chose the activity",
+            "Give a time and meeting place",
+            "Ask your friend to reply"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "connected-messages-3",
+        "title": "Explain a changed plan",
+        "miniLesson": {
+          "markdown": "Build a complete message with a purpose, supporting detail, and a clear ending.\n\nLesson focus: Explain a changed plan. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hi Nam. I would like to visit the museum next Saturday because the new exhibition looks interesting. We can meet outside at ten and have lunch afterwards. Tickets cost five pounds each. Please tell me if that time works for you. Would you like to come with me?"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Link the cause to the change.",
+            "options": ["I stayed home because I was ill.", "I stayed home although I was ill."],
+            "answer": "I stayed home because I was ill.",
+            "hint": "Use because for the reason."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the polite new plan.",
+            "options": ["Could we meet next Sunday instead?", "Meet next Sunday now."],
+            "answer": "Could we meet next Sunday instead?",
+            "hint": "A question gives the friend a choice."
+          }
+        ],
+        "task": {
+          "id": "connected-messages-3-task",
+          "title": "Explain a changed plan",
+          "genre": "connected message",
+          "prompt": "Tell a friend why your visit plan has changed. Explain what happened and suggest a new time.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": true,
+          "targetLevel": "A2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "explain-a-problem",
+    "level": "A2",
+    "order": 2,
+    "title": "Explain a problem",
+    "theme": "Explain a problem",
+    "outcome": "Connect a problem, its cause, and a practical request.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "explain-a-problem-1",
+        "title": "A problem and a reason",
+        "miniLesson": {
+          "markdown": "Use because for a reason and so for a result. Explain the main problem before giving details. End with a request your reader can answer.\n\nLesson focus: A problem and a reason. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hello Dan, I cannot join our trip tomorrow because my bicycle is broken. The front wheel became loose yesterday, so I took it to a repair shop. The mechanic needs one more day. Could we meet on Sunday instead? I am sorry to change our plan. Please tell me if Sunday works for you."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the cause link.",
+            "options": ["I stayed home because I was ill.", "I stayed home but I was ill."],
+            "answer": "I stayed home because I was ill.",
+            "hint": "Because introduces a reason."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the result link.",
+            "options": ["It rained, so we stayed inside.", "It rained because we stayed inside."],
+            "answer": "It rained, so we stayed inside.",
+            "hint": "So introduces a result."
+          }
+        ],
+        "task": {
+          "id": "explain-a-problem-1-task",
+          "title": "A problem and a reason",
+          "genre": "connected message",
+          "prompt": "Tell a friend about a small problem and explain its cause.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "explain-a-problem-2",
+        "title": "Request a change",
+        "miniLesson": {
+          "markdown": "Use because for a reason and so for a result. Explain the main problem before giving details. End with a request your reader can answer.\n\nLesson focus: Request a change. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hello Dan, I cannot join our trip tomorrow because my bicycle is broken. The front wheel became loose yesterday, so I took it to a repair shop. The mechanic needs one more day. Could we meet on Sunday instead? I am sorry to change our plan. Please tell me if Sunday works for you."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the polite request.",
+            "options": ["Could we meet on Sunday instead?", "We Sunday instead now."],
+            "answer": "Could we meet on Sunday instead?",
+            "hint": "Use a complete question."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the past event.",
+            "options": ["The wheel became loose yesterday.", "The wheel becomes loose yesterday."],
+            "answer": "The wheel became loose yesterday.",
+            "hint": "Yesterday calls for the past tense."
+          }
+        ],
+        "task": {
+          "id": "explain-a-problem-2-task",
+          "title": "Request a change",
+          "genre": "connected message",
+          "prompt": "Write a message asking to change an arrangement. Give a reason and another option.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "explain-a-problem-3",
+        "title": "Resolve a misunderstanding",
+        "miniLesson": {
+          "markdown": "Use because for a reason and so for a result. Explain the main problem before giving details. End with a request your reader can answer.\n\nLesson focus: Resolve a misunderstanding. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Hello Dan, I cannot join our trip tomorrow because my bicycle is broken. The front wheel became loose yesterday, so I took it to a repair shop. The mechanic needs one more day. Could we meet on Sunday instead? I am sorry to change our plan. Please tell me if Sunday works for you."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a helpful closing.",
+            "options": ["Please tell me if Sunday works for you.", "Sunday is your only choice."],
+            "answer": "Please tell me if Sunday works for you.",
+            "hint": "Let your reader respond."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a relevant detail.",
+            "options": ["The repair will take one day.", "My bicycle is blue and pretty."],
+            "answer": "The repair will take one day.",
+            "hint": "Include information that explains the delay."
+          }
+        ],
+        "task": {
+          "id": "explain-a-problem-3-task",
+          "title": "Resolve a misunderstanding",
+          "genre": "connected message",
+          "prompt": "Explain a missed appointment to a friend. Describe the problem, apologize, and propose a new plan.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": true,
+          "targetLevel": "A2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "experience-and-advice",
+    "level": "A2",
+    "order": 3,
+    "title": "Experiences and advice",
+    "theme": "Experiences and advice",
+    "outcome": "Describe an experience and give a relevant recommendation.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "experience-and-advice-1",
+        "title": "Describe a visit",
+        "miniLesson": {
+          "markdown": "Use past tense for a finished visit. Use but to show a contrast. Give advice that follows from a specific part of the experience.\n\nLesson focus: Describe a visit. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Last Saturday, I visited the new library with my sister. We found a quiet room upstairs and studied there for two hours. The staff were friendly, but the cafe was crowded. I enjoyed the visit because the library had many useful books. You should go early if you want a quiet seat. Would you like to visit with me next week?"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the past form.",
+            "options": ["We found a quiet room.", "We find a quiet room yesterday."],
+            "answer": "We found a quiet room.",
+            "hint": "A finished visit uses past tense."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the contrast.",
+            "options": [
+              "The staff were friendly, but the cafe was crowded.",
+              "The staff were friendly because the cafe was crowded."
+            ],
+            "answer": "The staff were friendly, but the cafe was crowded.",
+            "hint": "But connects contrasting details."
+          }
+        ],
+        "task": {
+          "id": "experience-and-advice-1-task",
+          "title": "Describe a visit",
+          "genre": "connected message",
+          "prompt": "Tell a friend about a recent visit. Include what happened and how you felt.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "experience-and-advice-2",
+        "title": "Give useful advice",
+        "miniLesson": {
+          "markdown": "Use past tense for a finished visit. Use but to show a contrast. Give advice that follows from a specific part of the experience.\n\nLesson focus: Give useful advice. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Last Saturday, I visited the new library with my sister. We found a quiet room upstairs and studied there for two hours. The staff were friendly, but the cafe was crowded. I enjoyed the visit because the library had many useful books. You should go early if you want a quiet seat. Would you like to visit with me next week?"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose useful advice.",
+            "options": ["Go early for a quiet seat.", "Go because places are things."],
+            "answer": "Go early for a quiet seat.",
+            "hint": "Connect advice to a real need."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the modal phrase.",
+            "options": ["You should go early.", "You should went early."],
+            "answer": "You should go early.",
+            "hint": "Use the base form after should."
+          }
+        ],
+        "task": {
+          "id": "experience-and-advice-2-task",
+          "title": "Give useful advice",
+          "genre": "connected message",
+          "prompt": "Recommend a familiar place. Give one benefit, one limitation, and useful advice.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "experience-and-advice-3",
+        "title": "Recommend an experience",
+        "miniLesson": {
+          "markdown": "Use past tense for a finished visit. Use but to show a contrast. Give advice that follows from a specific part of the experience.\n\nLesson focus: Recommend an experience. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Last Saturday, I visited the new library with my sister. We found a quiet room upstairs and studied there for two hours. The staff were friendly, but the cafe was crowded. I enjoyed the visit because the library had many useful books. You should go early if you want a quiet seat. Would you like to visit with me next week?"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an invitation.",
+            "options": ["Would you like to visit with me?", "You visit with me must."],
+            "answer": "Would you like to visit with me?",
+            "hint": "A question lets the reader choose."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the reason.",
+            "options": [
+              "I enjoyed it because the books were useful.",
+              "I enjoyed it because I enjoyed it."
+            ],
+            "answer": "I enjoyed it because the books were useful.",
+            "hint": "Give a specific reason, not repetition."
+          }
+        ],
+        "task": {
+          "id": "experience-and-advice-3-task",
+          "title": "Recommend an experience",
+          "genre": "connected message",
+          "prompt": "Write to a friend recommending an activity you tried. Describe the experience and offer to join them.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": ["because", "then", "also"],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": true,
+          "targetLevel": "A2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "clear-paragraphs",
+    "level": "B1",
+    "order": 1,
+    "title": "Clear paragraphs",
+    "theme": "Explain a view",
+    "outcome": "I can explain an opinion with reasons and an example.",
+    "grammarFocus": ["topic-sentence", "connectors"],
+    "vocabulary": ["benefit", "however", "example", "suggest"],
+    "lessons": [
+      {
+        "id": "a-local-change",
+        "title": "Suggest a local improvement",
+        "miniLesson": {
+          "markdown": "State your main idea in the first sentence. Give two reasons. Use an example to support one reason. End with a practical suggestion.",
+          "modelText": "I think our neighbourhood needs a small community garden. First, a garden would give people a quiet place to spend time outside. Many residents live in flats and do not have their own outdoor space. Second, working together could help neighbours get to know each other. For example, families could meet on Saturday mornings to plant vegetables and share advice. However, the garden would need regular care, so we should make a simple timetable before starting. I suggest using the empty area beside the library. A small volunteer group could discuss the plan with the council and invite interested residents to a meeting."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the sentence that gives a reason.",
+            "answer": "The garden would help because residents need outdoor space.",
+            "hint": "Because introduces a reason.",
+            "options": [
+              "The garden would help because residents need outdoor space.",
+              "The garden is a garden."
+            ]
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "The plan is useful. ___, it will need regular care.",
+            "answer": "However",
+            "hint": "Use a connector that introduces a contrast."
+          }
+        ],
+        "task": {
+          "id": "a-local-change-task",
+          "title": "Suggest a local improvement",
+          "genre": "opinion-paragraph",
+          "prompt": "Write a paragraph suggesting one improvement to your neighbourhood.",
+          "scaffold": "outline",
+          "wordBank": ["First", "For example", "However", "I suggest"],
+          "checklist": [
+            "State your suggestion",
+            "Give two reasons and an example",
+            "Finish with a practical next step"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "a-balanced-opinion",
+        "title": "Write a balanced opinion",
+        "miniLesson": {
+          "markdown": "Give your opinion clearly. Support it with reasons and a specific example. Mention a different view fairly. Finish by explaining your final choice.",
+          "modelText": "I believe that students should have time for practical projects as well as regular lessons. Projects can help students use what they learn in a real situation. For example, designing a school garden involves measuring space, planning costs and explaining decisions to other people. Students also learn to share tasks and solve problems together. However, some people worry that projects take time away from important exams. This is a reasonable concern, so teachers should connect each project to clear learning goals and keep the schedule manageable. In my view, one short project each term would offer a useful balance. It would give students practical experience without replacing the lessons they need for exams."
+        },
+        "warmups": [
+          {
+            "type": "reorder",
+            "prompt": "Put these words in order: view / my / In / useful / projects / are",
+            "answer": "In my view projects are useful.",
+            "hint": "Start with In my view, then add a complete sentence."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix: Projects are useful because helps students.",
+            "answer": "Projects are useful because they help students.",
+            "hint": "The clause after because needs a subject and a matching verb."
+          }
+        ],
+        "task": {
+          "id": "a-balanced-opinion-task",
+          "title": "Write a balanced opinion",
+          "genre": "opinion-paragraph",
+          "prompt": "Write an opinion about whether students should do practical projects.",
+          "scaffold": "outline",
+          "wordBank": ["In my view", "For example", "However", "This is because"],
+          "checklist": [
+            "Give your opinion",
+            "Support it with two reasons and an example",
+            "Mention another view and explain your final choice"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "clear-paragraphs-3",
+        "title": "Support a proposal",
+        "miniLesson": {
+          "markdown": "Build a complete message with a purpose, supporting detail, and a clear ending.\n\nLesson focus: Support a proposal. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "I believe that students should have time for practical projects as well as regular lessons. Projects can help students use what they learn in a real situation. For example, designing a school garden involves measuring space, planning costs and explaining decisions to other people. Students also learn to share tasks and solve problems together. However, some people worry that projects take time away from important exams. This is a reasonable concern, so teachers should connect each project to clear learning goals and keep the schedule manageable. In my view, one short project each term would offer a useful balance. It would give students practical experience without replacing the lessons they need for exams."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose evidence, not an unsupported claim.",
+            "options": [
+              "Three neighbours reported broken lights last week.",
+              "Everybody hates this street."
+            ],
+            "answer": "Three neighbours reported broken lights last week.",
+            "hint": "Specific observations support a proposal."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a realistic next step.",
+            "options": [
+              "Could we ask the council for a repair schedule?",
+              "The council must fix everything tomorrow."
+            ],
+            "answer": "Could we ask the council for a repair schedule?",
+            "hint": "Ask for an achievable action."
+          }
+        ],
+        "task": {
+          "id": "clear-paragraphs-3-task",
+          "title": "Support a proposal",
+          "genre": "paragraphs",
+          "prompt": "Write to your neighbourhood group proposing one improvement. Give an example, consider a difficulty, and request a practical next step.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "evidence-and-examples",
+    "level": "B1",
+    "order": 2,
+    "title": "Reasons with evidence",
+    "theme": "Reasons with evidence",
+    "outcome": "Develop a paragraph with a claim, example, and explanation.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "evidence-and-examples-1",
+        "title": "Explain a claim",
+        "miniLesson": {
+          "markdown": "A claim says what you think. An example or observation supports it. Explain how the evidence relates to the claim. Do not invent survey figures in your own writing.\n\nLesson focus: Explain a claim. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Our community centre should offer an evening study room. Many students share busy homes, where it is difficult to concentrate. Last month, our reading group asked twelve students about their study habits, and eight said they needed a quieter place after dinner. A study room could meet this need without a large building project. The centre already has a classroom that is unused on weekday evenings. However, someone would need to open the room and check it afterwards. We could start with two evenings each week and ask volunteers to help. After a month, we should review attendance and decide whether to continue. This small trial would show whether the idea is useful before we spend more money."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a focused claim.",
+            "options": [
+              "The centre should offer an evening study room.",
+              "Everything should always be better."
+            ],
+            "answer": "The centre should offer an evening study room.",
+            "hint": "Make one specific proposal."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose evidence.",
+            "options": [
+              "Eight of twelve surveyed students needed quiet space.",
+              "Everyone obviously agrees."
+            ],
+            "answer": "Eight of twelve surveyed students needed quiet space.",
+            "hint": "Use a checkable observation, not exaggeration."
+          }
+        ],
+        "task": {
+          "id": "evidence-and-examples-1-task",
+          "title": "Explain a claim",
+          "genre": "paragraphs",
+          "prompt": "Write a paragraph proposing a practical improvement. Support it with an observation you can honestly report.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "evidence-and-examples-2",
+        "title": "Connect evidence to a reason",
+        "miniLesson": {
+          "markdown": "A claim says what you think. An example or observation supports it. Explain how the evidence relates to the claim. Do not invent survey figures in your own writing.\n\nLesson focus: Connect evidence to a reason. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Our community centre should offer an evening study room. Many students share busy homes, where it is difficult to concentrate. Last month, our reading group asked twelve students about their study habits, and eight said they needed a quieter place after dinner. A study room could meet this need without a large building project. The centre already has a classroom that is unused on weekday evenings. However, someone would need to open the room and check it afterwards. We could start with two evenings each week and ask volunteers to help. After a month, we should review attendance and decide whether to continue. This small trial would show whether the idea is useful before we spend more money."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an explanation.",
+            "options": [
+              "An unused classroom makes a small trial possible.",
+              "There is a classroom. The sky is blue."
+            ],
+            "answer": "An unused classroom makes a small trial possible.",
+            "hint": "Explain the relevance of the detail."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a cautious conclusion.",
+            "options": [
+              "A trial could show whether the idea is useful.",
+              "This proves the idea can never fail."
+            ],
+            "answer": "A trial could show whether the idea is useful.",
+            "hint": "Match certainty to the evidence."
+          }
+        ],
+        "task": {
+          "id": "evidence-and-examples-2-task",
+          "title": "Connect evidence to a reason",
+          "genre": "paragraphs",
+          "prompt": "Describe a local need. Give an example and explain why it supports your view.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "evidence-and-examples-3",
+        "title": "Propose a trial",
+        "miniLesson": {
+          "markdown": "A claim says what you think. An example or observation supports it. Explain how the evidence relates to the claim. Do not invent survey figures in your own writing.\n\nLesson focus: Propose a trial. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Our community centre should offer an evening study room. Many students share busy homes, where it is difficult to concentrate. Last month, our reading group asked twelve students about their study habits, and eight said they needed a quieter place after dinner. A study room could meet this need without a large building project. The centre already has a classroom that is unused on weekday evenings. However, someone would need to open the room and check it afterwards. We could start with two evenings each week and ask volunteers to help. After a month, we should review attendance and decide whether to continue. This small trial would show whether the idea is useful before we spend more money."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an evaluation plan.",
+            "options": ["Review attendance after one month.", "Assume success forever."],
+            "answer": "Review attendance after one month.",
+            "hint": "Name a way to check the result."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a practical constraint.",
+            "options": ["A volunteer needs to open the room.", "There can be no problems."],
+            "answer": "A volunteer needs to open the room.",
+            "hint": "Acknowledge a real implementation need."
+          }
+        ],
+        "task": {
+          "id": "evidence-and-examples-3-task",
+          "title": "Propose a trial",
+          "genre": "paragraphs",
+          "prompt": "Write to a community group proposing a small trial. Include evidence, a constraint, and a way to judge success.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "formal-email",
+    "level": "B1",
+    "order": 3,
+    "title": "Useful formal emails",
+    "theme": "Useful formal emails",
+    "outcome": "Write a polite email with a clear purpose and requested action.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "formal-email-1",
+        "title": "State an email purpose",
+        "miniLesson": {
+          "markdown": "State the purpose near the start. Group related questions together. Explain any deadline politely. Do not demand an immediate reply without a reason.\n\nLesson focus: State an email purpose. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Course Coordinator, I am writing to ask about your evening photography course. I work until five on weekdays, so I would like to know whether the classes begin after six. Your website lists the course topics, but I could not find the weekly timetable. I have completed a beginner course and would like to improve my skills in outdoor photography. Could you also tell me whether students need to bring their own cameras? I have a basic digital camera, but I am unsure whether it meets the course requirements. Thank you for your help. I would appreciate a reply before Friday, because registration closes next week. Kind regards, Lin"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a clear opening.",
+            "options": [
+              "I am writing to ask about the evening course.",
+              "There are many things in life."
+            ],
+            "answer": "I am writing to ask about the evening course.",
+            "hint": "State the purpose immediately."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a polite question.",
+            "options": ["Could you send the timetable?", "Send timetable now."],
+            "answer": "Could you send the timetable?",
+            "hint": "Use a respectful request."
+          }
+        ],
+        "task": {
+          "id": "formal-email-1-task",
+          "title": "State an email purpose",
+          "genre": "paragraphs",
+          "prompt": "Write to a course organiser asking for information missing from the website.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "formal-email-2",
+        "title": "Provide relevant context",
+        "miniLesson": {
+          "markdown": "State the purpose near the start. Group related questions together. Explain any deadline politely. Do not demand an immediate reply without a reason.\n\nLesson focus: Provide relevant context. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Course Coordinator, I am writing to ask about your evening photography course. I work until five on weekdays, so I would like to know whether the classes begin after six. Your website lists the course topics, but I could not find the weekly timetable. I have completed a beginner course and would like to improve my skills in outdoor photography. Could you also tell me whether students need to bring their own cameras? I have a basic digital camera, but I am unsure whether it meets the course requirements. Thank you for your help. I would appreciate a reply before Friday, because registration closes next week. Kind regards, Lin"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose relevant context.",
+            "options": [
+              "I work until five, so I need an evening class.",
+              "My favourite colour is green."
+            ],
+            "answer": "I work until five, so I need an evening class.",
+            "hint": "Include details that explain the request."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a suitable closing.",
+            "options": ["Thank you for your help.", "You must do this."],
+            "answer": "Thank you for your help.",
+            "hint": "End politely."
+          }
+        ],
+        "task": {
+          "id": "formal-email-2-task",
+          "title": "Provide relevant context",
+          "genre": "paragraphs",
+          "prompt": "Write to an organiser explaining your situation and asking two relevant questions.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "formal-email-3",
+        "title": "A complete enquiry",
+        "miniLesson": {
+          "markdown": "State the purpose near the start. Group related questions together. Explain any deadline politely. Do not demand an immediate reply without a reason.\n\nLesson focus: A complete enquiry. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Course Coordinator, I am writing to ask about your evening photography course. I work until five on weekdays, so I would like to know whether the classes begin after six. Your website lists the course topics, but I could not find the weekly timetable. I have completed a beginner course and would like to improve my skills in outdoor photography. Could you also tell me whether students need to bring their own cameras? I have a basic digital camera, but I am unsure whether it meets the course requirements. Thank you for your help. I would appreciate a reply before Friday, because registration closes next week. Kind regards, Lin"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a justified deadline.",
+            "options": [
+              "I would appreciate a reply before registration closes.",
+              "Answer within one minute."
+            ],
+            "answer": "I would appreciate a reply before registration closes.",
+            "hint": "Explain why a date matters."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a neutral greeting.",
+            "options": ["Dear Course Coordinator,", "Hey stranger!!!"],
+            "answer": "Dear Course Coordinator,",
+            "hint": "Match the formality to the recipient."
+          }
+        ],
+        "task": {
+          "id": "formal-email-3-task",
+          "title": "A complete enquiry",
+          "genre": "paragraphs",
+          "prompt": "Write a formal enquiry about a real or imagined training course. Include your purpose, relevant background, two questions, and a polite deadline.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "formal-requests",
+    "level": "B2",
+    "order": 1,
+    "title": "Formal requests with a case",
+    "theme": "Formal requests with a case",
+    "outcome": "Make a formal request supported by relevant facts.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "formal-requests-1",
+        "title": "Define the requested action",
+        "miniLesson": {
+          "markdown": "A formal request needs a clear action, relevant facts, and a proportionate response to constraints. Distinguish an observation from a claim that still needs evidence.\n\nLesson focus: Define the requested action. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Library Manager, I am writing on behalf of a small group of local residents to request a trial extension of the library's evening opening hours. Several members of our group work during the day and cannot reach the library before it closes. We would like to use its study spaces without disrupting the existing service.\nOur request is for the library to remain open until eight on one weekday for a six-week trial. We are not suggesting that every service should remain available. Access to the main reading room and the book-return desk would be sufficient. A limited trial would allow staff to record attendance and identify any additional costs before a permanent decision is made.\nWe recognize that staffing and security may make an extension difficult. If the proposal is not feasible, we would appreciate information about other study spaces available in the evening. Our group is also willing to attend a meeting to discuss a narrower arrangement.\nCould you let us know whether the library would consider this proposal and who should receive any supporting information? Thank you for considering the needs of residents who study alongside full-time work. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a precise request.",
+            "options": [
+              "Keep one reading room open until eight for six weeks.",
+              "Make the library much better forever."
+            ],
+            "answer": "Keep one reading room open until eight for six weeks.",
+            "hint": "Specify scope and duration."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose an appropriate register.",
+            "options": ["We would appreciate your consideration.", "Do it or else."],
+            "answer": "We would appreciate your consideration.",
+            "hint": "Remain respectful."
+          }
+        ],
+        "task": {
+          "id": "formal-requests-1-task",
+          "title": "Define the requested action",
+          "genre": "formal correspondence",
+          "prompt": "Write to a service manager requesting one feasible change. Specify the action, time, and reason.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "formal-requests-2",
+        "title": "Address a constraint",
+        "miniLesson": {
+          "markdown": "A formal request needs a clear action, relevant facts, and a proportionate response to constraints. Distinguish an observation from a claim that still needs evidence.\n\nLesson focus: Address a constraint. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Library Manager, I am writing on behalf of a small group of local residents to request a trial extension of the library's evening opening hours. Several members of our group work during the day and cannot reach the library before it closes. We would like to use its study spaces without disrupting the existing service.\nOur request is for the library to remain open until eight on one weekday for a six-week trial. We are not suggesting that every service should remain available. Access to the main reading room and the book-return desk would be sufficient. A limited trial would allow staff to record attendance and identify any additional costs before a permanent decision is made.\nWe recognize that staffing and security may make an extension difficult. If the proposal is not feasible, we would appreciate information about other study spaces available in the evening. Our group is also willing to attend a meeting to discuss a narrower arrangement.\nCould you let us know whether the library would consider this proposal and who should receive any supporting information? Thank you for considering the needs of residents who study alongside full-time work. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a useful concession.",
+            "options": [
+              "Staffing may be difficult, so a limited trial could help.",
+              "There are no costs or difficulties."
+            ],
+            "answer": "Staffing may be difficult, so a limited trial could help.",
+            "hint": "Acknowledge a realistic constraint."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a proportionate claim.",
+            "options": [
+              "A trial would help assess demand.",
+              "A trial will prove universal demand."
+            ],
+            "answer": "A trial would help assess demand.",
+            "hint": "Do not guarantee the conclusion."
+          }
+        ],
+        "task": {
+          "id": "formal-requests-2-task",
+          "title": "Address a constraint",
+          "genre": "formal correspondence",
+          "prompt": "Write a formal request that acknowledges a practical constraint and offers a narrower alternative.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "formal-requests-3",
+        "title": "A complete formal request",
+        "miniLesson": {
+          "markdown": "A formal request needs a clear action, relevant facts, and a proportionate response to constraints. Distinguish an observation from a claim that still needs evidence.\n\nLesson focus: A complete formal request. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Library Manager, I am writing on behalf of a small group of local residents to request a trial extension of the library's evening opening hours. Several members of our group work during the day and cannot reach the library before it closes. We would like to use its study spaces without disrupting the existing service.\nOur request is for the library to remain open until eight on one weekday for a six-week trial. We are not suggesting that every service should remain available. Access to the main reading room and the book-return desk would be sufficient. A limited trial would allow staff to record attendance and identify any additional costs before a permanent decision is made.\nWe recognize that staffing and security may make an extension difficult. If the proposal is not feasible, we would appreciate information about other study spaces available in the evening. Our group is also willing to attend a meeting to discuss a narrower arrangement.\nCould you let us know whether the library would consider this proposal and who should receive any supporting information? Thank you for considering the needs of residents who study alongside full-time work. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a clear next step.",
+            "options": [
+              "Could you tell us who can assess the proposal?",
+              "Someone should do something."
+            ],
+            "answer": "Could you tell us who can assess the proposal?",
+            "hint": "Name the response you need."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose relevant evidence.",
+            "options": [
+              "Several residents cannot arrive before closing.",
+              "The manager probably dislikes residents."
+            ],
+            "answer": "Several residents cannot arrive before closing.",
+            "hint": "Avoid unsupported motives."
+          }
+        ],
+        "task": {
+          "id": "formal-requests-3-task",
+          "title": "A complete formal request",
+          "genre": "formal correspondence",
+          "prompt": "Write a formal letter requesting an improvement to a service. Support the request with truthful observations, consider constraints, and ask for a specific next step.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": true,
+          "targetLevel": "B2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "balanced-argument",
+    "level": "B2",
+    "order": 2,
+    "title": "A reasoned position",
+    "theme": "A reasoned position",
+    "outcome": "Develop an argument with evidence and a fair counterargument.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "balanced-argument-1",
+        "title": "Develop a position",
+        "miniLesson": {
+          "markdown": "State a position, explain reasons, address the strongest reasonable objection, and reach a proportionate conclusion. Evidence must support the actual claim.\n\nLesson focus: Develop a position. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "A community centre should not replace all its in-person classes with online sessions. Online provision can reduce travel and help people whose schedules make attendance difficult. However, a complete replacement would exclude residents who lack reliable internet access or a quiet place to study. A mixed approach would preserve access while offering more flexibility.\nThe strongest case for online classes is convenience. A parent who cannot travel in the evening may still be able to attend from home. Recorded demonstrations can also help learners review a difficult skill. These benefits are important, but they depend on suitable devices, accessible materials, and support when technology fails.\nIn-person classes offer a different kind of value. Learners can share equipment, receive immediate practical guidance, and build local relationships. These advantages are especially relevant to courses that involve tools or collaborative work. They cannot always be reproduced by a video call.\nThe centre should therefore offer online options where they suit the learning activity, rather than treating one format as universally superior. Before changing the programme, staff could ask current learners about their access needs and run a small pilot. Attendance, completion, and learner feedback would provide a stronger basis for a decision than assumptions about what all residents prefer."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a focused position.",
+            "options": [
+              "The centre should retain some in-person classes.",
+              "Technology is everything and nothing."
+            ],
+            "answer": "The centre should retain some in-person classes.",
+            "hint": "Make a claim the reader can evaluate."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a relevant reason.",
+            "options": [
+              "Some residents lack reliable internet access.",
+              "The centre has a red door."
+            ],
+            "answer": "Some residents lack reliable internet access.",
+            "hint": "Connect the reason to access."
+          }
+        ],
+        "task": {
+          "id": "balanced-argument-1-task",
+          "title": "Develop a position",
+          "genre": "formal correspondence",
+          "prompt": "Write a reasoned position on a local policy. Explain two reasons without pretending the issue has no drawbacks.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "balanced-argument-2",
+        "title": "Respond to an objection",
+        "miniLesson": {
+          "markdown": "State a position, explain reasons, address the strongest reasonable objection, and reach a proportionate conclusion. Evidence must support the actual claim.\n\nLesson focus: Respond to an objection. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "A community centre should not replace all its in-person classes with online sessions. Online provision can reduce travel and help people whose schedules make attendance difficult. However, a complete replacement would exclude residents who lack reliable internet access or a quiet place to study. A mixed approach would preserve access while offering more flexibility.\nThe strongest case for online classes is convenience. A parent who cannot travel in the evening may still be able to attend from home. Recorded demonstrations can also help learners review a difficult skill. These benefits are important, but they depend on suitable devices, accessible materials, and support when technology fails.\nIn-person classes offer a different kind of value. Learners can share equipment, receive immediate practical guidance, and build local relationships. These advantages are especially relevant to courses that involve tools or collaborative work. They cannot always be reproduced by a video call.\nThe centre should therefore offer online options where they suit the learning activity, rather than treating one format as universally superior. Before changing the programme, staff could ask current learners about their access needs and run a small pilot. Attendance, completion, and learner feedback would provide a stronger basis for a decision than assumptions about what all residents prefer."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a fair objection.",
+            "options": [
+              "Online classes reduce travel but require suitable access.",
+              "Only foolish people prefer online classes."
+            ],
+            "answer": "Online classes reduce travel but require suitable access.",
+            "hint": "Address the argument, not the people."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a qualified conclusion.",
+            "options": [
+              "A mixed approach may serve more learners.",
+              "One format is always best for everyone."
+            ],
+            "answer": "A mixed approach may serve more learners.",
+            "hint": "Avoid absolute claims."
+          }
+        ],
+        "task": {
+          "id": "balanced-argument-2-task",
+          "title": "Respond to an objection",
+          "genre": "formal correspondence",
+          "prompt": "Argue for an improvement while fairly addressing a strong objection. Explain what you would change in response.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "balanced-argument-3",
+        "title": "A balanced recommendation",
+        "miniLesson": {
+          "markdown": "State a position, explain reasons, address the strongest reasonable objection, and reach a proportionate conclusion. Evidence must support the actual claim.\n\nLesson focus: A balanced recommendation. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "A community centre should not replace all its in-person classes with online sessions. Online provision can reduce travel and help people whose schedules make attendance difficult. However, a complete replacement would exclude residents who lack reliable internet access or a quiet place to study. A mixed approach would preserve access while offering more flexibility.\nThe strongest case for online classes is convenience. A parent who cannot travel in the evening may still be able to attend from home. Recorded demonstrations can also help learners review a difficult skill. These benefits are important, but they depend on suitable devices, accessible materials, and support when technology fails.\nIn-person classes offer a different kind of value. Learners can share equipment, receive immediate practical guidance, and build local relationships. These advantages are especially relevant to courses that involve tools or collaborative work. They cannot always be reproduced by a video call.\nThe centre should therefore offer online options where they suit the learning activity, rather than treating one format as universally superior. Before changing the programme, staff could ask current learners about their access needs and run a small pilot. Attendance, completion, and learner feedback would provide a stronger basis for a decision than assumptions about what all residents prefer."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an evaluation method.",
+            "options": [
+              "Compare attendance and completion in a pilot.",
+              "Assume the chosen format succeeds."
+            ],
+            "answer": "Compare attendance and completion in a pilot.",
+            "hint": "Test the recommendation."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a clear contrast.",
+            "options": [
+              "Online sessions offer flexibility; in-person sessions provide shared equipment.",
+              "Both things are things."
+            ],
+            "answer": "Online sessions offer flexibility; in-person sessions provide shared equipment.",
+            "hint": "Name the different benefits."
+          }
+        ],
+        "task": {
+          "id": "balanced-argument-3-task",
+          "title": "A balanced recommendation",
+          "genre": "formal correspondence",
+          "prompt": "Write a recommendation comparing two ways to provide a community service. Support your preferred option, discuss a limitation, and propose evaluation.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": true,
+          "targetLevel": "B2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "evidence-of-fit",
+    "level": "B2",
+    "order": 3,
+    "title": "Experience and programme fit",
+    "theme": "Experience and programme fit",
+    "outcome": "Connect specific experience to a programme requirement.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "evidence-of-fit-1",
+        "title": "Turn experience into evidence",
+        "miniLesson": {
+          "markdown": "Connect an experience, your action, what you learned, and a specific next learning need. Verify programme information. A model is not a source for facts about a real institution.\n\nLesson focus: Turn experience into evidence. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for the postgraduate programme in public policy because I want to develop the analytical skills needed to evaluate local services. My interest grew from volunteering at a community centre, where I helped collect feedback about evening activities. That experience showed me how a practical decision can affect people with different needs.\nMy main responsibility was to organize comments from participants into a short summary for the coordinator. I grouped recurring concerns, checked unclear responses, and separated direct observations from my own interpretations. The work was modest, but it taught me the importance of accurate reporting. It also exposed a limitation: I could describe patterns, yet I lacked the statistical knowledge to assess how representative those patterns were.\nA programme that combines policy analysis with research methods would help me address that gap. Before submitting this letter, I would verify the relevant modules and explain how their assessed work relates to my goals. I am particularly interested in learning to compare options, communicate uncertainty, and evaluate results rather than merely propose changes.\nAfter graduation, I hope to work with organizations that improve access to local services. I would bring careful listening, practical experience, and a willingness to revise my assumptions. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose evidence of action.",
+            "options": [
+              "I grouped recurring concerns and checked unclear responses.",
+              "I am simply the most excellent person."
+            ],
+            "answer": "I grouped recurring concerns and checked unclear responses.",
+            "hint": "Describe what you actually did."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose honest scope.",
+            "options": [
+              "My responsibility was a short feedback summary.",
+              "I transformed all public policy everywhere."
+            ],
+            "answer": "My responsibility was a short feedback summary.",
+            "hint": "Do not inflate your role."
+          }
+        ],
+        "task": {
+          "id": "evidence-of-fit-1-task",
+          "title": "Turn experience into evidence",
+          "genre": "formal correspondence",
+          "prompt": "Describe one real experience, your own action, and a result or lesson. Write for an admissions reader.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "evidence-of-fit-2",
+        "title": "Explain a learning gap",
+        "miniLesson": {
+          "markdown": "Connect an experience, your action, what you learned, and a specific next learning need. Verify programme information. A model is not a source for facts about a real institution.\n\nLesson focus: Explain a learning gap. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for the postgraduate programme in public policy because I want to develop the analytical skills needed to evaluate local services. My interest grew from volunteering at a community centre, where I helped collect feedback about evening activities. That experience showed me how a practical decision can affect people with different needs.\nMy main responsibility was to organize comments from participants into a short summary for the coordinator. I grouped recurring concerns, checked unclear responses, and separated direct observations from my own interpretations. The work was modest, but it taught me the importance of accurate reporting. It also exposed a limitation: I could describe patterns, yet I lacked the statistical knowledge to assess how representative those patterns were.\nA programme that combines policy analysis with research methods would help me address that gap. Before submitting this letter, I would verify the relevant modules and explain how their assessed work relates to my goals. I am particularly interested in learning to compare options, communicate uncertainty, and evaluate results rather than merely propose changes.\nAfter graduation, I hope to work with organizations that improve access to local services. I would bring careful listening, practical experience, and a willingness to revise my assumptions. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a meaningful gap.",
+            "options": [
+              "I could describe patterns but lacked statistical methods to assess them.",
+              "I have no limitations of any kind."
+            ],
+            "answer": "I could describe patterns but lacked statistical methods to assess them.",
+            "hint": "A learning need should be specific."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose verified fit.",
+            "options": [
+              "The current course catalogue lists a relevant methods module.",
+              "The programme surely offers everything I imagine."
+            ],
+            "answer": "The current course catalogue lists a relevant methods module.",
+            "hint": "Check the current source."
+          }
+        ],
+        "task": {
+          "id": "evidence-of-fit-2-task",
+          "title": "Explain a learning gap",
+          "genre": "formal correspondence",
+          "prompt": "Write about a real skill gap revealed by your experience and explain how verified programme content could address it.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "evidence-of-fit-3",
+        "title": "An evidence-led application",
+        "miniLesson": {
+          "markdown": "Connect an experience, your action, what you learned, and a specific next learning need. Verify programme information. A model is not a source for facts about a real institution.\n\nLesson focus: An evidence-led application. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for the postgraduate programme in public policy because I want to develop the analytical skills needed to evaluate local services. My interest grew from volunteering at a community centre, where I helped collect feedback about evening activities. That experience showed me how a practical decision can affect people with different needs.\nMy main responsibility was to organize comments from participants into a short summary for the coordinator. I grouped recurring concerns, checked unclear responses, and separated direct observations from my own interpretations. The work was modest, but it taught me the importance of accurate reporting. It also exposed a limitation: I could describe patterns, yet I lacked the statistical knowledge to assess how representative those patterns were.\nA programme that combines policy analysis with research methods would help me address that gap. Before submitting this letter, I would verify the relevant modules and explain how their assessed work relates to my goals. I am particularly interested in learning to compare options, communicate uncertainty, and evaluate results rather than merely propose changes.\nAfter graduation, I hope to work with organizations that improve access to local services. I would bring careful listening, practical experience, and a willingness to revise my assumptions. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a realistic goal.",
+            "options": [
+              "I hope to evaluate local services more effectively.",
+              "Admission guarantees that I will solve every problem."
+            ],
+            "answer": "I hope to evaluate local services more effectively.",
+            "hint": "Do not promise guaranteed outcomes."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose an appropriate closing.",
+            "options": [
+              "Thank you for considering my application.",
+              "You will regret rejecting me."
+            ],
+            "answer": "Thank you for considering my application.",
+            "hint": "Respect the reader's decision."
+          }
+        ],
+        "task": {
+          "id": "evidence-of-fit-3-task",
+          "title": "An evidence-led application",
+          "genre": "formal correspondence",
+          "prompt": "Draft a short formal application letter. Connect motivation, one specific experience, a verified programme feature, and a realistic future goal.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 180,
+          "maxWords": 300,
+          "isCheckpoint": true,
+          "targetLevel": "B2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "motivation-and-evidence",
+    "level": "C1",
+    "order": 1,
+    "title": "Motivation grounded in evidence",
+    "theme": "Motivation grounded in evidence",
+    "outcome": "Build a coherent application narrative without invented achievements.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "motivation-and-evidence-1",
+        "title": "A purposeful opening",
+        "miniLesson": {
+          "markdown": "Build a narrative around a real question, not a list of praise. Use action and reflection as evidence. Distinguish what you did, what the team did, and what remains uncertain.\n\nLesson focus: A purposeful opening. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for your master's programme in environmental policy to develop the research skills needed to assess how local initiatives affect access to green spaces. My interest is not based on a single dramatic event. It developed through a series of small responsibilities at a neighbourhood organization, where I learned that an attractive proposal can still overlook the people it is meant to serve.\nDuring a recent project, I helped summarize residents' comments about a proposed weekend activity in a public park. I prepared a consistent set of questions, organized the responses, and checked ambiguous notes with the project coordinator. Some residents welcomed the activity, while others raised concerns about transport, noise, or timing. Presenting both kinds of response helped the team adjust its initial plan rather than select only the comments that supported it.\nThis work also showed me the limits of my preparation. I could organize descriptive information, but I could not confidently determine whether our small group of respondents reflected the wider neighbourhood. I now want to study research design and policy evaluation so that I can make better-supported judgments and communicate uncertainty clearly. In a real application, I would identify the programme's relevant current modules and explain their connection to this need after checking the official catalogue.\nI would contribute practical experience of listening to different perspectives, careful documentation, and a readiness to revise my position when evidence changes. My longer-term aim is to work on local projects whose benefits can be assessed, not merely asserted. The programme would be a step towards that aim, rather than a guarantee of a particular job or outcome.\nThank you for considering my application. I would welcome the opportunity to develop this work through rigorous study and collaboration. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a grounded motivation.",
+            "options": [
+              "The project revealed a need to learn research design.",
+              "Since birth I have loved every possible subject."
+            ],
+            "answer": "The project revealed a need to learn research design.",
+            "hint": "Link motivation to evidence."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose accurate attribution.",
+            "options": [
+              "I organized responses while the coordinator led the project.",
+              "I alone did all the team's work."
+            ],
+            "answer": "I organized responses while the coordinator led the project.",
+            "hint": "Separate personal and team contributions."
+          }
+        ],
+        "task": {
+          "id": "motivation-and-evidence-1-task",
+          "title": "A purposeful opening",
+          "genre": "application letter",
+          "prompt": "Write the opening section of a formal application. Explain a specific learning purpose and the experiences that led to it; avoid general praise.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "motivation-and-evidence-2",
+        "title": "Action and reflection",
+        "miniLesson": {
+          "markdown": "Build a narrative around a real question, not a list of praise. Use action and reflection as evidence. Distinguish what you did, what the team did, and what remains uncertain.\n\nLesson focus: Action and reflection. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for your master's programme in environmental policy to develop the research skills needed to assess how local initiatives affect access to green spaces. My interest is not based on a single dramatic event. It developed through a series of small responsibilities at a neighbourhood organization, where I learned that an attractive proposal can still overlook the people it is meant to serve.\nDuring a recent project, I helped summarize residents' comments about a proposed weekend activity in a public park. I prepared a consistent set of questions, organized the responses, and checked ambiguous notes with the project coordinator. Some residents welcomed the activity, while others raised concerns about transport, noise, or timing. Presenting both kinds of response helped the team adjust its initial plan rather than select only the comments that supported it.\nThis work also showed me the limits of my preparation. I could organize descriptive information, but I could not confidently determine whether our small group of respondents reflected the wider neighbourhood. I now want to study research design and policy evaluation so that I can make better-supported judgments and communicate uncertainty clearly. In a real application, I would identify the programme's relevant current modules and explain their connection to this need after checking the official catalogue.\nI would contribute practical experience of listening to different perspectives, careful documentation, and a readiness to revise my position when evidence changes. My longer-term aim is to work on local projects whose benefits can be assessed, not merely asserted. The programme would be a step towards that aim, rather than a guarantee of a particular job or outcome.\nThank you for considering my application. I would welcome the opportunity to develop this work through rigorous study and collaboration. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose reflection.",
+            "options": [
+              "The small sample limited what we could conclude.",
+              "Our small sample proved everything."
+            ],
+            "answer": "The small sample limited what we could conclude.",
+            "hint": "State limits of evidence."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a useful transition.",
+            "options": [
+              "This experience also exposed a gap in my preparation.",
+              "Anyway, I am perfect."
+            ],
+            "answer": "This experience also exposed a gap in my preparation.",
+            "hint": "Connect experience to learning."
+          }
+        ],
+        "task": {
+          "id": "motivation-and-evidence-2-task",
+          "title": "Action and reflection",
+          "genre": "application letter",
+          "prompt": "Write an application section about one real project. Show your action, a supported result, a limitation, and what you learned.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "motivation-and-evidence-3",
+        "title": "A coherent motivation letter",
+        "miniLesson": {
+          "markdown": "Build a narrative around a real question, not a list of praise. Use action and reflection as evidence. Distinguish what you did, what the team did, and what remains uncertain.\n\nLesson focus: A coherent motivation letter. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for your master's programme in environmental policy to develop the research skills needed to assess how local initiatives affect access to green spaces. My interest is not based on a single dramatic event. It developed through a series of small responsibilities at a neighbourhood organization, where I learned that an attractive proposal can still overlook the people it is meant to serve.\nDuring a recent project, I helped summarize residents' comments about a proposed weekend activity in a public park. I prepared a consistent set of questions, organized the responses, and checked ambiguous notes with the project coordinator. Some residents welcomed the activity, while others raised concerns about transport, noise, or timing. Presenting both kinds of response helped the team adjust its initial plan rather than select only the comments that supported it.\nThis work also showed me the limits of my preparation. I could organize descriptive information, but I could not confidently determine whether our small group of respondents reflected the wider neighbourhood. I now want to study research design and policy evaluation so that I can make better-supported judgments and communicate uncertainty clearly. In a real application, I would identify the programme's relevant current modules and explain their connection to this need after checking the official catalogue.\nI would contribute practical experience of listening to different perspectives, careful documentation, and a readiness to revise my position when evidence changes. My longer-term aim is to work on local projects whose benefits can be assessed, not merely asserted. The programme would be a step towards that aim, rather than a guarantee of a particular job or outcome.\nThank you for considering my application. I would welcome the opportunity to develop this work through rigorous study and collaboration. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a proportionate future claim.",
+            "options": [
+              "Study would help me evaluate projects more rigorously.",
+              "Study guarantees a perfect career."
+            ],
+            "answer": "Study would help me evaluate projects more rigorously.",
+            "hint": "Describe development, not guarantees."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose evidence rather than praise.",
+            "options": [
+              "I checked ambiguous notes with the coordinator.",
+              "I am unquestionably brilliant."
+            ],
+            "answer": "I checked ambiguous notes with the coordinator.",
+            "hint": "Give a concrete action."
+          }
+        ],
+        "task": {
+          "id": "motivation-and-evidence-3-task",
+          "title": "A coherent motivation letter",
+          "genre": "application letter",
+          "prompt": "Write a 250–400-word motivation letter for a programme you have researched. Connect purpose, evidence, learning needs, verified fit, and a realistic contribution.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": true,
+          "targetLevel": "C1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "verified-programme-fit",
+    "level": "C1",
+    "order": 2,
+    "title": "Programme fit and contribution",
+    "theme": "Programme fit and contribution",
+    "outcome": "Use verified details to explain fit without name-dropping.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "verified-programme-fit-1",
+        "title": "Verify a fit claim",
+        "miniLesson": {
+          "markdown": "Verify every programme-specific claim against current official information. Explain the connection, not just the name. Contribution should be supported by a demonstrated habit or skill.\n\nLesson focus: Verify a fit claim. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Programme Director, I am interested in a course of study that brings research methods into direct conversation with public decisions. My experience in a local volunteer group has made me attentive to the gap between a persuasive proposal and a well-supported conclusion. I am seeking a programme that will help me examine that gap systematically, while also improving how I explain findings to readers who do not share my technical background.\nThe most relevant part of my experience involved preparing a briefing from residents' comments. I organized the material around the decisions the group needed to make, distinguished repeated concerns from isolated examples, and recorded questions that our evidence could not answer. The briefing was useful for planning, but it was not a representative survey. Recognizing that distinction strengthened the report and helped prevent confident claims that the material could not support.\nFor a real application, I would connect this experience to two verified elements of the programme: a methods module and an assessed project or practical component. Merely naming a module would not establish fit. I would explain which skill it develops, why that skill matters to my current limitations, and how I intend to use it. If a module is optional or subject to change, the letter should say so rather than imply guaranteed access.\nMy contribution would be a habit of careful questioning, experience communicating with varied audiences, and willingness to work collaboratively. I would also expect to learn from classmates whose professional and cultural perspectives differ from mine. Such exchange matters because policy choices rarely have one interpretation or one affected group.\nAfter the programme, I hope to support organizations in evaluating local initiatives. That goal remains broad enough to adapt as I learn, but specific enough to explain why this course of study is relevant. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a credible fit statement.",
+            "options": [
+              "The optional methods module could address my design skills.",
+              "Every module is guaranteed and perfect for me."
+            ],
+            "answer": "The optional methods module could address my design skills.",
+            "hint": "Respect optional status and uncertainty."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose an explained connection.",
+            "options": [
+              "The project would let me apply evaluation methods to a practical question.",
+              "The project has an impressive name."
+            ],
+            "answer": "The project would let me apply evaluation methods to a practical question.",
+            "hint": "Explain how the feature serves your goal."
+          }
+        ],
+        "task": {
+          "id": "verified-programme-fit-1-task",
+          "title": "Verify a fit claim",
+          "genre": "application letter",
+          "prompt": "Write a formal application section linking two verified programme features to your actual learning needs. Identify any uncertainty about availability.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "verified-programme-fit-2",
+        "title": "A credible contribution",
+        "miniLesson": {
+          "markdown": "Verify every programme-specific claim against current official information. Explain the connection, not just the name. Contribution should be supported by a demonstrated habit or skill.\n\nLesson focus: A credible contribution. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Programme Director, I am interested in a course of study that brings research methods into direct conversation with public decisions. My experience in a local volunteer group has made me attentive to the gap between a persuasive proposal and a well-supported conclusion. I am seeking a programme that will help me examine that gap systematically, while also improving how I explain findings to readers who do not share my technical background.\nThe most relevant part of my experience involved preparing a briefing from residents' comments. I organized the material around the decisions the group needed to make, distinguished repeated concerns from isolated examples, and recorded questions that our evidence could not answer. The briefing was useful for planning, but it was not a representative survey. Recognizing that distinction strengthened the report and helped prevent confident claims that the material could not support.\nFor a real application, I would connect this experience to two verified elements of the programme: a methods module and an assessed project or practical component. Merely naming a module would not establish fit. I would explain which skill it develops, why that skill matters to my current limitations, and how I intend to use it. If a module is optional or subject to change, the letter should say so rather than imply guaranteed access.\nMy contribution would be a habit of careful questioning, experience communicating with varied audiences, and willingness to work collaboratively. I would also expect to learn from classmates whose professional and cultural perspectives differ from mine. Such exchange matters because policy choices rarely have one interpretation or one affected group.\nAfter the programme, I hope to support organizations in evaluating local initiatives. That goal remains broad enough to adapt as I learn, but specific enough to explain why this course of study is relevant. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose supported contribution.",
+            "options": [
+              "Preparing briefings helped me communicate with varied audiences.",
+              "I will teach everyone everything."
+            ],
+            "answer": "Preparing briefings helped me communicate with varied audiences.",
+            "hint": "Support contribution with an action."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose collaborative language.",
+            "options": [
+              "I would welcome perspectives that challenge my assumptions.",
+              "No one can challenge my ideas."
+            ],
+            "answer": "I would welcome perspectives that challenge my assumptions.",
+            "hint": "Learning includes revision."
+          }
+        ],
+        "task": {
+          "id": "verified-programme-fit-2-task",
+          "title": "A credible contribution",
+          "genre": "application letter",
+          "prompt": "Explain what you could contribute to a learning community. Support each claim with experience and show openness to learning from others.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "verified-programme-fit-3",
+        "title": "A tailored application",
+        "miniLesson": {
+          "markdown": "Verify every programme-specific claim against current official information. Explain the connection, not just the name. Contribution should be supported by a demonstrated habit or skill.\n\nLesson focus: A tailored application. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Programme Director, I am interested in a course of study that brings research methods into direct conversation with public decisions. My experience in a local volunteer group has made me attentive to the gap between a persuasive proposal and a well-supported conclusion. I am seeking a programme that will help me examine that gap systematically, while also improving how I explain findings to readers who do not share my technical background.\nThe most relevant part of my experience involved preparing a briefing from residents' comments. I organized the material around the decisions the group needed to make, distinguished repeated concerns from isolated examples, and recorded questions that our evidence could not answer. The briefing was useful for planning, but it was not a representative survey. Recognizing that distinction strengthened the report and helped prevent confident claims that the material could not support.\nFor a real application, I would connect this experience to two verified elements of the programme: a methods module and an assessed project or practical component. Merely naming a module would not establish fit. I would explain which skill it develops, why that skill matters to my current limitations, and how I intend to use it. If a module is optional or subject to change, the letter should say so rather than imply guaranteed access.\nMy contribution would be a habit of careful questioning, experience communicating with varied audiences, and willingness to work collaboratively. I would also expect to learn from classmates whose professional and cultural perspectives differ from mine. Such exchange matters because policy choices rarely have one interpretation or one affected group.\nAfter the programme, I hope to support organizations in evaluating local initiatives. That goal remains broad enough to adapt as I learn, but specific enough to explain why this course of study is relevant. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a tailored purpose.",
+            "options": [
+              "I want to connect evaluation methods with local service decisions.",
+              "Your world-famous excellence is excellent."
+            ],
+            "answer": "I want to connect evaluation methods with local service decisions.",
+            "hint": "Explain your own purpose."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose honest availability.",
+            "options": [
+              "The module is currently listed as optional.",
+              "The module will definitely run forever."
+            ],
+            "answer": "The module is currently listed as optional.",
+            "hint": "Do not convert a listing into a guarantee."
+          }
+        ],
+        "task": {
+          "id": "verified-programme-fit-3-task",
+          "title": "A tailored application",
+          "genre": "application letter",
+          "prompt": "Write a complete application letter for a verified programme. Explain fit, evidence of readiness, learning needs, and a credible contribution without copying promotional text.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": true,
+          "targetLevel": "C1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "edit-an-application",
+    "level": "C1",
+    "order": 3,
+    "title": "Edit for clarity and integrity",
+    "theme": "Edit for clarity and integrity",
+    "outcome": "Revise an application for structure, register, concision, and factual accuracy.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "edit-an-application-1",
+        "title": "Remove repetition",
+        "miniLesson": {
+          "markdown": "Edit in passes: purpose and paragraph order; evidence and attribution; sentence clarity and register; factual verification; final proofreading. Preserve truthful meaning when shortening.\n\nLesson focus: Remove repetition. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for postgraduate study in organizational analysis because I want to understand how small teams make decisions under uncertainty. My interest developed through coordinating a limited volunteer project, where I learned that clear records and realistic expectations often matter more than ambitious language.\nIn that project, I prepared an agenda, gathered suggestions from team members, and maintained a record of decisions. The record helped us distinguish agreed actions from ideas that still required discussion. When the schedule changed, I summarized the implications and asked the team to confirm a revised plan. I cannot attribute the project's outcome to my work alone, but these responsibilities gave me a concrete understanding of coordination and communication.\nThe experience also revealed questions I was not equipped to answer. I wanted to know why some decisions were accepted quickly while others remained unresolved, and whether our informal process gave everyone a fair opportunity to contribute. These questions motivate my interest in organizational research rather than a general desire to collect another qualification.\nA suitable programme would allow me to develop research design, critical reading, and analytical writing. In a real application, I would verify the current curriculum and identify the particular assessed work that connects to my questions. I would not describe an institution as uniquely suitable without evidence or suggest that study guarantees a specific career outcome.\nBefore submitting this letter, I would check every factual statement, remove repeated claims, and ensure that each paragraph serves a distinct purpose. My aim is a clear account of readiness and direction, not an exaggerated portrait of success. I would bring practical experience of collaboration, an interest in careful analysis, and a willingness to revise my assumptions.\nThank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose concise evidence.",
+            "options": [
+              "I recorded decisions and confirmed the revised plan.",
+              "I was very extremely amazingly useful in useful ways."
+            ],
+            "answer": "I recorded decisions and confirmed the revised plan.",
+            "hint": "Replace praise with action."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a distinct paragraph purpose.",
+            "options": [
+              "Explain the learning need after the experience.",
+              "Repeat the same experience without adding meaning."
+            ],
+            "answer": "Explain the learning need after the experience.",
+            "hint": "Each paragraph should advance the case."
+          }
+        ],
+        "task": {
+          "id": "edit-an-application-1-task",
+          "title": "Remove repetition",
+          "genre": "application letter",
+          "prompt": "Write and revise an application section so each paragraph has a distinct purpose. Remove repeated praise while keeping concrete evidence.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "edit-an-application-2",
+        "title": "Check attribution and facts",
+        "miniLesson": {
+          "markdown": "Edit in passes: purpose and paragraph order; evidence and attribution; sentence clarity and register; factual verification; final proofreading. Preserve truthful meaning when shortening.\n\nLesson focus: Check attribution and facts. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for postgraduate study in organizational analysis because I want to understand how small teams make decisions under uncertainty. My interest developed through coordinating a limited volunteer project, where I learned that clear records and realistic expectations often matter more than ambitious language.\nIn that project, I prepared an agenda, gathered suggestions from team members, and maintained a record of decisions. The record helped us distinguish agreed actions from ideas that still required discussion. When the schedule changed, I summarized the implications and asked the team to confirm a revised plan. I cannot attribute the project's outcome to my work alone, but these responsibilities gave me a concrete understanding of coordination and communication.\nThe experience also revealed questions I was not equipped to answer. I wanted to know why some decisions were accepted quickly while others remained unresolved, and whether our informal process gave everyone a fair opportunity to contribute. These questions motivate my interest in organizational research rather than a general desire to collect another qualification.\nA suitable programme would allow me to develop research design, critical reading, and analytical writing. In a real application, I would verify the current curriculum and identify the particular assessed work that connects to my questions. I would not describe an institution as uniquely suitable without evidence or suggest that study guarantees a specific career outcome.\nBefore submitting this letter, I would check every factual statement, remove repeated claims, and ensure that each paragraph serves a distinct purpose. My aim is a clear account of readiness and direction, not an exaggerated portrait of success. I would bring practical experience of collaboration, an interest in careful analysis, and a willingness to revise my assumptions.\nThank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose accurate attribution.",
+            "options": [
+              "The team completed the project; I maintained its decision record.",
+              "I single-handedly caused every outcome."
+            ],
+            "answer": "The team completed the project; I maintained its decision record.",
+            "hint": "Separate role from overall result."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a verification action.",
+            "options": [
+              "Check the current official curriculum before naming a module.",
+              "Copy an old unverified advertisement."
+            ],
+            "answer": "Check the current official curriculum before naming a module.",
+            "hint": "Use current authoritative information."
+          }
+        ],
+        "task": {
+          "id": "edit-an-application-2-task",
+          "title": "Check attribution and facts",
+          "genre": "application letter",
+          "prompt": "Draft an application letter and revise claims about your role, results, and programme facts. Keep only details you can support.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "edit-an-application-3",
+        "title": "Independent application capstone",
+        "miniLesson": {
+          "markdown": "Edit in passes: purpose and paragraph order; evidence and attribution; sentence clarity and register; factual verification; final proofreading. Preserve truthful meaning when shortening.\n\nLesson focus: Independent application capstone. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Admissions Committee, I am applying for postgraduate study in organizational analysis because I want to understand how small teams make decisions under uncertainty. My interest developed through coordinating a limited volunteer project, where I learned that clear records and realistic expectations often matter more than ambitious language.\nIn that project, I prepared an agenda, gathered suggestions from team members, and maintained a record of decisions. The record helped us distinguish agreed actions from ideas that still required discussion. When the schedule changed, I summarized the implications and asked the team to confirm a revised plan. I cannot attribute the project's outcome to my work alone, but these responsibilities gave me a concrete understanding of coordination and communication.\nThe experience also revealed questions I was not equipped to answer. I wanted to know why some decisions were accepted quickly while others remained unresolved, and whether our informal process gave everyone a fair opportunity to contribute. These questions motivate my interest in organizational research rather than a general desire to collect another qualification.\nA suitable programme would allow me to develop research design, critical reading, and analytical writing. In a real application, I would verify the current curriculum and identify the particular assessed work that connects to my questions. I would not describe an institution as uniquely suitable without evidence or suggest that study guarantees a specific career outcome.\nBefore submitting this letter, I would check every factual statement, remove repeated claims, and ensure that each paragraph serves a distinct purpose. My aim is a clear account of readiness and direction, not an exaggerated portrait of success. I would bring practical experience of collaboration, an interest in careful analysis, and a willingness to revise my assumptions.\nThank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an integrity check.",
+            "options": [
+              "Confirm every claim about roles and programme details.",
+              "Make achievements sound larger regardless of truth."
+            ],
+            "answer": "Confirm every claim about roles and programme details.",
+            "hint": "Accuracy matters more than impressive wording."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a final editing question.",
+            "options": [
+              "Does every paragraph support the application purpose?",
+              "Is every sentence as long as possible?"
+            ],
+            "answer": "Does every paragraph support the application purpose?",
+            "hint": "Check function, not length alone."
+          }
+        ],
+        "task": {
+          "id": "edit-an-application-3-task",
+          "title": "Independent application capstone",
+          "genre": "application letter",
+          "prompt": "Write an independent 250–400-word application letter. Use no sentence frames. Verify facts, show specific evidence, explain fit, and revise for clear register and concision.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 250,
+          "maxWords": 400,
+          "isCheckpoint": true,
+          "targetLevel": "C1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "synthesis-and-qualification",
+    "level": "C2",
+    "order": 1,
+    "title": "Synthesis with judgment",
+    "theme": "Synthesis with judgment",
+    "outcome": "Synthesize conflicting perspectives while preserving uncertainty.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "synthesis-and-qualification-1",
+        "title": "Separate findings and claims",
+        "miniLesson": {
+          "markdown": "Synthesis is not a list of views. Identify the question each source addresses, distinguish findings from interpretations, and explain where conclusions depend on assumptions.\n\nLesson focus: Separate findings and claims. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "A proposal to expand a community programme should be judged neither by enthusiasm alone nor by a single disappointing result. The relevant question is whether the available evidence supports a particular expansion under identifiable conditions. That distinction matters because both advocates and critics can describe the same pilot accurately while drawing conclusions that extend beyond what it shows.\nSuppose a short evening programme attracted steady attendance but required more staff time than expected. Supporters might emphasize demand, while critics focus on cost. Neither observation is necessarily wrong. Yet attendance does not establish long-term value, and an initial staffing difficulty does not prove that a revised arrangement would fail. A useful assessment separates these findings and asks what additional information would make the decision more reliable.\nThe first step is to clarify the proposed benefit. If the aim is access, participation by residents who could not attend daytime sessions is more relevant than total attendance alone. If the aim is learning, evidence of attendance must be distinguished from evidence of progress. The measure should follow the purpose rather than be selected afterwards because it makes the programme look successful.\nThe second step is to identify constraints without treating them as fixed by default. Staff time, room availability, and support needs may limit expansion, but some limits could be addressed through a narrower schedule or a different format. Those alternatives should be compared on the same basis, with their costs and uncertainties made explicit.\nA proportionate recommendation would therefore preserve the most promising elements while requiring a better-defined evaluation. It might support a limited extension, specify the information to collect, and name a date for review. Such a conclusion is less dramatic than declaring the programme an unquestionable success or failure. It is also more useful, because it tells decision-makers what to do next and what would justify changing course.\nThis approach does not eliminate disagreement. It gives disagreement a clearer object: the purpose, evidence, assumptions, and trade-offs behind the proposed action. That clarity is the main contribution of a careful synthesis."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a bounded inference.",
+            "options": [
+              "Attendance suggests demand but does not establish learning.",
+              "Attendance proves learning and all future value."
+            ],
+            "answer": "Attendance suggests demand but does not establish learning.",
+            "hint": "Keep the inference within the measure."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a useful distinction.",
+            "options": [
+              "An initial cost problem may differ from a permanent constraint.",
+              "Every problem is permanent by definition."
+            ],
+            "answer": "An initial cost problem may differ from a permanent constraint.",
+            "hint": "Test assumptions about constraints."
+          }
+        ],
+        "task": {
+          "id": "synthesis-and-qualification-1-task",
+          "title": "Separate findings and claims",
+          "genre": "critical revision",
+          "prompt": "Write an analytical recommendation about a hypothetical programme. Clearly distinguish observed findings, interpretations, and unresolved questions.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": false,
+          "targetLevel": "C2"
+        }
+      },
+      {
+        "id": "synthesis-and-qualification-2",
+        "title": "Synthesize opposing views",
+        "miniLesson": {
+          "markdown": "Synthesis is not a list of views. Identify the question each source addresses, distinguish findings from interpretations, and explain where conclusions depend on assumptions.\n\nLesson focus: Synthesize opposing views. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "A proposal to expand a community programme should be judged neither by enthusiasm alone nor by a single disappointing result. The relevant question is whether the available evidence supports a particular expansion under identifiable conditions. That distinction matters because both advocates and critics can describe the same pilot accurately while drawing conclusions that extend beyond what it shows.\nSuppose a short evening programme attracted steady attendance but required more staff time than expected. Supporters might emphasize demand, while critics focus on cost. Neither observation is necessarily wrong. Yet attendance does not establish long-term value, and an initial staffing difficulty does not prove that a revised arrangement would fail. A useful assessment separates these findings and asks what additional information would make the decision more reliable.\nThe first step is to clarify the proposed benefit. If the aim is access, participation by residents who could not attend daytime sessions is more relevant than total attendance alone. If the aim is learning, evidence of attendance must be distinguished from evidence of progress. The measure should follow the purpose rather than be selected afterwards because it makes the programme look successful.\nThe second step is to identify constraints without treating them as fixed by default. Staff time, room availability, and support needs may limit expansion, but some limits could be addressed through a narrower schedule or a different format. Those alternatives should be compared on the same basis, with their costs and uncertainties made explicit.\nA proportionate recommendation would therefore preserve the most promising elements while requiring a better-defined evaluation. It might support a limited extension, specify the information to collect, and name a date for review. Such a conclusion is less dramatic than declaring the programme an unquestionable success or failure. It is also more useful, because it tells decision-makers what to do next and what would justify changing course.\nThis approach does not eliminate disagreement. It gives disagreement a clearer object: the purpose, evidence, assumptions, and trade-offs behind the proposed action. That clarity is the main contribution of a careful synthesis."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose synthesis.",
+            "options": [
+              "Both views accept the attendance figure but weigh staffing differently.",
+              "One side is good and the other is stupid."
+            ],
+            "answer": "Both views accept the attendance figure but weigh staffing differently.",
+            "hint": "Compare reasoning rather than labels."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a decision condition.",
+            "options": [
+              "Review participation and staff time before expanding.",
+              "Expand regardless of any evidence."
+            ],
+            "answer": "Review participation and staff time before expanding.",
+            "hint": "Name what would justify action."
+          }
+        ],
+        "task": {
+          "id": "synthesis-and-qualification-2-task",
+          "title": "Synthesize opposing views",
+          "genre": "critical revision",
+          "prompt": "Write an analysis comparing two reasonable positions. Identify their shared evidence, different assumptions, and conditions that could change your recommendation.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": false,
+          "targetLevel": "C2"
+        }
+      },
+      {
+        "id": "synthesis-and-qualification-3",
+        "title": "A qualified recommendation",
+        "miniLesson": {
+          "markdown": "Synthesis is not a list of views. Identify the question each source addresses, distinguish findings from interpretations, and explain where conclusions depend on assumptions.\n\nLesson focus: A qualified recommendation. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "A proposal to expand a community programme should be judged neither by enthusiasm alone nor by a single disappointing result. The relevant question is whether the available evidence supports a particular expansion under identifiable conditions. That distinction matters because both advocates and critics can describe the same pilot accurately while drawing conclusions that extend beyond what it shows.\nSuppose a short evening programme attracted steady attendance but required more staff time than expected. Supporters might emphasize demand, while critics focus on cost. Neither observation is necessarily wrong. Yet attendance does not establish long-term value, and an initial staffing difficulty does not prove that a revised arrangement would fail. A useful assessment separates these findings and asks what additional information would make the decision more reliable.\nThe first step is to clarify the proposed benefit. If the aim is access, participation by residents who could not attend daytime sessions is more relevant than total attendance alone. If the aim is learning, evidence of attendance must be distinguished from evidence of progress. The measure should follow the purpose rather than be selected afterwards because it makes the programme look successful.\nThe second step is to identify constraints without treating them as fixed by default. Staff time, room availability, and support needs may limit expansion, but some limits could be addressed through a narrower schedule or a different format. Those alternatives should be compared on the same basis, with their costs and uncertainties made explicit.\nA proportionate recommendation would therefore preserve the most promising elements while requiring a better-defined evaluation. It might support a limited extension, specify the information to collect, and name a date for review. Such a conclusion is less dramatic than declaring the programme an unquestionable success or failure. It is also more useful, because it tells decision-makers what to do next and what would justify changing course.\nThis approach does not eliminate disagreement. It gives disagreement a clearer object: the purpose, evidence, assumptions, and trade-offs behind the proposed action. That clarity is the main contribution of a careful synthesis."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an actionable conclusion.",
+            "options": [
+              "Extend for six weeks and review access and cost.",
+              "There are perspectives on both sides, the end."
+            ],
+            "answer": "Extend for six weeks and review access and cost.",
+            "hint": "Synthesis should support a decision."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose an honest limitation.",
+            "options": [
+              "The short pilot cannot establish long-term effects.",
+              "Six weeks proves all future outcomes."
+            ],
+            "answer": "The short pilot cannot establish long-term effects.",
+            "hint": "Match the conclusion to the study duration."
+          }
+        ],
+        "task": {
+          "id": "synthesis-and-qualification-3-task",
+          "title": "A qualified recommendation",
+          "genre": "critical revision",
+          "prompt": "Write a polished analytical recommendation for a decision-maker. Integrate conflicting evidence, qualify uncertainty, and specify a reviewable course of action.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": true,
+          "targetLevel": "C2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "audience-and-register",
+    "level": "C2",
+    "order": 2,
+    "title": "Audience and controlled register",
+    "theme": "Audience and controlled register",
+    "outcome": "Adapt complex reasoning without losing precision or evidence.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "audience-and-register-1",
+        "title": "Explain for a non-specialist",
+        "miniLesson": {
+          "markdown": "Adapt emphasis, structure, and terminology for the reader while keeping facts and important limitations stable. Precision comes from clear relationships, not unnecessary complexity.\n\nLesson focus: Explain for a non-specialist. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "The same proposal may need to be explained to a technical reviewer, a community participant, and a funding committee. Effective adaptation changes the route into the argument, not the underlying facts. If a writer simplifies by removing every limitation, the result is not accessible communication but a different and less defensible claim.\nFor a technical reviewer, the account might begin with the evaluation question, method, and limits of the data. The reader needs enough detail to assess whether the reasoning is sound. Terms should be defined where ambiguity could affect interpretation, and uncertainty should be connected to its source rather than expressed through vague caution.\nFor community participants, the opening might instead explain the practical change and why their experience matters. Shorter sentences and familiar examples can reduce unnecessary effort. However, the explanation should still distinguish what has been observed from what is being proposed. Participants deserve to know whether a decision is provisional, what alternatives were considered, and how they can respond.\nA funding committee may need a third structure: the need, proposed action, evidence of feasibility, expected benefit, and evaluation plan. A concise account can make these relationships visible without suggesting that funding will guarantee the desired outcome. Specific commitments are more credible than sweeping promises, especially when the proposal depends on cooperation from other organizations.\nAcross these versions, the writer should preserve stable facts and accurate attribution. Numbers, roles, and observed outcomes must not change to suit the audience. The amount of methodological detail may vary, but a material limitation cannot simply disappear. If the same term has different meanings for different readers, the writer should explain the intended meaning rather than rely on apparent familiarity.\nControlled register is therefore a form of judgment. Formal language is not automatically more precise, and simple language is not automatically less rigorous. The appropriate version is the one that enables its reader to understand the decision, assess the relevant evidence, and act without being misled."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose accessible precision.",
+            "options": [
+              "The trial shows who attended, not whether skills improved.",
+              "The ontological attendance paradigm validates everything."
+            ],
+            "answer": "The trial shows who attended, not whether skills improved.",
+            "hint": "Explain the actual distinction."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose stable facts.",
+            "options": [
+              "Keep the same figures across audience versions.",
+              "Change figures to make each reader happier."
+            ],
+            "answer": "Keep the same figures across audience versions.",
+            "hint": "Adapt language, not evidence."
+          }
+        ],
+        "task": {
+          "id": "audience-and-register-1-task",
+          "title": "Explain for a non-specialist",
+          "genre": "critical revision",
+          "prompt": "Write a clear public explanation of a complex proposal. Define necessary terms and retain material limitations without unnecessary jargon.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": false,
+          "targetLevel": "C2"
+        }
+      },
+      {
+        "id": "audience-and-register-2",
+        "title": "Write for a decision-maker",
+        "miniLesson": {
+          "markdown": "Adapt emphasis, structure, and terminology for the reader while keeping facts and important limitations stable. Precision comes from clear relationships, not unnecessary complexity.\n\nLesson focus: Write for a decision-maker. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "The same proposal may need to be explained to a technical reviewer, a community participant, and a funding committee. Effective adaptation changes the route into the argument, not the underlying facts. If a writer simplifies by removing every limitation, the result is not accessible communication but a different and less defensible claim.\nFor a technical reviewer, the account might begin with the evaluation question, method, and limits of the data. The reader needs enough detail to assess whether the reasoning is sound. Terms should be defined where ambiguity could affect interpretation, and uncertainty should be connected to its source rather than expressed through vague caution.\nFor community participants, the opening might instead explain the practical change and why their experience matters. Shorter sentences and familiar examples can reduce unnecessary effort. However, the explanation should still distinguish what has been observed from what is being proposed. Participants deserve to know whether a decision is provisional, what alternatives were considered, and how they can respond.\nA funding committee may need a third structure: the need, proposed action, evidence of feasibility, expected benefit, and evaluation plan. A concise account can make these relationships visible without suggesting that funding will guarantee the desired outcome. Specific commitments are more credible than sweeping promises, especially when the proposal depends on cooperation from other organizations.\nAcross these versions, the writer should preserve stable facts and accurate attribution. Numbers, roles, and observed outcomes must not change to suit the audience. The amount of methodological detail may vary, but a material limitation cannot simply disappear. If the same term has different meanings for different readers, the writer should explain the intended meaning rather than rely on apparent familiarity.\nControlled register is therefore a form of judgment. Formal language is not automatically more precise, and simple language is not automatically less rigorous. The appropriate version is the one that enables its reader to understand the decision, assess the relevant evidence, and act without being misled."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a credible commitment.",
+            "options": [
+              "We will record attendance and review costs after six weeks.",
+              "We guarantee every possible benefit."
+            ],
+            "answer": "We will record attendance and review costs after six weeks.",
+            "hint": "Commit to actions within your control."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose relevant structure.",
+            "options": [
+              "Need, action, evidence, evaluation.",
+              "Unrelated impressive words and praise."
+            ],
+            "answer": "Need, action, evidence, evaluation.",
+            "hint": "Organize around the decision."
+          }
+        ],
+        "task": {
+          "id": "audience-and-register-2-task",
+          "title": "Write for a decision-maker",
+          "genre": "critical revision",
+          "prompt": "Write a formal briefing for a funding committee. Connect need, action, feasibility, benefit, and evaluation without promising guaranteed results.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": false,
+          "targetLevel": "C2"
+        }
+      },
+      {
+        "id": "audience-and-register-3",
+        "title": "Adapt without distortion",
+        "miniLesson": {
+          "markdown": "Adapt emphasis, structure, and terminology for the reader while keeping facts and important limitations stable. Precision comes from clear relationships, not unnecessary complexity.\n\nLesson focus: Adapt without distortion. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "The same proposal may need to be explained to a technical reviewer, a community participant, and a funding committee. Effective adaptation changes the route into the argument, not the underlying facts. If a writer simplifies by removing every limitation, the result is not accessible communication but a different and less defensible claim.\nFor a technical reviewer, the account might begin with the evaluation question, method, and limits of the data. The reader needs enough detail to assess whether the reasoning is sound. Terms should be defined where ambiguity could affect interpretation, and uncertainty should be connected to its source rather than expressed through vague caution.\nFor community participants, the opening might instead explain the practical change and why their experience matters. Shorter sentences and familiar examples can reduce unnecessary effort. However, the explanation should still distinguish what has been observed from what is being proposed. Participants deserve to know whether a decision is provisional, what alternatives were considered, and how they can respond.\nA funding committee may need a third structure: the need, proposed action, evidence of feasibility, expected benefit, and evaluation plan. A concise account can make these relationships visible without suggesting that funding will guarantee the desired outcome. Specific commitments are more credible than sweeping promises, especially when the proposal depends on cooperation from other organizations.\nAcross these versions, the writer should preserve stable facts and accurate attribution. Numbers, roles, and observed outcomes must not change to suit the audience. The amount of methodological detail may vary, but a material limitation cannot simply disappear. If the same term has different meanings for different readers, the writer should explain the intended meaning rather than rely on apparent familiarity.\nControlled register is therefore a form of judgment. Formal language is not automatically more precise, and simple language is not automatically less rigorous. The appropriate version is the one that enables its reader to understand the decision, assess the relevant evidence, and act without being misled."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose an adaptation principle.",
+            "options": [
+              "Simplify wording while retaining material limitations.",
+              "Remove all uncertainty to seem confident."
+            ],
+            "answer": "Simplify wording while retaining material limitations.",
+            "hint": "Do not change the claim."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a register test.",
+            "options": [
+              "Can this reader understand and assess the decision?",
+              "Does this use the longest available words?"
+            ],
+            "answer": "Can this reader understand and assess the decision?",
+            "hint": "Judge language by its function."
+          }
+        ],
+        "task": {
+          "id": "audience-and-register-3-task",
+          "title": "Adapt without distortion",
+          "genre": "critical revision",
+          "prompt": "Write a polished formal proposal with a short plain-language summary. Keep facts, uncertainty, and attribution consistent across both versions.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": true,
+          "targetLevel": "C2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "critical-capstone",
+    "level": "C2",
+    "order": 3,
+    "title": "Independent critical editing",
+    "theme": "Independent critical editing",
+    "outcome": "Produce and critically revise a precise, credible application.",
+    "grammarFocus": ["word-choice", "cohesion"],
+    "vocabulary": [],
+    "lessons": [
+      {
+        "id": "critical-capstone-1",
+        "title": "Audit an argument",
+        "miniLesson": {
+          "markdown": "Critically edit the strongest version, not only obvious errors. Check evidence, attribution, certainty, rhetorical emphasis, and reader needs. Do not claim C2 certification from this capstone.\n\nLesson focus: Audit an argument. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Selection Committee, I am applying for advanced study in public decision-making because I want to examine how organizations move from incomplete information to justified action. Practical experience has given me a useful starting point, but it has also made me cautious about presenting competence as certainty. My aim is to develop methods that allow a decision to be both workable and open to revision.\nIn a small volunteer project, I helped prepare a briefing from participants' comments. I organized the material, documented unresolved questions, and checked whether the summary represented disagreement fairly. The resulting account informed planning, although it did not establish the wider community's preferences. This distinction is important to my application: the experience demonstrates careful communication and awareness of evidence limits, not independent mastery of policy research.\nMy next step is therefore methodological. I want to understand how research design, analysis, and institutional context shape the conclusions a project can support. In an actual application, I would connect this aim to verified elements of the current programme and explain why their assessed work addresses my specific needs. I would distinguish compulsory provision from optional opportunities and avoid presenting a promotional description as evidence of a guaranteed experience.\nI would contribute a habit of documenting decisions, willingness to examine competing interpretations, and practical familiarity with collaborative work. These qualities are not unique, but they are relevant. They would help me participate responsibly while learning from classmates whose experience challenges my own assumptions. I also recognize that further study may refine or change my initial professional direction.\nBefore submission, I would revise this letter against three questions. Does each claim have appropriate support? Does each paragraph perform a distinct function? Does the level of certainty match what I can actually know? I would then check factual details and remove wording that merely amplifies praise without adding information.\nMy longer-term intention is to help organizations communicate the basis and limits of their decisions. I do not regard admission as proof that this aim will be achieved. I regard study as an opportunity to test my preparation, deepen it, and make its limitations more explicit. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a sound self-assessment.",
+            "options": [
+              "The project showed careful communication, not mastery of all research.",
+              "One project proves expert mastery of every field."
+            ],
+            "answer": "The project showed careful communication, not mastery of all research.",
+            "hint": "Calibrate the scope of the claim."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a critical question.",
+            "options": [
+              "What evidence supports this statement?",
+              "How can I make this sound grander without evidence?"
+            ],
+            "answer": "What evidence supports this statement?",
+            "hint": "Test support, not intensity."
+          }
+        ],
+        "task": {
+          "id": "critical-capstone-1-task",
+          "title": "Audit an argument",
+          "genre": "critical revision",
+          "prompt": "Write an application draft and critically review the support, attribution, and certainty of its main claims. Revise claims that exceed your evidence.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": false,
+          "targetLevel": "C2"
+        }
+      },
+      {
+        "id": "critical-capstone-2",
+        "title": "Control rhetorical emphasis",
+        "miniLesson": {
+          "markdown": "Critically edit the strongest version, not only obvious errors. Check evidence, attribution, certainty, rhetorical emphasis, and reader needs. Do not claim C2 certification from this capstone.\n\nLesson focus: Control rhetorical emphasis. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Selection Committee, I am applying for advanced study in public decision-making because I want to examine how organizations move from incomplete information to justified action. Practical experience has given me a useful starting point, but it has also made me cautious about presenting competence as certainty. My aim is to develop methods that allow a decision to be both workable and open to revision.\nIn a small volunteer project, I helped prepare a briefing from participants' comments. I organized the material, documented unresolved questions, and checked whether the summary represented disagreement fairly. The resulting account informed planning, although it did not establish the wider community's preferences. This distinction is important to my application: the experience demonstrates careful communication and awareness of evidence limits, not independent mastery of policy research.\nMy next step is therefore methodological. I want to understand how research design, analysis, and institutional context shape the conclusions a project can support. In an actual application, I would connect this aim to verified elements of the current programme and explain why their assessed work addresses my specific needs. I would distinguish compulsory provision from optional opportunities and avoid presenting a promotional description as evidence of a guaranteed experience.\nI would contribute a habit of documenting decisions, willingness to examine competing interpretations, and practical familiarity with collaborative work. These qualities are not unique, but they are relevant. They would help me participate responsibly while learning from classmates whose experience challenges my own assumptions. I also recognize that further study may refine or change my initial professional direction.\nBefore submission, I would revise this letter against three questions. Does each claim have appropriate support? Does each paragraph perform a distinct function? Does the level of certainty match what I can actually know? I would then check factual details and remove wording that merely amplifies praise without adding information.\nMy longer-term intention is to help organizations communicate the basis and limits of their decisions. I do not regard admission as proof that this aim will be achieved. I regard study as an opportunity to test my preparation, deepen it, and make its limitations more explicit. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose responsible emphasis.",
+            "options": [
+              "Explain the action and why it matters.",
+              "Invent a dramatic result for attention."
+            ],
+            "answer": "Explain the action and why it matters.",
+            "hint": "Emphasis must preserve truth."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a useful deletion.",
+            "options": [
+              "Remove praise that adds no information.",
+              "Remove every factual limitation."
+            ],
+            "answer": "Remove praise that adds no information.",
+            "hint": "Cut repetition rather than honesty."
+          }
+        ],
+        "task": {
+          "id": "critical-capstone-2-task",
+          "title": "Control rhetorical emphasis",
+          "genre": "critical revision",
+          "prompt": "Revise a formal application so its strongest evidence receives emphasis without overstating achievements or disparaging other applicants.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": false,
+          "targetLevel": "C2"
+        }
+      },
+      {
+        "id": "critical-capstone-3",
+        "title": "Independent writing and critique",
+        "miniLesson": {
+          "markdown": "Critically edit the strongest version, not only obvious errors. Check evidence, attribution, certainty, rhetorical emphasis, and reader needs. Do not claim C2 certification from this capstone.\n\nLesson focus: Independent writing and critique. Read the model, notice the target choice, then practise it before writing your own version. Use truthful details; do not copy the model as your own experience.",
+          "modelText": "Dear Selection Committee, I am applying for advanced study in public decision-making because I want to examine how organizations move from incomplete information to justified action. Practical experience has given me a useful starting point, but it has also made me cautious about presenting competence as certainty. My aim is to develop methods that allow a decision to be both workable and open to revision.\nIn a small volunteer project, I helped prepare a briefing from participants' comments. I organized the material, documented unresolved questions, and checked whether the summary represented disagreement fairly. The resulting account informed planning, although it did not establish the wider community's preferences. This distinction is important to my application: the experience demonstrates careful communication and awareness of evidence limits, not independent mastery of policy research.\nMy next step is therefore methodological. I want to understand how research design, analysis, and institutional context shape the conclusions a project can support. In an actual application, I would connect this aim to verified elements of the current programme and explain why their assessed work addresses my specific needs. I would distinguish compulsory provision from optional opportunities and avoid presenting a promotional description as evidence of a guaranteed experience.\nI would contribute a habit of documenting decisions, willingness to examine competing interpretations, and practical familiarity with collaborative work. These qualities are not unique, but they are relevant. They would help me participate responsibly while learning from classmates whose experience challenges my own assumptions. I also recognize that further study may refine or change my initial professional direction.\nBefore submission, I would revise this letter against three questions. Does each claim have appropriate support? Does each paragraph perform a distinct function? Does the level of certainty match what I can actually know? I would then check factual details and remove wording that merely amplifies praise without adding information.\nMy longer-term intention is to help organizations communicate the basis and limits of their decisions. I do not regard admission as proof that this aim will be achieved. I regard study as an opportunity to test my preparation, deepen it, and make its limitations more explicit. Thank you for considering my application. Yours sincerely, Alex Chen"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose a final integrity check.",
+            "options": [
+              "Verify roles, results, programme facts, and attribution.",
+              "Trust every first-draft claim without checking."
+            ],
+            "answer": "Verify roles, results, programme facts, and attribution.",
+            "hint": "Review substance before proofreading."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a defensible conclusion.",
+            "options": [
+              "Study offers an opportunity to test and deepen my preparation.",
+              "Admission guarantees all future success."
+            ],
+            "answer": "Study offers an opportunity to test and deepen my preparation.",
+            "hint": "Avoid guarantees beyond your control."
+          }
+        ],
+        "task": {
+          "id": "critical-capstone-3-task",
+          "title": "Independent writing and critique",
+          "genre": "critical revision",
+          "prompt": "Write a 300–500-word formal application or professional proposal using verified facts. Include a concise critical self-review within that word range, then revise independently.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [],
+          "checklist": [
+            "Answer the task for the intended reader",
+            "Use your own accurate details",
+            "Read and revise before sending"
+          ],
+          "minWords": 300,
+          "maxWords": 500,
+          "isCheckpoint": true,
+          "targetLevel": "C2"
+        }
+      }
+    ]
+  }
+]

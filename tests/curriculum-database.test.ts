@@ -31,6 +31,7 @@ beforeAll(async () => {
  GRANT USAGE ON SCHEMA auth TO authenticated; INSERT INTO auth.users VALUES ('${alice}'),('${bob}');`);
   await database.exec(await readFile('drizzle/0000_writing.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0008_curriculum.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0009_writing_course.sql', 'utf8'));
   for (const unit of curriculumDraft)
     await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
       unit.id,
@@ -59,7 +60,7 @@ it('keeps the path blocked until placement is accepted, then opens only the star
   await expect(loadTask(alice, 'friendly-invitation-task')).rejects.toThrow('LESSON_LOCKED');
   expect((await loadPath(bob)).chosenLevel).toBeNull();
 });
-it('grades answers on the server, persists completion, and unlocks the next lesson only after all warm-ups', async () => {
+it('grades answers on the server but requires saved safe writing before unlocking the next lesson', async () => {
   const first = curriculumDraft[0].lessons[0];
   expect(await answerWarmup(alice, first.id, 0, 'wrong')).toMatchObject({
     correct: false,
@@ -68,6 +69,27 @@ it('grades answers on the server, persists completion, and unlocks the next less
   expect((await loadPath(alice)).units[0].lessons[1].state).toBe('locked');
   await answerWarmup(alice, first.id, 0, first.warmups[0].answer);
   await answerWarmup(alice, first.id, 1, first.warmups[1].answer);
+  expect((await loadPath(alice)).units[0].lessons.map((lesson) => lesson.state)).toEqual([
+    'current',
+    'locked',
+  ]);
+  expect((await loadLesson(alice, first.id)).warmups[0]).not.toHaveProperty('answer');
+  const writingId = '00000000-0000-4000-8000-000000000019';
+  await database.query(
+    `INSERT INTO writing.submissions(id,user_id,task_id,text,word_count,attempt,status) VALUES ($1,$2,$3,'Synthetic writing',20,1,'completed')`,
+    [writingId, alice, first.task.id],
+  );
+  await database.query(
+    `INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,'test','test')`,
+    [
+      writingId,
+      alice,
+      JSON.stringify({
+        safety_flag: false,
+        scores: { task: 2, organization: 2, grammar: 2, vocabulary: 2 },
+      }),
+    ],
+  );
   expect((await loadPath(alice)).units[0].lessons.map((lesson) => lesson.state)).toEqual([
     'done',
     'current',

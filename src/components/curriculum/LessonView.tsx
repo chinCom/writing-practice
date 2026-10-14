@@ -16,9 +16,11 @@ type Lesson = LearningPath['units'][number]['lessons'][number];
 export default function LessonView({
   lesson,
   preview = false,
+  fullCourse = false,
 }: {
   lesson: Lesson;
   preview?: boolean;
+  fullCourse?: boolean;
 }) {
   const t = useTranslations('curriculum');
   const [answers, setAnswers] = useState(lesson.answers);
@@ -39,12 +41,19 @@ export default function LessonView({
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(preview ? '/dev/preview/lessons-api' : '/api/lessons', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lessonId: lesson.id, index, answer }),
-        signal: AbortSignal.timeout(10000),
-      });
+      const response = await fetch(
+        preview
+          ? fullCourse
+            ? '/dev/preview/course-api'
+            : '/dev/preview/lessons-api'
+          : '/api/lessons',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lessonId: lesson.id, index, answer }),
+          signal: AbortSignal.timeout(10000),
+        },
+      );
       const data = await response.json();
       if (!response.ok || !data.ok)
         throw new Error(response.status === 401 ? 'session' : 'requestError');
@@ -63,7 +72,7 @@ export default function LessonView({
       <Stack sx={{ gap: 3 }}>
         <Button
           component={NextLink}
-          href={preview ? '/dev/preview/path' : '/path'}
+          href={preview ? '/dev/preview/path' + (fullCourse ? '?course=full' : '') : '/path'}
           sx={{ alignSelf: 'flex-start' }}
         >
           {t('backToPath')}
@@ -90,7 +99,12 @@ export default function LessonView({
                 <Alert severity="success">{t('warmupsComplete')}</Alert>
                 <Button
                   component={NextLink}
-                  href={preview ? '/dev/preview/curriculum-write' : '/write/' + lesson.task.id}
+                  href={
+                    preview
+                      ? '/dev/preview/curriculum-write' +
+                        (fullCourse ? '?course=full&task=' + lesson.task.id : '')
+                      : '/write/' + lesson.task.id
+                  }
                   variant="contained"
                 >
                   {t('startWriting')}
@@ -108,7 +122,7 @@ export default function LessonView({
                     label={t('answer')}
                     value={answer}
                     disabled={busy || Boolean(result?.correct)}
-                    slotProps={{ select: { native: true } }}
+                    slotProps={{ select: { native: true }, inputLabel: { shrink: true } }}
                     onChange={(event) => setAnswer(event.target.value)}
                   >
                     <Box component="option" value="">

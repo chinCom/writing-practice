@@ -24,14 +24,48 @@ export type PracticeResult = {
   days: number;
   misses: number;
 };
+export type PracticeRetryHint =
+  | { kind: 'phrase'; phrase: string }
+  | { kind: 'modal-word'; modal: string; phrase: string; replacement: string };
 export type PracticeAnswer = PracticeResult & {
   version: number;
   explanation: string;
   suggestion?: string;
   hintTerms?: string[];
+  retryHint?: PracticeRetryHint;
 };
 export function normalizePracticeAnswer(answer: string) {
   return answer.normalize('NFC').trim().replace(/\s+/g, ' ').toLocaleLowerCase('en');
+}
+export function practiceRetryHint(
+  answer: string,
+  suggestion: string,
+): PracticeRetryHint | undefined {
+  const words = normalizePracticeAnswer(answer).split(' ');
+  const expected = normalizePracticeAnswer(suggestion).split(' ');
+  let start = 0;
+  while (start < words.length && start < expected.length && words[start] === expected[start])
+    start++;
+  let end = words.length;
+  let expectedEnd = expected.length;
+  while (end > start && expectedEnd > start && words[end - 1] === expected[expectedEnd - 1]) {
+    end--;
+    expectedEnd--;
+  }
+  if (start === end) return undefined;
+  const phrase = words.slice(start, end).join(' ');
+  const modal = words[start - 1];
+  if (
+    end - start === 1 &&
+    expectedEnd - start === 1 &&
+    /^(can|could|may|might|must|shall|should|will|would)$/.test(modal ?? '') &&
+    /^[a-z]+$/.test(phrase) &&
+    /^[a-z]+$/.test(expected[start]) &&
+    !/(ly|ely)$/.test(phrase) &&
+    !/ly$/.test(expected[start])
+  )
+    return { kind: 'modal-word', modal, phrase, replacement: expected[start] };
+  return { kind: 'phrase', phrase };
 }
 export function checkPracticeAnswer(
   answer: string,

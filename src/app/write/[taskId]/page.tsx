@@ -6,6 +6,8 @@ import { loadCorrectionChoices } from '@/lib/db/corrections';
 import { revisionText } from '@/lib/revision';
 import LiveStudio from '@/components/studio/LiveStudio';
 import { loadTask } from '@/lib/db/curriculum';
+import { maxRevisionAttempts } from '@/lib/limits';
+import RevisionLimit from '@/components/studio/RevisionLimit';
 import { ApiError } from '@/lib/api';
 export default async function Page({
   params,
@@ -31,6 +33,7 @@ export default async function Page({
     if (!z.uuid().safeParse(revision).success) notFound();
     const result = await loadFeedback(user.id, revision);
     if (!result || result.submission.taskId !== taskId) notFound();
+    if (result.submission.attempt >= maxRevisionAttempts) return <RevisionLimit taskId={taskId} />;
     const choices = await loadCorrectionChoices(user.id, revision);
     const applied = new Set(
       choices

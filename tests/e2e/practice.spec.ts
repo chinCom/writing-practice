@@ -71,6 +71,54 @@ test('practice checks an answer, gives one retry, saves completion, and resumes 
   await expect(page.getByRole('link', { name: 'Write a message', exact: true })).toBeVisible();
 });
 
+test('practice points to the remaining word instead of repeating an already-followed hint', async ({
+  page,
+}) => {
+  await page.route('**/dev/preview/practice', async (route) => {
+    if (route.request().method() === 'GET')
+      return route.fulfill({
+        json: {
+          ok: true,
+          questions: [
+            {
+              ...question,
+              text: 'There were many options that I can choose from.',
+              start: 29,
+              end: 46,
+              original: 'I can choose from',
+              tag: 'verb-tense',
+            },
+          ],
+          nextReviewAt: null,
+        },
+      });
+    return route.fulfill({
+      json: {
+        ok: true,
+        result: {
+          correct: false,
+          complete: false,
+          version: 1,
+          box: 1,
+          days: 0,
+          misses: 1,
+          explanation: 'Use could for ability in the past.',
+          hintTerms: ['could'],
+          retryHint: { kind: 'modal-word', modal: 'could', phrase: 'chose', replacement: 'choose' },
+        },
+      },
+    });
+  });
+  await page.goto('/dev/preview/practice-page');
+  await page.getByRole('textbox', { name: 'Correct phrase' }).fill('I could chose from');
+  await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+  const hint = page.getByRole('status');
+  await expect(hint).toContainText('chose');
+  await expect(hint).toContainText('choose');
+  await expect(hint).not.toContainText('Use could for ability in the past.');
+  await expect(page.getByRole('textbox', { name: 'Correct phrase' })).toBeEditable();
+});
+
 test('practice keeps a lost answer request unchanged for a safe retry', async ({ page }) => {
   let posts = 0;
   await page.route('**/dev/preview/practice', async (route) => {

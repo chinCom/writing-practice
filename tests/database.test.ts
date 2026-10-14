@@ -79,6 +79,8 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0005_correction_choices.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0006_preferences.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0007_profiles.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0008_curriculum.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0009_writing_course.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -293,6 +295,32 @@ it('persists correction choices, excludes dismissed drills, restores reviews, an
   vi.mocked(currentUser).mockResolvedValue(null);
   expect((await saveCorrectionChoice(request('/api/corrections', payload))).status).toBe(401);
 });
+it('backfills only ten unprocessed legacy sources per read and records empty or unsafe feedback', async () => {
+  const owner = '00000000-0000-4000-8000-000000000096';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  for (let index = 0; index < 100; index++) {
+    const id = crypto.randomUUID();
+    await database.query(
+      "INSERT INTO writing.submissions(id,user_id,task_id,text,word_count,attempt,status) VALUES ($1,$2,'weekend',$3,58,1,'completed')",
+      [id, owner, sampleDraft],
+    );
+    await database.query(
+      "INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,'test','test')",
+      [
+        id,
+        owner,
+        JSON.stringify({ ...markedPageSample, corrections: [], safety_flag: index % 2 === 0 }),
+      ],
+    );
+  }
+  expect((await loadPractice(owner)).questions).toHaveLength(0);
+  expect((await asUser(owner, 'SELECT * FROM writing.practice_sources')).rows).toHaveLength(10);
+  await loadPractice(owner);
+  expect((await asUser(owner, 'SELECT * FROM writing.practice_sources')).rows).toHaveLength(20);
+  for (let i = 0; i < 9; i++) await loadPractice(owner);
+  expect((await asUser(owner, 'SELECT * FROM writing.practice_sources')).rows).toHaveLength(100);
+  expect((await asUser(owner, 'SELECT * FROM writing.practice_drills')).rows).toHaveLength(0);
+});
 it('saves due practice, grades on the server, blocks foreign answers, and reuses repeated results', async () => {
   const owner = '00000000-0000-4000-8000-000000000099';
   await database.exec(`INSERT INTO auth.users VALUES ('${owner}')`);
@@ -323,6 +351,8 @@ it('saves due practice, grades on the server, blocks foreign answers, and reuses
       mock: true,
     },
   );
+  // Completing feedback creates drills atomically, without a Practice read.
+  expect((await asUser(owner, 'SELECT * FROM writing.practice_drills')).rows).toHaveLength(1);
   const queue = await loadPractice(owner);
   expect(queue.questions).toHaveLength(1);
   const question = queue.questions[0];
@@ -386,6 +416,51 @@ it('saves due practice, grades on the server, blocks foreign answers, and reuses
       .status,
   ).toBe(401);
 });
+it('returns answer-specific practice hints and preserves them when a save is retried', async () => {
+  const owner = '00000000-0000-4000-8000-000000000098';
+  await database.exec(`INSERT INTO auth.users VALUES ('${owner}')`);
+  const text = 'There were many options that I can choose from. ' + sampleDraft;
+  const original = 'I can choose from';
+  const id = await reserveSubmission(owner, { taskId: 'weekend', text, attempt: 1 });
+  const feedback = {
+    ...markedPageSample,
+    corrections: [
+      {
+        original,
+        suggestion: 'I could choose from',
+        tag: 'verb-tense' as const,
+        severity: 'major' as const,
+        explanation: 'Use could for ability in the past.',
+        confidence: 0.99,
+        start: text.indexOf(original),
+        end: text.indexOf(original) + original.length,
+      },
+    ],
+  };
+  await completeSubmission(owner, id, feedback, {
+    data: feedback,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+    model: 'test',
+    latencyMs: 1,
+    mock: true,
+  });
+  const { questions } = await loadPractice(owner);
+  expect(questions[0]).not.toHaveProperty('suggestion');
+  const result = await answerPractice(owner, questions[0].id, 'I could chose from', 0);
+  expect(result).toMatchObject({
+    correct: false,
+    complete: false,
+    retryHint: { kind: 'modal-word', modal: 'could', phrase: 'chose', replacement: 'choose' },
+  });
+  expect(result).not.toHaveProperty('suggestion');
+  expect(await answerPractice(owner, questions[0].id, 'I could chose from', 0)).toEqual(result);
+  expect(await answerPractice(owner, questions[0].id, 'I could choose from', 1)).toMatchObject({
+    correct: true,
+    complete: true,
+    suggestion: 'I could choose from',
+  });
+});
+
 it('returns private progress for the verified owner without counting another account or failed checks', async () => {
   vi.mocked(currentUser).mockResolvedValue({
     id: '00000000-0000-4000-8000-000000000099',

@@ -9,7 +9,15 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import type { LearningPath as Path } from '@/lib/db/curriculum';
-export default function LearningPath({ path, preview = false }: { path: Path; preview?: boolean }) {
+export default function LearningPath({
+  path,
+  preview = false,
+  fullCourse = false,
+}: {
+  path: Path;
+  preview?: boolean;
+  fullCourse?: boolean;
+}) {
   const t = useTranslations('curriculum');
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
@@ -18,6 +26,7 @@ export default function LearningPath({ path, preview = false }: { path: Path; pr
           {t('pathTitle')}
         </Typography>
         <Typography>{t('pathIntro')}</Typography>
+        <Alert severity="info">{t('courseScope')}</Alert>
         {!path.chosenLevel ? (
           <Button
             component={NextLink}
@@ -55,13 +64,19 @@ export default function LearningPath({ path, preview = false }: { path: Path; pr
                     <Button
                       variant={lesson.state === 'current' ? 'contained' : 'outlined'}
                       component={NextLink}
-                      href={preview ? '/dev/preview/lesson' : '/lesson/' + lesson.id}
+                      href={
+                        preview
+                          ? '/dev/preview/lesson' +
+                            (fullCourse ? '?course=full&lesson=' + lesson.id : '')
+                          : '/lesson/' + lesson.id
+                      }
                     >
                       {lesson.title}
                     </Button>
                   )}
                   <Typography variant="caption">
-                    {t(lesson.state)}
+                    {t(lesson.state)} · {t(lesson.warmupsDone ? 'practiceDone' : 'practiceNeeded')}{' '}
+                    · {t(lesson.writingDone ? 'writingDone' : 'writingNeeded')}
                     {lesson.task.isCheckpoint ? ' · ' + t('checkpoint') : ''}
                   </Typography>
                 </Stack>

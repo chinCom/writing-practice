@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { countWords } from '@/lib/draft';
-import { textLimits } from '@/lib/limits';
+import { textLimits, maxRevisionAttempts } from '@/lib/limits';
 import { Level } from './schema';
 import { weekendTask, type CurriculumTask } from '@/lib/curriculum';
 const Input = z.strictObject({
   taskId: z.string().regex(/^[a-z0-9-]{1,80}$/),
   text: z.string().max(20000),
-  attempt: z.number().int().min(1).max(20),
+  attempt: z.number().int().min(1).max(maxRevisionAttempts),
   parentSubmissionId: z.uuid().optional(),
 });
 export function parseFeedbackInput(

@@ -15,6 +15,7 @@ export default async function Page({ params }: { params: Promise<{ submissionId:
     <FeedbackView
       submissionId={submissionId}
       taskId={result.submission.taskId}
+      attempt={result.submission.attempt}
       text={result.submission.text}
       feedback={result.feedback.json}
       mock={result.feedback.model === 'mock'}

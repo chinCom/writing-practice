@@ -47,7 +47,8 @@
     "settings": "Cài đặt",
     "account": "Tài khoản của bạn",
     "signOut": "Đăng xuất",
-    "signIn": "Đăng nhập"
+    "signIn": "Đăng nhập",
+    "signOutError": "Không thể xác nhận đăng xuất. Hãy thử lại."
   },
   "today": {
     "title": "Dành chút thời gian để viết",
@@ -204,7 +205,7 @@
     "sendReport": "Gửi báo cáo",
     "reportSaved": "Đã lưu báo cáo",
     "choiceSaving": "Đang lưu…",
-    "choiceError": "Không thể lưu lựa chọn của bạn. Chỉnh sửa chưa thay đổi.",
+    "choiceError": "Không thể lưu lựa chọn. Thay đổi cục bộ vẫn còn; hãy thử lưu lại.",
     "choiceRetry": "Thử lưu lại lựa chọn",
     "choiceSession": "Phiên đăng nhập đã kết thúc. Hãy đăng nhập lại để lưu lựa chọn.",
     "savedFix": "Đã lưu lựa chọn của bạn. Bài viết gốc và phản hồi AI không thay đổi.",
@@ -244,7 +245,7 @@
     "tryAgain": "Thử lại. So sánh câu trả lời của bạn với gợi ý.",
     "answer": "Cách sửa của bạn",
     "checkAnswer": "Kiểm tra câu trả lời",
-    "localFix": "Chỉ áp dụng cho bản chỉnh sửa. Nhận xét đã lưu không thay đổi.",
+    "localFix": "Đã áp dụng cục bộ. Bài viết gốc không thay đổi.",
     "try": "Tự thử sửa",
     "tags": {
       "verb-tense": "Thì động từ",
@@ -297,7 +298,13 @@
     "explainTimeout": "Giải thích mất quá nhiều thời gian. Thử lại để tìm kết quả đã lưu.",
     "explainError": "Chưa có giải thích. Chỗ sửa của bạn không thay đổi. Hãy thử lại.",
     "explainSession": "Phiên đăng nhập đã kết thúc. Đăng nhập lại để yêu cầu giải thích.",
-    "explainLimit": "Bạn đã đạt giới hạn giải thích hôm nay. Bạn vẫn có thể xem các giải thích đã lưu."
+    "explainLimit": "Bạn đã đạt giới hạn giải thích hôm nay. Bạn vẫn có thể xem các giải thích đã lưu.",
+    "choiceLoadError": "Không thể tải lựa chọn đã lưu. Hãy tải lại trước khi thay đổi.",
+    "choiceLeave": "Lựa chọn sửa lỗi vẫn đang lưu hoặc lưu thất bại. Rời đi mà không lưu?",
+    "newDraft": "Bắt đầu bản nháp mới",
+    "revisionLimit": "Bài viết này đã đạt 20 lần kiểm tra. Bắt đầu bản nháp mới để tiếp tục; các phiên bản đã lưu vẫn còn.",
+    "courseBack": "Tiếp tục học",
+    "courseSynthetic": "Bản xem trước phát triển: kết quả giả lập này kiểm tra luồng thao tác, không đánh giá bài viết."
   },
   "liveStudio": {
     "save": "Lưu bản nháp",
@@ -349,6 +356,9 @@
     "correct": "Đúng rồi",
     "revealed": "Đây là cụm từ gợi ý",
     "tryAgain": "Hãy thử thêm một lần",
+    "retryModal": "Bạn đã dùng “{modal}”. Hãy kiểm tra “{phrase}”: cách sửa đã lưu dùng “{replacement}” ở đây.",
+    "retryPhrase": "Kiểm tra “{phrase}” trong câu trả lời. Phần này khác với cách sửa đã lưu.",
+    "retryGeneric": "Cụm từ của bạn chưa khớp với cách sửa đã lưu. Kiểm tra toàn bộ cụm từ được đánh dấu, kể cả từ thiếu hoặc thừa.",
     "reviewDays": "Ôn tập lại sau {n} ngày",
     "finish": "Hoàn thành luyện tập",
     "next": "Câu hỏi tiếp theo",
@@ -424,7 +434,7 @@
   },
   "curriculum": {
     "placementTitle": "Tìm trình độ bắt đầu",
-    "placementIntro": "Viết hai tin nhắn ngắn và trả lời ba câu hỏi ngữ pháp. Bạn có thể chọn trình độ bắt đầu khác.",
+    "placementIntro": "Ước lượng ngắn chỉ bao phủ A1–B1. Bạn có thể chọn điểm bắt đầu sơ cấp hoặc nâng cao; lựa chọn này không phải trình độ đã kiểm tra.",
     "placementLimitNotice": "Đây là ước tính luyện tập A1–B1, không phải chứng chỉ CEFR. Bạn có thể kiểm tra ba lần mỗi ngày.",
     "loading": "Đang kiểm tra bài viết",
     "session": "Phiên đăng nhập đã kết thúc. Hãy đăng nhập lại.",
@@ -463,6 +473,11 @@
     "correct": "Đúng rồi",
     "tryAgain": "Hãy thử lại",
     "nextWarmup": "Bài khởi động tiếp theo",
-    "check": "Kiểm tra câu trả lời"
+    "check": "Kiểm tra câu trả lời",
+    "courseScope": "Khóa viết giới hạn từ câu đầu tiên đến thư ứng tuyển độc lập. Hoàn thành khóa học không phải chứng nhận CEFR.",
+    "practiceDone": "Đã luyện tập",
+    "practiceNeeded": "Cần luyện tập",
+    "writingDone": "Đã viết",
+    "writingNeeded": "Cần viết"
   }
 }

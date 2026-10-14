@@ -15,6 +15,26 @@ import WritingField from '@/components/ui/WritingField';
 import HintText from '@/components/ui/HintText';
 import type { PracticeAnswer, PracticeQuestion } from '@/lib/practice';
 
+function PracticeHint({ result }: { result: PracticeAnswer }) {
+  const t = useTranslations('practice');
+  if (result.complete) return <HintText text={result.explanation} terms={result.hintTerms} />;
+  const hint = result.retryHint;
+  if (hint?.kind === 'modal-word')
+    return (
+      <HintText
+        text={t('retryModal', {
+          modal: hint.modal,
+          phrase: hint.phrase,
+          replacement: hint.replacement,
+        })}
+        terms={[hint.modal, hint.phrase, hint.replacement]}
+      />
+    );
+  if (hint?.kind === 'phrase')
+    return <HintText text={t('retryPhrase', { phrase: hint.phrase })} terms={[hint.phrase]} />;
+  return <HintText text={t('retryGeneric')} terms={[]} />;
+}
+
 export default function Practice({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('practice');
   const tags = useTranslations('feedback.tags');
@@ -39,6 +59,7 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
   const checking = useRef(false);
   const answerInput = useRef<HTMLInputElement>(null);
   const question = questions[index];
+
   useEffect(() => {
     const controller = new AbortController();
     fetch(endpoint, {
@@ -235,7 +256,7 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
                       {t(result.correct ? 'correct' : result.complete ? 'revealed' : 'tryAgain')}
                     </Typography>
                     <Typography variant="body2">
-                      <HintText text={result.explanation} terms={result.hintTerms} />
+                      <PracticeHint result={result} />
                     </Typography>
                     {result.suggestion && (
                       <Typography variant="body1" dir="ltr" sx={{ mt: 1, fontWeight: 700 }}>

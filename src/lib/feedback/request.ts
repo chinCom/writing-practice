@@ -6,6 +6,7 @@ interface RequestOptions {
   requestTimeoutMs?: number;
   recoveryTimeoutMs?: number;
   pollIntervalMs?: number;
+  endpoint?: string;
 }
 interface CoachResponse {
   ok: boolean;
@@ -33,10 +34,13 @@ export async function recoverCoach(
   let missing = false;
   do {
     try {
-      const response = await fetch('/api/feedback?requestKey=' + encodeURIComponent(requestKey), {
-        cache: 'no-store',
-        signal: AbortSignal.timeout(Math.max(1, Math.min(5000, deadline - Date.now()))),
-      });
+      const response = await fetch(
+        (options.endpoint ?? '/api/feedback') + '?requestKey=' + encodeURIComponent(requestKey),
+        {
+          cache: 'no-store',
+          signal: AbortSignal.timeout(Math.max(1, Math.min(5000, deadline - Date.now()))),
+        },
+      );
       // A disconnected POST may not have reached the reservation yet. Never resubmit blindly.
       missing = response.status === 404;
       if (!missing) {
@@ -60,7 +64,7 @@ export async function requestCoach(
   options: RequestOptions = {},
 ): Promise<CoachResult> {
   try {
-    const response = await fetch('/api/feedback', {
+    const response = await fetch(options.endpoint ?? '/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Idempotency-Key': requestKey },
       body: JSON.stringify(input),

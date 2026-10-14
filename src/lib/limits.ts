@@ -10,3 +10,4 @@ export const textLimits: Record<z.infer<typeof Level>, number> = {
   C2: 6500,
 };
 export const freeDailySubmissions = 20;
+export const maxRevisionAttempts = 20;

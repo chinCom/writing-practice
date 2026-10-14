@@ -11,16 +11,16 @@ import {
 import {
   curriculumSchema,
   gradeWarmup,
-  passesCheckpoint,
   placementOutput,
   weekendTask,
   type CurriculumLevel,
   type PlacementResult,
 } from '@/lib/curriculum';
 import { ApiError } from '@/lib/api';
+import { buildCoursePath } from '@/lib/curriculum-path';
 
 type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
-async function pathInTransaction(database: Transaction) {
+export async function pathInTransaction(database: Transaction) {
   const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
   const content = units.length ? curriculumSchema.parse(units.map((unit) => unit.content)) : [];
   const [placement] = await database.select().from(placementResults);
@@ -31,31 +31,10 @@ async function pathInTransaction(database: Transaction) {
     .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
     .where(eq(submissions.status, 'completed'));
   const chosenLevel = (placement?.chosenLevel as CurriculumLevel | null) ?? null;
-  const ranks = { A1: 0, A2: 1, B1: 2 };
-  let open = Boolean(chosenLevel);
-  const ordered = content.sort((a, b) => ranks[a.level] - ranks[b.level] || a.order - b.order);
   return {
     chosenLevel,
     placement: placement?.result ?? null,
-    units: ordered.map((unit) => {
-      const beforeStart = chosenLevel !== null && ranks[unit.level] < ranks[chosenLevel];
-      const lessons = unit.lessons.map((lesson) => {
-        const saved = progress.find((item) => item.lessonId === lesson.id);
-        const warmupsDone = lesson.warmups.every(
-          (_, index) => saved?.warmups[String(index)] === true,
-        );
-        const passed = checks.some(
-          (check) =>
-            check.taskId === lesson.task.id &&
-            passesCheckpoint(check.feedback.scores, check.feedback.safety_flag),
-        );
-        const done = warmupsDone && (!lesson.task.isCheckpoint || passed);
-        const state = beforeStart ? 'available' : done ? 'done' : open ? 'current' : 'locked';
-        if (!beforeStart && !done) open = false;
-        return { ...lesson, state, warmupsDone, answers: saved?.warmups ?? {} };
-      });
-      return { ...unit, lessons };
-    }),
+    units: buildCoursePath(content, chosenLevel, progress, checks),
   };
 }
 export type LearningPath = Awaited<ReturnType<typeof pathInTransaction>>;
@@ -94,7 +73,13 @@ export async function answerWarmup(
   return withUserDatabase(userId, async (database) => {
     await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 3))`);
     const lesson = await lessonInTransaction(database, lessonId);
-    const warmup = lesson.warmups[index];
+    const [unit] = await database
+      .select({ content: curriculumUnits.content })
+      .from(curriculumUnits)
+      .where(
+        sql`${curriculumUnits.content}->'lessons' @> ${JSON.stringify([{ id: lessonId }])}::jsonb`,
+      );
+    const warmup = unit?.content.lessons.find((item) => item.id === lessonId)?.warmups[index];
     if (!warmup) throw new ApiError('INVALID_INPUT', 400);
     const correct = gradeWarmup(warmup, answer);
     const answers = { ...lesson.answers };

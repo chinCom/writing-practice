@@ -192,7 +192,7 @@ export default function CorrectionCard({
       </Stack>
       {applied ? (
         <Typography role="status" variant="caption" sx={{ display: 'block', marginBlockStart: 1 }}>
-          {t('savedFix')}
+          {t('localFix')}
         </Typography>
       ) : null}
       <Stack

@@ -19,7 +19,13 @@ export async function signIn(input: unknown): Promise<{ ok: boolean }> {
   });
   return { ok: !error };
 }
-export async function signOut() {
-  const client = await authClient();
-  if (client) await client.auth.signOut();
+export async function signOut(): Promise<{ ok: boolean }> {
+  try {
+    const client = await authClient();
+    if (!client) return { ok: false };
+    const { error } = await client.auth.signOut();
+    return { ok: !error };
+  } catch {
+    return { ok: false };
+  }
 }

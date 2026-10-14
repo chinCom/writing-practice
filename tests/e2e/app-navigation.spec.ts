@@ -45,12 +45,25 @@ async function navigationAppearance(navigation: Locator) {
         ? {
             top: footer.getBoundingClientRect().top,
             height: footer.getBoundingClientRect().height,
-            text: typography(footer.querySelector('p')!),
+            text: typography(footer.querySelector('a, button')!),
           }
         : null,
     };
   });
 }
+
+test('navigation temporarily hides account identity but keeps account access', async ({
+  page,
+}, info) => {
+  await page.goto('/dev/preview/portfolio');
+  if (info.project.name === 'mobile') {
+    await page.getByRole('button', { name: 'Open menu' }).click();
+  }
+  const navigation =
+    info.project.name === 'mobile' ? page.getByRole('dialog') : page.getByRole('complementary');
+  await expect(navigation.getByText('Your account', { exact: true })).toHaveCount(0);
+  await expect(navigation.getByRole('link', { name: 'Sign in' })).toBeVisible();
+});
 
 for (const colorScheme of ['light', 'dark'] as const) {
   test(`desktop navigation keeps the Today appearance across pages in ${colorScheme} mode`, async ({

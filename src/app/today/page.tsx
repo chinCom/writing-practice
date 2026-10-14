@@ -1,22 +1,18 @@
 import Today from '@/components/today/Today';
 import { currentUser } from '@/lib/auth/server';
-import { recentSubmissions } from '@/lib/db/queries';
-import { loadProgress } from '@/lib/db/progress';
-import { loadPractice } from '@/lib/db/practice';
-import { loadPreferences } from '@/lib/db/preferences';
-import { loadPath } from '@/lib/db/curriculum';
+import { loadToday } from '@/lib/db/today';
 export default async function Page() {
   const user = await currentUser();
-  const [submissions, progress, practice, preferences, learningPath] =
+  const { submissions, progress, practice, preferences, learningPath } =
     user && process.env.DATABASE_URL
-      ? await Promise.all([
-          recentSubmissions(user.id),
-          loadProgress(user.id),
-          loadPractice(user.id),
-          loadPreferences(user.id),
-          loadPath(user.id),
-        ])
-      : [[], undefined, undefined, undefined, undefined];
+      ? await loadToday(user.id)
+      : {
+          submissions: [],
+          progress: undefined,
+          practice: undefined,
+          preferences: undefined,
+          learningPath: undefined,
+        };
   const unit = learningPath?.units.find((item) =>
     item.lessons.some((lesson) => lesson.state === 'current'),
   );

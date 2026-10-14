@@ -19,6 +19,9 @@ type TaskBriefProps = {
 
 export default function TaskBrief({ onInsert, disabled = false, task }: TaskBriefProps) {
   const t = useTranslations('studio');
+  const wordBank = task
+    ? task.wordBank
+    : ['lastWeekend', 'evening', 'wouldLike'].map((key) => t(key));
   return (
     <Box>
       <Stack
@@ -53,25 +56,27 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
           />
         ))}
       </FormGroup>
-      <Divider sx={{ my: 2.5 }} />
-      <Typography variant="body2" sx={{ mb: 1.5 }}>
-        {t('wordBank')}
-      </Typography>
-      <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1 }}>
-        {(task?.wordBank ?? ['lastWeekend', 'evening', 'wouldLike'].map((key) => t(key))).map(
-          (phrase) => (
-            <Chip
-              key={phrase}
-              label={phrase}
-              variant="outlined"
-              clickable
-              disabled={disabled}
-              onClick={() => onInsert(phrase)}
-              sx={{ minHeight: 44 }}
-            />
-          ),
-        )}
-      </Stack>
+      {wordBank.length ? (
+        <>
+          <Divider sx={{ my: 2.5 }} />
+          <Typography variant="body2" sx={{ mb: 1.5 }}>
+            {t('wordBank')}
+          </Typography>
+          <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1 }}>
+            {wordBank.map((phrase) => (
+              <Chip
+                key={phrase}
+                label={phrase}
+                variant="outlined"
+                clickable
+                disabled={disabled}
+                onClick={() => onInsert(phrase)}
+                sx={{ minHeight: 44 }}
+              />
+            ))}
+          </Stack>
+        </>
+      ) : null}
     </Box>
   );
 }

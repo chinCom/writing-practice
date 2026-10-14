@@ -79,7 +79,7 @@ export async function gradeWriting(text: string, options: GradeOptions) {
       const choice = completion.choices[0];
       if (choice?.finish_reason !== 'stop') throw new Error('Incomplete feedback');
       const data = FeedbackSchema.parse(JSON.parse(choice.message.content ?? ''));
-      if (data.corrections.length > (task.targetLevel === 'B1' ? 12 : 8))
+      if (data.corrections.length > (['PRE_A1', 'A1', 'A2'].includes(task.targetLevel) ? 8 : 12))
         throw new Error('Too many corrections');
       return { data, usage, model: options.model, latencyMs: Date.now() - started, mock: false };
     } catch {

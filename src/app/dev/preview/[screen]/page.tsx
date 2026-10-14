@@ -3,6 +3,7 @@ import Today from '@/components/today/Today';
 import LearningPath from '@/components/curriculum/LearningPath';
 import Placement from '@/components/curriculum/Placement';
 import LessonView from '@/components/curriculum/LessonView';
+import { coursePreview } from '@/mocks/course-preview';
 import { pathSample } from '@/mocks/curriculum.sample';
 import Onboarding from '@/components/onboarding/Onboarding';
 import GoalPreview from '@/components/today/GoalPreview';
@@ -25,10 +26,40 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ screen: string }>;
-  searchParams: Promise<{ revise?: string }>;
+  searchParams: Promise<{ revise?: string; course?: string; lesson?: string; task?: string }>;
 }) {
   if (process.env.NODE_ENV !== 'development') notFound();
   const { screen } = await params;
+  const query = await searchParams;
+  const full = query.course === 'full' || screen === 'course-feedback';
+  if (full) {
+    const { path } = await coursePreview();
+    const lessons = path.units.flatMap((unit) => unit.lessons);
+    if (screen === 'path') return <LearningPath path={path} preview fullCourse />;
+    if (screen === 'lesson') {
+      const lesson = lessons.find((item) => item.id === query.lesson);
+      if (!lesson || lesson.state === 'locked') notFound();
+      return <LessonView lesson={lesson} preview fullCourse />;
+    }
+    if (screen === 'curriculum-write') {
+      const lesson = lessons.find((item) => item.task.id === query.task);
+      if (!lesson || !lesson.warmupsDone || lesson.state === 'locked') notFound();
+      return (
+        <LiveStudio key={lesson.task.id} initialText="" task={lesson.task} preview coursePreview />
+      );
+    }
+    if (screen === 'course-feedback')
+      return (
+        <FeedbackView
+          submissionId="preview"
+          text={sampleDraft}
+          feedback={{ ...markedPageSample, corrections: [] }}
+          mock
+          coursePreview
+          taskId={query.task}
+        />
+      );
+  }
   if (screen === 'path') return <LearningPath path={pathSample} preview />;
   if (screen === 'placement') return <Placement preview />;
   if (screen === 'lesson') return <LessonView lesson={pathSample.units[0].lessons[0]} preview />;

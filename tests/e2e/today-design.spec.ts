@@ -37,6 +37,19 @@ for (const width of [1586, 390]) {
     const table = page.getByRole('table', { name: 'Saved feedback' });
     await expect(table).toBeVisible();
     await expect(table.getByRole('row')).toHaveCount(4);
+    const feedbackActions = [
+      page.getByRole('link', { name: 'View portfolio', exact: true }),
+      table.getByRole('link', { name: 'Open feedback' }).first(),
+    ];
+    for (const action of feedbackActions) {
+      await action.hover();
+      const padding = await action.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return [parseFloat(style.paddingInlineStart), parseFloat(style.paddingInlineEnd)];
+      });
+      expect(padding[0]).toBeGreaterThanOrEqual(12);
+      expect(padding[1]).toBeGreaterThanOrEqual(12);
+    }
     await expect(table.getByRole('link', { name: 'Open feedback' }).first()).toHaveAttribute(
       'href',
       '/dev/preview/feedback',

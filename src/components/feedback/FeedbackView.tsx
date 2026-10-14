@@ -18,7 +18,9 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
 import HelpOutline from '@mui/icons-material/HelpOutlined';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
 import MarkedText from './MarkedText';
+import { maxRevisionAttempts } from '@/lib/limits';
 import { revisionText } from '@/lib/revision';
+import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
 import ScoreBars from './ScoreBars';
 import CorrectionCard from './CorrectionCard';
 import ConnectorLayer from './ConnectorLayer';
@@ -33,6 +35,8 @@ export default function FeedbackView({
   hasPreviousVersion = false,
   initialChoices,
   taskId = 'weekend',
+  attempt = 1,
+  coursePreview = false,
 }: {
   submissionId: string;
   text: string;
@@ -41,6 +45,8 @@ export default function FeedbackView({
   hasPreviousVersion?: boolean;
   initialChoices?: CorrectionChoice[];
   taskId?: string;
+  attempt?: number;
+  coursePreview?: boolean;
 }) {
   const t = useTranslations('feedback');
   const theme = useTheme();
@@ -51,6 +57,7 @@ export default function FeedbackView({
   const [rewrite, setRewrite] = useState(false);
   const preview = mock && submissionId === 'preview';
   const choiceState = useCorrectionChoices(submissionId, preview, initialChoices);
+  useUnsavedWriting(choiceState.pending || choiceState.errors.length > 0, t('choiceLeave'));
   const applied = new Set(
     choiceState.choices
       .filter((item) => item.status === 'applied')
@@ -72,10 +79,22 @@ export default function FeedbackView({
     if (!desktop) setSheet(true);
   }
   function apply() {
-    void choiceState.save({
-      correctionIndex: active,
-      status: applied.has(active) ? 'open' : 'applied',
-    });
+    if (choiceState.loading || choiceState.loadError) return;
+    const undo = applied.has(active);
+    void choiceState.save({ correctionIndex: active, status: undo ? 'open' : 'applied' });
+    if (!undo) {
+      const next = Array.from(
+        { length: total - 1 },
+        (_, offset) => (active + offset + 1) % total,
+      ).find(
+        (index) =>
+          !applied.has(index) &&
+          !choiceState.choices.some(
+            (item) => item.correctionIndex === index && item.status === 'dismissed',
+          ),
+      );
+      if (next !== undefined) setActive(next);
+    }
   }
   function prepareRevision() {
     try {
@@ -87,6 +106,17 @@ export default function FeedbackView({
       // A blocked browser store leaves the original revision available on the server.
     }
   }
+  const saveErrors = choiceState.errors
+    .filter((item) => 'status' in item.change)
+    .map(({ change, code }) => (
+      <Alert
+        key={change.correctionIndex}
+        severity="error"
+        action={<Button onClick={() => void choiceState.save(change)}>{t('choiceRetry')}</Button>}
+      >
+        {t(code === 'UNAUTHENTICATED' ? 'choiceSession' : 'choiceError')}
+      </Alert>
+    ));
   const details = correction ? (
     <CorrectionCard
       correction={correction}
@@ -97,9 +127,11 @@ export default function FeedbackView({
       applied={applied.has(active)}
       onApply={apply}
       dismissed={activeChoice?.status === 'dismissed'}
-      choiceBusy={choiceState.loading || choiceState.pending}
+      choiceBusy={choiceState.loading || choiceState.loadError}
       choiceError={
-        choiceState.error?.change.correctionIndex === active ? choiceState.error.code : null
+        choiceState.errors.find(
+          (item) => item.change.correctionIndex === active && 'reason' in item.change,
+        )?.code ?? null
       }
       onRetry={() => {
         if (choiceState.error) void choiceState.save(choiceState.error.change);
@@ -178,11 +210,32 @@ export default function FeedbackView({
           <ScoreBars scores={feedback.scores} />
         </Box>
       </Box>
+      {coursePreview ? (
+        <Alert
+          severity="info"
+          action={
+            <Button component={NextLink} href="/dev/preview/path?course=full">
+              {t('courseBack')}
+            </Button>
+          }
+        >
+          {t('courseSynthetic')}
+        </Alert>
+      ) : null}
       {mock ? (
         <Typography variant="caption" color="text.secondary">
           {t('mock')}
         </Typography>
       ) : null}
+      {choiceState.loadError ? (
+        <Alert
+          severity="error"
+          action={<Button onClick={choiceState.reload}>{t('choiceRetry')}</Button>}
+        >
+          {t('choiceLoadError')}
+        </Alert>
+      ) : null}
+      {desktop || !sheet ? saveErrors : null}
       <Box
         ref={container}
         sx={{
@@ -242,18 +295,24 @@ export default function FeedbackView({
                 component={NextLink}
                 onClick={prepareRevision}
                 href={
-                  mock
-                    ? '/dev/preview/live-write?revise=preview'
-                    : '/write/' + taskId + '?revise=' + submissionId
+                  coursePreview
+                    ? '/dev/preview/curriculum-write?course=full&task=' + taskId
+                    : attempt >= maxRevisionAttempts
+                      ? preview
+                        ? '/dev/preview/live-write'
+                        : '/write/' + taskId
+                      : preview
+                        ? '/dev/preview/live-write?revise=preview'
+                        : '/write/' + taskId + '?revise=' + submissionId
                 }
               >
-                {t('revise')}
+                {t(attempt >= maxRevisionAttempts ? 'newDraft' : 'revise')}
               </Button>
               {hasPreviousVersion ? (
                 <Button
                   variant="outlined"
                   component={NextLink}
-                  href={mock ? '/dev/preview/revision' : '/revision/' + submissionId}
+                  href={preview ? '/dev/preview/revision' : '/revision/' + submissionId}
                 >
                   {t('compare')}
                 </Button>
@@ -377,6 +436,7 @@ export default function FeedbackView({
             marginBlockEnd: 1,
           }}
         />
+        {saveErrors}
         {correction && !desktop ? (
           <CorrectionCard
             correction={correction}
@@ -387,9 +447,11 @@ export default function FeedbackView({
             applied={applied.has(active)}
             onApply={apply}
             dismissed={activeChoice?.status === 'dismissed'}
-            choiceBusy={choiceState.loading || choiceState.pending}
+            choiceBusy={choiceState.loading || choiceState.loadError}
             choiceError={
-              choiceState.error?.change.correctionIndex === active ? choiceState.error.code : null
+              choiceState.errors.find(
+                (item) => item.change.correctionIndex === active && 'reason' in item.change,
+              )?.code ?? null
             }
             onRetry={() => {
               if (choiceState.error) void choiceState.save(choiceState.error.change);

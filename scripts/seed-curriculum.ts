@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import postgres from 'postgres';
 import { curriculumSchema } from '../src/lib/curriculum';
-const source = await readFile('curriculum/a1-b1.draft.json');
+const source = await readFile('curriculum/course.draft.json');
 const hash = createHash('sha256').update(source).digest('hex');
 const review = JSON.parse(
   await readFile('curriculum/review.json', 'utf8').catch(() => {

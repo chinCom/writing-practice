@@ -1,9 +1,10 @@
 import 'server-only';
 import { and, desc, eq, gte, sql } from 'drizzle-orm';
-import { withUserDatabase } from './client';
+import { withUserDatabase, type Transaction } from './client';
 import { aiUsage, drafts, feedbackRows, submissions } from './schema';
 import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
+import { seedSubmissionPractice } from './practice';
 import type { FeedbackInput } from '@/lib/feedback/input';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
 import { feedbackPromptVersion } from '@/lib/prompts/version';
@@ -153,6 +154,15 @@ export async function completeSubmission(
       model: result.model,
       promptVersion: feedbackPromptVersion,
     });
+    const [source] = await database
+      .select({ text: submissions.text })
+      .from(submissions)
+      .where(eq(submissions.id, submissionId));
+    await seedSubmissionPractice(database, userId, {
+      id: submissionId,
+      text: source.text,
+      feedback,
+    });
     await database.insert(aiUsage).values({
       userId,
       submissionId,
@@ -184,19 +194,20 @@ export async function loadFeedback(userId: string, submissionId: string) {
       )[0] ?? null,
   );
 }
-export async function recentSubmissions(userId: string) {
-  return withUserDatabase(userId, (database) =>
-    database
-      .select({
-        id: submissions.id,
-        createdAt: submissions.createdAt,
-        wordCount: submissions.wordCount,
-        attempt: submissions.attempt,
-        taskId: submissions.taskId,
-      })
-      .from(submissions)
-      .where(eq(submissions.status, 'completed'))
-      .orderBy(desc(submissions.createdAt))
-      .limit(5),
-  );
+export function recentSubmissions(userId: string) {
+  return withUserDatabase(userId, recentSubmissionsInTransaction);
+}
+export function recentSubmissionsInTransaction(database: Transaction) {
+  return database
+    .select({
+      id: submissions.id,
+      createdAt: submissions.createdAt,
+      wordCount: submissions.wordCount,
+      attempt: submissions.attempt,
+      taskId: submissions.taskId,
+    })
+    .from(submissions)
+    .where(eq(submissions.status, 'completed'))
+    .orderBy(desc(submissions.createdAt))
+    .limit(5);
 }

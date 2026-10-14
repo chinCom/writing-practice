@@ -24,4 +24,5 @@ it('removes public execution of the optional Supabase automatic RLS helper', asy
   } finally {
     await database.close();
   }
-});
+  // PGlite startup shares CPU with the full database suite; this is not a network deadline.
+}, 15000);

@@ -44,7 +44,7 @@ export default function SavedFeedback({
           <Button
             component={NextLink}
             href={preview ? '/dev/preview/portfolio' : '/portfolio'}
-            sx={{ px: 0, minHeight: 32, fontSize: '1rem' }}
+            sx={{ paddingInline: 1.5, minHeight: 32, fontSize: '1rem' }}
           >
             {t('portfolio')}
           </Button>
@@ -94,7 +94,7 @@ export default function SavedFeedback({
                       <Button
                         component={NextLink}
                         href={preview ? '/dev/preview/feedback' : '/feedback/' + submission.id}
-                        sx={{ px: 0, fontSize: '1rem', whiteSpace: 'nowrap' }}
+                        sx={{ paddingInline: 1.5, fontSize: '1rem', whiteSpace: 'nowrap' }}
                       >
                         {learning('open')}
                       </Button>

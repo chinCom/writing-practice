@@ -123,7 +123,9 @@ Open `/portfolio` to reopen past writing or compare a revision with its parent v
 Open `/settings` to change the interface language or appearance.
 Signed-in learners can save a weekly goal of 3, 5, or 7 sessions. Today uses the saved goal.
 
-Apply fix, Undo, and Dismiss suggestion save your correction choice. Dismissed suggestions leave Practice until you restore them.
+Apply fix changes the text immediately and selects the next open correction. Apply fix, Undo, and Dismiss suggestion save choices in an ordered background queue.
+Failed saves preserve local choices and show a retry. Navigation warns while saves are pending or failed.
+Dismissed suggestions leave Practice until you restore them.
 Select **Report correction** to save a reason for later quality review. Reports do not change the saved AI feedback.
 A decorative highlighter sweep runs during checking. Reduced-motion users see the status without the sweep.
 
@@ -209,9 +211,10 @@ Use descriptive names and small components. Format code with Prettier.
 ## Current limits
 
 The standalone weekend task remains available at A2. Coach explanations remain in English.
-Placement and learning-path code support A1–B1. Hosted lessons await human content approval.
-See [curriculum review](curriculum/README.md) and [Phase 3 evidence](docs/verification/curriculum.md).
-The full Pre-A1–C2 curriculum, level exams, and nightly generated drills are not available yet.
+Placement estimates remain A1–B1. The learning path supports seven starting levels and a draft PRE_A1–C2 course with 21 units and 63 lessons.
+Hosted lessons await teacher approval and migration `0009_writing_course.sql`.
+See [curriculum review](curriculum/README.md) and [course evidence](docs/verification/writing-course.md).
+The larger 15-unit-per-level curriculum, certified level exams, and nightly generated drills are not available.
 Learning profiles and weekly goals are available. Broader AI evaluation and sustained-load testing remain outstanding.
 Account export, account deletion, and production abuse controls are not available yet.
 Per-account check limits do not replace production abuse controls.

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-test('retry hints emphasize suggested words without changing the sentence', async ({ page }) => {
+test('retry hints emphasize the remaining mismatched phrase', async ({ page }) => {
   await page.route('**/dev/preview/practice', (route) =>
     route.fulfill({
       json:
@@ -30,6 +30,7 @@ test('retry hints emphasize suggested words without changing the sentence', asyn
                 misses: 1,
                 explanation: 'Use let before a base verb like unwind.',
                 hintTerms: ['let', 'unwind'],
+                retryHint: { kind: 'phrase', phrase: 'to' },
               },
             },
     }),
@@ -38,7 +39,8 @@ test('retry hints emphasize suggested words without changing the sentence', asyn
   await page.getByRole('textbox', { name: 'Correct phrase' }).fill('let my head to unwind');
   await page.getByRole('button', { name: 'Check answer', exact: true }).click();
   const result = page.getByRole('status').filter({ hasText: 'Try once more' });
-  await expect(result).toContainText('Use let before a base verb like unwind.');
-  await expect(result.locator('mark')).toHaveText(['let', 'unwind']);
+  await expect(result).toContainText('to');
+  await expect(result).not.toContainText('Use let before');
+  await expect(result.locator('mark')).toHaveText(['to']);
   await expect(result.locator('mark').first()).toHaveCSS('font-weight', '700');
 });

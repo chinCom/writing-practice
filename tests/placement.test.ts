@@ -49,7 +49,9 @@ it('validates placement JSON, caps retries, and sends only untrusted samples and
   };
   const result = await estimatePlacement(input, options);
   expect(result.cefr).toBe('A2');
-  expect(JSON.parse(body).thinking.type).toBe('disabled');
+  expect(JSON.parse(body).thinking.type).toBe('enabled');
+  expect(JSON.parse(body).reasoning_effort).toBe('low');
+  expect(JSON.parse(body).max_tokens).toBe(4096);
   expect(JSON.parse(body).messages[1].content).toBe(JSON.stringify(input));
   invalid = true;
   calls = 0;

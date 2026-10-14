@@ -7,14 +7,14 @@
 
 ## 0. Status
 
-- Phase: writing core plus A1–B1 placement and learning-path implementation. The full learning app is not complete. Dedicated Free Supabase is connected
-- Last implemented slice: placement, lesson warm-ups, checkpoint unlocking, task-aware writing, offline curriculum generation and review-gated seeding; suggested words highlighted in Practice hints
-- Verification: format/typecheck/lint/design checks, 83 local tests, 138 browser checks, and production build passed. Nine curriculum accessibility scans reported zero violations. Hosted schema migration and one live provider placement call passed. See [Phase 3 evidence](docs/verification/curriculum.md), [database deadline evidence](docs/verification/database-deadlines.md), and [evaluation scope](evals/README.md)
-- Current implementation slice: Phase 3 code works with development fixtures. Hosted curriculum publication is blocked by required human content review. The broad quality milestone remains incomplete
-- Open decisions: §22; full curriculum coverage, human approval of A1–B1 content, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
+- Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
+- Last implemented slice: seven audit fixes, immediate Apply with next-correction selection and ordered saves, and an original 21-unit/63-lesson PRE_A1–C2 draft course
+- Verification: local checks and all-lesson database traversal passed. See [course evidence](docs/verification/writing-course.md) for final counts, browser artifacts, and limits; [database deadline evidence](docs/verification/database-deadlines.md) and [evaluation scope](evals/README.md) describe separate checks
+- Current implementation slice: course and correction flows work locally. Teacher approval and hosted migration `0009_writing_course.sql` remain publication gates. The broad quality milestone remains incomplete
+- Open decisions: §22; the larger 15-unit-per-level curriculum, teacher approval of the seven-level draft, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
 - Code maintenance: Prettier + EditorConfig; run `npm run format` and `npm run check`; no subagents
-- Release state: scaffold/backend was committed and pushed earlier. Commit `09c7e76` includes AI hardening and feedback work. The next local session commit records Vietnamese, Practice, Progress/Today, portfolio, correction choices, sweep, weekly goals, release fixes, profiles, evaluation, database deadlines, and Phase 3. These later commits are not pushed. The app is not deployed
-- Verification limits: live email delivery/PKCE, Google account completion, natural access-JWT expiry, and a new signed-in hosted explanation remain untested. Development-tool audit findings remain
+- Release state: PR #1 was merged as `a1a83d7`. Current course/audit changes and earlier local fixes are on `feat/writing-course`. No course migration, seed, push, or deployment was performed
+- Verification limits: live email delivery/PKCE, Google account completion, natural access-JWT expiry, and a new signed-in hosted explanation remain untested. The seven reviewed audit findings are fixed locally; production integrations remain separately gated
 
 ### Current feature status
 
@@ -23,12 +23,12 @@
 | App shell and Settings | Responsive MUI, light/dark/system appearance, English/Vietnamese UI, left-to-right layout | Explanation language and daily target are disabled; export/delete and plans are absent |
 | Authentication and onboarding | Supabase email-link and Google routes, verified sessions, protected-page refresh, private profile, and A1–B1 practice placement estimate with learner override | Live email delivery, Google account completion, and broad placement accuracy evaluation |
 | Today | Real task entry, saved feedback, UTC streak, weekly activity, and due Practice | Personalized next task |
-| Writing Studio | Saved level-specific tasks, frames, word banks, task limits, account drafts, internal scrolling, unsaved-writing warning, and checking sweep | Human-reviewed task publication and full Pre-A1–C2 coverage |
+| Writing Studio | Seven-level task contracts, optional frames/word banks, account drafts, task limits, and checking sweep | Teacher review/publication and larger curriculum coverage |
 | AI checking | Live DeepSeek, strict JSON validation, exact/normalized/fuzzy correction location, safety state, 20 checks per UTC day | Broad quality evaluation, higher-level model routing, production-wide abuse controls |
 | Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery, bounded database queue and operation deadlines | Durable background worker and sustained-load verification |
-| Feedback and revision | Marked text, margin cards, mobile sheet, scores, saved Apply/Undo/dismiss, correction reporting, local answer check, revision transfer, resubmission, and v1/v2 comparison | New hosted signed-in correction workflow verification and report review tools |
+| Feedback and revision | Marked text, immediate Apply/Undo with ordered saves and error retry, automatic next correction, mobile sheet, reporting, and revision/compare with a 20-attempt boundary | New hosted signed-in correction workflow verification and report review tools |
 | Explain | On-demand short English explanations, owner-only saved reuse, loading/retry, 60 new attempts per UTC day | Native-language explanations and new hosted browser workflow verification |
-| Learning path | Placement, level units, lessons, server-checked warm-ups, checkpoint score locks, and offline generation/review-gated seeding | Human content review and publication; full course coverage and level exams |
+| Learning path | A1–B1 placement estimate, seven-level starts, 21-unit/63-lesson draft, private server grading, writing-required progression, and checkpoint locks | Teacher review, hosted migration/publication, larger course, and validated exams |
 | Practice | Saved correction exercises, server-side answer checks, one retry, owner-only history, 1/3/7/14/30-day review, dismissal/restoration, and refreshed multi-batch completion | Varied AI-generated drills and nightly generation |
 | Progress | Real writing/review aggregates, CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation |
 | Landing and portfolio | `/` redirects to Today; owner-only paginated portfolio and parent-revision comparison | Public live demo |
@@ -320,7 +320,7 @@ Display groups and underline styles (also in §17): grammar = wavy violet, spell
 
 ### 9.3 Wrapper contract (`lib/llm/client.ts`)
 
-**Current implementation:** `src/lib/llm/grade.ts` and `src/lib/llm/explain.ts` are the working provider adapters. Feedback uses a shared 45-second deadline and 2,400-token maximum. Explanations use 15 seconds and 600 tokens. Both use non-thinking output, strict validation, one validation retry, and no automatic transport retries. Token counts, cache-hit tokens, model, and latency are stored; call-type and estimated-cost columns are not implemented. The generic wrapper below is a future contract.
+**Current implementation:** `src/lib/llm/grade.ts` and `src/lib/llm/explain.ts` are the working provider adapters. Feedback uses a shared 45-second deadline and 2,400-token maximum. Explanations use 15 seconds and 600 tokens. Both use non-thinking output. Placement uses `src/lib/llm/placement.ts`, enabled thinking with `reasoning_effort: "low"`, a shared 25-second deadline, and a 4,096-token budget for reasoning plus JSON. All three use strict validation, one validation retry, and no automatic transport retries. See [provider latency measurements](docs/verification/ai-latency.md). Token counts, cache-hit tokens, model, and latency are stored; call-type and estimated-cost columns are not implemented. The generic wrapper below is a future contract.
 
 ```ts
 type LlmCall = "placement" | "feedback" | "revision_check" | "hint" | "drills";
@@ -497,7 +497,7 @@ The list below is the target model. Profiles, curriculum, persisted per-tag mast
 
 ## 15. Mastery, error bank, spaced review
 
-**Current Practice boundary:** loading Practice seeds exercises from confident, located, non-style corrections in saved non-crisis feedback. Answers use normalized exact phrase matching, not AI grading. One wrong answer permits a retry; a missed first attempt returns the drill to box 1. Correct first attempts advance the box, up to box 5. Review intervals are 1, 3, 7, 14, and 30 days. Per-tag mastery, accepted-correction status, and nightly generation below remain targets.
+**Current Practice boundary:** loading Practice seeds exercises from confident, located, non-style corrections in saved non-crisis feedback. Answers use normalized exact phrase matching, not AI grading. Retry hints identify the remaining mismatch in the submitted answer instead of repeating the original explanation. A single-word mismatch after an already-correct modal includes the saved replacement and the base-form rule. Missing words use a generic whole-phrase reminder. The original explanation and full suggested phrase appear after completion. One wrong answer permits a retry; a missed first attempt returns the drill to box 1. Correct first attempts advance the box, up to box 5. Review intervals are 1, 3, 7, 14, and 30 days. Per-tag mastery, accepted-correction status, and nightly generation below remain targets.
 
 - Every accepted correction creates an `error_events` row.
 - Per tag, `skill_mastery.score` is an exponentially weighted measure of error frequency per 100 words (lower error rate → higher mastery).
@@ -638,7 +638,8 @@ Checkboxes mark verified delivered behavior, not planned code. Phase completion 
 
 **Phase 3 — Curriculum and path (weeks 4–5)**
 - [x] Placement flow: two writings, three grammar answers, A1–B1 practice estimate, and starting-level choice
-- [ ] A1–B1 content seeded (offline candidate generated; human review and publication still required)
+- [x] Bounded PRE_A1–C2 draft course implemented: 21 units, 63 lessons, private answers, and writing-required progression
+- [ ] Draft course reviewed and seeded (teacher approval and hosted migration/publication still required)
 - [x] Learning path map, unit unlocking, auto-graded warm-ups
 - [x] Real XP, UTC streak, saved editable weekly goal, Today and Progress pages
 
@@ -653,7 +654,7 @@ Checkboxes mark verified delivered behavior, not planned code. Phase completion 
 
 **Phase 5 — Beta (week 8+)**
 - [ ] 20–50 real learners; review "report correction" data; iterate prompts with evals
-- [ ] Then B2–C2 content and IELTS/TOEFL track
+- [ ] Expand beyond the bounded seven-level draft; validate higher-level content and any IELTS/TOEFL track
 
 **Definition of done for any slice:** typecheck, lint, and tests pass; no secrets in client bundle; mobile and keyboard checked; strings in message files; §0 updated.
 

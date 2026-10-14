@@ -110,6 +110,10 @@ export const explanationRequests = writing.table('explanation_requests', {
   userId: uuid('user_id').notNull(),
   createdAt: createdAt(),
 });
+export const practiceSources = writing.table('practice_sources', {
+  submissionId: uuid('submission_id').primaryKey(),
+  userId: uuid('user_id').notNull(),
+});
 export const practiceDrills = writing.table('practice_drills', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id').notNull(),

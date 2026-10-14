@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { practiceRetryHint } from '@/lib/practice';
 export function GET() {
   if (process.env.NODE_ENV !== 'development') return new NextResponse(null, { status: 404 });
   return NextResponse.json({
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
       misses: complete ? 0 : 1,
       explanation: 'Use swam for past events.',
       hintTerms: ['swam'],
-      ...(complete ? { suggestion: 'swam' } : {}),
+      ...(complete ? { suggestion: 'swam' } : { retryHint: practiceRetryHint(answer, 'swam') }),
     },
   });
 }

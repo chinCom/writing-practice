@@ -1,7 +1,16 @@
 import { z } from 'zod';
 import { ErrorTag } from './feedback/schema';
 
-export const curriculumLevel = z.enum(['A1', 'A2', 'B1']);
+export const curriculumLevel = z.enum(['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+export const courseRanges = {
+  PRE_A1: [5, 20],
+  A1: [20, 50],
+  A2: [40, 100],
+  B1: [100, 180],
+  B2: [180, 300],
+  C1: [250, 400],
+  C2: [300, 500],
+} as const;
 export const warmupSchema = z.strictObject({
   type: z.enum(['gap-fill', 'reorder', 'fix-the-error', 'choose']),
   prompt: z.string().min(1).max(500),
@@ -14,12 +23,12 @@ export const taskSchema = z.strictObject({
   title: z.string().min(1).max(150),
   genre: z.string().min(1).max(80),
   prompt: z.string().min(1).max(1000),
-  scaffold: z.enum(['frames', 'wordbank', 'checklist', 'outline']),
+  scaffold: z.enum(['frames', 'wordbank', 'checklist', 'outline', 'none']),
   frames: z.array(z.string().max(300)).max(6).optional(),
   wordBank: z.array(z.string().max(100)).max(12),
   checklist: z.array(z.string().max(200)).min(1).max(5),
-  minWords: z.number().int().min(20).max(180),
-  maxWords: z.number().int().min(20).max(180),
+  minWords: z.number().int().min(5).max(500),
+  maxWords: z.number().int().min(5).max(500),
   isCheckpoint: z.boolean(),
   targetLevel: curriculumLevel,
 });
@@ -28,7 +37,7 @@ export const lessonSchema = z.strictObject({
   title: z.string().min(1).max(150),
   miniLesson: z.strictObject({
     markdown: z.string().min(1).max(3000),
-    modelText: z.string().min(1).max(2000),
+    modelText: z.string().min(1).max(6500),
   }),
   warmups: z.array(warmupSchema).min(2).max(6),
   task: taskSchema,
@@ -61,7 +70,7 @@ export const curriculumSchema = z
       }
       for (const lesson of unit.lessons) {
         const task = lesson.task;
-        const ranges = { A1: [20, 50], A2: [40, 100], B1: [100, 180] } as const;
+        const ranges = courseRanges;
         if (
           task.targetLevel !== unit.level ||
           task.minWords !== ranges[unit.level][0] ||
@@ -84,7 +93,7 @@ export const curriculumSchema = z
       if (!unit.lessons.at(-1)?.task.isCheckpoint)
         context.addIssue({ code: 'custom', message: 'Each unit needs a final checkpoint' });
     }
-    for (const level of curriculumLevel.options) {
+    for (const level of new Set(units.map((unit) => unit.level))) {
       const orders = units
         .filter((unit) => unit.level === level)
         .map((unit) => unit.order)
@@ -98,6 +107,17 @@ export type Lesson = z.infer<typeof lessonSchema>;
 export type CurriculumTask = z.infer<typeof taskSchema>;
 export type Warmup = z.infer<typeof warmupSchema>;
 export type CurriculumLevel = z.infer<typeof curriculumLevel>;
+export type PublicLesson = Omit<Lesson, 'warmups'> & { warmups: Omit<Warmup, 'answer' | 'hint'>[] };
+export function publicLesson(lesson: Lesson): PublicLesson {
+  return {
+    ...lesson,
+    warmups: lesson.warmups.map(({ type, prompt, options }) => ({
+      type,
+      prompt,
+      ...(options ? { options } : {}),
+    })),
+  };
+}
 export function gradeWarmup(warmup: Warmup, answer: string) {
   const normalize = (value: string) =>
     value
@@ -127,7 +147,7 @@ export const placementInput = z.strictObject({
   ]),
 });
 export const placementOutput = z.strictObject({
-  cefr: curriculumLevel,
+  cefr: z.enum(['A1', 'A2', 'B1']),
   confidence: z.number().min(0).max(1),
   reason: z.string().min(1).max(400),
   safety_flag: z.boolean(),
