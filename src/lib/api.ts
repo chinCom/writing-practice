@@ -10,17 +10,32 @@ export class ApiError extends Error {
     super(code);
   }
 }
+function databaseTimedOut(error: unknown): boolean {
+  const cause = error instanceof Error && error.cause ? error.cause : error;
+  if (!cause || typeof cause !== 'object' || !('code' in cause)) return false;
+  return ['57014', '55P03', '25P03', 'CONNECT_TIMEOUT', 'DATABASE_TIMEOUT'].includes(
+    String(cause.code),
+  );
+}
 export function apiFailure(error: unknown) {
   const known = error instanceof ApiError;
+  const timeout = !known && databaseTimedOut(error);
   return NextResponse.json(
     {
       ok: false,
       error: {
-        code: known ? error.code : 'SERVER_ERROR',
-        message: known ? error.code : 'Request could not be completed.',
+        code: known ? error.code : timeout ? 'DATABASE_TIMEOUT' : 'SERVER_ERROR',
+        message: known
+          ? error.code
+          : timeout
+            ? 'Request could not be completed. Try again.'
+            : 'Request could not be completed.',
       },
     },
-    { status: known ? error.status : 500, headers: { 'Cache-Control': 'private, no-store' } },
+    {
+      status: known ? error.status : timeout ? 503 : 500,
+      headers: { 'Cache-Control': 'private, no-store', ...(timeout ? { 'Retry-After': '2' } : {}) },
+    },
   );
 }
 export async function requireApiUser(request: Request) {

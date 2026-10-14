@@ -1,0 +1,53 @@
+[
+  {
+    "configuration": "desktop",
+    "state": "question",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "desktop",
+    "state": "result",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "mobile",
+    "state": "question",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "state": "result",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "state": "question",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "state": "result",
+    "violations": [],
+    "incomplete": []
+  }
+]

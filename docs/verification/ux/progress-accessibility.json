@@ -1,0 +1,68 @@
+[
+  {
+    "configuration": "desktop",
+    "screen": "progress",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 7
+      }
+    ]
+  },
+  {
+    "configuration": "desktop",
+    "screen": "today-account",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "screen": "progress",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 7
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "screen": "today-account",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "screen": "progress",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 59
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "screen": "today-account",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 2
+      }
+    ]
+  }
+]

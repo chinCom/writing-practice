@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import OpenAI from 'openai';
 import { FeedbackSchema } from '@/lib/feedback/schema';
 import mockFeedback from '@/mocks/feedback.sample.json';
+import { weekendTask, type CurriculumTask } from '@/lib/curriculum';
 
 export interface GradeOptions {
   apiKey?: string;
@@ -10,6 +11,7 @@ export interface GradeOptions {
   model: string;
   mock: boolean;
   timeoutMs?: number;
+  task?: CurriculumTask;
 }
 export class LlmError extends Error {}
 export async function gradeWriting(text: string, options: GradeOptions) {
@@ -31,6 +33,7 @@ export async function gradeWriting(text: string, options: GradeOptions) {
     resolve(process.cwd(), 'src/lib/prompts/feedback.system.md'),
     'utf8',
   );
+  const task = options.task ?? weekendTask;
   const signal = AbortSignal.timeout(options.timeoutMs ?? 45000);
   // Escape delimiters so learner input cannot create a new trusted message boundary.
   const learnerText = text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -42,11 +45,16 @@ export async function gradeWriting(text: string, options: GradeOptions) {
       } = {
         model: options.model,
         messages: [
-          { role: 'system', content: system },
+          {
+            role: 'system',
+            content: system + '\nTrusted task configuration:\n' + JSON.stringify(task),
+          },
           {
             role: 'user',
             content:
-              'Level: A2. Explanations: English.\n<learner_text>\n' +
+              'Level: ' +
+              task.targetLevel +
+              '. Explanations: English.\n<learner_text>\n' +
               learnerText +
               '\n</learner_text>',
           },
@@ -71,7 +79,8 @@ export async function gradeWriting(text: string, options: GradeOptions) {
       const choice = completion.choices[0];
       if (choice?.finish_reason !== 'stop') throw new Error('Incomplete feedback');
       const data = FeedbackSchema.parse(JSON.parse(choice.message.content ?? ''));
-      if (data.corrections.length > 8) throw new Error('Too many A2 corrections');
+      if (data.corrections.length > (task.targetLevel === 'B1' ? 12 : 8))
+        throw new Error('Too many corrections');
       return { data, usage, model: options.model, latencyMs: Date.now() - started, mock: false };
     } catch {
       if (attempt === 1) throw new LlmError('LLM_INVALID_RESPONSE');

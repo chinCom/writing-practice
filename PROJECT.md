@@ -7,31 +7,31 @@
 
 ## 0. Status
 
-- Phase: working A2 writing core; the full learning app is not complete. Dedicated Free Supabase is connected, and earlier hosted writing workflows were verified
-- Last implemented slice: on-demand Explain button for saved corrections, with short English explanations, owner-only caching, loading, and explicit retry
-- Verification: format/typecheck/lint/design checks, 47 local tests, 72 browser checks, production build, and three live synthetic explanation samples passed; see [explanation evidence and limits](docs/verification/explanations.md). Earlier UI and hosted backend evidence remain in [UI report](docs/verification/ux/report.md) and [backend evidence](docs/verification/backend.md)
-- Recommended next product slice: Practice from saved writing mistakes, with checked answers and saved completion. Scope approval and implementation remain pending
-- Open decisions: §22; learner onboarding and full curriculum deferred; SMTP configuration and public email delivery remain unverified
+- Phase: writing core plus A1–B1 placement and learning-path implementation. The full learning app is not complete. Dedicated Free Supabase is connected
+- Last implemented slice: placement, lesson warm-ups, checkpoint unlocking, task-aware writing, offline curriculum generation and review-gated seeding; suggested words highlighted in Practice hints
+- Verification: format/typecheck/lint/design checks, 83 local tests, 138 browser checks, and production build passed. Nine curriculum accessibility scans reported zero violations. Hosted schema migration and one live provider placement call passed. See [Phase 3 evidence](docs/verification/curriculum.md), [database deadline evidence](docs/verification/database-deadlines.md), and [evaluation scope](evals/README.md)
+- Current implementation slice: Phase 3 code works with development fixtures. Hosted curriculum publication is blocked by required human content review. The broad quality milestone remains incomplete
+- Open decisions: §22; full curriculum coverage, human approval of A1–B1 content, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
 - Code maintenance: Prettier + EditorConfig; run `npm run format` and `npm run check`; no subagents
-- Release state: scaffold/backend was committed and pushed earlier. This commit includes AI hardening, marked-page feedback, editor scrolling, explanations, and the progress update. This commit is not pushed; the app is not deployed
+- Release state: scaffold/backend was committed and pushed earlier. Commit `09c7e76` includes AI hardening and feedback work. The next local session commit records Vietnamese, Practice, Progress/Today, portfolio, correction choices, sweep, weekly goals, release fixes, profiles, evaluation, database deadlines, and Phase 3. These later commits are not pushed. The app is not deployed
 - Verification limits: live email delivery/PKCE, Google account completion, natural access-JWT expiry, and a new signed-in hosted explanation remain untested. Development-tool audit findings remain
 
 ### Current feature status
 
 | Area | Current behavior | Remaining work |
 |---|---|---|
-| App shell and Settings | Responsive MUI, light/dark/system appearance, English/Arabic UI, RTL | Explanation-language and goal controls are disabled; export/delete and plans are absent |
-| Authentication | Supabase email-link and Google routes, verified sessions, PKCE cookies, refresh handling | Live email delivery and Google account completion; profiles and onboarding |
-| Today | Real task entry and saved feedback links; production does not show sample achievements | Streak, weekly goal, due drills, personalized next task |
-| Writing Studio | One A2 weekend task, account drafts, internal textbox scrolling, word bank, unsaved-writing warning | Full task catalog, lessons, hints, and higher-level scaffolds |
+| App shell and Settings | Responsive MUI, light/dark/system appearance, English/Vietnamese UI, left-to-right layout | Explanation language and daily target are disabled; export/delete and plans are absent |
+| Authentication and onboarding | Supabase email-link and Google routes, verified sessions, protected-page refresh, private profile, and A1–B1 practice placement estimate with learner override | Live email delivery, Google account completion, and broad placement accuracy evaluation |
+| Today | Real task entry, saved feedback, UTC streak, weekly activity, and due Practice | Personalized next task |
+| Writing Studio | Saved level-specific tasks, frames, word banks, task limits, account drafts, internal scrolling, unsaved-writing warning, and checking sweep | Human-reviewed task publication and full Pre-A1–C2 coverage |
 | AI checking | Live DeepSeek, strict JSON validation, exact/normalized/fuzzy correction location, safety state, 20 checks per UTC day | Broad quality evaluation, higher-level model routing, production-wide abuse controls |
-| Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery | Durable background worker and bounded database network duration |
-| Feedback and revision | Marked text, margin cards, mobile sheet, scores, local Apply/Undo, local answer check, revision transfer and resubmission | Saved correction dispositions, correction reporting, v1/v2 comparison |
+| Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery, bounded database queue and operation deadlines | Durable background worker and sustained-load verification |
+| Feedback and revision | Marked text, margin cards, mobile sheet, scores, saved Apply/Undo/dismiss, correction reporting, local answer check, revision transfer, resubmission, and v1/v2 comparison | New hosted signed-in correction workflow verification and report review tools |
 | Explain | On-demand short English explanations, owner-only saved reuse, loading/retry, 60 new attempts per UTC day | Native-language explanations and new hosted browser workflow verification |
-| Learning path | Placeholder at `/path` | Curriculum, placement, units, checkpoints, unlocking |
-| Practice | Placeholder at `/practice` | Error bank, saved drills, answer grading, spaced review |
-| Progress | Placeholder at `/progress` | Real aggregates, charts, XP, streaks, mastery |
-| Landing and portfolio | `/` redirects to Today; no portfolio route | Public live demo and writing portfolio |
+| Learning path | Placement, level units, lessons, server-checked warm-ups, checkpoint score locks, and offline generation/review-gated seeding | Human content review and publication; full course coverage and level exams |
+| Practice | Saved correction exercises, server-side answer checks, one retry, owner-only history, 1/3/7/14/30-day review, dismissal/restoration, and refreshed multi-batch completion | Varied AI-generated drills and nightly generation |
+| Progress | Real writing/review aggregates, CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation |
+| Landing and portfolio | `/` redirects to Today; owner-only paginated portfolio and parent-revision comparison | Public live demo |
 
 The remaining sections describe the target product unless a current implementation note states otherwise. Unchecked milestones are not completed features.
 
@@ -96,7 +96,7 @@ An AI coach (DeepSeek V4.1 Flash) reads what the learner writes, gives structure
 
 ## 4. Repo structure
 
-This tree is the target layout, not a list of completed files. Current routes are directly under `src/app/`, without the route groups below. See [the current code map](README.md#code-layout). The implemented APIs are `/api/draft`, `/api/feedback`, and `/api/explanation`; authentication routes are under `/auth`. Development previews are disabled in production.
+This tree is the target layout, not a list of completed files. Current routes are directly under `src/app/`, without the route groups below. See [the current code map](README.md#code-layout). The implemented APIs are `/api/draft`, `/api/feedback`, `/api/explanation`, `/api/practice`, `/api/progress`, `/api/portfolio`, `/api/revision`, `/api/corrections`, and `/api/preferences`;  authentication routes are under `/auth`. Development previews are disabled in production.
 
 ```
 src/
@@ -203,7 +203,7 @@ Only variables prefixed `NEXT_PUBLIC_` may reach the browser. **`DEEPSEEK_API_KE
 - The theme module can contain functions; if Next complains about passing it from a Server Component, mark the theme module `'use client'`.
 - Any component using hooks, event handlers, or MUI components that need context must be a Client Component (`'use client'`).
 - Load fonts with `next/font` and wire them into the theme's typography.
-- Use MUI **logical** spacing/props and set `dir` for RTL languages (Arabic, Urdu, Persian, Hebrew). Test RTL early.
+- Use MUI **logical** spacing/props. Current English and Vietnamese interfaces use `dir="ltr"`. Arabic and the developer RTL switch were removed.
 - No other UI libraries (no Tailwind, shadcn, Chakra). Icons only from `@mui/icons-material`. Full rules and enforcement: `DESIGN.md` §1–§2.
 - **Writing field attributes (mandatory on every learner-writing input):**
   `spellCheck={false}`, `autoCorrect="off"`, `autoCapitalize="off"`, `autoComplete="off"`, `data-gramm="false"`, `data-gramm_editor="false"`, `data-enable-grammarly="false"`.
@@ -451,6 +451,8 @@ All routes: require auth, rate-limit (§16), validate input with Zod, return typ
 | `POST /api/feedback` | `{ taskId, text, attempt, parentSubmissionId? }`; optional UUID `Idempotency-Key` header | Submission ID and located feedback, or pending status |
 | `GET /api/feedback?requestKey=<uuid>` | Owner's request key | Saved check state; never calls the AI provider |
 | `POST /api/explanation` | `{ submissionId, correctionIndex }` | Saved or newly generated `{ why_original, why_suggestion }`, or pending status |
+| `GET /api/practice` | Verified session; no body | Owner's due questions, without model answers, and next review time |
+| `POST /api/practice` | `{ drillId, answer, version }` | Checked result, saved next review, and safe replay for the same answer/version |
 
 Feedback and explanation responses use private, no-store caching. Request bodies and AI output are strictly validated. Revisions currently use `/api/feedback` with the saved parent submission.
 
@@ -472,9 +474,9 @@ Use Server Actions for simple mutations (settings, onboarding, marking a lesson 
 
 ## 14. Data model (Postgres via Drizzle; RLS on every user-owned table)
 
-**Implemented in the private `writing` schema:** `drafts`, `submissions`, `feedback`, `ai_usage`, `correction_explanations`, and `explanation_requests`. Every owned table has row-level security. Submissions include status, request key, and worker start time. Located corrections remain inside validated feedback JSON; they are not separate correction or error-event rows. Migrations `0000` through `0003` are applied to the configured hosted database.
+**Implemented in the private `writing` schema:** `drafts`, `submissions`, `feedback`, `ai_usage`, `correction_explanations`, `explanation_requests`, `practice_drills`, `practice_answers`, `correction_choices`, `correction_reports`, and `preferences`. Every owned table has row-level security. Submissions include status, request key, and worker start time. Located corrections remain inside validated feedback JSON. Migrations `0000` through `0006` are applied to the configured hosted database. Practice stores per-correction review state and versioned answer results. Preferences store the weekly goal.
 
-The list below is the target model. Profiles, curriculum, mastery, drills, progress, and reports are not implemented.
+The list below is the target model. Profiles, curriculum, persisted per-tag mastery, and AI-generated drills are not implemented. Progress is computed from saved activity; correction reports are saved without review tools.
 
 - `profiles` — id (= auth user), display_name, native_language, ui_language, goal (`general|ielts|toefl|work`), current_level, explanation_lang_enabled, timezone, plan (`free|pro`), created_at
 - `levels`, `units`, `lessons`, `tasks` — curriculum (read-only to users); see §7.2
@@ -495,6 +497,8 @@ The list below is the target model. Profiles, curriculum, mastery, drills, progr
 
 ## 15. Mastery, error bank, spaced review
 
+**Current Practice boundary:** loading Practice seeds exercises from confident, located, non-style corrections in saved non-crisis feedback. Answers use normalized exact phrase matching, not AI grading. One wrong answer permits a retry; a missed first attempt returns the drill to box 1. Correct first attempts advance the box, up to box 5. Review intervals are 1, 3, 7, 14, and 30 days. Per-tag mastery, accepted-correction status, and nightly generation below remain targets.
+
 - Every accepted correction creates an `error_events` row.
 - Per tag, `skill_mastery.score` is an exponentially weighted measure of error frequency per 100 words (lower error rate → higher mastery).
 - The error bank uses simple **Leitner boxes**: correct drill → box + 1 (next review 1, 3, 7, 14, 30 days); wrong → back to box 1.
@@ -505,7 +509,7 @@ The list below is the target model. Profiles, curriculum, mastery, drills, progr
 
 ## 16. Limits and plans (config in `lib/limits.ts`, never hardcode)
 
-The table below is the target plan. Only the shared free writing allowance is active.
+The table below is the target plan. Shared free writing and explanation allowances are active; paid plans and hint limits remain targets.
 
 | | Free | Pro |
 |---|---|---|
@@ -541,7 +545,7 @@ Target rate limits: per user and per IP via Upstash. Return a friendly "Come bac
 
 Underline **styles** differ per type (wavy, dotted, solid, dashed, double) so meaning never depends on color alone.
 
-**Type:** Schibsted Grotesk (UI, headings), Literata (writing canvas, model texts, level-up rewrite). Fallbacks for non-Latin UI languages: Noto Sans family. Writing canvas line length ≤ 70ch.
+**Type:** Noto Sans (UI), Literata (serif headings, writing canvas, model texts, level-up rewrite). Local Vietnamese font subsets provide accented characters. Writing canvas line length ≤ 70ch.
 
 **Shape:** varied radii by role: canvas 4px (paper-like), inputs 10px, buttons 12px, chips pill, cards 20px, bottom sheets 28px top. No uniform soft shadow on everything; use 1px borders for static surfaces and shadows only for floating layers.
 
@@ -549,7 +553,7 @@ Underline **styles** differ per type (wavy, dotted, solid, dashed, double) so me
 
 **Copy:** sentence case, active voice, buttons say exactly what happens ("Check my writing", "Apply fix", "Rewrite"), errors say what happened and how to fix it, empty states offer an action. Warm but not childish.
 
-**Quality floor:** WCAG AA contrast, visible keyboard focus, ≥44px touch targets, mobile-first, RTL-ready, `prefers-reduced-motion` respected.
+**Quality floor:** WCAG AA contrast, visible keyboard focus, ≥44px touch targets, mobile-first, English/Vietnamese left-to-right layout, `prefers-reduced-motion` respected.
 
 ---
 
@@ -602,9 +606,9 @@ This table describes target pages. See §0 for current route behavior and placeh
 - `npm run evals` runs the current prompt over the set and reports: precision (flagged errors that are real), recall (planted errors caught), false-positive rate on clean texts, JSON validity rate, avg tokens, avg cost.
 - Starting targets (adjust after the first run): precision ≥ 0.85, false positives on clean texts ≤ 5%, JSON validity ≥ 99% after one retry.
 
-**Current e2e (Playwright):** writing → saving → feedback → local fixes → revision, plus settings, authentication boundaries, check recovery, explanations, keyboard navigation, mobile, and RTL. Browser API responses are synthetic unless an evidence report explicitly identifies a hosted integration. Onboarding remains unimplemented.
+**Current e2e (Playwright):** writing → saving → feedback → local fixes → revision, plus Practice answer/retry/completion/resume, settings, authentication boundaries, check recovery, explanations, keyboard navigation, mobile, Vietnamese, and legacy-locale fallback. Browser API responses are synthetic unless an evidence report explicitly identifies a hosted integration. Private profile onboarding covers save/reload, failed saves, and expired sessions. Release regressions cover Back navigation, recovered older checks, oversized revisions, stalled saving, and multi-batch Practice.
 
-**Evaluation gap:** `/evals`, `golden-set.jsonl`, and `npm run evals` do not exist yet. The live synthetic samples do not establish the quality targets above.
+**Current evaluation boundary:** `/evals/golden-set.jsonl` contains 12 synthetic A2 cases. `EVAL_LIVE=true npm run evals` records precision, recall, clean-text false positives, JSON validity, tokens, and latency. The recorded pilot caught eight planted errors, added one unsupported punctuation correction, and returned 12 valid outputs. See [pilot details](evals/README.md). Broad cross-level coverage, human review, monetary cost reporting, and repeat-run quality validation remain outstanding.
 
 ---
 
@@ -613,9 +617,10 @@ This table describes target pages. See §0 for current route behavior and placeh
 Checkboxes mark verified delivered behavior, not planned code. Phase completion still requires every remaining item.
 
 **Phase 1 — Foundation (partially complete)**
-- [x] Next.js + TS strict + MUI theme with light/dark/system appearance, fonts, RTL switch
+- [x] Next.js + TS strict + MUI theme with light/dark/system appearance and local English/Vietnamese fonts
 - [x] Supabase auth routes, verified sessions, PKCE handling, refresh/revocation checks, owner RLS
-- [ ] Complete live magic-link/Google account verification and add profiles/onboarding
+- [x] Owner-only profiles and editable onboarding: native language, goal, self-reported level, daily study minutes
+- [ ] Complete live magic-link delivery and Google account verification
 - [x] Drizzle schema and migrations for the current writing core
 - [x] Provider adapters with labeled mock mode and validated `/api/feedback`
 - [ ] General multi-call LLM wrapper, cost accounting, and background jobs
@@ -626,19 +631,21 @@ Checkboxes mark verified delivered behavior, not planned code. Phase completion 
 - [x] Recoverable checks, saved request keys, duplicate-call protection, and 20-check daily allowance
 - [x] Feedback marks, margin cards, mobile correction sheet, local Apply/Undo, revision transfer and resubmission
 - [x] On-demand Explain with short English, owner-only caching, loading/retry, and 60-attempt daily allowance
-- [ ] Saved correction dispositions, report-correction flow, and v1/v2 diff
-- [ ] Highlighter-read animation with reduced-motion fallback
-- [ ] Golden set + first broad eval run recorded
+- [x] Saved correction dispositions, report-correction flow, and v1/v2 diff
+- [x] Highlighter-read animation with reduced-motion fallback
+- [x] Initial 12-case synthetic A2 golden set and opt-in live evaluation report
+- [ ] Broad 100–200-text, cross-level, human-reviewed golden set and eval run recorded
 
 **Phase 3 — Curriculum and path (weeks 4–5)**
-- [ ] Placement flow
-- [ ] A1–B1 content seeded (generated offline, human-reviewed)
-- [ ] Learning path map, unit unlocking, auto-graded warm-ups
-- [ ] XP, streak, weekly goal; Today and Progress pages
+- [x] Placement flow: two writings, three grammar answers, A1–B1 practice estimate, and starting-level choice
+- [ ] A1–B1 content seeded (offline candidate generated; human review and publication still required)
+- [x] Learning path map, unit unlocking, auto-graded warm-ups
+- [x] Real XP, UTC streak, saved editable weekly goal, Today and Progress pages
 
 **Phase 4 — Polish and revenue (weeks 6–7)**
-- [x] next-intl with English/Arabic interface + RTL checks; coach explanations remain English
-- [ ] Error bank, nightly drill generation, Practice page
+- [x] next-intl with English/Vietnamese interface + legacy Arabic fallback checks; coach explanations remain English
+- [x] Saved correction Practice: server-checked answers, retry, owner-only results, and scheduled review
+- [ ] Per-tag error mastery and nightly AI drill generation
 - [x] Owner-based daily writing and explanation limits in PostgreSQL
 - [ ] Per-IP abuse controls, Pro plans, Stripe, pricing page
 - [ ] Landing page with live demo; privacy policy and terms

@@ -19,21 +19,28 @@ test('daily preview opens a locally saved writing draft without automatic correc
   await expect(page.getByText('4 words', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Check my writing' })).toBeDisabled();
 });
-test('settings persist a dark theme and Arabic RTL while the writing canvas stays LTR', async ({
+test('settings persist Vietnamese and a dark theme while writing stays left-to-right', async ({
   page,
 }) => {
   await page.goto('/settings');
   await page.getByRole('button', { name: 'Dark', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-mui-color-scheme', 'dark');
   await page.getByRole('combobox', { name: 'UI language' }).click();
-  await page.getByRole('option', { name: 'العربية' }).click();
-  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  await expect(page.getByRole('option', { name: 'العربية' })).toHaveCount(0);
+  await page.getByRole('option', { name: 'Tiếng Việt' }).click();
+  await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
   await page.reload();
-  await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
-  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
-  await expect(page.getByRole('heading', { name: 'اجعل هذه المساحة لك' })).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
+  await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
+  await expect(page.getByRole('heading', { name: 'Tùy chỉnh không gian của bạn' })).toBeVisible();
   await page.goto('/dev/preview/write');
-  await expect(page.getByRole('textbox')).toHaveAttribute('dir', 'ltr');
+  const writing = page.getByRole('textbox', { name: 'Bài viết của bạn' });
+  await expect(writing).toHaveAttribute('dir', 'ltr');
+  await expect(writing).toHaveAttribute('spellcheck', 'false');
+  await page.goto('/settings');
+  await page.getByRole('combobox', { name: 'Ngôn ngữ giao diện' }).click();
+  await page.getByRole('option', { name: 'English', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 test('public Today shows an honest empty state, not sample achievements', async ({ page }) => {
   await page.goto('/today');

@@ -10,9 +10,53 @@ import {
 } from 'drizzle-orm/pg-core';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
 import type { Explanation } from '@/lib/feedback/explanation';
+import type { PracticeSource, PracticeAnswer } from '@/lib/practice';
+import type { CorrectionStatus, ReportReason } from '@/lib/feedback/choices';
 
 const writing = pgSchema('writing');
+export const curriculumUnits = writing.table('curriculum_units', {
+  id: text('id').primaryKey(),
+  level: text('level').notNull(),
+  sortOrder: integer('sort_order').notNull(),
+  content: jsonb('content').$type<import('@/lib/curriculum').CurriculumUnit>().notNull(),
+  reviewedBy: text('reviewed_by').notNull(),
+  reviewedAt: timestamp('reviewed_at', { withTimezone: true }).notNull(),
+  contentHash: text('content_hash').notNull(),
+});
+export const placementResults = writing.table('placement_results', {
+  userId: uuid('user_id').primaryKey(),
+  status: text('status').notNull(),
+  result: jsonb('result').$type<import('@/lib/curriculum').PlacementResult>(),
+  chosenLevel: text('chosen_level'),
+  callsToday: integer('calls_today').notNull(),
+  callDay: text('call_day').notNull(),
+  startedAt: timestamp('started_at', { withTimezone: true }).notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull(),
+});
+export const lessonProgress = writing.table(
+  'lesson_progress',
+  {
+    userId: uuid('user_id').notNull(),
+    lessonId: text('lesson_id').notNull(),
+    warmups: jsonb('warmups').$type<Record<string, boolean>>().notNull(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.lessonId] })],
+);
 const createdAt = () => timestamp('created_at', { withTimezone: true }).notNull().defaultNow();
+export const profiles = writing.table('profiles', {
+  userId: uuid('user_id').primaryKey(),
+  nativeLanguage: text('native_language').notNull(),
+  goal: text('goal').notNull(),
+  startingLevel: text('starting_level').notNull(),
+  dailyMinutes: integer('daily_minutes').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
+export const preferences = writing.table('preferences', {
+  userId: uuid('user_id').primaryKey(),
+  weeklyGoal: integer('weekly_goal').notNull().default(5),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
 export const drafts = writing.table(
   'drafts',
   {
@@ -66,6 +110,52 @@ export const explanationRequests = writing.table('explanation_requests', {
   userId: uuid('user_id').notNull(),
   createdAt: createdAt(),
 });
+export const practiceDrills = writing.table('practice_drills', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').notNull(),
+  submissionId: uuid('submission_id').notNull(),
+  correctionIndex: integer('correction_index').notNull(),
+  payload: jsonb('payload').$type<PracticeSource>().notNull(),
+  box: integer('box').notNull().default(1),
+  misses: integer('misses').notNull().default(0),
+  version: integer('version').notNull().default(0),
+  nextReviewAt: timestamp('next_review_at', { withTimezone: true }).notNull().defaultNow(),
+  completedAt: timestamp('completed_at', { withTimezone: true }),
+});
+export const practiceAnswers = writing.table(
+  'practice_answers',
+  {
+    drillId: uuid('drill_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    version: integer('version').notNull(),
+    answer: text('answer').notNull(),
+    result: jsonb('result').$type<PracticeAnswer>().notNull(),
+    createdAt: createdAt(),
+  },
+  (table) => [primaryKey({ columns: [table.drillId, table.version] })],
+);
+export const correctionChoices = writing.table(
+  'correction_choices',
+  {
+    submissionId: uuid('submission_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    correctionIndex: integer('correction_index').notNull(),
+    status: text('status').$type<CorrectionStatus>().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.submissionId, table.correctionIndex] })],
+);
+export const correctionReports = writing.table(
+  'correction_reports',
+  {
+    submissionId: uuid('submission_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    correctionIndex: integer('correction_index').notNull(),
+    reason: text('reason').$type<ReportReason>().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.submissionId, table.correctionIndex] })],
+);
 export const aiUsage = writing.table('ai_usage', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id').notNull(),

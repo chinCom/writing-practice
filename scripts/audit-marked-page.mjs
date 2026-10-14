@@ -11,14 +11,11 @@ try {
   for (const configuration of [
     { name: 'desktop', viewport: { width: 1440, height: 1000 } },
     { name: 'mobile', viewport: { width: 390, height: 844 } },
-    { name: 'dark-arabic-desktop', viewport: { width: 1440, height: 1000 }, arabic: true },
+    { name: 'dark-vietnamese-desktop', viewport: { width: 1440, height: 1000 }, vietnamese: true },
   ]) {
     const context = await browser.newContext({ viewport: configuration.viewport });
-    if (configuration.arabic) {
-      await context.addCookies([
-        { name: 'locale', value: 'ar', url: 'http://127.0.0.1:3000' },
-        { name: 'direction', value: 'rtl', url: 'http://127.0.0.1:3000' },
-      ]);
+    if (configuration.vietnamese) {
+      await context.addCookies([{ name: 'locale', value: 'vi', url: 'http://127.0.0.1:3000' }]);
       await context.addInitScript(() => localStorage.setItem('mui-mode', 'dark'));
     }
     const page = await context.newPage();

@@ -15,6 +15,9 @@ interface CoachResponse {
 async function readResult(response: Response): Promise<CoachResult> {
   if (response.status === 401) return { status: 'failed', code: 'UNAUTHENTICATED' };
   const result = (await response.json()) as CoachResponse;
+  // A database deadline does not establish whether an earlier write committed.
+  if (response.status === 503 && result.error?.code === 'DATABASE_TIMEOUT')
+    return { status: 'pending' };
   if (!response.ok || !result.ok)
     return { status: 'failed', code: result.error?.code ?? 'COACH_UNAVAILABLE' };
   if (result.data?.status === 'failed') return { status: 'failed', code: 'COACH_UNAVAILABLE' };

@@ -1,0 +1,245 @@
+{
+  "scope": "12 synthetic A2 cases; not a broad or human-reviewed benchmark",
+  "createdAt": "2026-10-14T00:28:47.467Z",
+  "model": "deepseek-flash",
+  "promptVersion": "feedback-a2-1",
+  "summary": {
+    "cases": 12,
+    "truePositives": 8,
+    "falsePositives": 1,
+    "falseNegatives": 0,
+    "precision": 0.8888888888888888,
+    "recall": 1,
+    "jsonValidityRate": 1,
+    "validCleanTexts": 4,
+    "cleanTextFalsePositiveRate": 0,
+    "averageTokens": 1168.0833333333333,
+    "averageLatencyMs": 2267.9166666666665
+  },
+  "results": [
+    {
+      "id": "clean-weekend",
+      "expectedCount": 0,
+      "valid": true,
+      "corrections": [],
+      "truePositives": 0,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 777,
+      "completionTokens": 222,
+      "latencyMs": 2007
+    },
+    {
+      "id": "clean-park",
+      "expectedCount": 0,
+      "valid": true,
+      "corrections": [],
+      "truePositives": 0,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 781,
+      "completionTokens": 303,
+      "latencyMs": 2023
+    },
+    {
+      "id": "clean-home",
+      "expectedCount": 0,
+      "valid": true,
+      "corrections": [],
+      "truePositives": 0,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 1554,
+      "completionTokens": 488,
+      "latencyMs": 3729
+    },
+    {
+      "id": "clean-library",
+      "expectedCount": 0,
+      "valid": true,
+      "corrections": [],
+      "truePositives": 0,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 779,
+      "completionTokens": 255,
+      "latencyMs": 2150
+    },
+    {
+      "id": "tense",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "I go to the beach",
+          "suggestion": "I went to the beach",
+          "tag": "verb-tense",
+          "severity": "major",
+          "explanation": "Use went for the past of go.",
+          "confidence": 0.99
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 777,
+      "completionTokens": 291,
+      "latencyMs": 2154
+    },
+    {
+      "id": "verb-form",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "we swimmed",
+          "suggestion": "we swam",
+          "tag": "verb-tense",
+          "severity": "major",
+          "explanation": "Swim is irregular. The past form is swam.",
+          "confidence": 0.99
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 778,
+      "completionTokens": 355,
+      "latencyMs": 2352
+    },
+    {
+      "id": "agreement",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "The weather were warm",
+          "suggestion": "The weather was warm",
+          "tag": "subject-verb-agreement",
+          "severity": "major",
+          "explanation": "'Weather' is singular, so use 'was'.",
+          "confidence": 0.99
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 777,
+      "completionTokens": 308,
+      "latencyMs": 2049
+    },
+    {
+      "id": "plural",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "my two brother",
+          "suggestion": "my two brothers",
+          "tag": "plural-noun",
+          "severity": "major",
+          "explanation": "After two, use the plural form brothers.",
+          "confidence": 0.98
+        },
+        {
+          "original": "I ate ice cream and my brother lost his hat.",
+          "suggestion": "I ate ice cream, and my brother lost his hat.",
+          "tag": "punctuation",
+          "severity": "minor",
+          "explanation": "Add a comma before and to separate two full ideas.",
+          "confidence": 0.92
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 1,
+      "falseNegatives": 0,
+      "promptTokens": 778,
+      "completionTokens": 406,
+      "latencyMs": 2286
+    },
+    {
+      "id": "article",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "to beach",
+          "suggestion": "to the beach",
+          "tag": "articles",
+          "severity": "major",
+          "explanation": "Use 'the' before a specific place.",
+          "confidence": 0.95
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 776,
+      "completionTokens": 298,
+      "latencyMs": 2018
+    },
+    {
+      "id": "spelling",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "last weekned",
+          "suggestion": "last weekend",
+          "tag": "spelling",
+          "severity": "major",
+          "explanation": "Spell weekend with een, not ned.",
+          "confidence": 0.99
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 778,
+      "completionTokens": 337,
+      "latencyMs": 2145
+    },
+    {
+      "id": "preposition",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "we swam on the sea",
+          "suggestion": "we swam in the sea",
+          "tag": "prepositions",
+          "severity": "minor",
+          "explanation": "We usually swim in the sea, not on it.",
+          "confidence": 0.95
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 777,
+      "completionTokens": 360,
+      "latencyMs": 2458
+    },
+    {
+      "id": "past-irregular",
+      "expectedCount": 1,
+      "valid": true,
+      "corrections": [
+        {
+          "original": "I eated ice cream",
+          "suggestion": "I ate ice cream",
+          "tag": "verb-tense",
+          "severity": "major",
+          "explanation": "The past form of 'eat' is 'ate', not 'eated'.",
+          "confidence": 0.99
+        }
+      ],
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "promptTokens": 778,
+      "completionTokens": 284,
+      "latencyMs": 1844
+    }
+  ]
+}

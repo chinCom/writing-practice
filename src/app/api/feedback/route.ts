@@ -13,6 +13,7 @@ import {
   reserveSubmission,
 } from '@/lib/db/queries';
 import { gradeWriting, LlmError } from '@/lib/llm/grade';
+import { loadTask } from '@/lib/db/curriculum';
 
 export const maxDuration = 90;
 const privateHeaders = { 'Cache-Control': 'private, no-store' };
@@ -47,9 +48,13 @@ export async function POST(request: Request) {
   try {
     const user = await requireApiUser(request);
     userId = user.id;
+    const body = await readJson(request);
+    const reference = z.object({ taskId: z.string().regex(/^[a-z0-9-]{1,80}$/) }).safeParse(body);
+    if (!reference.success) throw new ApiError('INVALID_INPUT', 400);
+    const task = await loadTask(user.id, reference.data.taskId);
     let input;
     try {
-      input = parseFeedbackInput(await readJson(request));
+      input = parseFeedbackInput(body, task.targetLevel, task);
     } catch {
       throw new ApiError('INVALID_INPUT', 400);
     }
@@ -94,6 +99,7 @@ export async function POST(request: Request) {
       baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
       model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
       mock: process.env.USE_MOCK_LLM === 'true',
+      task,
     });
     const feedback = {
       ...result.data,

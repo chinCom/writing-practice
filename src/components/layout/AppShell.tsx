@@ -34,6 +34,7 @@ const items = [
   { id: 'write', href: '/write/weekend', icon: EditOutlined },
   { id: 'practice', href: '/practice', icon: FitnessCenterOutlined },
   { id: 'progress', href: '/progress', icon: BarChartOutlined },
+  { id: 'portfolio', href: '/portfolio', icon: DescriptionOutlined },
   { id: 'settings', href: '/settings', icon: SettingsOutlined },
 ] as const;
 function Logo() {
@@ -57,11 +58,27 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const active =
     pathname.includes('write') || pathname.includes('feedback')
       ? 'write'
-      : preview
-        ? 'today'
-        : pathname.split('/')[1];
+      : pathname.includes('portfolio') || pathname.includes('revision')
+        ? 'portfolio'
+        : pathname.includes('settings')
+          ? 'settings'
+          : pathname.includes('practice')
+            ? 'practice'
+            : pathname.includes('progress')
+              ? 'progress'
+              : pathname.includes('placement') ||
+                  pathname.includes('lesson') ||
+                  pathname.includes('/path')
+                ? 'path'
+                : preview
+                  ? 'today'
+                  : pathname.split('/')[1];
   function destination(item: (typeof items)[number]) {
+    if (preview && item.id === 'path') return '/dev/preview/path';
     if (preview && item.id === 'today') return '/dev/preview/today';
+    if (preview && item.id === 'practice') return '/dev/preview/practice-page';
+    if (preview && item.id === 'progress') return '/dev/preview/progress';
+    if (preview && item.id === 'portfolio') return '/dev/preview/portfolio';
     if (preview && item.id === 'write')
       return pathname.includes('live-write') || pathname.includes('feedback')
         ? '/dev/preview/live-write'
@@ -144,11 +161,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         </Toolbar>
       </AppBar>
       <Drawer
-        anchor={
-          typeof document !== 'undefined' && document.documentElement.dir === 'rtl'
-            ? 'right'
-            : 'left'
-        }
+        anchor="left"
         open={menu}
         onClose={() => setMenu(false)}
         slotProps={{ paper: { sx: { width: (theme) => theme.layout.navWidth, p: 2 } } }}

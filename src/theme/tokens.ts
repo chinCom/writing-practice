@@ -47,6 +47,8 @@ export const tokens = {
     coachRail: 264,
     writingCanvasHeight: 'clamp(10rem, calc(100dvh - 23rem), 36rem)',
     writingCanvasMobileHeight: 'clamp(10rem, 35dvh, 20rem)',
+    readSweepDuration: 2400,
+    readSweepStagger: 100,
     feedbackCanvasMinHeight: 480,
     feedbackSheetRadius: 24,
     ringSize: 96,

@@ -1,0 +1,22 @@
+[
+  {
+    "configuration": "desktop",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "mobile",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "reduced-motion-mobile",
+    "violations": [],
+    "incomplete": []
+  }
+]

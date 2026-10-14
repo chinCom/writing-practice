@@ -35,6 +35,7 @@ export default function WritingCanvas({ maxLength = 1200, ...props }: WritingCan
               overscrollBehaviorY: 'contain',
               scrollbarGutter: 'stable',
               resize: 'none',
+              '&:disabled': { WebkitTextFillColor: theme.vars.palette.text.primary },
             },
           }),
         },

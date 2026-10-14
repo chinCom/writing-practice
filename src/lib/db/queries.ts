@@ -9,18 +9,18 @@ import type { LocatedFeedback } from '@/lib/feedback/schema';
 import { feedbackPromptVersion } from '@/lib/prompts/version';
 import type { gradeWriting } from '@/lib/llm/grade';
 
-export async function loadDraft(userId: string) {
+export async function loadDraft(userId: string, taskId = 'weekend') {
   return withUserDatabase(
     userId,
     async (database) =>
-      (await database.select().from(drafts).where(eq(drafts.taskId, 'weekend')))[0]?.text ?? '',
+      (await database.select().from(drafts).where(eq(drafts.taskId, taskId)))[0]?.text ?? '',
   );
 }
-export async function saveDraft(userId: string, text: string) {
+export async function saveDraft(userId: string, text: string, taskId = 'weekend') {
   return withUserDatabase(userId, async (database) => {
     await database
       .insert(drafts)
-      .values({ userId, taskId: 'weekend', text })
+      .values({ userId, taskId, text })
       .onConflictDoUpdate({
         target: [drafts.userId, drafts.taskId],
         set: { text, updatedAt: new Date() },

@@ -14,6 +14,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
 import SavedFeedback, { type SavedSubmission } from './SavedFeedback';
+import AccountActivity from './AccountActivity';
+import type { ProgressSummary } from '@/lib/progress';
 
 function NextTaskCard({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('today');
@@ -170,10 +172,16 @@ export default function Today({
   preview = false,
   signedIn = false,
   submissions = [],
+  progress,
+  due = 0,
+  weeklyGoal = 5,
 }: {
   preview?: boolean;
   signedIn?: boolean;
   submissions?: SavedSubmission[];
+  progress?: ProgressSummary;
+  due?: number;
+  weeklyGoal?: number;
 }) {
   const t = useTranslations('today');
   const format = useFormatter();
@@ -218,7 +226,19 @@ export default function Today({
           }}
         >
           <NextTaskCard />
-          {signedIn ? <SavedFeedback submissions={submissions} /> : <LearningEmptyState />}
+          {signedIn ? (
+            <Stack sx={{ gap: 4 }}>
+              {progress ? (
+                <AccountActivity progress={progress} due={due} goal={weeklyGoal} />
+              ) : null}
+              <Button component={NextLink} href="/path" variant="outlined">
+                {t('learningPath')}
+              </Button>
+              <SavedFeedback submissions={submissions} />
+            </Stack>
+          ) : (
+            <LearningEmptyState />
+          )}
         </Box>
       )}
     </Container>

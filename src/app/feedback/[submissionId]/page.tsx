@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { z } from 'zod';
 import { currentUser } from '@/lib/auth/server';
 import { loadFeedback } from '@/lib/db/queries';
+import { loadCorrectionChoices } from '@/lib/db/corrections';
 import FeedbackView from '@/components/feedback/FeedbackView';
 export default async function Page({ params }: { params: Promise<{ submissionId: string }> }) {
   const user = await currentUser();
@@ -13,9 +14,14 @@ export default async function Page({ params }: { params: Promise<{ submissionId:
   return (
     <FeedbackView
       submissionId={submissionId}
+      taskId={result.submission.taskId}
       text={result.submission.text}
       feedback={result.feedback.json}
       mock={result.feedback.model === 'mock'}
+      hasPreviousVersion={Boolean(result.submission.parentSubmissionId)}
+      initialChoices={
+        result.feedback.json.safety_flag ? [] : await loadCorrectionChoices(user.id, submissionId)
+      }
     />
   );
 }

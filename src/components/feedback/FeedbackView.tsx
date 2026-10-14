@@ -17,21 +17,30 @@ import { useTheme } from '@mui/material/styles';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import HelpOutline from '@mui/icons-material/HelpOutlined';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
-import MarkedText, { revisionText } from './MarkedText';
+import MarkedText from './MarkedText';
+import { revisionText } from '@/lib/revision';
 import ScoreBars from './ScoreBars';
 import CorrectionCard from './CorrectionCard';
 import ConnectorLayer from './ConnectorLayer';
+import { useCorrectionChoices } from './use-correction-choices';
+import type { CorrectionChoice } from '@/lib/feedback/choices';
 
 export default function FeedbackView({
   submissionId,
   text,
   feedback,
   mock,
+  hasPreviousVersion = false,
+  initialChoices,
+  taskId = 'weekend',
 }: {
   submissionId: string;
   text: string;
   feedback: LocatedFeedback;
   mock: boolean;
+  hasPreviousVersion?: boolean;
+  initialChoices?: CorrectionChoice[];
+  taskId?: string;
 }) {
   const t = useTranslations('feedback');
   const theme = useTheme();
@@ -40,7 +49,14 @@ export default function FeedbackView({
   const [active, setActive] = useState(0);
   const [sheet, setSheet] = useState(false);
   const [rewrite, setRewrite] = useState(false);
-  const [applied, setApplied] = useState<Set<number>>(() => new Set());
+  const preview = mock && submissionId === 'preview';
+  const choiceState = useCorrectionChoices(submissionId, preview, initialChoices);
+  const applied = new Set(
+    choiceState.choices
+      .filter((item) => item.status === 'applied')
+      .map((item) => item.correctionIndex),
+  );
+  const activeChoice = choiceState.choices.find((item) => item.correctionIndex === active);
   const container = useRef<HTMLDivElement>(null);
   const total = feedback.corrections.length;
   const correction = feedback.corrections[active];
@@ -56,11 +72,9 @@ export default function FeedbackView({
     if (!desktop) setSheet(true);
   }
   function apply() {
-    setApplied((current) => {
-      const next = new Set(current);
-      if (next.has(active)) next.delete(active);
-      else next.add(active);
-      return next;
+    void choiceState.save({
+      correctionIndex: active,
+      status: applied.has(active) ? 'open' : 'applied',
     });
   }
   function prepareRevision() {
@@ -82,6 +96,22 @@ export default function FeedbackView({
       total={total}
       applied={applied.has(active)}
       onApply={apply}
+      dismissed={activeChoice?.status === 'dismissed'}
+      choiceBusy={choiceState.loading || choiceState.pending}
+      choiceError={
+        choiceState.error?.change.correctionIndex === active ? choiceState.error.code : null
+      }
+      onRetry={() => {
+        if (choiceState.error) void choiceState.save(choiceState.error.change);
+      }}
+      onDismiss={() => {
+        void choiceState.save({
+          correctionIndex: active,
+          status: activeChoice?.status === 'dismissed' ? 'open' : 'dismissed',
+        });
+      }}
+      reportReason={activeChoice?.reason ?? null}
+      onReport={(reason) => choiceState.save({ correctionIndex: active, reason })}
       onMove={(direction) => select(active + direction)}
     />
   ) : null;
@@ -214,11 +244,20 @@ export default function FeedbackView({
                 href={
                   mock
                     ? '/dev/preview/live-write?revise=preview'
-                    : '/write/weekend?revise=' + submissionId
+                    : '/write/' + taskId + '?revise=' + submissionId
                 }
               >
                 {t('revise')}
               </Button>
+              {hasPreviousVersion ? (
+                <Button
+                  variant="outlined"
+                  component={NextLink}
+                  href={mock ? '/dev/preview/revision' : '/revision/' + submissionId}
+                >
+                  {t('compare')}
+                </Button>
+              ) : null}
               {feedback.level_up_rewrite ? (
                 <Button
                   variant="outlined"
@@ -347,6 +386,22 @@ export default function FeedbackView({
             total={total}
             applied={applied.has(active)}
             onApply={apply}
+            dismissed={activeChoice?.status === 'dismissed'}
+            choiceBusy={choiceState.loading || choiceState.pending}
+            choiceError={
+              choiceState.error?.change.correctionIndex === active ? choiceState.error.code : null
+            }
+            onRetry={() => {
+              if (choiceState.error) void choiceState.save(choiceState.error.change);
+            }}
+            onDismiss={() => {
+              void choiceState.save({
+                correctionIndex: active,
+                status: activeChoice?.status === 'dismissed' ? 'open' : 'dismissed',
+              });
+            }}
+            reportReason={activeChoice?.reason ?? null}
+            onReport={(reason) => choiceState.save({ correctionIndex: active, reason })}
             onMove={(direction) => select(active + direction)}
             onClose={() => setSheet(false)}
             mobile

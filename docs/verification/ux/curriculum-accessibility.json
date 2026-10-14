@@ -1,0 +1,86 @@
+[
+  {
+    "screen": "placement",
+    "configuration": "desktop",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 5
+      }
+    ]
+  },
+  {
+    "screen": "path",
+    "configuration": "desktop",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "lesson",
+    "configuration": "desktop",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "screen": "placement",
+    "configuration": "mobile",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 5
+      }
+    ]
+  },
+  {
+    "screen": "path",
+    "configuration": "mobile",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "lesson",
+    "configuration": "mobile",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "screen": "placement",
+    "configuration": "vietnamese-mobile",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 5
+      }
+    ]
+  },
+  {
+    "screen": "path",
+    "configuration": "vietnamese-mobile",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "screen": "lesson",
+    "configuration": "vietnamese-mobile",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  }
+]

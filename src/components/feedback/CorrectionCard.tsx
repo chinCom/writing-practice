@@ -7,6 +7,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
+import Alert from '@mui/material/Alert';
+import ReportCorrection from './ReportCorrection';
+import type { ReportReason } from '@/lib/feedback/choices';
 import Collapse from '@mui/material/Collapse';
 import Close from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
@@ -23,6 +26,13 @@ export default function CorrectionCard({
   total,
   applied,
   onApply,
+  dismissed,
+  choiceBusy,
+  choiceError,
+  onRetry,
+  onDismiss,
+  reportReason,
+  onReport,
   onMove,
   onClose,
   mobile = false,
@@ -34,6 +44,13 @@ export default function CorrectionCard({
   total: number;
   applied: boolean;
   onApply: () => void;
+  dismissed: boolean;
+  choiceBusy: boolean;
+  choiceError: string | null;
+  onRetry: () => void;
+  onDismiss: () => void;
+  reportReason: ReportReason | null;
+  onReport: (reason: ReportReason) => Promise<boolean>;
   onMove: (direction: number) => void;
   onClose?: () => void;
   mobile?: boolean;
@@ -99,7 +116,35 @@ export default function CorrectionCard({
       ) : null}
       <Typography variant="body2">{correction.explanation}</Typography>
       <ExplanationPanel submissionId={submissionId} index={index} preview={preview} />
-      <Collapse in={trying && !applied}>
+      <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
+        <Button size="small" disabled={choiceBusy} onClick={onDismiss}>
+          {t(dismissed ? 'restore' : 'dismiss')}
+        </Button>
+        <ReportCorrection
+          reason={reportReason}
+          disabled={choiceBusy}
+          error={choiceError}
+          onReport={onReport}
+        />
+      </Stack>
+      {dismissed ? (
+        <Typography variant="caption" role="status">
+          {t('dismissedNote')}
+        </Typography>
+      ) : null}
+      {choiceError ? (
+        <Alert
+          severity="error"
+          action={
+            <Button onClick={onRetry} disabled={choiceBusy}>
+              {t('choiceRetry')}
+            </Button>
+          }
+        >
+          {t(choiceError === 'UNAUTHENTICATED' ? 'choiceSession' : 'choiceError')}
+        </Alert>
+      ) : null}
+      <Collapse in={trying && !applied && !dismissed}>
         <Box
           component="form"
           onSubmit={(event) => {
@@ -120,26 +165,34 @@ export default function CorrectionCard({
               {t('tryAgain')}
             </Typography>
           ) : null}
-          <Button type="submit">{t('checkAnswer')}</Button>
+          <Button type="submit" disabled={choiceBusy}>
+            {t('checkAnswer')}
+          </Button>
         </Box>
       </Collapse>
       <Stack direction="row" sx={{ gap: 1, marginBlockStart: 2 }}>
-        {!applied ? (
+        {!applied && !dismissed ? (
           <Button
             variant="outlined"
             fullWidth
+            disabled={choiceBusy}
             onClick={() => setExercise({ ...current, trying: !trying })}
           >
             {t('try')}
           </Button>
         ) : null}
-        <Button variant={applied ? 'outlined' : 'contained'} fullWidth onClick={onApply}>
+        <Button
+          variant={applied ? 'outlined' : 'contained'}
+          fullWidth
+          disabled={choiceBusy || dismissed}
+          onClick={onApply}
+        >
           {t(applied ? 'undo' : 'apply')}
         </Button>
       </Stack>
       {applied ? (
         <Typography role="status" variant="caption" sx={{ display: 'block', marginBlockStart: 1 }}>
-          {t('localFix')}
+          {t('savedFix')}
         </Typography>
       ) : null}
       <Stack

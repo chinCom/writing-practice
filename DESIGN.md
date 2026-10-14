@@ -154,7 +154,7 @@ console.log("Design rules: OK");
 - [ ] `npm run lint` and `npm run check:design` pass
 - [ ] Every new UI element maps to a row in §6 (or a new, approved row)
 - [ ] No hex/px literals outside `src/theme/`; no `style`/`className`
-- [ ] Works in light and dark, at `xs`, `md`, `lg`, and with `dir="rtl"`
+- [ ] Works in light and dark, at `xs`, `md`, `lg`, and in English and Vietnamese
 - [ ] Keyboard: every control reachable, focus visible
 - [ ] Reduced motion: animations have a static fallback
 - [ ] Strings come from the message files
@@ -224,16 +224,16 @@ CSS: `textDecorationLine: underline; textDecorationStyle: <style>; textDecoratio
 |---|---|---|---|---|
 | `h1` | **Literata** | 2rem / 1.2 (1.625rem on `xs`) | 600 | Page titles ("Make room for a little writing", "See your writing grow") |
 | `h2` | **Literata** | 1.625rem / 1.25 | 600 | Hero titles inside a page (the task title on the Today card) |
-| `h3` | Schibsted Grotesk | 1.125rem / 1.3 | 600 | Section and card titles ("Your week", "Errors by category", "A message to a friend") |
-| `subtitle2` | Schibsted Grotesk | 0.8125rem / 1.3 | 600 | Correction card tag ("Verb tense") |
-| `body1` | Schibsted Grotesk | 0.9375rem / 1.5 | 400 | UI text |
-| `body2` | Schibsted Grotesk | 0.8125rem / 1.45 | 400 | Secondary text, explanations |
-| `caption` | Schibsted Grotesk | 0.75rem / 1.4 | 400 | "Saved just now", "61 words" |
-| `button` | Schibsted Grotesk | 0.9375rem / 1 | 600, no uppercase | Buttons |
+| `h3` | Noto Sans | 1.125rem / 1.3 | 600 | Section and card titles ("Your week", "Errors by category", "A message to a friend") |
+| `subtitle2` | Noto Sans | 0.8125rem / 1.3 | 600 | Correction card tag ("Verb tense") |
+| `body1` | Noto Sans | 0.9375rem / 1.5 | 400 | UI text |
+| `body2` | Noto Sans | 0.8125rem / 1.45 | 400 | Secondary text, explanations |
+| `caption` | Noto Sans | 0.75rem / 1.4 | 400 | "Saved just now", "61 words" |
+| `button` | Noto Sans | 0.9375rem / 1 | 600, no uppercase | Buttons |
 | **`stat`** (custom) | **Literata** | 1.75rem / 1.1 | 600 | Big numbers ("1,240", "8", "5 days") with a `body2` label beneath. Format with `Intl.NumberFormat`. |
 | **`canvas`** (custom) | **Literata** | 1.375rem / 1.65 (1.1875rem / 1.6 on `xs`) | 400 | Learner text, model text, rewrites. Max width 70ch. |
 
-Fonts load with `next/font` (CSS variables `--font-ui`, `--font-canvas`) and are referenced from the theme. The canvas is always English, so Literata is enough there. But `h1`, `h2`, and `stat` now also appear in translated UI, and Literata has no Arabic or Indic glyphs, so their font stacks need per-script serif fallbacks (Noto Serif family, e.g. Noto Naskh Arabic, Noto Serif Devanagari), and the UI stack needs Noto Sans fallbacks.
+Fonts load locally with `next/font` and are referenced from the theme. The current interface uses Noto Sans for English and Vietnamese. Literata remains the serif heading and English writing font. Local Vietnamese subsets provide accented characters for both font stacks. Arabic fonts and the Arabic catalog were removed.
 
 The first mockup (Studio, Feedback) uses a sans bold page title; the newer board uses Literata. This file standardizes on Literata for `h1` (see §13).
 
@@ -480,11 +480,10 @@ Other drill types (PROJECT.md §7.2) reuse the same card: gap-fill (`WritingFiel
 | Page title | `Typography variant="h1"` | "Make this space yours" |
 | Section row | `Box` row: section name (`Typography variant="subtitle1"`, weight 700) + controls; `Divider` between rows | |
 | Select with inline label | `FormControl size="small"` + `FormLabel` + `Select` | UI language, Explanation language, Daily writing target, Weekly goal |
-| Segmented choice | `ToggleButtonGroup exclusive` + `ToggleButton` | Selected = ink fill, white text. Theme (Light / Dark / System) and Text direction (LTR / RTL). |
+| Segmented choice | `ToggleButtonGroup exclusive` + `ToggleButton` | Selected = ink fill, white text. Theme (Light / Dark / System). Both supported languages use left-to-right layout. |
 | Theme mode | MUI's `useColorScheme` (`light` / `dark` / `system`) | |
 | Theme preview | Two decorative `Box` swatches (`aria-hidden`) | |
 | Plan | `Typography` ("Free", weight 700) + muted `body2` + `Button variant="outlined"` "View plans" | |
-| Developer options | `Accordion disableGutters elevation={0}` | Holds the RTL preview toggle |
 | Saved confirmation | `Alert` (tonal success) inside `Collapse`, `role="status"` | Appears after any change autosaves |
 
 ### Not yet designed
@@ -667,7 +666,7 @@ Explanation style (example): for `swimmed → swam`, write "Swim is an irregular
 - Visible `:focus-visible` ring (2px `secondary`) on everything interactive.
 - Touch targets ≥ 44px (theme sets `Button`, `IconButton`, `Checkbox`, `ListItemButton`).
 - Respect `prefers-reduced-motion` and user font scaling (rem units).
-- RTL: use logical props (`marginInlineStart`, `paddingInline`, `insetInlineEnd`), set `dir` on the document and the theme direction, and mirror directional icons (arrows, chevrons). Test with an Arabic UI locale; the English canvas stays LTR (`dir="ltr"` on the writing field and marked text).
+- Languages: use logical props (`marginInlineStart`, `paddingInline`, `insetInlineEnd`). English and Vietnamese use left-to-right document and theme direction. Keep the English canvas LTR (`dir="ltr"` on the writing field and marked text). Old Arabic preferences must fall back to English, not reverse the layout.
 - The learning path is an ordered list; locked nodes announce why they are locked. The stepper and the calendar expose text labels, not just color or position.
 - Charts need a text alternative: a short summary line, and the data available as a table or list (the `ErrorBars` list already is one).
 - Result alerts (`role="status"`) announce correct and incorrect answers and "saved" confirmations politely; don't steal focus except to move it to the result after "Check answer".
@@ -684,6 +683,6 @@ Explanation style (example): for `swimmed → swam`, write "Swim is an irregular
 - [ ] **Titles:** the first board used a bold sans page title; this board uses a serif. I standardized on Literata for `h1` (§4.3). Say if the Feedback and Studio titles should stay sans.
 - [ ] **Settings is missing rows** that PROJECT.md requires: account (email, sign out) and data export and deletion. Add a "Data and privacy" row.
 - [ ] Copy "Preferences saved on this device" is only true if settings are stored locally. If they save to the account, use "Preferences saved."
-- [ ] Developer options (RTL preview): show in dev and staging only, or in production too?
+- Resolved: removed the developer RTL preview when Vietnamese replaced Arabic.
 - [ ] The path line is a soft curve in the board (needs the `PathLine` SVG exception). A straight line would avoid the exception; pick one.
 - [ ] Landing, Login, Onboarding, Pricing, Portfolio, Unit page, and empty/error states still need designs.

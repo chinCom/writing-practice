@@ -11,21 +11,26 @@ import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
 import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
 import WritingCanvas from './WritingCanvas';
+import ReadSweep from './ReadSweep';
 import TaskBrief from './TaskBrief';
 import { countWords } from '@/lib/draft';
 import NextLink from 'next/link';
 import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
+import { weekendTask, type CurriculumTask } from '@/lib/curriculum';
+import { textLimits } from '@/lib/limits';
 
 export default function LiveStudio({
   initialText,
   parentSubmissionId,
   attempt = 1,
   preview = false,
+  task = weekendTask,
 }: {
   initialText: string;
   parentSubmissionId?: string;
   attempt?: number;
   preview?: boolean;
+  task?: CurriculumTask;
 }) {
   const app = useTranslations('app');
   const t = useTranslations('studio');
@@ -50,8 +55,11 @@ export default function LiveStudio({
   const input = useRef<HTMLTextAreaElement>(null);
   const checking = useRef(false);
   const requestKey = useRef<string | null>(null);
+  const submittedText = useRef<string | null>(null);
   const words = countWords(text);
+  const limit = textLimits[task.targetLevel];
   async function save() {
+    if (busy || text.length > limit) return;
     setBusy('save');
     setError(null);
     const snapshot = text;
@@ -59,7 +67,10 @@ export default function LiveStudio({
       const response = await fetch('/api/draft', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: snapshot }),
+        body: JSON.stringify(
+          task.id === 'weekend' ? { text: snapshot } : { text: snapshot, taskId: task.id },
+        ),
+        signal: AbortSignal.timeout(10000),
       });
       if (response.status === 401) {
         setError('sessionExpired');
@@ -84,6 +95,14 @@ export default function LiveStudio({
   }
   function handleCoachResult(result: CoachResult) {
     if (result.status === 'completed') {
+      if (
+        text !== savedText &&
+        text !== submittedText.current &&
+        !window.confirm(live('leaveWarning'))
+      ) {
+        setError('recoverable');
+        return;
+      }
       rememberCheck(null);
       allowNavigation();
       router.push(preview ? '/dev/preview/feedback' : '/feedback/' + result.submissionId);
@@ -108,11 +127,12 @@ export default function LiveStudio({
     setBusy('check');
     setError(null);
     try {
+      if (!recover) submittedText.current = text;
       rememberCheck(requestKey.current ?? crypto.randomUUID());
       const result = recover
         ? await recoverCoach(requestKey.current!)
         : await requestCoach(
-            { taskId: 'weekend', text, attempt, parentSubmissionId },
+            { taskId: task.id, text, attempt, parentSubmissionId },
             requestKey.current!,
           );
       handleCoachResult(result);
@@ -128,10 +148,7 @@ export default function LiveStudio({
       if (parentSubmissionId) {
         const revisionKey = 'feedback-revision:' + parentSubmissionId;
         const revision = sessionStorage.getItem(revisionKey);
-        if (revision !== null && revision.length <= 1200) {
-          setText(revision);
-          sessionStorage.removeItem(revisionKey);
-        }
+        if (revision !== null && revision.length <= 10000) setText(revision);
       }
       const savedKey = sessionStorage.getItem(recoveryStorageKey);
       if (savedKey && /^[a-f0-9-]{36}$/i.test(savedKey)) {
@@ -146,13 +163,23 @@ export default function LiveStudio({
     const frame = requestAnimationFrame(() => recoverOnMount());
     return () => cancelAnimationFrame(frame);
   }, [recoveryStorageKey]);
+  function updateText(value: string) {
+    setText(value);
+    if (parentSubmissionId) {
+      try {
+        sessionStorage.setItem('feedback-revision:' + parentSubmissionId, value);
+      } catch {
+        // The unsaved-writing guard still protects this editor if storage is blocked.
+      }
+    }
+  }
   function insertPhrase(phrase: string) {
     if (busy === 'check') return;
     const start = input.current?.selectionStart ?? text.length;
     const end = input.current?.selectionEnd ?? start;
     const value = text.slice(0, start) + phrase + text.slice(end);
-    if (value.length > 1200) return;
-    setText(value);
+    if (value.length > limit) return;
+    updateText(value);
     requestAnimationFrame(() => {
       input.current?.focus();
       input.current?.setSelectionRange(start + phrase.length, start + phrase.length);
@@ -163,18 +190,26 @@ export default function LiveStudio({
       <Typography variant="h1">{app('write')}</Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, alignItems: 'start' }}>
         <Box sx={{ flexBasis: 280, flexGrow: 1, py: 2 }}>
-          <TaskBrief onInsert={insertPhrase} disabled={busy === 'check'} />
+          <TaskBrief
+            onInsert={insertPhrase}
+            disabled={busy === 'check'}
+            task={task.id === 'weekend' ? undefined : task}
+          />
         </Box>
         <Paper
           variant="outlined"
           sx={{ flexBasis: 0, flexGrow: 999, minInlineSize: 'min(100%, 55%)', p: { xs: 2, md: 4 } }}
         >
-          <WritingCanvas
-            inputRef={input}
-            value={text}
-            disabled={busy === 'check'}
-            onChange={(event) => setText(event.target.value)}
-          />
+          <Box sx={{ position: 'relative' }}>
+            <WritingCanvas
+              inputRef={input}
+              maxLength={limit}
+              value={text}
+              disabled={busy === 'check'}
+              onChange={(event) => updateText(event.target.value)}
+            />
+            {busy === 'check' ? <ReadSweep inputRef={input} text={text} /> : null}
+          </Box>
           <Stack sx={{ gap: 2, mt: 3 }}>
             <Typography variant="caption" role="status">
               {live(text === savedText ? 'saved' : 'unsaved')}
@@ -186,21 +221,35 @@ export default function LiveStudio({
             <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
               <Button
                 variant="outlined"
-                disabled={busy !== null || text === savedText}
+                disabled={busy !== null || text === savedText || text.length > limit}
                 onClick={save}
               >
                 {live(busy === 'save' ? 'saving' : 'save')}
               </Button>
               <Button
                 variant="contained"
-                disabled={busy !== null || words < 40 || error === 'recoverable'}
+                disabled={
+                  busy !== null ||
+                  words < task.minWords ||
+                  text.length > limit ||
+                  error === 'recoverable'
+                }
                 onClick={() => check()}
               >
                 {t('check')}
               </Button>
             </Stack>
-            {words < 40 ? (
-              <Typography variant="caption">{t('remaining', { n: 40 - words })}</Typography>
+            {text.length > limit ? (
+              <Alert severity="warning">
+                {task.id === 'weekend'
+                  ? live('revisionTooLong')
+                  : live('taskTooLong', { n: limit })}
+              </Alert>
+            ) : null}
+            {words < task.minWords ? (
+              <Typography variant="caption">
+                {t('remaining', { n: task.minWords - words })}
+              </Typography>
             ) : null}
             {busy === 'check' ? <CoachStatus /> : null}
             {error ? (

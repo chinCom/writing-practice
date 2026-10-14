@@ -1,0 +1,355 @@
+[
+  {
+    "id": "a1-order-1",
+    "level": "A1",
+    "order": 1,
+    "title": "Introducing Yourself",
+    "theme": "Familiar messages",
+    "outcome": "I can write a short message to introduce myself.",
+    "grammarFocus": ["verb-tense", "subject-verb-agreement"],
+    "vocabulary": ["name", "from", "live", "family", "friend", "happy"],
+    "lessons": [
+      {
+        "id": "a1-l1-hello",
+        "title": "Saying Hello",
+        "miniLesson": {
+          "markdown": "We use am/is/are to introduce ourselves. I am, you are, he/she is. Example: I am Tom. I am from Canada. I live in a small town.",
+          "modelText": "Hello! My name is Ana. I am from Mexico. I live in a big city. I am a student. I have one brother. I am happy."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete: I ___ from Japan.",
+            "answer": "am",
+            "hint": "Use am after I."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a correct sentence.",
+            "options": ["She is my sister.", "She are my sister."],
+            "answer": "She is my sister.",
+            "hint": "Use is after she."
+          }
+        ],
+        "task": {
+          "id": "a1-t1-intro",
+          "title": "Write an Introduction",
+          "genre": "message",
+          "prompt": "Write a short message to introduce yourself. Say your name, where you are from, and where you live.",
+          "scaffold": "frames",
+          "frames": ["My name is ___.", "I am from ___.", "I live in ___."],
+          "wordBank": ["name", "from", "live", "city", "student", "happy"],
+          "checklist": ["Introduce yourself", "Say where you are from", "Say where you live"],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1"
+        }
+      },
+      {
+        "id": "a1-l2-checkpoint",
+        "title": "Checkpoint: Introduce Yourself",
+        "miniLesson": {
+          "markdown": "Review: Use am/is/are correctly. I am, you are, he/she/it is. We use 'am' with I, 'is' with he/she/it, 'are' with you/we/they.",
+          "modelText": "Hi! I am Leo. I am from Italy. I live in Rome. I am a teacher. I have two sisters. I am happy to meet you."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete: They ___ my friends.",
+            "answer": "are",
+            "hint": "Use are with they."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a correct sentence.",
+            "options": ["He is a doctor.", "He are a doctor."],
+            "answer": "He is a doctor.",
+            "hint": "Use is after he."
+          }
+        ],
+        "task": {
+          "id": "a1-t2-checkpoint",
+          "title": "Write a Message to a New Friend",
+          "genre": "message",
+          "prompt": "Write a message to a new friend. Introduce yourself, say where you are from, and where you live.",
+          "scaffold": "frames",
+          "frames": ["Hello! I am ___.", "I am from ___.", "I live in ___.", "I am a ___."],
+          "wordBank": ["name", "from", "live", "city", "student", "happy", "meet"],
+          "checklist": [
+            "Introduce yourself",
+            "Say where you are from",
+            "Say where you live",
+            "Use am/is/are correctly"
+          ],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": true,
+          "targetLevel": "A1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "a2-order-1",
+    "level": "A2",
+    "order": 1,
+    "title": "Daily Routine",
+    "theme": "Familiar messages",
+    "outcome": "I can write a short message about my daily routine.",
+    "grammarFocus": ["verb-tense", "subject-verb-agreement"],
+    "vocabulary": ["wake up", "breakfast", "work", "afternoon", "evening", "usually"],
+    "lessons": [
+      {
+        "id": "a2-l1-morning",
+        "title": "My Morning",
+        "miniLesson": {
+          "markdown": "We use the present simple to talk about routines. Add -s or -es for he/she/it. Example: I wake up at 7. She wakes up at 8.",
+          "modelText": "I usually wake up at 7 AM. I eat breakfast and drink coffee. Then I go to work. I start work at 9 AM. In the afternoon, I have lunch with friends. I finish work at 5 PM. In the evening, I relax and read a book. I go to bed at 11 PM."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete: She ___ up at 6 AM.",
+            "answer": "wakes",
+            "hint": "Add -s for she."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a correct sentence.",
+            "options": ["He goes to work by bus.", "He go to work by bus."],
+            "answer": "He goes to work by bus.",
+            "hint": "Use goes for he."
+          }
+        ],
+        "task": {
+          "id": "a2-t1-routine",
+          "title": "Write About Your Daily Routine",
+          "genre": "message",
+          "prompt": "Write a message to a friend about your daily routine. Say what you do in the morning, afternoon, and evening.",
+          "scaffold": "frames",
+          "frames": [
+            "I usually wake up at ___.",
+            "In the morning, I ___.",
+            "In the afternoon, I ___.",
+            "In the evening, I ___."
+          ],
+          "wordBank": [
+            "wake up",
+            "breakfast",
+            "work",
+            "afternoon",
+            "evening",
+            "usually",
+            "lunch",
+            "relax"
+          ],
+          "checklist": [
+            "Use present simple",
+            "Use -s for he/she/it",
+            "Include morning, afternoon, evening"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "a2-l2-checkpoint",
+        "title": "Checkpoint: Daily Routine",
+        "miniLesson": {
+          "markdown": "Review present simple for routines. Remember: I/you/we/they + base verb; he/she/it + verb-s. Use time expressions like usually, always, sometimes.",
+          "modelText": "My daily routine is simple. I usually wake up at 6:30 AM. I eat breakfast and then go to school. In the afternoon, I do my homework. In the evening, I have dinner with my family. I sometimes watch TV. I go to bed at 10 PM."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete: He ___ breakfast at 8 AM.",
+            "answer": "eats",
+            "hint": "Add -s for he."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose a correct sentence.",
+            "options": ["She watches TV in the evening.", "She watch TV in the evening."],
+            "answer": "She watches TV in the evening.",
+            "hint": "Use watches for she."
+          }
+        ],
+        "task": {
+          "id": "a2-t2-checkpoint",
+          "title": "Message About Your Routine",
+          "genre": "message",
+          "prompt": "Write a message to a new friend about your daily routine. Include morning, afternoon, and evening activities.",
+          "scaffold": "frames",
+          "frames": [
+            "I usually wake up at ___.",
+            "In the morning, I ___.",
+            "In the afternoon, I ___.",
+            "In the evening, I ___."
+          ],
+          "wordBank": [
+            "wake up",
+            "breakfast",
+            "school",
+            "homework",
+            "dinner",
+            "family",
+            "watch TV",
+            "go to bed"
+          ],
+          "checklist": [
+            "Use present simple",
+            "Use -s for he/she/it",
+            "Include morning, afternoon, evening",
+            "Use time expressions"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": true,
+          "targetLevel": "A2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "b1-order-1",
+    "level": "B1",
+    "order": 1,
+    "title": "Opinion Paragraphs",
+    "theme": "Opinion paragraphs",
+    "outcome": "I can write a paragraph giving my opinion and reasons.",
+    "grammarFocus": ["connectors", "topic-sentence", "paragraphing"],
+    "vocabulary": ["opinion", "agree", "disagree", "reason", "example", "conclusion"],
+    "lessons": [
+      {
+        "id": "b1-l1-opinion",
+        "title": "Giving Your Opinion",
+        "miniLesson": {
+          "markdown": "A good opinion paragraph starts with a topic sentence. Then give reasons and examples. Use connectors like because, for example, also, and finally. End with a conclusion.",
+          "modelText": "I think that learning a second language is very important. First, it helps you communicate with more people around the world. For example, you can travel to many countries and talk to local people. Also, speaking another language can help you find a better job in the future. Finally, learning a language is fun and it opens your mind to new cultures. In conclusion, I believe everyone should try to learn at least one foreign language."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete: I think learning English is important ___ it helps me get a good job.",
+            "answer": "because",
+            "hint": "Use 'because' to give a reason."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the best topic sentence for an opinion paragraph.",
+            "options": [
+              "In my opinion, exercise is good for everyone.",
+              "Exercise is a physical activity.",
+              "Many people exercise."
+            ],
+            "answer": "In my opinion, exercise is good for everyone.",
+            "hint": "A topic sentence states your opinion clearly."
+          }
+        ],
+        "task": {
+          "id": "b1-t1-opinion",
+          "title": "Write an Opinion Paragraph",
+          "genre": "opinion paragraph",
+          "prompt": "Write a paragraph giving your opinion on this topic: 'It is better to live in a city than in the countryside.' Give reasons and examples.",
+          "scaffold": "frames",
+          "frames": [
+            "In my opinion, ___.",
+            "First, ___.",
+            "For example, ___.",
+            "Also, ___.",
+            "In conclusion, ___."
+          ],
+          "wordBank": [
+            "opinion",
+            "agree",
+            "disagree",
+            "reason",
+            "example",
+            "conclusion",
+            "because",
+            "for example",
+            "also"
+          ],
+          "checklist": [
+            "Start with a topic sentence",
+            "Give reasons",
+            "Give examples",
+            "Use connectors",
+            "End with a conclusion"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "b1-l2-checkpoint",
+        "title": "Checkpoint: Opinion Paragraph",
+        "miniLesson": {
+          "markdown": "Review how to write an opinion paragraph. Start with a clear topic sentence. Support your opinion with reasons and examples. Use connectors to link ideas. Finish with a conclusion that restates your opinion.",
+          "modelText": "In my opinion, students should not have too much homework. First, too much homework can make students tired and stressed. For example, many students stay up late to finish their homework and then feel sleepy in class. Also, students need free time to relax, play sports, and spend time with family. Finally, homework should help learning, not replace it. In conclusion, I believe teachers should give less homework so students can learn better and feel happier."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete: Students need free time, ___ they can relax and play sports.",
+            "answer": "so",
+            "hint": "Use 'so' to show a result."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the best concluding sentence for an opinion paragraph.",
+            "options": [
+              "In conclusion, I believe that we should protect the environment.",
+              "The environment is important.",
+              "Many people care about the environment."
+            ],
+            "answer": "In conclusion, I believe that we should protect the environment.",
+            "hint": "A conclusion restates your opinion."
+          }
+        ],
+        "task": {
+          "id": "b1-t2-checkpoint",
+          "title": "Write an Opinion Paragraph",
+          "genre": "opinion paragraph",
+          "prompt": "Write a paragraph giving your opinion on this topic: 'It is important to protect the environment.' Give reasons and examples.",
+          "scaffold": "frames",
+          "frames": [
+            "In my opinion, ___.",
+            "First, ___.",
+            "For example, ___.",
+            "Also, ___.",
+            "In conclusion, ___."
+          ],
+          "wordBank": [
+            "opinion",
+            "agree",
+            "disagree",
+            "reason",
+            "example",
+            "conclusion",
+            "because",
+            "for example",
+            "also",
+            "finally"
+          ],
+          "checklist": [
+            "Start with a topic sentence",
+            "Give reasons",
+            "Give examples",
+            "Use connectors",
+            "End with a conclusion"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  }
+]

@@ -26,5 +26,21 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 export const config = {
-  matcher: ['/today', '/write/:path*', '/feedback/:path*', '/login', '/auth/:path*', '/api/:path*'],
+  matcher: [
+    '/today',
+    '/settings',
+    '/onboarding',
+    '/path',
+    '/placement',
+    '/lesson/:path*',
+    '/practice',
+    '/progress',
+    '/portfolio',
+    '/revision/:path*',
+    '/write/:path*',
+    '/feedback/:path*',
+    '/login',
+    '/auth/:path*',
+    '/api/:path*',
+  ],
 };

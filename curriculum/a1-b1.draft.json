@@ -1,0 +1,268 @@
+[
+  {
+    "id": "first-messages",
+    "level": "A1",
+    "order": 1,
+    "title": "First messages",
+    "theme": "Introduce yourself",
+    "outcome": "I can introduce myself in a short message.",
+    "grammarFocus": ["subject-verb-agreement", "articles"],
+    "vocabulary": ["name", "live", "work", "like"],
+    "lessons": [
+      {
+        "id": "about-me",
+        "title": "Tell someone about yourself",
+        "miniLesson": {
+          "markdown": "Use I am for your name or job. Use I live for your home. Write one idea in each sentence.",
+          "modelText": "My name is Lin. I live in Hanoi. I work in a shop. I like books and music. I want to meet a new friend."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "I ___ in Hanoi.",
+            "answer": "live",
+            "hint": "Use the present form after I."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the correct sentence.",
+            "answer": "She is a teacher.",
+            "hint": "Use is after she.",
+            "options": ["She is a teacher.", "She are a teacher."]
+          }
+        ],
+        "task": {
+          "id": "about-me-task",
+          "title": "Tell someone about yourself",
+          "genre": "message",
+          "prompt": "Write a short introduction to a new classmate.",
+          "scaffold": "frames",
+          "wordBank": ["My name is", "I live in", "I like"],
+          "checklist": ["Say your name", "Say where you live", "Say one thing you like"],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": false,
+          "targetLevel": "A1",
+          "frames": ["My name is ___.", "I live in ___."]
+        }
+      },
+      {
+        "id": "friendly-invitation",
+        "title": "Invite a friend",
+        "miniLesson": {
+          "markdown": "Use Would you like to for a friendly invitation. Give a day and a place. End with a clear question.",
+          "modelText": "Hi Mai. Would you like to meet on Saturday? We can go to the park near my house. Please come at ten. Are you free?"
+        },
+        "warmups": [
+          {
+            "type": "reorder",
+            "prompt": "Put these words in order: you / Are / free",
+            "answer": "Are you free?",
+            "hint": "Start the question with Are."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix: She are my friend.",
+            "answer": "She is my friend.",
+            "hint": "Use is after she."
+          }
+        ],
+        "task": {
+          "id": "friendly-invitation-task",
+          "title": "Invite a friend",
+          "genre": "message",
+          "prompt": "Write an invitation to a friend.",
+          "scaffold": "frames",
+          "wordBank": ["Would you like to", "We can", "Are you free"],
+          "checklist": ["Name an activity", "Give a day and place", "Ask if your friend can come"],
+          "minWords": 20,
+          "maxWords": 50,
+          "isCheckpoint": true,
+          "targetLevel": "A1",
+          "frames": ["Would you like to ___?", "We can meet at ___."]
+        }
+      }
+    ]
+  },
+  {
+    "id": "connected-messages",
+    "level": "A2",
+    "order": 1,
+    "title": "Messages that connect",
+    "theme": "Describe an event",
+    "outcome": "I can describe a past event and invite a friend.",
+    "grammarFocus": ["verb-tense", "connectors"],
+    "vocabulary": ["visited", "returned", "after", "evening"],
+    "lessons": [
+      {
+        "id": "past-weekend",
+        "title": "Describe your weekend",
+        "miniLesson": {
+          "markdown": "Use past forms for finished activities. Connect events with then or after that. Keep the order easy to follow.",
+          "modelText": "Last weekend, I visited my cousin in a nearby town. We cooked lunch together and walked by the river. Then we watched a film at home. I enjoyed the quiet day because we had time to talk. Next time, I would like you to join us."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Yesterday, we ___ to the beach.",
+            "answer": "went",
+            "hint": "The past of go is went."
+          },
+          {
+            "type": "choose",
+            "prompt": "Choose the past-tense sentence.",
+            "answer": "We ate lunch together.",
+            "hint": "Ate is the past of eat.",
+            "options": ["We eat lunch yesterday.", "We ate lunch together."]
+          }
+        ],
+        "task": {
+          "id": "past-weekend-task",
+          "title": "Describe your weekend",
+          "genre": "message",
+          "prompt": "Write a message about your weekend.",
+          "scaffold": "checklist",
+          "wordBank": ["Last weekend", "Then", "because"],
+          "checklist": ["Say where you went", "Describe two activities", "Say how you felt"],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": false,
+          "targetLevel": "A2"
+        }
+      },
+      {
+        "id": "plan-a-visit",
+        "title": "Plan another visit",
+        "miniLesson": {
+          "markdown": "Give the reason for your message first. Use can for a possible plan. Ask a specific question so your friend can reply.",
+          "modelText": "Hi Nam. I would like to visit the museum next Saturday because the new exhibition looks interesting. We can meet outside at ten and have lunch afterwards. Tickets cost five pounds each. Please tell me if that time works for you. Would you like to come with me?"
+        },
+        "warmups": [
+          {
+            "type": "reorder",
+            "prompt": "Put these words in order: can / outside / We / meet",
+            "answer": "We can meet outside.",
+            "hint": "Use subject, modal verb, main verb, then place."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix: I visited my friend yesterday and we watch a film.",
+            "answer": "I visited my friend yesterday and we watched a film.",
+            "hint": "Both activities happened in the past."
+          }
+        ],
+        "task": {
+          "id": "plan-a-visit-task",
+          "title": "Plan another visit",
+          "genre": "message",
+          "prompt": "Invite a friend to an activity and explain the plan.",
+          "scaffold": "checklist",
+          "wordBank": ["I would like to", "We can meet", "Would you like"],
+          "checklist": [
+            "Explain why you chose the activity",
+            "Give a time and meeting place",
+            "Ask your friend to reply"
+          ],
+          "minWords": 40,
+          "maxWords": 100,
+          "isCheckpoint": true,
+          "targetLevel": "A2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "clear-paragraphs",
+    "level": "B1",
+    "order": 1,
+    "title": "Clear paragraphs",
+    "theme": "Explain a view",
+    "outcome": "I can explain an opinion with reasons and an example.",
+    "grammarFocus": ["topic-sentence", "connectors"],
+    "vocabulary": ["benefit", "however", "example", "suggest"],
+    "lessons": [
+      {
+        "id": "a-local-change",
+        "title": "Suggest a local improvement",
+        "miniLesson": {
+          "markdown": "State your main idea in the first sentence. Give two reasons. Use an example to support one reason. End with a practical suggestion.",
+          "modelText": "I think our neighbourhood needs a small community garden. First, a garden would give people a quiet place to spend time outside. Many residents live in flats and do not have their own outdoor space. Second, working together could help neighbours get to know each other. For example, families could meet on Saturday mornings to plant vegetables and share advice. However, the garden would need regular care, so we should make a simple timetable before starting. I suggest using the empty area beside the library. A small volunteer group could discuss the plan with the council and invite interested residents to a meeting."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Choose the sentence that gives a reason.",
+            "answer": "The garden would help because residents need outdoor space.",
+            "hint": "Because introduces a reason.",
+            "options": [
+              "The garden would help because residents need outdoor space.",
+              "The garden is a garden."
+            ]
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "The plan is useful. ___, it will need regular care.",
+            "answer": "However",
+            "hint": "Use a connector that introduces a contrast."
+          }
+        ],
+        "task": {
+          "id": "a-local-change-task",
+          "title": "Suggest a local improvement",
+          "genre": "opinion-paragraph",
+          "prompt": "Write a paragraph suggesting one improvement to your neighbourhood.",
+          "scaffold": "outline",
+          "wordBank": ["First", "For example", "However", "I suggest"],
+          "checklist": [
+            "State your suggestion",
+            "Give two reasons and an example",
+            "Finish with a practical next step"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "a-balanced-opinion",
+        "title": "Write a balanced opinion",
+        "miniLesson": {
+          "markdown": "Give your opinion clearly. Support it with reasons and a specific example. Mention a different view fairly. Finish by explaining your final choice.",
+          "modelText": "I believe that students should have time for practical projects as well as regular lessons. Projects can help students use what they learn in a real situation. For example, designing a school garden involves measuring space, planning costs and explaining decisions to other people. Students also learn to share tasks and solve problems together. However, some people worry that projects take time away from important exams. This is a reasonable concern, so teachers should connect each project to clear learning goals and keep the schedule manageable. In my view, one short project each term would offer a useful balance. It would give students practical experience without replacing the lessons they need for exams."
+        },
+        "warmups": [
+          {
+            "type": "reorder",
+            "prompt": "Put these words in order: view / my / In / useful / projects / are",
+            "answer": "In my view projects are useful.",
+            "hint": "Start with In my view, then add a complete sentence."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix: Projects are useful because helps students.",
+            "answer": "Projects are useful because they help students.",
+            "hint": "The clause after because needs a subject and a matching verb."
+          }
+        ],
+        "task": {
+          "id": "a-balanced-opinion-task",
+          "title": "Write a balanced opinion",
+          "genre": "opinion-paragraph",
+          "prompt": "Write an opinion about whether students should do practical projects.",
+          "scaffold": "outline",
+          "wordBank": ["In my view", "For example", "However", "This is because"],
+          "checklist": [
+            "Give your opinion",
+            "Support it with two reasons and an example",
+            "Mention another view and explain your final choice"
+          ],
+          "minWords": 100,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  }
+]

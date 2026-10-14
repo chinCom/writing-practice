@@ -34,18 +34,15 @@ export default function ConnectorLayer({
         const markRect = rects[rects.length - 1];
         const cardRect = card.getBoundingClientRect();
         if (!markRect) return;
-        const rtl = getComputedStyle(root).direction === 'rtl';
-        const x1 = (rtl ? markRect.left : markRect.right) - bounds.left;
+        const x1 = markRect.right - bounds.left;
         const y1 = markRect.bottom - bounds.top;
-        const x2 = (rtl ? cardRect.right : cardRect.left) - bounds.left;
+        const x2 = cardRect.left - bounds.left;
         const y2 = cardRect.top - bounds.top + 24;
         const paperRect = root
           .querySelector('[data-marked-text]')
           ?.closest('section')
           ?.getBoundingClientRect();
-        const gutter = paperRect
-          ? ((rtl ? paperRect.left : paperRect.right) - bounds.left + x2) / 2
-          : x2;
+        const gutter = paperRect ? (paperRect.right - bounds.left + x2) / 2 : x2;
         next.push({
           index,
           x1,

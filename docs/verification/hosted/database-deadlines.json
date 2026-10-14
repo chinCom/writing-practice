@@ -1,0 +1,11 @@
+{
+  "statementCancelled": true,
+  "lockWaitCancelled": true,
+  "rollbackReleasedLocks": true,
+  "saturatedPoolResumedWork": true,
+  "authenticatedRoleAndOwnerRetained": true,
+  "statementElapsedMs": 7092,
+  "lockElapsedMs": 3209,
+  "timestamp": "2026-10-14T00:51:16.387Z",
+  "learnerDataCreated": false
+}

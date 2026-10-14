@@ -1,33 +1,40 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
-import { cookies } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Providers from '@/components/layout/Providers';
 import AppShell from '@/components/layout/AppShell';
 const ui = localFont({
-  src: '../../node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2',
+  src: '../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-latin-wght-normal.woff2',
   variable: '--font-ui',
+  declarations: [{ prop: 'unicode-range', value: 'U+0000-00FF,U+2000-206F,U+20AC,U+2122' }],
+  adjustFontFallback: false,
   weight: '100 900',
   display: 'swap',
 });
 const canvas = localFont({
   src: '../../node_modules/@fontsource-variable/literata/files/literata-latin-wght-normal.woff2',
   variable: '--font-canvas',
+  declarations: [{ prop: 'unicode-range', value: 'U+0000-00FF,U+2000-206F,U+20AC,U+2122' }],
+  adjustFontFallback: false,
   weight: '200 900',
   display: 'swap',
 });
-const arabicUi = localFont({
-  src: '../../node_modules/@fontsource/noto-sans-arabic/files/noto-sans-arabic-arabic-400-normal.woff2',
-  variable: '--font-arabic-ui',
+const vietnameseUi = localFont({
+  src: '../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-vietnamese-wght-normal.woff2',
+  variable: '--font-ui-vietnamese',
+  adjustFontFallback: false,
+  weight: '100 900',
   display: 'swap',
   preload: false,
 });
-const arabicSerif = localFont({
-  src: '../../node_modules/@fontsource/noto-naskh-arabic/files/noto-naskh-arabic-arabic-400-normal.woff2',
-  variable: '--font-arabic-serif',
+const vietnameseCanvas = localFont({
+  src: '../../node_modules/@fontsource-variable/literata/files/literata-vietnamese-wght-normal.woff2',
+  variable: '--font-canvas-vietnamese',
+  adjustFontFallback: false,
+  weight: '200 900',
   display: 'swap',
   preload: false,
 });
@@ -36,23 +43,23 @@ export const metadata: Metadata = {
   description: 'A quiet space to practice English writing.',
 };
 export default async function Layout({ children }: { children: ReactNode }) {
-  const [locale, store] = await Promise.all([getLocale(), cookies()]);
-  const direction =
-    store.get('direction')?.value === 'rtl' ||
-    (locale === 'ar' && store.get('direction')?.value !== 'ltr')
-      ? 'rtl'
-      : 'ltr';
+  const locale = await getLocale();
   return (
     <html
       lang={locale}
-      dir={direction}
+      dir="ltr"
       suppressHydrationWarning
-      className={[ui.variable, canvas.variable, arabicUi.variable, arabicSerif.variable].join(' ')}
+      className={[
+        ui.variable,
+        canvas.variable,
+        vietnameseUi.variable,
+        vietnameseCanvas.variable,
+      ].join(' ')}
     >
       <body>
         <InitColorSchemeScript attribute="data-mui-color-scheme" />
         <NextIntlClientProvider>
-          <Providers direction={direction}>
+          <Providers>
             <AppShell>{children}</AppShell>
           </Providers>
         </NextIntlClientProvider>

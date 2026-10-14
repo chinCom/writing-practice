@@ -41,11 +41,36 @@ export function useUnsavedWriting(dirty: boolean, message: string) {
         event.stopPropagation();
       }
     }
+    const editorUrl = window.location.href;
+    const editorHistoryState: unknown = window.history.state;
+    function beforeHistory(event: PopStateEvent) {
+      if (allowNavigation.current || window.location.href === editorUrl) return;
+      if (!window.confirm(message)) {
+        // Run before the router's bubbling listener so it never unmounts the editor.
+        event.stopImmediatePropagation();
+        window.history.pushState(editorHistoryState, '', editorUrl);
+      }
+    }
+    function beforeTraverse(event: NavigateEvent) {
+      if (
+        allowNavigation.current ||
+        event.navigationType !== 'traverse' ||
+        !event.cancelable ||
+        event.destination.url === editorUrl
+      )
+        return;
+      if (!window.confirm(message)) event.preventDefault();
+    }
     window.addEventListener('beforeunload', beforeUnload);
     document.addEventListener('click', beforeLink, true);
+    // Navigation API cancels without changing history. Older browsers use popstate.
+    if (window.navigation) window.navigation.addEventListener('navigate', beforeTraverse);
+    else window.addEventListener('popstate', beforeHistory, true);
     return () => {
       window.removeEventListener('beforeunload', beforeUnload);
       document.removeEventListener('click', beforeLink, true);
+      if (window.navigation) window.navigation.removeEventListener('navigate', beforeTraverse);
+      else window.removeEventListener('popstate', beforeHistory, true);
     };
   }, [dirty, message]);
   return () => {

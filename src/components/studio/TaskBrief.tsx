@@ -9,13 +9,15 @@ import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import type { CurriculumTask } from '@/lib/curriculum';
 
 type TaskBriefProps = {
   onInsert: (phrase: string) => void;
   disabled?: boolean;
+  task?: CurriculumTask;
 };
 
-export default function TaskBrief({ onInsert, disabled = false }: TaskBriefProps) {
+export default function TaskBrief({ onInsert, disabled = false, task }: TaskBriefProps) {
   const t = useTranslations('studio');
   return (
     <Box>
@@ -23,21 +25,31 @@ export default function TaskBrief({ onInsert, disabled = false }: TaskBriefProps
         direction="row"
         sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 2 }}
       >
-        <Typography variant="h3">{t('title')}</Typography>
-        <Chip label="A2" variant="tonal" color="primary" size="small" />
+        <Typography variant="h3">{task?.title ?? t('title')}</Typography>
+        <Chip label={task?.targetLevel ?? 'A2'} variant="tonal" color="primary" size="small" />
       </Stack>
-      <Typography sx={{ mb: 1 }}>{t('description')}</Typography>
+      <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>
       <Typography variant="body2" color="text.secondary">
-        {t('wordRange')}
+        {task ? t('taskWordRange', { min: task.minWords, max: task.maxWords }) : t('wordRange')}
       </Typography>
+      {task?.frames?.map((frame) => (
+        <Typography
+          key={frame}
+          variant="body2"
+          dir="ltr"
+          sx={{ my: 1, bgcolor: 'highlighter.light', p: 1 }}
+        >
+          {frame}
+        </Typography>
+      ))}
       <Divider sx={{ my: 2.5 }} />
       <Typography variant="body2">{t('include')}</Typography>
       <FormGroup>
-        {['where', 'what', 'invite'].map((key) => (
+        {(task?.checklist ?? ['where', 'what', 'invite'].map((key) => t(key))).map((point) => (
           <FormControlLabel
-            key={key}
+            key={point}
             control={<Checkbox />}
-            label={<Typography variant="body2">{t(key)}</Typography>}
+            label={<Typography variant="body2">{point}</Typography>}
           />
         ))}
       </FormGroup>
@@ -46,17 +58,19 @@ export default function TaskBrief({ onInsert, disabled = false }: TaskBriefProps
         {t('wordBank')}
       </Typography>
       <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1 }}>
-        {['lastWeekend', 'evening', 'wouldLike'].map((key) => (
-          <Chip
-            key={key}
-            label={t(key)}
-            variant="outlined"
-            clickable
-            disabled={disabled}
-            onClick={() => onInsert(t(key))}
-            sx={{ minHeight: 44 }}
-          />
-        ))}
+        {(task?.wordBank ?? ['lastWeekend', 'evening', 'wouldLike'].map((key) => t(key))).map(
+          (phrase) => (
+            <Chip
+              key={phrase}
+              label={phrase}
+              variant="outlined"
+              clickable
+              disabled={disabled}
+              onClick={() => onInsert(phrase)}
+              sx={{ minHeight: 44 }}
+            />
+          ),
+        )}
       </Stack>
     </Box>
   );

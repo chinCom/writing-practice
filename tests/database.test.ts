@@ -22,6 +22,19 @@ import { gradeWriting } from '@/lib/llm/grade';
 import { explainCorrection } from '@/lib/llm/explain';
 import { POST as explainSavedCorrection } from '@/app/api/explanation/route';
 import { reserveExplanation, failExplanation } from '@/lib/db/explanations';
+import { loadPractice, answerPractice } from '@/lib/db/practice';
+import { POST as submitPracticeAnswer } from '@/app/api/practice/route';
+import { GET as getProgress } from '@/app/api/progress/route';
+import { GET as getPortfolio } from '@/app/api/portfolio/route';
+import { GET as getRevision } from '@/app/api/revision/route';
+import {
+  GET as getCorrectionChoices,
+  POST as saveCorrectionChoice,
+} from '@/app/api/corrections/route';
+import { POST as reportCorrection } from '@/app/api/corrections/report/route';
+import { GET as getPreferences, PUT as savePreferences } from '@/app/api/preferences/route';
+import WritingPage from '@/app/write/[taskId]/page';
+import { GET as getProfile, PUT as saveProfile } from '@/app/api/profile/route';
 vi.mock('@/lib/llm/explain', () => ({ explainCorrection: vi.fn() }));
 
 vi.mock('@/lib/auth/config', () => ({ authConfigured: () => true }));
@@ -62,6 +75,10 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0000_writing.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0002_recoverable_checks.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0003_correction_explanations.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0004_practice.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0005_correction_choices.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0006_preferences.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0007_profiles.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -78,6 +95,317 @@ async function asUser(userId: string, query: string) {
     return transaction.query(query);
   });
 }
+it('saves an owner-only learning profile and rejects forged owners and invalid levels', async () => {
+  vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const url = 'http://localhost/api/profile';
+  expect(await (await getProfile(new Request(url))).json()).toEqual({ ok: true, profile: null });
+  const profile = { nativeLanguage: 'vi', goal: 'general', startingLevel: 'A1', dailyMinutes: 15 };
+  const request = (body: unknown, origin = 'http://localhost') =>
+    new Request(url, {
+      method: 'PUT',
+      headers: { origin, 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  expect((await saveProfile(request(profile))).status).toBe(200);
+  const saved = await getProfile(new Request(url));
+  expect(saved.headers.get('cache-control')).toBe('private, no-store');
+  expect(await saved.json()).toEqual({ ok: true, profile });
+  expect((await saveProfile(request({ ...profile, userId: bob }))).status).toBe(400);
+  expect((await saveProfile(request({ ...profile, startingLevel: 'expert' }))).status).toBe(400);
+  expect((await saveProfile(request(profile, 'https://evil.example'))).status).toBe(403);
+  vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  expect(await (await getProfile(new Request(url))).json()).toEqual({ ok: true, profile: null });
+  expect((await asUser(bob, 'SELECT * FROM writing.profiles')).rows).toHaveLength(0);
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect((await saveProfile(request(profile))).status).toBe(401);
+});
+it('saves weekly goals privately, rejects invalid inputs, and loads the default for another owner', async () => {
+  vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const request = (body: unknown, origin = 'http://localhost') =>
+    new Request('http://localhost/api/preferences', {
+      method: 'PUT',
+      headers: { origin, 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  const initial = await getPreferences(new Request('http://localhost/api/preferences'));
+  expect(await initial.json()).toMatchObject({ ok: true, weeklyGoal: 5 });
+  expect((await savePreferences(request({ weeklyGoal: 3 }))).status).toBe(200);
+  const saved = await getPreferences(new Request('http://localhost/api/preferences'));
+  expect(saved.headers.get('cache-control')).toBe('private, no-store');
+  expect(await saved.json()).toMatchObject({ weeklyGoal: 3 });
+  for (const body of [
+    { weeklyGoal: 0 },
+    { weeklyGoal: 4 },
+    { weeklyGoal: '7' },
+    { weeklyGoal: 7, userId: bob },
+  ])
+    expect((await savePreferences(request(body))).status).toBe(400);
+  expect(
+    (await savePreferences(request({ weeklyGoal: 7 }, 'https://foreign.example'))).status,
+  ).toBe(403);
+  vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  expect(
+    await (await getPreferences(new Request('http://localhost/api/preferences'))).json(),
+  ).toMatchObject({ weeklyGoal: 5 });
+  expect(
+    (await asUser(bob, `SELECT * FROM writing.preferences WHERE user_id = '${charlie}'`)).rows,
+  ).toHaveLength(0);
+  await expect(
+    asUser(bob, `INSERT INTO writing.preferences(user_id,weekly_goal) VALUES ('${charlie}',7)`),
+  ).rejects.toThrow();
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect((await savePreferences(request({ weeklyGoal: 7 }))).status).toBe(401);
+});
+it('persists correction choices, excludes dismissed drills, restores reviews, and saves owner-only reports', async () => {
+  const owner = '00000000-0000-4000-8000-000000000097';
+  await database.exec(`INSERT INTO auth.users VALUES ('${owner}')`);
+  const id = await reserveSubmission(owner, { taskId: 'weekend', text: sampleDraft, attempt: 1 });
+  const located = {
+    ...markedPageSample,
+    corrections: [
+      {
+        ...markedPageSample.corrections[0],
+        start: sampleDraft.indexOf('go'),
+        end: sampleDraft.indexOf('go') + 2,
+      },
+    ],
+  };
+  await completeSubmission(owner, id, located, {
+    data: markedPageSample,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+    model: 'test',
+    latencyMs: 1,
+    mock: true,
+  });
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const request = (path: string, body: unknown, origin = 'http://localhost') =>
+    new Request('http://localhost' + path, {
+      method: 'POST',
+      headers: { origin, 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  const payload = { submissionId: id, correctionIndex: 0, status: 'applied' };
+  expect((await saveCorrectionChoice(request('/api/corrections', payload))).status).toBe(200);
+  const saved = await getCorrectionChoices(
+    new Request('http://localhost/api/corrections?submissionId=' + id),
+  );
+  expect(saved.headers.get('cache-control')).toBe('private, no-store');
+  expect(await saved.json()).toMatchObject({
+    choices: [{ correctionIndex: 0, status: 'applied' }],
+  });
+  expect((await loadFeedback(owner, id))?.feedback.json).toEqual(located);
+  // The server must transfer saved fixes even when sessionStorage is unavailable.
+  const revision = await WritingPage({
+    params: Promise.resolve({ taskId: 'weekend' }),
+    searchParams: Promise.resolve({ revise: id }),
+  });
+  expect(revision.props.initialText).toBe(sampleDraft.replace('go', 'went'));
+  expect(revision.key).toBe(id);
+  const queue = await loadPractice(owner);
+  expect(queue.questions).toHaveLength(1);
+  expect(
+    (await saveCorrectionChoice(request('/api/corrections', { ...payload, status: 'dismissed' })))
+      .status,
+  ).toBe(200);
+  expect((await loadPractice(owner)).questions).toHaveLength(0);
+  await expect(answerPractice(owner, queue.questions[0].id, 'went', 0)).rejects.toThrow(
+    'PRACTICE_CONFLICT',
+  );
+  expect(
+    (await saveCorrectionChoice(request('/api/corrections', { ...payload, status: 'open' })))
+      .status,
+  ).toBe(200);
+  expect((await loadPractice(owner)).questions).toHaveLength(1);
+  expect(
+    (
+      await reportCorrection(
+        request('/api/corrections/report', {
+          submissionId: id,
+          correctionIndex: 0,
+          reason: 'meaning',
+        }),
+      )
+    ).status,
+  ).toBe(200);
+  expect(
+    (
+      await reportCorrection(
+        request('/api/corrections/report', {
+          submissionId: id,
+          correctionIndex: 0,
+          reason: 'incorrect',
+        }),
+      )
+    ).status,
+  ).toBe(200);
+  expect((await asUser(owner, 'SELECT reason FROM writing.correction_reports')).rows).toEqual([
+    { reason: 'incorrect' },
+  ]);
+  expect((await asUser(bob, 'SELECT * FROM writing.correction_reports')).rows).toHaveLength(0);
+  expect((await asUser(bob, 'SELECT * FROM writing.correction_choices')).rows).toHaveLength(0);
+  expect(
+    (await saveCorrectionChoice(request('/api/corrections', { ...payload, userId: bob }))).status,
+  ).toBe(400);
+  expect(
+    (
+      await reportCorrection(
+        request('/api/corrections/report', {
+          submissionId: id,
+          correctionIndex: 11,
+          reason: 'other',
+        }),
+      )
+    ).status,
+  ).toBe(404);
+  expect(
+    (await saveCorrectionChoice(request('/api/corrections', payload, 'https://evil.example')))
+      .status,
+  ).toBe(403);
+  vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  expect((await saveCorrectionChoice(request('/api/corrections', payload))).status).toBe(404);
+  expect(
+    (await getCorrectionChoices(new Request('http://localhost/api/corrections?submissionId=' + id)))
+      .status,
+  ).toBe(404);
+  expect(
+    (
+      await reportCorrection(
+        request('/api/corrections/report', {
+          submissionId: id,
+          correctionIndex: 0,
+          reason: 'other',
+        }),
+      )
+    ).status,
+  ).toBe(404);
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect((await saveCorrectionChoice(request('/api/corrections', payload))).status).toBe(401);
+});
+it('saves due practice, grades on the server, blocks foreign answers, and reuses repeated results', async () => {
+  const owner = '00000000-0000-4000-8000-000000000099';
+  await database.exec(`INSERT INTO auth.users VALUES ('${owner}')`);
+  const id = await reserveSubmission(owner, { taskId: 'weekend', text: sampleDraft, attempt: 1 });
+  await completeSubmission(
+    owner,
+    id,
+    {
+      ...markedPageSample,
+      corrections: [
+        {
+          original: 'go',
+          suggestion: 'went',
+          tag: 'verb-tense',
+          severity: 'major',
+          explanation: 'Use past tense for last weekend.',
+          confidence: 0.99,
+          start: sampleDraft.indexOf('go'),
+          end: sampleDraft.indexOf('go') + 2,
+        },
+      ],
+    },
+    {
+      data: markedPageSample,
+      usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+      model: 'test',
+      latencyMs: 1,
+      mock: true,
+    },
+  );
+  const queue = await loadPractice(owner);
+  expect(queue.questions).toHaveLength(1);
+  const question = queue.questions[0];
+  expect(question).not.toHaveProperty('suggestion');
+  expect((await loadPractice(owner)).questions[0].id).toBe(question.id);
+  await expect(answerPractice(bob, question.id, 'went', 0)).rejects.toThrow('NOT_FOUND');
+  const wrong = await answerPractice(owner, question.id, 'goed', 0);
+  expect(wrong).toMatchObject({ correct: false, complete: false, version: 1 });
+  expect(await answerPractice(owner, question.id, 'goed', 0)).toEqual(wrong);
+  await expect(answerPractice(owner, question.id, 'went', 0)).rejects.toThrow('PRACTICE_CONFLICT');
+  const retry = await answerPractice(owner, question.id, 'went', 1);
+  expect(retry).toMatchObject({ correct: true, complete: true, days: 1, box: 1 });
+  expect((await loadPractice(owner)).questions).toHaveLength(0);
+  expect((await loadPractice(owner)).nextReviewAt).not.toBeNull();
+  expect((await asUser(bob, 'SELECT * FROM writing.practice_drills')).rows).toHaveLength(0);
+  expect((await asUser(bob, 'SELECT * FROM writing.practice_answers')).rows).toHaveLength(0);
+  await database.query(
+    "UPDATE writing.practice_drills SET next_review_at = now() - interval '1 minute' WHERE id = $1",
+    [question.id],
+  );
+  const dueAgain = await loadPractice(owner);
+  expect(dueAgain.questions[0]).toMatchObject({ id: question.id, version: 2 });
+  expect(await answerPractice(owner, question.id, 'went', 2)).toMatchObject({
+    complete: true,
+    correct: true,
+    box: 2,
+    days: 3,
+  });
+  expect((await loadPractice(owner)).questions).toHaveLength(0);
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const request = (body: unknown, origin = 'http://localhost') =>
+    new Request('http://localhost/api/practice', {
+      method: 'POST',
+      headers: { origin, 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  expect(
+    (
+      await submitPracticeAnswer(
+        request({ drillId: question.id, answer: 'went', version: 1, userId: bob }),
+      )
+    ).status,
+  ).toBe(400);
+  expect(
+    (
+      await submitPracticeAnswer(
+        request({ drillId: question.id, answer: 'went', version: 1 }, 'https://evil.example'),
+      )
+    ).status,
+  ).toBe(403);
+  const repeat = await submitPracticeAnswer(
+    request({ drillId: question.id, answer: 'went', version: 1 }),
+  );
+  expect(repeat.status).toBe(200);
+  expect(repeat.headers.get('cache-control')).toContain('no-store');
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect(
+    (await submitPracticeAnswer(request({ drillId: question.id, answer: 'went', version: 1 })))
+      .status,
+  ).toBe(401);
+});
+it('returns private progress for the verified owner without counting another account or failed checks', async () => {
+  vi.mocked(currentUser).mockResolvedValue({
+    id: '00000000-0000-4000-8000-000000000099',
+  } as NonNullable<Awaited<ReturnType<typeof currentUser>>>);
+  const response = await getProgress(new Request('http://localhost/api/progress'));
+  expect(response.status).toBe(200);
+  expect(response.headers.get('cache-control')).toContain('no-store');
+  expect(await response.json()).toMatchObject({
+    ok: true,
+    data: { sessions: 1, words: 58, reviews: 2, correctReviews: 2, xp: 20 },
+  });
+  vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  expect(
+    await (await getProgress(new Request('http://localhost/api/progress'))).json(),
+  ).toMatchObject({ data: { sessions: 0, words: 0, reviews: 0 } });
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect((await getProgress(new Request('http://localhost/api/progress'))).status).toBe(401);
+});
 it('reuses a check key, rejects changed content and recovers owner-only feedback', async () => {
   const input = { taskId: 'weekend' as const, text: sampleDraft, attempt: 1 };
   const key = '00000000-0000-4000-8000-000000000010';
@@ -279,6 +607,66 @@ it('saves writing, completes feedback, reopens it and validates revision ownersh
     parentSubmissionId: id,
   });
   expect(revisionId).not.toBe(id);
+});
+it('lists and compares only completed owner versions with pagination and private responses', async () => {
+  const owner = '00000000-0000-4000-8000-000000000088';
+  await database.exec(`INSERT INTO auth.users VALUES ('${owner}')`);
+  const originalId = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft,
+    attempt: 1,
+  });
+  const result = {
+    data: markedPageSample,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+    model: 'test',
+    latencyMs: 1,
+    mock: false,
+  };
+  await completeSubmission(owner, originalId, { ...markedPageSample, corrections: [] }, result);
+  const revisedId = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft + ' Bye!',
+    attempt: 2,
+    parentSubmissionId: originalId,
+  });
+  await completeSubmission(owner, revisedId, { ...markedPageSample, corrections: [] }, result);
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const list = await getPortfolio(new Request('http://localhost/api/portfolio?offset=0'));
+  expect(list.headers.get('cache-control')).toBe('private, no-store');
+  const entries = (await list.json()).data.entries;
+  expect(entries).toHaveLength(2);
+  expect(entries[0]).toMatchObject({ id: revisedId, attempt: 2, parentSubmissionId: originalId });
+  const comparison = await getRevision(
+    new Request('http://localhost/api/revision?submissionId=' + revisedId),
+  );
+  expect((await comparison.json()).data).toMatchObject({
+    current: { id: revisedId, text: sampleDraft + ' Bye!' },
+    original: { id: originalId, text: sampleDraft },
+  });
+  expect((await getPortfolio(new Request('http://localhost/api/portfolio?offset=-1'))).status).toBe(
+    400,
+  );
+  expect(
+    (await getRevision(new Request('http://localhost/api/revision?submissionId=' + originalId)))
+      .status,
+  ).toBe(404);
+  vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  expect(
+    (await getRevision(new Request('http://localhost/api/revision?submissionId=' + revisedId)))
+      .status,
+  ).toBe(404);
+  expect(
+    (
+      await (await getPortfolio(new Request('http://localhost/api/portfolio'))).json()
+    ).data.entries.some((entry: { id: string }) => entry.id === revisedId),
+  ).toBe(false);
+  vi.mocked(currentUser).mockResolvedValue(null);
+  expect((await getPortfolio(new Request('http://localhost/api/portfolio'))).status).toBe(401);
 });
 it('runs authenticated routes through PostgreSQL without trusting request ownership', async () => {
   const user = { id: alice } as NonNullable<Awaited<ReturnType<typeof currentUser>>>;

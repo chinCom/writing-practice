@@ -81,6 +81,10 @@ const config = [
     files: ['src/components/feedback/ConnectorLayer.tsx'],
     rules: { 'no-restricted-syntax': ['error', classes, hex, colors, muiSelectors] },
   },
+  {
+    files: ['src/components/studio/ReadSweep.tsx'],
+    rules: { 'no-restricted-syntax': ['error', raw, classes, hex, colors, muiSelectors] },
+  },
   { files: ['src/theme/**'], rules: { 'no-restricted-syntax': ['error', raw, style, classes] } },
   {
     files: ['src/app/layout.tsx'],

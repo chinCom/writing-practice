@@ -72,10 +72,10 @@ function palette(t: typeof tokens.light | typeof tokens.dark): PaletteOptions {
     },
   };
 }
-const serif = 'var(--font-canvas), var(--font-arabic-serif), Georgia, serif';
-export function makeTheme(direction: 'ltr' | 'rtl') {
+const serif = 'var(--font-canvas), var(--font-canvas-vietnamese), Georgia, serif';
+export function makeTheme() {
   return createTheme({
-    direction,
+    direction: 'ltr',
     cssVariables: { colorSchemeSelector: '[data-mui-color-scheme="%s"]' },
     colorSchemes: {
       light: { palette: palette(tokens.light) },
@@ -84,7 +84,7 @@ export function makeTheme(direction: 'ltr' | 'rtl') {
     layout: tokens.layout,
     shape: { borderRadius: 12 },
     typography: {
-      fontFamily: 'var(--font-ui), var(--font-arabic-ui), system-ui, sans-serif',
+      fontFamily: 'var(--font-ui), var(--font-ui-vietnamese), system-ui, sans-serif',
       h1: {
         fontFamily: serif,
         fontSize: '2rem',

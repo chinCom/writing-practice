@@ -17,6 +17,7 @@ export interface SavedSubmission {
 export default function SavedFeedback({ submissions }: { submissions: SavedSubmission[] }) {
   const t = useTranslations('learning');
   const auth = useTranslations('auth');
+  const portfolio = useTranslations('portfolio');
   const format = useFormatter();
   const router = useRouter();
   async function leaveAccount() {
@@ -47,6 +48,9 @@ export default function SavedFeedback({ submissions }: { submissions: SavedSubmi
       ) : (
         <Typography color="text.secondary">{t('empty')}</Typography>
       )}
+      <Button component={NextLink} href="/portfolio" sx={{ alignSelf: 'start' }}>
+        {portfolio('title')}
+      </Button>
       <Button variant="outlined" onClick={leaveAccount} sx={{ alignSelf: 'start' }}>
         {auth('signOut')}
       </Button>

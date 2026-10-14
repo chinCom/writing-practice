@@ -1,0 +1,48 @@
+[
+  {
+    "configuration": "desktop",
+    "screen": "portfolio",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "desktop",
+    "screen": "revision",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "mobile",
+    "screen": "portfolio",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "mobile",
+    "screen": "revision",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "screen": "portfolio",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "screen": "revision",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  }
+]

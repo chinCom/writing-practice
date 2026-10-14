@@ -1,26 +1,23 @@
 import { expect, test } from '@playwright/test';
 
-test('dark Arabic feedback preserves English text and usable correction navigation', async ({
+test('dark Vietnamese feedback preserves English text and usable correction navigation', async ({
   page,
   context,
 }, info) => {
-  await context.addCookies([
-    { name: 'locale', value: 'ar', url: 'http://127.0.0.1:3000' },
-    { name: 'direction', value: 'rtl', url: 'http://127.0.0.1:3000' },
-  ]);
+  await context.addCookies([{ name: 'locale', value: 'vi', url: 'http://127.0.0.1:3000' }]);
   await page.addInitScript(() => localStorage.setItem('mui-mode', 'dark'));
   await page.goto('/dev/preview/feedback-many');
-  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
   await page
     .getByRole('button', { name: 'invite you come: invite you to come', exact: true })
     .click();
   const detail =
     info.project.name === 'mobile'
-      ? page.getByRole('dialog', { name: 'تفاصيل التصحيح' })
-      : page.getByRole('region', { name: 'تفاصيل التصحيح' });
+      ? page.getByRole('dialog', { name: 'Chi tiết chỉnh sửa' })
+      : page.getByRole('region', { name: 'Chi tiết chỉnh sửa' });
   await expect(detail).toContainText('Use to come after invite you.');
-  await detail.getByRole('button', { name: 'التصحيح التالي', exact: true }).click();
-  await expect(detail).toContainText('التصحيح 8 من 8');
+  await detail.getByRole('button', { name: 'Chỗ sửa tiếp theo', exact: true }).click();
+  await expect(detail).toContainText('Chỗ sửa 8 trên 8');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 

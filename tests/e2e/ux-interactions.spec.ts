@@ -147,16 +147,13 @@ test('reload warns before discarding unsaved writing', async ({ page }) => {
   await expect(writing).toHaveValue(message);
 });
 
-test('Arabic feedback keeps the English writing left-to-right without overflowing', async ({
+test('Vietnamese feedback keeps the English writing left-to-right without overflowing', async ({
   page,
   context,
 }) => {
-  await context.addCookies([
-    { name: 'locale', value: 'ar', url: 'http://127.0.0.1:3000' },
-    { name: 'direction', value: 'rtl', url: 'http://127.0.0.1:3000' },
-  ]);
+  await context.addCookies([{ name: 'locale', value: 'vi', url: 'http://127.0.0.1:3000' }]);
   await page.goto('/dev/preview/feedback');
-  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
   await expect(page.locator('[dir="ltr"]').first()).toContainText('Hi Maria!');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,

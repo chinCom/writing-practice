@@ -1,0 +1,88 @@
+[
+  {
+    "configuration": "desktop",
+    "state": "correction",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 34
+      }
+    ]
+  },
+  {
+    "configuration": "desktop",
+    "state": "report",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "nodes": 34
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "state": "correction",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "mobile",
+    "state": "report",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodes": 2
+      },
+      {
+        "id": "color-contrast",
+        "nodes": 4
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "state": "correction",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodes": 1
+      },
+      {
+        "id": "color-contrast",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "configuration": "vietnamese-mobile",
+    "state": "report",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "aria-hidden-focus",
+        "nodes": 2
+      },
+      {
+        "id": "color-contrast",
+        "nodes": 9
+      }
+    ]
+  }
+]

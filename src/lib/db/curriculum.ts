@@ -1,0 +1,172 @@
+import 'server-only';
+import { and, eq, sql } from 'drizzle-orm';
+import { withUserDatabase } from './client';
+import {
+  curriculumUnits,
+  placementResults,
+  lessonProgress,
+  submissions,
+  feedbackRows,
+} from './schema';
+import {
+  curriculumSchema,
+  gradeWarmup,
+  passesCheckpoint,
+  placementOutput,
+  weekendTask,
+  type CurriculumLevel,
+  type PlacementResult,
+} from '@/lib/curriculum';
+import { ApiError } from '@/lib/api';
+
+type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
+async function pathInTransaction(database: Transaction) {
+  const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
+  const content = units.length ? curriculumSchema.parse(units.map((unit) => unit.content)) : [];
+  const [placement] = await database.select().from(placementResults);
+  const progress = await database.select().from(lessonProgress);
+  const checks = await database
+    .select({ taskId: submissions.taskId, feedback: feedbackRows.json })
+    .from(submissions)
+    .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
+    .where(eq(submissions.status, 'completed'));
+  const chosenLevel = (placement?.chosenLevel as CurriculumLevel | null) ?? null;
+  const ranks = { A1: 0, A2: 1, B1: 2 };
+  let open = Boolean(chosenLevel);
+  const ordered = content.sort((a, b) => ranks[a.level] - ranks[b.level] || a.order - b.order);
+  return {
+    chosenLevel,
+    placement: placement?.result ?? null,
+    units: ordered.map((unit) => {
+      const beforeStart = chosenLevel !== null && ranks[unit.level] < ranks[chosenLevel];
+      const lessons = unit.lessons.map((lesson) => {
+        const saved = progress.find((item) => item.lessonId === lesson.id);
+        const warmupsDone = lesson.warmups.every(
+          (_, index) => saved?.warmups[String(index)] === true,
+        );
+        const passed = checks.some(
+          (check) =>
+            check.taskId === lesson.task.id &&
+            passesCheckpoint(check.feedback.scores, check.feedback.safety_flag),
+        );
+        const done = warmupsDone && (!lesson.task.isCheckpoint || passed);
+        const state = beforeStart ? 'available' : done ? 'done' : open ? 'current' : 'locked';
+        if (!beforeStart && !done) open = false;
+        return { ...lesson, state, warmupsDone, answers: saved?.warmups ?? {} };
+      });
+      return { ...unit, lessons };
+    }),
+  };
+}
+export type LearningPath = Awaited<ReturnType<typeof pathInTransaction>>;
+export async function loadPath(userId: string) {
+  return withUserDatabase(userId, pathInTransaction);
+}
+async function lessonInTransaction(database: Transaction, lessonId: string) {
+  const path = await pathInTransaction(database);
+  const lesson = path.units.flatMap((unit) => unit.lessons).find((item) => item.id === lessonId);
+  if (!lesson) throw new ApiError('NOT_FOUND', 404);
+  if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
+  return lesson;
+}
+export async function loadLesson(userId: string, lessonId: string) {
+  return withUserDatabase(userId, (database) => lessonInTransaction(database, lessonId));
+}
+export async function loadTask(userId: string, taskId: string) {
+  if (taskId === 'weekend') return weekendTask;
+  return withUserDatabase(userId, async (database) => {
+    const path = await pathInTransaction(database);
+    const lesson = path.units
+      .flatMap((unit) => unit.lessons)
+      .find((item) => item.task.id === taskId);
+    if (!lesson) throw new ApiError('NOT_FOUND', 404);
+    if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
+    if (!lesson.warmupsDone) throw new ApiError('WARMUPS_REQUIRED', 403);
+    return lesson.task;
+  });
+}
+export async function answerWarmup(
+  userId: string,
+  lessonId: string,
+  index: number,
+  answer: string,
+) {
+  return withUserDatabase(userId, async (database) => {
+    await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 3))`);
+    const lesson = await lessonInTransaction(database, lessonId);
+    const warmup = lesson.warmups[index];
+    if (!warmup) throw new ApiError('INVALID_INPUT', 400);
+    const correct = gradeWarmup(warmup, answer);
+    const answers = { ...lesson.answers };
+    if (correct) answers[String(index)] = true;
+    const done = lesson.warmups.every((_, i) => answers[String(i)] === true);
+    await database
+      .insert(lessonProgress)
+      .values({ userId, lessonId, warmups: answers, completedAt: done ? new Date() : null })
+      .onConflictDoUpdate({
+        target: [lessonProgress.userId, lessonProgress.lessonId],
+        set: { warmups: answers, completedAt: done ? new Date() : null },
+      });
+    return { correct, hint: correct ? null : warmup.hint, warmupsDone: done, answers };
+  });
+}
+export async function reservePlacement(userId: string) {
+  return withUserDatabase(userId, async (database) => {
+    await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 3))`);
+    const [previous] = await database.select().from(placementResults);
+    const now = new Date();
+    const today = now.toISOString().slice(0, 10);
+    if (previous?.status === 'pending' && now.getTime() - previous.startedAt.getTime() < 60000)
+      throw new ApiError('PLACEMENT_PENDING', 409);
+    const calls = previous?.callDay === today ? previous.callsToday : 0;
+    if (calls >= 3) throw new ApiError('PLACEMENT_LIMIT', 429);
+    await database
+      .insert(placementResults)
+      .values({
+        userId,
+        status: 'pending',
+        callsToday: calls + 1,
+        callDay: today,
+        startedAt: now,
+        updatedAt: now,
+      })
+      .onConflictDoUpdate({
+        target: placementResults.userId,
+        set: {
+          status: 'pending',
+          callsToday: calls + 1,
+          callDay: today,
+          startedAt: now,
+          updatedAt: now,
+        },
+      });
+  });
+}
+export async function completePlacement(userId: string, result: PlacementResult) {
+  return withUserDatabase(userId, async (database) => {
+    await database
+      .update(placementResults)
+      .set({ status: 'completed', result: placementOutput.parse(result), updatedAt: new Date() })
+      .where(eq(placementResults.userId, userId));
+  });
+}
+export async function failPlacement(userId: string) {
+  return withUserDatabase(userId, async (database) => {
+    await database
+      .update(placementResults)
+      .set({ status: 'failed', updatedAt: new Date() })
+      .where(eq(placementResults.userId, userId));
+  });
+}
+export async function choosePlacement(userId: string, level: CurriculumLevel) {
+  return withUserDatabase(userId, async (database) => {
+    const [result] = await database.select().from(placementResults);
+    if (result?.status !== 'completed' || !result.result || result.result.safety_flag)
+      throw new ApiError('PLACEMENT_REQUIRED', 400);
+    await database
+      .update(placementResults)
+      .set({ chosenLevel: level, updatedAt: new Date() })
+      .where(and(eq(placementResults.userId, userId), eq(placementResults.status, 'completed')));
+    return { chosenLevel: level };
+  });
+}

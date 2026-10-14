@@ -1,5 +1,11 @@
 # Learner journey review
 
+## Vietnamese interface
+
+Vietnamese replaces Arabic in Settings and the complete message catalog. English remains available. Old Arabic locale and direction cookies now produce English with a left-to-right layout. The Arabic fonts, catalog, RTL plugin, and developer direction switch were removed. AI explanations and English exercise snippets remain English. Local Noto Sans and Literata subsets render Vietnamese accents without external font requests.
+
+Verified: `npm run check` passed with 47 tests and two opt-in live skips. `npm run test:e2e -- --workers=2` passed 74 browser checks with six intentional skips, using empty Supabase/DB variables and Google disabled. `npm run build` and `git diff --check` passed. Two Settings accessibility scans found zero violations; one select contrast check was inconclusive in each scan. Desktop/mobile screenshots: `screenshots/vietnamese-settings-desktop.png` and `screenshots/vietnamese-settings-mobile.png`. The configured local server was restored. No paid AI calls were made. These changes are not committed, pushed, or deployed.
+
 ## Correction explanations
 
 The active correction now offers **Explain** on desktop and mobile. It shows why the original needs a change and why the suggestion fits. Loading and explicit retry preserve the correction and writing. The server saves explanations for owner-only reuse.

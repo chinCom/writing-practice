@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import NextLink from 'next/link';
+import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { useColorScheme } from '@mui/material/styles';
@@ -16,10 +18,9 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import WeeklyGoal from './WeeklyGoal';
+import type { WeeklyGoal as Goal } from '@/lib/preferences';
+
 import type { ReactNode } from 'react';
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -76,12 +77,20 @@ function PreferenceSelect({
   );
 }
 export type LocalPreferences = {
-  explanation: 'es' | 'en' | 'ar';
+  explanation: 'es' | 'en' | 'vi';
   daily: '5' | '15' | '30';
-  weekly: '3' | '5' | '7';
-  direction: 'ltr' | 'rtl';
 };
-export default function Settings({ preferences }: { preferences: LocalPreferences }) {
+export default function Settings({
+  preferences,
+  weeklyGoal = 5,
+  signedIn = false,
+  preview = false,
+}: {
+  preferences: LocalPreferences;
+  weeklyGoal?: Goal;
+  signedIn?: boolean;
+  preview?: boolean;
+}) {
   const t = useTranslations('settings');
   const locale = useLocale();
   const router = useRouter();
@@ -103,13 +112,21 @@ export default function Settings({ preferences }: { preferences: LocalPreference
   function change<K extends keyof LocalPreferences>(key: K, value: LocalPreferences[K]) {
     setPrefs((previous) => ({ ...previous, [key]: value }));
     save(key, value);
-    if (key === 'direction') router.refresh();
   }
   return (
     <Container maxWidth="md" sx={{ marginInlineStart: 0, p: 0 }}>
       <Typography variant="h1" sx={{ mb: 3 }}>
         {t('title')}
       </Typography>
+      {signedIn ? (
+        <Button
+          component={NextLink}
+          href={preview ? '/dev/preview/onboarding' : '/onboarding'}
+          sx={{ mb: 2 }}
+        >
+          {t('learningProfile')}
+        </Button>
+      ) : null}
       <Divider />
       <Row label={t('language')}>
         <PreferenceSelect
@@ -118,12 +135,10 @@ export default function Settings({ preferences }: { preferences: LocalPreference
           value={locale}
           options={[
             { value: 'en', label: t('english') },
-            { value: 'ar', label: t('arabic') },
+            { value: 'vi', label: t('vietnamese') },
           ]}
           onChange={(value) => {
             save('locale', value);
-            save('direction', value === 'ar' ? 'rtl' : 'ltr');
-            setPrefs((p) => ({ ...p, direction: value === 'ar' ? 'rtl' : 'ltr' }));
             router.refresh();
           }}
         />
@@ -135,7 +150,7 @@ export default function Settings({ preferences }: { preferences: LocalPreference
           options={[
             { value: 'es', label: t('spanish') },
             { value: 'en', label: t('english') },
-            { value: 'ar', label: t('arabic') },
+            { value: 'vi', label: t('vietnamese') },
           ]}
           onChange={(value) => change('explanation', value as LocalPreferences['explanation'])}
         />
@@ -153,17 +168,7 @@ export default function Settings({ preferences }: { preferences: LocalPreference
           }))}
           onChange={(value) => change('daily', value as LocalPreferences['daily'])}
         />
-        <PreferenceSelect
-          disabled
-          id="weekly"
-          label={t('weekly')}
-          value={prefs.weekly}
-          options={['3', '5', '7'].map((value) => ({
-            value,
-            label: t('sessions', { n: Number(value) }),
-          }))}
-          onChange={(value) => change('weekly', value as LocalPreferences['weekly'])}
-        />
+        <WeeklyGoal initialGoal={weeklyGoal} signedIn={signedIn} preview={preview} />
       </Row>
       <Divider />
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -207,38 +212,6 @@ export default function Settings({ preferences }: { preferences: LocalPreference
           {t('privacyBody')}
         </Typography>
       </Row>
-      {process.env.NODE_ENV === 'development' ? (
-        <>
-          <Divider />
-          <Accordion disableGutters elevation={0} defaultExpanded sx={{ bgcolor: 'transparent' }}>
-            <AccordionSummary expandIcon={<ExpandMore />}>
-              <Typography variant="subtitle1">{t('developer')}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                sx={{ alignItems: { xs: 'stretch', sm: 'center' }, gap: 2 }}
-              >
-                <Typography variant="body2">{t('direction')}</Typography>
-                <ToggleButtonGroup
-                  exclusive
-                  value={prefs.direction}
-                  aria-label={t('direction')}
-                  onChange={(_, value: 'ltr' | 'rtl' | null) => {
-                    if (value) change('direction', value);
-                  }}
-                >
-                  <ToggleButton value="ltr">{t('ltr')}</ToggleButton>
-                  <ToggleButton value="rtl">{t('rtl')}</ToggleButton>
-                </ToggleButtonGroup>
-                <Typography variant="caption" color="text.secondary">
-                  {t('previewHint')}
-                </Typography>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        </>
-      ) : null}
       <Collapse in={status !== 'idle'}>
         <Box sx={{ mt: 2 }}>
           <Alert severity={status === 'error' ? 'warning' : 'success'} role="status">
