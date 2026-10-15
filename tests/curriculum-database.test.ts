@@ -69,6 +69,17 @@ it('grades answers on the server but requires saved safe writing before unlockin
   expect((await loadPath(alice)).units[0].lessons[1].state).toBe('locked');
   await answerWarmup(alice, first.id, 0, first.warmups[0].answer);
   await answerWarmup(alice, first.id, 1, first.warmups[1].answer);
+  const completedAt = () =>
+    database
+      .query<{ at: string }>(
+        'SELECT completed_at::text AS at FROM writing.lesson_progress WHERE user_id = $1 AND lesson_id = $2',
+        [alice, first.id],
+      )
+      .then((result) => result.rows[0].at);
+  const finished = await completedAt();
+  // Answering a finished warm-up again must not move the lesson's completion date.
+  await answerWarmup(alice, first.id, 0, first.warmups[0].answer);
+  expect(await completedAt()).toBe(finished);
   expect((await loadPath(alice)).units[0].lessons.map((lesson) => lesson.state)).toEqual([
     'current',
     'locked',

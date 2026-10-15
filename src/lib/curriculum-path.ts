@@ -10,9 +10,10 @@ import {
 export function buildCoursePath(
   content: CurriculumUnit[],
   chosenLevel: CurriculumLevel | null,
-  progress: { lessonId: string; warmups: Record<string, boolean> }[],
+  progress: { lessonId: string; warmups: Record<string, boolean>; completedAt?: Date | null }[],
   checks: {
     taskId: string;
+    at?: Date;
     feedback: {
       safety_flag: boolean;
       scores: { task: number; organization: number; grammar: number; vocabulary: number };
@@ -33,19 +34,28 @@ export function buildCoursePath(
         const warmupsDone = lesson.warmups.every(
           (_, index) => saved?.warmups[String(index)] === true,
         );
-        const writingDone = checks.some(
+        const passingChecks = checks.filter(
           (check) =>
             check.taskId === lesson.task.id &&
             !check.feedback.safety_flag &&
             (!lesson.task.isCheckpoint || passesCheckpoint(check.feedback.scores, false)),
         );
+        const writingDone = passingChecks.length > 0;
         const done = warmupsDone && writingDone;
-        const state = beforeStart ? 'available' : done ? 'done' : open ? 'current' : 'locked';
+        const firstPass = passingChecks
+          .flatMap((check) => (check.at ? [check.at.getTime()] : []))
+          .sort((a, b) => a - b)[0];
+        const warmupsAt = saved?.completedAt?.getTime();
+        // A lesson is complete when its last requirement is met.
+        const finishedAt = Math.max(warmupsAt ?? 0, firstPass ?? 0);
+        const completedAt = done && finishedAt ? new Date(finishedAt).toISOString() : null;
+        const state = done ? 'done' : beforeStart ? 'available' : open ? 'current' : 'locked';
         if (!beforeStart && !done) open = false;
         return {
           ...publicLesson(lesson),
           state,
           warmupsDone,
+          completedAt,
           writingDone,
           answers: saved?.warmups ?? {},
         };
@@ -53,3 +63,5 @@ export function buildCoursePath(
       return { ...unit, lessons };
     });
 }
+
+export type CoursePathUnit = ReturnType<typeof buildCoursePath>[number];

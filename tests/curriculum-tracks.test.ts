@@ -55,3 +55,21 @@ it('keeps Core sequential while IELTS units can be entered independently without
   }
   expect(buildCoursePath(content, null, [], [], 'core')[0].lessons[0].state).toBe('locked');
 });
+it('marks finished lessons below the chosen level as done, not available', async () => {
+  const [core] = await supplied();
+  const content = curriculumSchema.parse(core);
+  const below = content.find((unit) => unit.level === 'PRE_A1')!.lessons[0];
+  const warmups = Object.fromEntries(below.warmups.map((_, index) => [String(index), true]));
+  const scores = { task: 3, organization: 3, grammar: 3, vocabulary: 3 };
+  const path = buildCoursePath(
+    content,
+    'A1',
+    [{ lessonId: below.id, warmups }],
+    [{ taskId: below.task.id, feedback: { safety_flag: false, scores } }],
+    'core',
+  );
+  const states = path.find((unit) => unit.level === 'PRE_A1')!.lessons.map((item) => item.state);
+  expect(states[0]).toBe('done');
+  expect(states.slice(1)).not.toContain('done');
+  expect(states.slice(1)).not.toContain('locked');
+});

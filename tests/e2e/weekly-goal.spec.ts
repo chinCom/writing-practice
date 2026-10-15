@@ -25,7 +25,9 @@ for (const outcome of ['saved', 'failed', 'expired'] as const) {
       await page.reload();
       await expect(weekly).toHaveText('3 sessions');
       await page.goto('/dev/preview/today-goal');
-      await expect(page.getByRole('img', { name: '4 of 3 sessions this week' })).toBeVisible();
+      await expect(
+        page.getByRole('img', { name: '4 sessions this week. Goal of 3 met.' }),
+      ).toBeVisible();
     } else {
       await expect(weekly).toHaveText('5 sessions');
       await expect(

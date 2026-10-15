@@ -9,6 +9,7 @@
 
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
 - Portfolio: skeleton loading placeholders, long entries clamp to four lines with a show-more toggle, entries fade in with a short stagger; static under reduced motion (`tests/e2e/portfolio-motion.spec.ts`)
+- Progress: first-attempt rubric and error-rate trends, then-vs-now comparison, revision gain, and Core/IELTS course completion. Today follows the Core path (placement → lesson → writing) and shows goal-met and improvement status. No migration.
 - Progress: level chart animates with markers and a light area fill, calendar marks today (`aria-current="date"`) and written days pop in; static under reduced motion (`tests/e2e/progress-motion.spec.ts`)
 - Practice: segmented violet step progress, result alert eases in, question card fades without remounting (focus stays in the answer field), completion check pops; static under reduced motion (`tests/e2e/practice-motion.spec.ts`)
 - Learning path: lessons are a node timeline (done, current, available, locked, checkpoint) with a drawn progress line and a two-pulse current marker; links and disabled Locked buttons keep their accessible names (`tests/e2e/path-motion.spec.ts`)
@@ -19,7 +20,9 @@
 - Current implementation slice: both draft tracks work locally. Hosted migration `0009_writing_course.sql` was applied previously; no new schema change is required. Separate teacher approvals and reviewed-content seeding remain publication gates. The broad quality milestone remains incomplete
 - Open decisions: §22; the larger 15-unit-per-level curriculum, teacher approval of the seven-level draft, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
 - Code maintenance: Prettier + EditorConfig; run `npm run format` and `npm run check`; no subagents
-- Release state: working on `master` after `d8b23c0`. Track changes remain local and uncommitted. No hosted seed, new migration, push, or deployment was performed for this slice
+- Release state: learner progress tracking and the Progress/Portfolio motion work are merged locally into `master`. Finished lessons below the chosen level count as done, and re-answered warm-ups keep their first completion date. No hosted seed, migration, push, or deployment was performed for this slice
+- Learner progress verification: `npm run check` passed (129 tests, 7 skipped); the full Playwright suite passed (250 tests, 10 skipped) against an unconfigured server on port 3001 using `.superpowers/playwright.worktree.ts`; `npm run build` passed. The unconfigured sign-in tests ran and passed. Evidence: `tests/improvement.test.ts`, `tests/course-progress.test.ts`, `tests/next-task.test.ts`, `tests/progress-database.test.ts`, `tests/e2e/progress-improvement.spec.ts`, and `tests/e2e/today-next-task.spec.ts`. PGlite verifies synthetic owner isolation and safety filtering, not hosted behavior
+- Learner progress screenshots: `docs/verification/ux/screenshots/progress-improvement-{desktop,mobile,dark-mobile}.png`, `docs/verification/ux/screenshots/today-next-task-{desktop,mobile}.png`, and `docs/verification/ux/screenshots/today-goal-met-{desktop,mobile}.png`. Desktop/mobile layouts were inspected. The live signed-in placement → lesson → warm-up → passing check flow remains untested. The new Vietnamese strings have not had native-speaker review. Code review was a self-review because this project forbids subagents
 - Verification limits: live email delivery/PKCE, Google account completion, natural access-JWT expiry, and a new signed-in hosted explanation remain untested. The seven reviewed audit findings are fixed locally; production integrations remain separately gated
 
 ### Current feature status
@@ -28,7 +31,7 @@
 |---|---|---|
 | App shell and Settings | Responsive MUI, light/dark/system appearance, English/Vietnamese UI, left-to-right layout | Explanation language and daily target are disabled; export/delete and plans are absent |
 | Authentication and onboarding | Supabase email-link and Google routes, verified sessions, protected-page refresh, private profile, and A1–B1 practice placement estimate with learner override | Live email delivery, Google account completion, and broad placement accuracy evaluation |
-| Today | Real task entry, saved feedback, UTC streak, weekly activity, and due Practice | Personalized next task |
+| Today | Core-path next task (placement → lesson → writing), saved feedback, UTC streak, weekly activity with goal-met status, strongest score improvement, and due Practice | Live signed-in progression verification; native-speaker review of new Vietnamese strings |
 | Writing Studio | Seven-level task contracts, optional frames/word banks, account drafts, task limits, checking sweep, and local background writing hints | Teacher review/publication, broader hint coverage, and larger curriculum coverage |
 | AI checking | Live DeepSeek, strict JSON validation, exact/normalized/fuzzy correction location, safety state, 20 checks per UTC day | Broad quality evaluation, higher-level model routing, production-wide abuse controls |
 | Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery, bounded database queue and operation deadlines | Durable background worker and sustained-load verification |
@@ -36,7 +39,7 @@
 | Explain | On-demand short English explanations, owner-only saved reuse, loading/retry, 60 new attempts per UTC day | Native-language explanations and new hosted browser workflow verification |
 | Learning path | A1–B1 placement estimate, seven-level Core starts, 21-unit/63-lesson Core draft, 8-unit/24-lesson IELTS workspace, URL track tabs, private server grading, writing-required progression, and checkpoint locks | Separate teacher reviews/publication, larger course, and validated exams; IELTS uses the practice 1–5 scale, not official bands |
 | Practice | Saved correction exercises, server-side answer checks, one retry, owner-only history, 1/3/7/14/30-day review, dismissal/restoration, and refreshed multi-batch completion | Varied AI-generated drills and nightly generation |
-| Progress | Real writing/review aggregates, CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation |
+| Progress | First-attempt rubric/error-rate trends, first/latest three-check comparison, revision gain, Core/IELTS course completion, real writing/review aggregates, practice CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation; live signed-in course-completion verification; native-speaker review of new Vietnamese strings |
 | Landing and portfolio | Signed-out `/` shows the landing page with a local live demo (signed-in users go to Today); draft privacy and terms pages; owner-only paginated portfolio and parent-revision comparison | Legal details and review; in-app data export and deletion |
 
 The remaining sections describe the target product unless a current implementation note states otherwise. Unchecked milestones are not completed features.

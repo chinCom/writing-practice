@@ -21,7 +21,13 @@ import { sampleDraft } from '@/mocks/draft.sample';
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { manyCorrectionsSample, manyCorrectionsText } from '@/mocks/manyCorrections.sample';
 import { progressSample } from '@/mocks/progress.sample';
-import { todayProgressSample, todaySubmissionsSample, todayPathSample } from '@/mocks/today.sample';
+import {
+  todayProgressSample,
+  todaySubmissionsSample,
+  todayPathSample,
+  todayNextSample,
+  todayGoalMetSample,
+} from '@/mocks/today.sample';
 export default async function Page({
   params,
   searchParams,
@@ -82,18 +88,30 @@ export default async function Page({
       <Today
         preview
         progress={todayProgressSample}
+        next={todayNextSample}
         submissions={todaySubmissionsSample}
         due={12}
         path={todayPathSample}
         pastTense
       />
     );
+  if (screen === 'today-placement')
+    return (
+      <Today
+        preview
+        progress={todayProgressSample}
+        next={{ kind: 'placement', href: '/placement' }}
+      />
+    );
+  if (screen === 'today-goal-met')
+    return <Today preview progress={todayGoalMetSample} weeklyGoal={5} next={todayNextSample} />;
   if (screen === 'today-goal') return <GoalPreview />;
   if (screen === 'settings')
     return <Settings preferences={{ explanation: 'en', daily: '15' }} signedIn preview />;
   if (screen === 'today-account') return <Today signedIn progress={progressSample} due={2} />;
   if (screen === 'practice-page') return <Practice preview />;
   if (screen === 'progress') return <Progress preview />;
+  if (screen === 'progress-empty') return <Progress preview variant="empty" />;
   if (screen === 'portfolio') return <Portfolio preview />;
   if (screen === 'revision') return <RevisionComparison submissionId="preview" preview />;
   if (screen === 'write') return <Studio />;

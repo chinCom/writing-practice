@@ -14,9 +14,10 @@ import ShowChart from '@mui/icons-material/ShowChart';
 import SavedFeedback, { type SavedSubmission } from './SavedFeedback';
 import AccountActivity from './AccountActivity';
 import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot';
-import type { ProgressSummary } from '@/lib/progress';
+import type { ProgressReport } from '@/lib/db/progress';
+import type { NextTask } from '@/lib/next-task';
 
-function NextTaskCard({ preview }: { preview: boolean }) {
+function WeekendTaskCard({ preview }: { preview: boolean }) {
   const t = useTranslations('today');
   return (
     <Card data-testid="today-task">
@@ -62,6 +63,85 @@ function NextTaskCard({ preview }: { preview: boolean }) {
     </Card>
   );
 }
+function LessonTaskCard({
+  next,
+  preview,
+}: {
+  next: Extract<NextTask, { kind: 'lesson' }>;
+  preview: boolean;
+}) {
+  const t = useTranslations('today');
+  const tags = useTranslations('feedback.tags');
+  const format = useFormatter();
+  return (
+    <Card data-testid="today-task">
+      <CardContent>
+        <Stack sx={{ gap: 2 }}>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
+            <Chip label={next.level} color="primary" variant="tonal" size="small" />
+            <Typography variant="body2">{t('taskLabel')}</Typography>
+          </Stack>
+          <Typography variant="h2">{next.lessonTitle}</Typography>
+          <Typography variant="subtitle1">{next.unitTitle}</Typography>
+          <Typography
+            sx={{
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {next.prompt}
+          </Typography>
+          <Typography variant="body2">
+            {t('lessonWordRange', { min: next.minWords, max: next.maxWords })}
+          </Typography>
+          <Button
+            component={NextLink}
+            href={preview ? '/dev/preview/write' : next.href}
+            variant="contained"
+            sx={{ alignSelf: 'start' }}
+          >
+            {t(next.warmupsDone ? 'continueWriting' : 'startLesson')}
+          </Button>
+          <Divider />
+          <Typography variant="body2">
+            {t('lessonFocus', { tags: format.list(next.focus.map((tag) => tags(tag))) })}
+          </Typography>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PlacementTaskCard({ preview }: { preview: boolean }) {
+  const t = useTranslations('today');
+  return (
+    <Card data-testid="today-task">
+      <CardContent>
+        <Stack sx={{ gap: 2 }}>
+          <Typography variant="h2">{t('placementTitle')}</Typography>
+          <Typography>{t('placementBody')}</Typography>
+          <Button
+            component={NextLink}
+            href={preview ? '/dev/preview/placement' : '/placement'}
+            variant="contained"
+            sx={{ alignSelf: 'start' }}
+          >
+            {t('startPlacement')}
+          </Button>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
+
+function NextTaskCard({ next, preview }: { next?: NextTask; preview: boolean }) {
+  if (next?.kind === 'lesson') return <LessonTaskCard next={next} preview={preview} />;
+  if (next?.kind === 'placement') return <PlacementTaskCard preview={preview} />;
+  return <WeekendTaskCard preview={preview} />;
+}
+
 function ReviewPrompt({
   due,
   preview,
@@ -117,11 +197,13 @@ export default function Today({
   path,
   pastTense = false,
   now,
+  next,
 }: {
   preview?: boolean;
   signedIn?: boolean;
   submissions?: SavedSubmission[];
-  progress?: ProgressSummary;
+  progress?: ProgressReport;
+  next?: NextTask;
   due?: number;
   weeklyGoal?: number;
   path?: LearningSnapshotData;
@@ -148,7 +230,7 @@ export default function Today({
           alignItems: 'stretch',
         }}
       >
-        <NextTaskCard preview={preview} />
+        <NextTaskCard next={next} preview={preview} />
         {account && progress ? (
           <AccountActivity progress={progress} goal={weeklyGoal} preview={preview} />
         ) : (

@@ -28,7 +28,7 @@ export async function pathInTransaction(database: Transaction, track: Curriculum
   const [placement] = await database.select().from(placementResults);
   const progress = await database.select().from(lessonProgress);
   const checks = await database
-    .select({ taskId: submissions.taskId, feedback: feedbackRows.json })
+    .select({ taskId: submissions.taskId, at: submissions.createdAt, feedback: feedbackRows.json })
     .from(submissions)
     .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
     .where(eq(submissions.status, 'completed'));
@@ -92,7 +92,11 @@ export async function answerWarmup(
       .values({ userId, lessonId, warmups: answers, completedAt: done ? new Date() : null })
       .onConflictDoUpdate({
         target: [lessonProgress.userId, lessonProgress.lessonId],
-        set: { warmups: answers, completedAt: done ? new Date() : null },
+        // Keep the first completion date when a finished warm-up is answered again.
+        set: {
+          warmups: answers,
+          completedAt: done ? sql`coalesce(${lessonProgress.completedAt}, now())` : null,
+        },
       });
     return { correct, hint: correct ? null : warmup.hint, warmupsDone: done, answers };
   });

@@ -13,7 +13,40 @@ import Divider from '@mui/material/Divider';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
 import { tickPop } from '@/theme/theme';
-import type { ProgressSummary } from '@/lib/progress';
+import type { ProgressReport } from '@/lib/db/progress';
+import { scoreKeys, type Improvement } from '@/lib/improvement';
+
+function ImprovementHighlight({ improvement }: { improvement: Improvement }) {
+  const t = useTranslations('today');
+  const skills = useTranslations('progress');
+  const format = useFormatter();
+  const comparison = improvement.thenVsNow;
+  if (!comparison)
+    return (
+      <Typography variant="body2">{t('keepWriting', { n: improvement.checksNeeded })}</Typography>
+    );
+  const strongest = scoreKeys.reduce((best, key) =>
+    comparison.now[key] - comparison.then[key] > comparison.now[best] - comparison.then[best]
+      ? key
+      : best,
+  );
+  if (comparison.now[strongest] <= comparison.then[strongest])
+    return <Typography variant="body2">{t('steady')}</Typography>;
+  return (
+    <Stack sx={{ gap: 1 }}>
+      <Typography variant="body2">
+        {t('improving', {
+          skill: skills(strongest),
+          then: format.number(comparison.then[strongest], { maximumFractionDigits: 1 }),
+          now: format.number(comparison.now[strongest], { maximumFractionDigits: 1 }),
+        })}
+      </Typography>
+      <Typography variant="caption" color="text.secondary">
+        {skills('improvementDisclaimer')}
+      </Typography>
+    </Stack>
+  );
+}
 
 // Start at zero, then move to the real value so the ring fills once after the page appears.
 function useFillIn(value: number) {
@@ -30,12 +63,13 @@ export default function AccountActivity({
   goal = 5,
   preview = false,
 }: {
-  progress: ProgressSummary;
+  progress: ProgressReport;
   goal?: number;
   preview?: boolean;
 }) {
   const t = useTranslations('today');
   const format = useFormatter();
+  const goalMet = progress.weeklySessions >= goal;
   const ringValue = useFillIn(Math.min(100, (progress.weeklySessions / goal) * 100));
   return (
     <Card data-testid="today-week" sx={{ height: '100%' }}>
@@ -97,7 +131,10 @@ export default function AccountActivity({
         <Stack direction="row" sx={{ alignItems: 'center', gap: { xs: 2, sm: 4 }, mt: 6 }}>
           <Box
             role="img"
-            aria-label={t('weeklyCount', { done: progress.weeklySessions, goal })}
+            aria-label={t(goalMet ? 'weeklyCountMet' : 'weeklyCount', {
+              done: progress.weeklySessions,
+              goal,
+            })}
             sx={{
               position: 'relative',
               width: (theme) => theme.layout.ringSize,
@@ -132,9 +169,11 @@ export default function AccountActivity({
               }}
             >
               <Typography variant="subtitle1" component="p">
-                {t('goalCount', { done: progress.weeklySessions, goal })}
+                {goalMet
+                  ? format.number(progress.weeklySessions)
+                  : t('goalCount', { done: progress.weeklySessions, goal })}
               </Typography>
-              <Typography variant="caption">{t('sessions')}</Typography>
+              <Typography variant="caption">{t(goalMet ? 'goalMet' : 'sessions')}</Typography>
             </Box>
           </Box>
           <Divider orientation="vertical" flexItem />
@@ -142,6 +181,7 @@ export default function AccountActivity({
             <Typography variant="body2" sx={{ mb: 2 }}>
               {t('revisions')}
             </Typography>
+            <ImprovementHighlight improvement={progress.improvement} />
             <Button
               component={NextLink}
               href={preview ? '/dev/preview/progress' : '/progress'}

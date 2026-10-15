@@ -15,6 +15,9 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import type { ProgressSummary } from '@/lib/progress';
 import { tickPop } from '@/theme/theme';
 import ReviewInsights from './ReviewInsights';
+import Improvement from './Improvement';
+import { CourseProgressPanel } from './CourseProgress';
+import type { ProgressPageData } from '@/lib/db/progress';
 
 const levels = ['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 function ActivityCalendar({ data }: { data: ProgressSummary }) {
@@ -90,7 +93,13 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
     </Paper>
   );
 }
-export function ProgressPanels({ data }: { data: ProgressSummary }) {
+export function ProgressPanels({
+  data,
+  preview = false,
+}: {
+  data: ProgressPageData;
+  preview?: boolean;
+}) {
   const t = useTranslations('progress');
   const format = useFormatter();
   const theme = useTheme();
@@ -109,6 +118,8 @@ export function ProgressPanels({ data }: { data: ProgressSummary }) {
           </Box>
         ))}
       </Stack>
+      <Improvement data={data.improvement} />
+      <CourseProgressPanel course={data.course} preview={preview} />
       <Box
         sx={{
           display: 'grid',
@@ -195,19 +206,30 @@ export function ProgressPanels({ data }: { data: ProgressSummary }) {
     </Stack>
   );
 }
-export default function Progress({ preview = false }: { preview?: boolean }) {
+export default function Progress({
+  preview = false,
+  variant,
+}: {
+  preview?: boolean;
+  variant?: 'empty';
+}) {
   const t = useTranslations('progress');
-  const [data, setData] = useState<ProgressSummary | null>(null);
+  const [data, setData] = useState<ProgressPageData | null>(null);
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
     let active = true;
     const timer = setTimeout(() => controller.abort(), 15000);
-    fetch(preview ? '/dev/preview/progress-data' : '/api/progress', {
-      signal: controller.signal,
-      cache: 'no-store',
-    })
+    fetch(
+      preview
+        ? '/dev/preview/progress-data' + (variant === 'empty' ? '?variant=empty' : '')
+        : '/api/progress',
+      {
+        signal: controller.signal,
+        cache: 'no-store',
+      },
+    )
       .then(async (response) => {
         if (!response.ok) throw new Error(response.status === 401 ? 'session' : 'loadError');
         const body = await response.json();
@@ -222,12 +244,12 @@ export default function Progress({ preview = false }: { preview?: boolean }) {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [attempt, preview]);
+  }, [attempt, preview, variant]);
   return (
     <Stack sx={{ gap: 3 }}>
       <Typography variant="h1">{t('title')}</Typography>
       {data ? (
-        <ProgressPanels data={data} />
+        <ProgressPanels data={data} preview={preview} />
       ) : error ? (
         <Alert
           severity="warning"

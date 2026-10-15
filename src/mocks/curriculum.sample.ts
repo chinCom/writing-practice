@@ -15,6 +15,7 @@ export const pathSample: LearningPath = {
       ...publicLesson(lesson),
       state: unitIndex === 0 && index === 0 ? 'current' : 'locked',
       warmupsDone: false,
+      completedAt: null,
       writingDone: false,
       answers: {},
     })),
