@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { apiFailure, ApiError, readJson, requireApiUser } from '@/lib/api';
 import { parseFeedbackInput } from '@/lib/feedback/input';
-import { locateCorrections } from '@/lib/feedback/locate';
+import { locateFeedback, validateTargetReport } from '@/lib/targets';
 import {
   claimSubmission,
   completeSubmission,
@@ -13,7 +13,7 @@ import {
   reserveSubmission,
 } from '@/lib/db/queries';
 import { gradeWriting, LlmError } from '@/lib/llm/grade';
-import { loadTask } from '@/lib/db/curriculum';
+import { loadTaskContext } from '@/lib/db/curriculum';
 
 export const maxDuration = 90;
 const privateHeaders = { 'Cache-Control': 'private, no-store' };
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     const body = await readJson(request);
     const reference = z.object({ taskId: z.string().regex(/^[a-z0-9-]{1,80}$/) }).safeParse(body);
     if (!reference.success) throw new ApiError('INVALID_INPUT', 400);
-    const task = await loadTask(user.id, reference.data.taskId);
+    const { task, targets } = await loadTaskContext(user.id, reference.data.taskId);
     let input;
     try {
       input = parseFeedbackInput(body, task.targetLevel, task);
@@ -100,11 +100,12 @@ export async function POST(request: Request) {
       model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
       mock: process.env.USE_MOCK_LLM === 'true',
       task,
+      targets,
     });
-    const feedback = {
-      ...result.data,
-      corrections: locateCorrections(input.text, result.data.corrections),
-    };
+    const feedback = validateTargetReport(
+      locateFeedback(input.text, validateTargetReport(result.data, targets)),
+      targets,
+    );
     await completeSubmission(user.id, submissionId, feedback, result);
     return NextResponse.json(
       { ok: true, data: { submissionId, feedback, mock: result.mock, status: 'completed' } },

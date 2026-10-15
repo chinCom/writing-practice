@@ -20,7 +20,7 @@ const feedbackOnly = new Set<Tag>([
   'too-short',
   'tone-formality',
 ]);
-export function targetsForUnit(unit: CurriculumUnit): Tag[] {
+export function targetsForUnit(unit: Pick<CurriculumUnit, 'id' | 'grammarFocus'>): Tag[] {
   if (trackForId(unit.id) !== 'core') return [];
   return [...new Set(unit.grammarFocus)].filter((tag) => !feedbackOnly.has(tag)).slice(0, 2);
 }

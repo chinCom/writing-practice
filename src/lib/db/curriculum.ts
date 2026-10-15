@@ -20,6 +20,7 @@ import {
 } from '@/lib/curriculum';
 import { ApiError } from '@/lib/api';
 import { buildCoursePath } from '@/lib/curriculum-path';
+import { targetsForUnit } from '@/lib/targets';
 
 type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
 export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
@@ -54,16 +55,20 @@ export async function loadLesson(userId: string, lessonId: string) {
   return withUserDatabase(userId, (database) => lessonInTransaction(database, lessonId));
 }
 export async function loadTask(userId: string, taskId: string) {
-  if (taskId === 'weekend') return weekendTask;
+  return (await loadTaskContext(userId, taskId)).task;
+}
+export async function loadTaskContext(userId: string, taskId: string) {
+  if (taskId === 'weekend') return { task: weekendTask, targets: [] };
   return withUserDatabase(userId, async (database) => {
     const path = await pathInTransaction(database, trackForId(taskId));
-    const lesson = path.units
-      .flatMap((unit) => unit.lessons)
-      .find((item) => item.task.id === taskId);
+    const unit = path.units.find((item) =>
+      item.lessons.some((lesson) => lesson.task.id === taskId),
+    );
+    const lesson = unit?.lessons.find((item) => item.task.id === taskId);
     if (!lesson) throw new ApiError('NOT_FOUND', 404);
     if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
     if (!lesson.warmupsDone) throw new ApiError('WARMUPS_REQUIRED', 403);
-    return lesson.task;
+    return { task: lesson.task, targets: targetsForUnit(unit!) };
   });
 }
 export async function answerWarmup(

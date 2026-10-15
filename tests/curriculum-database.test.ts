@@ -12,6 +12,7 @@ import {
   reservePlacement,
   completePlacement,
   loadTask,
+  loadTaskContext,
 } from '@/lib/db/curriculum';
 const database = new PGlite();
 const alice = '00000000-0000-4000-8000-000000000011';
@@ -85,6 +86,13 @@ it('grades answers on the server but requires saved safe writing before unlockin
     'locked',
   ]);
   expect((await loadLesson(alice, first.id)).warmups[0]).not.toHaveProperty('answer');
+  expect(await loadTaskContext(alice, first.task.id)).toEqual({
+    task: first.task,
+    targets: ['subject-verb-agreement', 'articles'],
+  });
+  expect(await loadTask(alice, first.task.id)).toEqual(first.task);
+  expect((await loadTaskContext(alice, 'weekend')).targets).toEqual([]);
+  await expect(loadTaskContext(bob, first.task.id)).rejects.toThrow('LESSON_LOCKED');
   const writingId = '00000000-0000-4000-8000-000000000019';
   await database.query(
     `INSERT INTO writing.submissions(id,user_id,task_id,text,word_count,attempt,status) VALUES ($1,$2,$3,'Synthetic writing',20,1,'completed')`,

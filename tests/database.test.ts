@@ -15,6 +15,9 @@ import {
 } from '@/lib/db/queries';
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { sampleDraft } from '@/mocks/draft.sample';
+import { curriculumDraft } from '@/mocks/curriculum-content';
+import { loadTask } from '@/lib/db/curriculum';
+import { feedbackPromptVersion } from '@/lib/prompts/version';
 import { POST as checkWriting, GET as getCheck } from '@/app/api/feedback/route';
 import { PUT as saveWritingDraft } from '@/app/api/draft/route';
 import { currentUser } from '@/lib/auth/server';
@@ -84,6 +87,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0007_profiles.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0008_curriculum.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0009_writing_course.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0010_target_evidence.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -514,6 +518,192 @@ it('reuses a check key, rejects changed content and recovers owner-only feedback
   await failSubmission(charlie, id);
   expect(await loadCheck(charlie, key)).toMatchObject({ id, status: 'completed' });
   expect(await reserveSubmission(charlie, input, key)).toBe(id);
+});
+it('stores trusted target evidence atomically, privately and immutably through the check route', async () => {
+  const owner = '00000000-0000-4000-8000-000000000095';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const unit = curriculumDraft[0];
+  const lesson = unit.lessons[0];
+  for (const content of curriculumDraft)
+    await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
+      content.id,
+      content.level,
+      content.order,
+      JSON.stringify(content),
+      'Test reviewer',
+      'synthetic-hash',
+    ]);
+  await database.query(
+    `INSERT INTO writing.placement_results
+    (user_id,status,chosen_level,calls_today,call_day,started_at,updated_at)
+    VALUES ($1,'completed','A1',1,'2026-10-15',now(),now())`,
+    [owner],
+  );
+  await database.query(
+    'INSERT INTO writing.lesson_progress(user_id,lesson_id,warmups) VALUES ($1,$2,$3)',
+    [
+      owner,
+      lesson.id,
+      JSON.stringify(Object.fromEntries(lesson.warmups.map((_, index) => [String(index), true]))),
+    ],
+  );
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const report = [
+    { tag: 'subject-verb-agreement' as const, uses: 4, errors: 1, correction_indexes: [0] },
+    { tag: 'articles' as const, uses: 0, errors: 0, correction_indexes: [] },
+  ];
+  const output = {
+    ...markedPageSample,
+    corrections: [
+      {
+        ...markedPageSample.corrections[0],
+        original: 'go',
+        tag: 'subject-verb-agreement' as const,
+      },
+    ],
+    target_report: report,
+  };
+  vi.mocked(gradeWriting)
+    .mockClear()
+    .mockResolvedValue({
+      data: output,
+      usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+      model: 'synthetic-pinned',
+      latencyMs: 1,
+      mock: false,
+    });
+  const request = (key: string, extra = {}) =>
+    new Request('http://localhost/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Idempotency-Key': key },
+      body: JSON.stringify({ taskId: lesson.task.id, text: sampleDraft, attempt: 1, ...extra }),
+    });
+  const key = '00000000-0000-4000-8000-000000000096';
+  expect(await loadTask(owner, lesson.task.id)).toEqual(lesson.task);
+  const response = await checkWriting(request(key));
+  expect(response.status).toBe(200);
+  const id = (await response.json()).data.submissionId;
+  expect(vi.mocked(gradeWriting).mock.calls.at(-1)?.[1].targets).toEqual([
+    'subject-verb-agreement',
+    'articles',
+  ]);
+  const evidence = await asUser(owner, 'SELECT * FROM writing.target_evidence ORDER BY tag');
+  expect(evidence.rows).toMatchObject([
+    {
+      submission_id: id,
+      tag: 'articles',
+      uses: 0,
+      errors: 0,
+      level: 'A1',
+      is_first_attempt: true,
+      is_benchmark: false,
+      self_fixed: null,
+      grader_version: `synthetic-pinned:${feedbackPromptVersion}`,
+    },
+    { submission_id: id, tag: 'subject-verb-agreement', uses: 4, errors: 1 },
+  ]);
+  expect((await checkWriting(request(key))).status).toBe(200);
+  expect(gradeWriting).toHaveBeenCalledTimes(1);
+  expect((await asUser(bob, 'SELECT * FROM writing.target_evidence')).rows).toEqual([]);
+  await expect(asUser(owner, 'UPDATE writing.target_evidence SET errors=0')).rejects.toThrow(
+    /permission denied/,
+  );
+  await expect(asUser(owner, 'DELETE FROM writing.target_evidence')).rejects.toThrow(
+    /permission denied/,
+  );
+  await expect(
+    asUser(
+      bob,
+      `INSERT INTO writing.target_evidence(submission_id,user_id,tag,level,uses,errors,is_first_attempt,is_benchmark,grader_version)
+    VALUES ('${id}','${bob}','verb-tense','A1',1,0,true,false,'test')`,
+    ),
+  ).rejects.toThrow(/foreign key/);
+  await expect(
+    asUser(
+      bob,
+      `INSERT INTO writing.target_evidence(submission_id,user_id,tag,level,uses,errors,is_first_attempt,is_benchmark,grader_version)
+    VALUES ('${id}','${owner}','verb-tense','A1',1,0,true,false,'test')`,
+    ),
+  ).rejects.toThrow(/row-level security/);
+  vi.mocked(gradeWriting).mockResolvedValueOnce({
+    data: { ...output, safety_flag: true },
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+    model: 'synthetic-pinned',
+    latencyMs: 1,
+    mock: false,
+  });
+  const unsafe = await checkWriting(request('00000000-0000-4000-8000-000000000097'));
+  expect(unsafe.status).toBe(200);
+  expect((await unsafe.json()).data.feedback).not.toHaveProperty('target_report');
+  expect((await asUser(owner, 'SELECT * FROM writing.target_evidence')).rows).toHaveLength(2);
+  const revision = await checkWriting(
+    request('00000000-0000-4000-8000-000000000098', { attempt: 2, parentSubmissionId: id }),
+  );
+  expect(revision.status).toBe(200);
+  const revisionId = (await revision.json()).data.submissionId;
+  expect(
+    (
+      await asUser(
+        owner,
+        `SELECT is_first_attempt, is_benchmark FROM writing.target_evidence WHERE submission_id='${revisionId}'`,
+      )
+    ).rows,
+  ).toEqual([
+    { is_first_attempt: false, is_benchmark: false },
+    { is_first_attempt: false, is_benchmark: false },
+  ]);
+  const invalidEvidence = (tag: string, uses: number, errors: number) =>
+    asUser(
+      owner,
+      `INSERT INTO writing.target_evidence(submission_id,user_id,tag,level,uses,errors,is_first_attempt,is_benchmark,grader_version)
+    VALUES ('${id}','${owner}','${tag}','A1',${uses},${errors},true,false,'test')`,
+    );
+  await expect(invalidEvidence('verb-tense', 1, 2)).rejects.toThrow(/check constraint/);
+  await expect(invalidEvidence('word-choice', 1, 0)).rejects.toThrow(/check constraint/);
+  await expect(
+    database.transaction(async (transaction) => {
+      await transaction.exec('SET LOCAL ROLE anon');
+      await transaction.query('SELECT * FROM writing.target_evidence');
+    }),
+  ).rejects.toThrow(/permission denied/);
+  // Force a late usage failure: feedback, evidence, practice and status must all roll back.
+  const pending = await reserveSubmission(owner, {
+    taskId: lesson.task.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  await expect(
+    completeSubmission(
+      owner,
+      pending,
+      {
+        ...output,
+        corrections: output.corrections.map((item) => ({ ...item, start: 0, end: 2 })),
+      },
+      {
+        data: output,
+        usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+        model: 'synthetic-pinned',
+        latencyMs: null as unknown as number,
+        mock: false,
+      },
+    ),
+  ).rejects.toThrow();
+  expect(
+    (await database.query('SELECT status FROM writing.submissions WHERE id=$1', [pending])).rows,
+  ).toEqual([{ status: 'pending' }]);
+  for (const table of ['feedback', 'target_evidence', 'practice_sources', 'ai_usage'])
+    expect(
+      (await database.query(`SELECT * FROM writing.${table} WHERE submission_id=$1`, [pending]))
+        .rows,
+    ).toEqual([]);
+  await database.query('DELETE FROM auth.users WHERE id=$1', [owner]);
+  expect(
+    (await database.query('SELECT * FROM writing.target_evidence WHERE user_id=$1', [owner])).rows,
+  ).toEqual([]);
+  vi.mocked(gradeWriting).mockClear();
 });
 it('recovers a completed API request without a second provider call', async () => {
   vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<

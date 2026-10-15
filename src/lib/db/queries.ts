@@ -1,7 +1,15 @@
 import 'server-only';
 import { and, desc, eq, gte, sql } from 'drizzle-orm';
 import { withUserDatabase, type Transaction } from './client';
-import { aiUsage, drafts, feedbackRows, submissions } from './schema';
+import {
+  aiUsage,
+  curriculumUnits,
+  drafts,
+  feedbackRows,
+  submissions,
+  targetEvidence,
+} from './schema';
+import { targetsForUnit, validateTargetReport } from '@/lib/targets';
 import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
 import { seedSubmissionPractice } from './practice';
@@ -147,6 +155,15 @@ export async function completeSubmission(
       .where(and(eq(submissions.id, submissionId), eq(submissions.status, 'pending')))
       .returning({ id: submissions.id });
     if (updated.length !== 1) throw new Error('CHECK_EXPIRED');
+    const [source] = await database
+      .select({ text: submissions.text, taskId: submissions.taskId, attempt: submissions.attempt })
+      .from(submissions)
+      .where(eq(submissions.id, submissionId));
+    const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
+    const unit = units.find(({ content }) =>
+      content.lessons.some((lesson) => lesson.task.id === source.taskId),
+    )?.content;
+    feedback = validateTargetReport(feedback, unit ? targetsForUnit(unit) : []);
     await database.insert(feedbackRows).values({
       userId,
       submissionId,
@@ -154,10 +171,22 @@ export async function completeSubmission(
       model: result.model,
       promptVersion: feedbackPromptVersion,
     });
-    const [source] = await database
-      .select({ text: submissions.text })
-      .from(submissions)
-      .where(eq(submissions.id, submissionId));
+    if (unit && feedback.target_report?.length) {
+      await database.insert(targetEvidence).values(
+        feedback.target_report.map((item) => ({
+          userId,
+          submissionId,
+          tag: item.tag,
+          level: unit.level,
+          uses: item.uses,
+          errors: item.errors,
+          isFirstAttempt: source.attempt === 1,
+          // Checkpoints are not benchmarks until reviewed parallel prompts exist.
+          isBenchmark: false,
+          graderVersion: `${result.model}:${feedbackPromptVersion}`,
+        })),
+      );
+    }
     await seedSubmissionPractice(database, userId, {
       id: submissionId,
       text: source.text,
