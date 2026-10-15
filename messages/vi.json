@@ -520,7 +520,6 @@
   },
   "development": {
     "title": "Phát triển ý tưởng",
-    "showText": "Xem trong bài viết: {text}",
     "button": "Giúp tôi phát triển bài viết",
     "pending": "Đang xem xét ý tưởng của bạn…",
     "intro": "Một bản nháp ngắn cũng đủ. Nhận một câu hỏi và một bước nhỏ tiếp theo. Bạn tự viết câu trả lời.",
@@ -529,6 +528,9 @@
     "unavailable": "Trợ lý AI chưa được cấu hình hoặc tạm thời không khả dụng. Bài viết vẫn ở đây.",
     "session": "Đăng nhập lại để nhận gợi ý. Bài viết vẫn ở đây.",
     "limit": "Bạn đã dùng hết giới hạn chung cho gợi ý phát triển và giải thích mới hôm nay. Hãy quay lại vào ngày mai (UTC).",
-    "safety": "Sức khỏe của bạn quan trọng nhất. Hãy liên hệ người bạn tin tưởng. Nếu đang gặp nguy hiểm tức thời, hãy liên hệ dịch vụ khẩn cấp tại địa phương."
+    "safety": "Sức khỏe của bạn quan trọng nhất. Hãy liên hệ người bạn tin tưởng. Nếu đang gặp nguy hiểm tức thời, hãy liên hệ dịch vụ khẩn cấp tại địa phương.",
+    "suggestion": "Gợi ý của trợ lý",
+    "close": "Đóng gợi ý",
+    "inWriting": "Câu hỏi của trợ lý nằm cạnh phần được tô sáng trong bài viết của bạn."
   }
 }

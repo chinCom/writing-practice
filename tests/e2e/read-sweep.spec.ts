@@ -53,3 +53,63 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeVisible();
   });
 }
+
+test('sweep bands stay one per line, evenly spaced, with emoji and a scrolled draft', async ({
+  page,
+}) => {
+  await page.route('**/api/feedback', () => new Promise(() => {}));
+  await page.goto('/dev/preview/live-write');
+  const writing = page.getByRole('textbox', { name: 'Your writing', exact: true });
+  const sentence =
+    'We went to see a movie 🎬 and I felt scared 😱 for one moment, but it was fun. ';
+  await writing.fill(sentence.repeat(14));
+  await writing.evaluate((element) => {
+    element.scrollTop = 90;
+  });
+  await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
+  const bands = page.locator('[data-sweep-band]');
+  await expect.poll(() => bands.count()).toBeGreaterThan(4);
+  const rows = await bands.evaluateAll((elements) =>
+    elements.map((element) => {
+      const style = getComputedStyle(element);
+      return { top: parseFloat(style.insetBlockStart), height: parseFloat(style.blockSize) };
+    }),
+  );
+  const pitch = rows[1].top - rows[0].top;
+  for (const [index, row] of rows.entries()) {
+    expect(row.height).toBeCloseTo(rows[0].height, 0);
+    expect(row.top - rows[0].top).toBeCloseTo(index * pitch, 0);
+  }
+  const track = page.locator('[data-read-sweep] > div:last-child');
+  await expect(track).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -90)');
+});
+
+test('the sweep reads one line at a time, in order', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.route('**/api/feedback', () => new Promise(() => {}));
+  await page.goto('/dev/preview/live-write');
+  await page.getByRole('textbox', { name: 'Your writing', exact: true }).fill(message);
+  await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
+  const bands = page.locator('[data-sweep-band]');
+  await expect.poll(() => bands.count()).toBeGreaterThan(2);
+  // Each band's wipe window, as offsets of the shared loop.
+  const windows = await bands.evaluateAll((elements) =>
+    elements.map((element) => {
+      const [animation] = element.getAnimations();
+      const frames = (animation.effect as KeyframeEffect).getKeyframes();
+      const hidden = frames.filter((frame) => String(frame.clipPath).includes('100%'));
+      const full = frames.filter((frame) => !String(frame.clipPath).includes('100%'));
+      return {
+        duration: Number(animation.effect!.getTiming().duration),
+        start: Number(hidden[hidden.length - 1].offset),
+        end: Number(full[0].offset),
+      };
+    }),
+  );
+  expect(windows[0].start).toBe(0);
+  for (const [index, window] of windows.entries()) {
+    expect(window.duration).toBe(windows[0].duration);
+    expect(window.end).toBeGreaterThan(window.start);
+    if (index) expect(window.start).toBeCloseTo(windows[index - 1].end, 3);
+  }
+});

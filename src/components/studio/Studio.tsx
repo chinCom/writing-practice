@@ -17,6 +17,9 @@ import WritingCanvas from './WritingCanvas';
 import TaskBrief from './TaskBrief';
 import CoachHint from './CoachHint';
 import DevelopmentHelp from './DevelopmentHelp';
+import DevelopmentSuggestion from './DevelopmentSuggestion';
+import ReadSweep from './ReadSweep';
+import { useDevelopmentHelp } from './useDevelopmentHelp';
 import { countWords, decodeDraft, DRAFT_KEY } from '@/lib/draft';
 import { sampleDraft } from '@/mocks/draft.sample';
 import { weekendTask } from '@/lib/curriculum';
@@ -50,6 +53,7 @@ export default function Studio() {
   const [tip, setTip] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
   const words = countWords(text);
+  const help = useDevelopmentHelp(text, weekendTask);
 
   function saveDraft(value: string) {
     setEdited(value);
@@ -62,13 +66,6 @@ export default function Studio() {
     }
   }
 
-  function focusWriting(start: number, end: number) {
-    const field = input.current;
-    if (!field) return;
-    field.scrollIntoView({ block: 'center' });
-    field.focus({ preventScroll: true });
-    field.setSelectionRange(start, end);
-  }
   function insertPhrase(phrase: string) {
     const start = input.current?.selectionStart ?? text.length;
     const end = input.current?.selectionEnd ?? start;
@@ -115,7 +112,7 @@ export default function Studio() {
             </AccordionDetails>
           </Accordion>
         </Box>
-        <DevelopmentHelp text={text} task={weekendTask} onFocus={focusWriting} />
+        <DevelopmentHelp help={help} />
       </Box>
       <Paper
         variant="outlined"
@@ -125,12 +122,23 @@ export default function Studio() {
           flexDirection: 'column',
         }}
       >
-        <WritingCanvas
-          inputRef={input}
-          value={text}
-          onChange={(event) => saveDraft(event.target.value)}
-          maxLength={20000}
-        />
+        <Box sx={{ position: 'relative', isolation: 'isolate' }}>
+          <WritingCanvas
+            inputRef={input}
+            value={text}
+            onChange={(event) => saveDraft(event.target.value)}
+            maxLength={20000}
+          />
+          {help.pending ? <ReadSweep inputRef={input} text={text} /> : null}
+          {help.guidance ? (
+            <DevelopmentSuggestion
+              inputRef={input}
+              text={text}
+              guidance={help.guidance}
+              onClose={help.dismiss}
+            />
+          ) : null}
+        </Box>
         <Divider sx={{ marginBlockStart: 3, marginBlockEnd: 2 }} />
         <Stack
           direction={{ xs: 'column', sm: 'row' }}

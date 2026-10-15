@@ -11,10 +11,13 @@ import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
 import CoachHint from './CoachHint';
 import DevelopmentHelp from './DevelopmentHelp';
+import DevelopmentSuggestion from './DevelopmentSuggestion';
+import { useDevelopmentHelp } from './useDevelopmentHelp';
 import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
 import WritingCanvas from './WritingCanvas';
 import ReadSweep from './ReadSweep';
 import TaskBrief from './TaskBrief';
+import { SaveStatus, WordMeter } from './WritingStatus';
 import { countWords } from '@/lib/draft';
 import NextLink from 'next/link';
 import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
@@ -45,7 +48,6 @@ export default function LiveStudio({
   const courseDraftKey = 'course-draft:' + task.id;
   const [text, setText] = useState(initialText);
   const [savedText, setSavedText] = useState(initialText);
-  const [developing, setDeveloping] = useState(false);
   const [busy, setBusy] = useState<'save' | 'check' | null>(null);
   const [error, setError] = useState<
     | 'saveError'
@@ -67,6 +69,8 @@ export default function LiveStudio({
   const submittedText = useRef<string | null>(null);
   const words = countWords(text);
   const limit = textLimits[task.targetLevel];
+  const help = useDevelopmentHelp(text, task, busy === 'check');
+  const developing = help.pending;
   async function save() {
     if (coursePreview || busy || text.length > limit) return;
     setBusy('save');
@@ -208,13 +212,6 @@ export default function LiveStudio({
       }
     }
   }
-  function focusWriting(start: number, end: number) {
-    const field = input.current;
-    if (!field || busy === 'check') return;
-    field.scrollIntoView({ block: 'center' });
-    field.focus({ preventScroll: true });
-    field.setSelectionRange(start, end);
-  }
   function insertPhrase(phrase: string) {
     if (busy === 'check') return;
     const start = input.current?.selectionStart ?? text.length;
@@ -247,16 +244,10 @@ export default function LiveStudio({
             disabled={busy === 'check'}
             task={task.id === 'weekend' ? undefined : task}
           />
-          <DevelopmentHelp
-            text={text}
-            task={task}
-            disabled={busy === 'check'}
-            onPending={setDeveloping}
-            onFocus={focusWriting}
-          />
+          <DevelopmentHelp help={help} />
         </Box>
         <Paper variant="outlined" sx={{ minInlineSize: 0, p: { xs: 2, md: 4 } }}>
-          <Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: 'relative', isolation: 'isolate' }}>
             <WritingCanvas
               inputRef={input}
               maxLength={limit}
@@ -264,15 +255,27 @@ export default function LiveStudio({
               disabled={busy === 'check'}
               onChange={(event) => updateText(event.target.value)}
             />
-            {busy === 'check' ? <ReadSweep inputRef={input} text={text} /> : null}
+            {busy === 'check' || developing ? <ReadSweep inputRef={input} text={text} /> : null}
+            {help.guidance && busy !== 'check' ? (
+              <DevelopmentSuggestion
+                inputRef={input}
+                text={text}
+                guidance={help.guidance}
+                onClose={help.dismiss}
+              />
+            ) : null}
           </Box>
           <Stack sx={{ gap: 2, mt: 3 }}>
-            <Typography variant="caption" role="status">
-              {live(text === savedText ? 'saved' : 'unsaved')}
-            </Typography>
-            <Stack direction="row" sx={{ gap: 2, justifyContent: 'space-between' }}>
-              <Typography variant="caption">{t('words', { n: words })}</Typography>
-              <Typography variant="caption">{live('characters', { n: text.length })}</Typography>
+            <SaveStatus
+              saved={text === savedText}
+              label={live(text === savedText ? 'saved' : 'unsaved')}
+            />
+            <Stack sx={{ gap: 1 }}>
+              <Stack direction="row" sx={{ gap: 2, justifyContent: 'space-between' }}>
+                <Typography variant="caption">{t('words', { n: words })}</Typography>
+                <Typography variant="caption">{live('characters', { n: text.length })}</Typography>
+              </Stack>
+              <WordMeter words={words} min={task.minWords} max={task.maxWords} />
             </Stack>
             <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
               <Button
@@ -286,6 +289,8 @@ export default function LiveStudio({
               </Button>
               <Button
                 variant="contained"
+                loading={busy === 'check'}
+                loadingPosition="start"
                 disabled={
                   busy !== null ||
                   developing ||

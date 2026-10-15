@@ -82,7 +82,10 @@ const config = [
     rules: { 'no-restricted-syntax': ['error', classes, hex, colors, muiSelectors] },
   },
   {
-    files: ['src/components/studio/ReadSweep.tsx'],
+    files: [
+      'src/components/studio/ReadSweep.tsx',
+      'src/components/studio/DevelopmentSuggestion.tsx',
+    ],
     rules: { 'no-restricted-syntax': ['error', raw, classes, hex, colors, muiSelectors] },
   },
   { files: ['src/theme/**'], rules: { 'no-restricted-syntax': ['error', raw, style, classes] } },

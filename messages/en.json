@@ -520,7 +520,6 @@
   },
   "development": {
     "title": "Develop your ideas",
-    "showText": "Show in my writing: {text}",
     "button": "Help me develop this",
     "pending": "Thinking about your ideas…",
     "intro": "A short draft is enough. Get one question and one small next step. You write the answer yourself.",
@@ -529,6 +528,9 @@
     "unavailable": "AI help is not configured or is temporarily unavailable. Your writing is still here.",
     "session": "Sign in again to request help. Your writing is still here.",
     "limit": "You reached the shared daily limit for development help and new explanations. Return tomorrow (UTC).",
-    "safety": "Your wellbeing comes first. Contact someone you trust. If you are in immediate danger, contact local emergency services."
+    "safety": "Your wellbeing comes first. Contact someone you trust. If you are in immediate danger, contact local emergency services.",
+    "suggestion": "Coach suggestion",
+    "close": "Close suggestion",
+    "inWriting": "The coach's question is next to the highlighted part of your writing."
   }
 }
