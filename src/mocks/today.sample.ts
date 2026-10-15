@@ -1,17 +1,21 @@
 import { summarizeProgress } from '@/lib/progress';
+import { summarizeImprovement } from '@/lib/improvement';
 import type { SavedSubmission } from '@/components/today/SavedFeedback';
 import type { LearningSnapshotData } from '@/components/today/LearningSnapshot';
 
-export const todayProgressSample = summarizeProgress(
-  [
-    { at: '2026-10-13T09:00:00Z', words: 60, level: 'A2', corrections: [] },
-    { at: '2026-10-13T10:00:00Z', words: 60, level: 'A2', corrections: [] },
-    { at: '2026-10-14T09:00:00Z', words: 90, level: 'A2', corrections: [] },
-    { at: '2026-10-14T10:00:00Z', words: 90, level: 'A2', corrections: [] },
-  ],
-  [],
-  new Date('2026-10-14T12:00:00Z'),
-);
+export const todayProgressSample = {
+  improvement: summarizeImprovement([], new Date('2026-10-14T12:00:00Z')),
+  ...summarizeProgress(
+    [
+      { at: '2026-10-13T09:00:00Z', words: 60, level: 'A2', corrections: [] },
+      { at: '2026-10-13T10:00:00Z', words: 60, level: 'A2', corrections: [] },
+      { at: '2026-10-14T09:00:00Z', words: 90, level: 'A2', corrections: [] },
+      { at: '2026-10-14T10:00:00Z', words: 90, level: 'A2', corrections: [] },
+    ],
+    [],
+    new Date('2026-10-14T12:00:00Z'),
+  ),
+};
 export const todaySubmissionsSample: SavedSubmission[] = [
   {
     id: 'weekend',

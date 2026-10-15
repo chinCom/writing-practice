@@ -2,16 +2,42 @@ import 'server-only';
 import { and, eq, sql } from 'drizzle-orm';
 import { withUserDatabase, type Transaction } from './client';
 import { submissions, feedbackRows, practiceAnswers, practiceDrills } from './schema';
-import { summarizeProgress } from '@/lib/progress';
+import { pathInTransaction } from './curriculum';
+import { summarizeProgress, type ProgressSummary } from '@/lib/progress';
+import { summarizeImprovement, type Improvement } from '@/lib/improvement';
+import { summarizeCourse, type CourseProgress } from '@/lib/course-progress';
 
-export function loadProgress(userId: string) {
-  return withUserDatabase(userId, (database) => progressInTransaction(database));
+export type ProgressReport = ProgressSummary & { improvement: Improvement };
+export type ProgressPageData = ProgressReport & {
+  course: { core: CourseProgress; ielts: CourseProgress };
+};
+
+export function loadProgress(userId: string): Promise<ProgressPageData> {
+  return withUserDatabase(userId, async (database) => {
+    const now = new Date();
+    const report = await progressInTransaction(database, now);
+    const core = await pathInTransaction(database, 'core');
+    const ielts = await pathInTransaction(database, 'ielts');
+    return {
+      ...report,
+      course: {
+        core: summarizeCourse(core.units, 'core', now),
+        ielts: summarizeCourse(ielts.units, 'ielts', now),
+      },
+    };
+  });
 }
-export async function progressInTransaction(database: Transaction) {
+export async function progressInTransaction(
+  database: Transaction,
+  now = new Date(),
+): Promise<ProgressReport> {
   const writing = await database
     .select({
+      id: submissions.id,
       at: submissions.createdAt,
       words: submissions.wordCount,
+      attempt: submissions.attempt,
+      parentId: submissions.parentSubmissionId,
       feedback: feedbackRows.json,
     })
     .from(submissions)
@@ -27,7 +53,7 @@ export async function progressInTransaction(database: Transaction) {
     })
     .from(practiceAnswers)
     .innerJoin(practiceDrills, eq(practiceAnswers.drillId, practiceDrills.id));
-  return summarizeProgress(
+  const summary = summarizeProgress(
     writing.map((row) => ({
       at: row.at.toISOString(),
       words: row.words,
@@ -41,5 +67,19 @@ export async function progressInTransaction(database: Transaction) {
       tag: row.payload.tag,
       box: row.result.box,
     })),
+    now,
   );
+  const improvement = summarizeImprovement(
+    writing.map((row) => ({
+      id: row.id,
+      at: row.at.toISOString(),
+      attempt: row.attempt,
+      parentId: row.parentId,
+      words: row.words,
+      scores: row.feedback.scores,
+      corrections: row.feedback.corrections,
+    })),
+    now,
+  );
+  return { ...summary, improvement };
 }

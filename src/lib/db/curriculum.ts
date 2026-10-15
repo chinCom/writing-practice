@@ -28,7 +28,7 @@ export async function pathInTransaction(database: Transaction, track: Curriculum
   const [placement] = await database.select().from(placementResults);
   const progress = await database.select().from(lessonProgress);
   const checks = await database
-    .select({ taskId: submissions.taskId, feedback: feedbackRows.json })
+    .select({ taskId: submissions.taskId, at: submissions.createdAt, feedback: feedbackRows.json })
     .from(submissions)
     .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
     .where(eq(submissions.status, 'completed'));
