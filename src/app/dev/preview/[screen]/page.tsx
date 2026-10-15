@@ -94,6 +94,7 @@ export default async function Page({
   if (screen === 'today-account') return <Today signedIn progress={progressSample} due={2} />;
   if (screen === 'practice-page') return <Practice preview />;
   if (screen === 'progress') return <Progress preview />;
+  if (screen === 'progress-empty') return <Progress preview variant="empty" />;
   if (screen === 'portfolio') return <Portfolio preview />;
   if (screen === 'revision') return <RevisionComparison submissionId="preview" preview />;
   if (screen === 'write') return <Studio />;

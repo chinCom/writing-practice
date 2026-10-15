@@ -1,7 +1,9 @@
 import { summarizeProgress } from '@/lib/progress';
 import { summarizeImprovement, type CheckEvent } from '@/lib/improvement';
 import { summarizeCourse } from '@/lib/course-progress';
-import { pathSample } from '@/mocks/curriculum.sample';
+import coreDraft from '../../curriculum/course.draft.json';
+import { curriculumSchema } from '@/lib/curriculum';
+import { buildCoursePath } from '@/lib/curriculum-path';
 import type { ProgressPageData } from '@/lib/db/progress';
 
 const now = new Date('2026-10-15T12:00:00Z');
@@ -59,7 +61,11 @@ export const progressSample: ProgressPageData = {
   ...summary,
   improvement: summarizeImprovement(checks, now),
   course: {
-    core: summarizeCourse(pathSample.units, 'core', now),
+    core: summarizeCourse(
+      buildCoursePath(curriculumSchema.parse(coreDraft), 'A1', [], [], 'core'),
+      'core',
+      now,
+    ),
     ielts: summarizeCourse([], 'ielts', now),
   },
 };
