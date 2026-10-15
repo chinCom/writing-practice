@@ -49,7 +49,7 @@ export function buildCoursePath(
         // A lesson is complete when its last requirement is met.
         const finishedAt = Math.max(warmupsAt ?? 0, firstPass ?? 0);
         const completedAt = done && finishedAt ? new Date(finishedAt).toISOString() : null;
-        const state = beforeStart ? 'available' : done ? 'done' : open ? 'current' : 'locked';
+        const state = done ? 'done' : beforeStart ? 'available' : open ? 'current' : 'locked';
         if (!beforeStart && !done) open = false;
         return {
           ...publicLesson(lesson),

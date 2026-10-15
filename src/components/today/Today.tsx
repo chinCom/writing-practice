@@ -124,7 +124,7 @@ function PlacementTaskCard({ preview }: { preview: boolean }) {
           <Typography>{t('placementBody')}</Typography>
           <Button
             component={NextLink}
-            href={preview ? '/dev/preview/write' : '/placement'}
+            href={preview ? '/dev/preview/placement' : '/placement'}
             variant="contained"
             sx={{ alignSelf: 'start' }}
           >

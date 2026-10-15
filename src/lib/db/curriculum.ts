@@ -92,7 +92,11 @@ export async function answerWarmup(
       .values({ userId, lessonId, warmups: answers, completedAt: done ? new Date() : null })
       .onConflictDoUpdate({
         target: [lessonProgress.userId, lessonProgress.lessonId],
-        set: { warmups: answers, completedAt: done ? new Date() : null },
+        // Keep the first completion date when a finished warm-up is answered again.
+        set: {
+          warmups: answers,
+          completedAt: done ? sql`coalesce(${lessonProgress.completedAt}, now())` : null,
+        },
       });
     return { correct, hint: correct ? null : warmup.hint, warmupsDone: done, answers };
   });
