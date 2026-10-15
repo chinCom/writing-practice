@@ -154,7 +154,7 @@ export default function Placement({
                   label={question.prompt}
                   value={answers[index]}
                   disabled={busy}
-                  slotProps={{ select: { native: true } }}
+                  slotProps={{ select: { native: true }, inputLabel: { shrink: true } }}
                   onChange={(event) =>
                     setAnswers(
                       answers.map((answer, i) => (i === index ? event.target.value : answer)),
