@@ -1,5 +1,21 @@
 import type { Feedback, LocatedCorrection } from '@/lib/feedback/schema';
 
+export function targetCorrectionIndexes(feedback: Feedback): Set<number> {
+  return new Set(feedback.target_report?.flatMap((item) => item.correction_indexes) ?? []);
+}
+export function avoidedTargets(
+  baseline: Feedback['target_report'],
+  current: Feedback['target_report'],
+) {
+  return (
+    current
+      ?.filter((item) => {
+        const first = baseline?.find((source) => source.tag === item.tag);
+        return first && item.uses < first.uses / 2;
+      })
+      .map((item) => item.tag) ?? []
+  );
+}
 export function revisionText(text: string, corrections: LocatedCorrection[], applied: Set<number>) {
   let value = text;
   corrections

@@ -75,6 +75,7 @@ export const submissions = writing.table('submissions', {
   wordCount: integer('word_count').notNull(),
   attempt: integer('attempt').notNull(),
   parentSubmissionId: uuid('parent_submission_id'),
+  revisionKind: text('revision_kind').$type<'self' | 'assisted'>(),
   status: text('status').notNull().default('pending'),
   requestKey: uuid('request_key'),
   startedAt: timestamp('started_at', { withTimezone: true }),
@@ -165,6 +166,16 @@ export const correctionChoices = writing.table(
     correctionIndex: integer('correction_index').notNull(),
     status: text('status').$type<CorrectionStatus>().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.submissionId, table.correctionIndex] })],
+);
+export const targetAssistance = writing.table(
+  'target_assistance',
+  {
+    submissionId: uuid('submission_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    correctionIndex: integer('correction_index').notNull(),
+    createdAt: createdAt(),
   },
   (table) => [primaryKey({ columns: [table.submissionId, table.correctionIndex] })],
 );

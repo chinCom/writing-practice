@@ -1,6 +1,18 @@
 import { expect, it } from 'vitest';
-import { diffWriting, compareScores } from '@/lib/revision';
+import { diffWriting, compareScores, avoidedTargets } from '@/lib/revision';
 
+it('does not call a target fixed when uses fall below half the baseline', () => {
+  const baseline = [
+    { tag: 'verb-tense' as const, uses: 8, errors: 3, correction_indexes: [0, 1, 2] },
+  ];
+  expect(
+    avoidedTargets(baseline, [{ ...baseline[0], uses: 3, errors: 0, correction_indexes: [] }]),
+  ).toEqual(['verb-tense']);
+  expect(
+    avoidedTargets(baseline, [{ ...baseline[0], uses: 4, errors: 0, correction_indexes: [] }]),
+  ).toEqual([]);
+  expect(avoidedTargets(undefined, baseline)).toEqual([]);
+});
 it('reconstructs both texts without dropping whitespace or punctuation', () => {
   const parts = diffWriting('I go.\nHi!', 'I went.\nHi Maria!');
   expect(

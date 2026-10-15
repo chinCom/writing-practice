@@ -88,6 +88,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0008_curriculum.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0009_writing_course.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0010_target_evidence.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0011_self_revision.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -638,11 +639,60 @@ it('stores trusted target evidence atomically, privately and immutably through t
   expect(unsafe.status).toBe(200);
   expect((await unsafe.json()).data.feedback).not.toHaveProperty('target_report');
   expect((await asUser(owner, 'SELECT * FROM writing.target_evidence')).rows).toHaveLength(2);
+  const choiceRequest = (status: string) =>
+    new Request('http://localhost/api/corrections', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ submissionId: id, correctionIndex: 0, status }),
+    });
+  expect((await saveCorrectionChoice(choiceRequest('applied'))).status).toBe(403);
+  const explainRequest = new Request('http://localhost/api/explanation', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ submissionId: id, correctionIndex: 0 }),
+  });
+  expect((await explainSavedCorrection(explainRequest)).status).toBe(403);
   const revision = await checkWriting(
     request('00000000-0000-4000-8000-000000000098', { attempt: 2, parentSubmissionId: id }),
   );
   expect(revision.status).toBe(200);
   const revisionId = (await revision.json()).data.submissionId;
+  expect(
+    (
+      await database.query('SELECT revision_kind FROM writing.submissions WHERE id=$1', [
+        revisionId,
+      ])
+    ).rows,
+  ).toEqual([{ revision_kind: 'self' }]);
+  // Explicit Show me persists an immutable, owner-only assistance event.
+  const reveal = () =>
+    new Request('http://localhost/api/corrections', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ submissionId: id, correctionIndex: 0, reveal: true }),
+    });
+  expect((await saveCorrectionChoice(reveal())).status).toBe(200);
+  const savedChoices = await getCorrectionChoices(
+    new Request('http://localhost/api/corrections?submissionId=' + id),
+  );
+  expect((await savedChoices.json()).choices[0]).toMatchObject({ revealed: true });
+  expect((await asUser(bob, 'SELECT * FROM writing.target_assistance')).rows).toEqual([]);
+  await expect(asUser(owner, 'DELETE FROM writing.target_assistance')).rejects.toThrow(
+    /permission denied/,
+  );
+  // Applying after a revision still records assistance. Undo cannot erase that history.
+  expect((await saveCorrectionChoice(choiceRequest('applied'))).status).toBe(200);
+  expect((await saveCorrectionChoice(choiceRequest('open'))).status).toBe(200);
+  const assisted = await reserveSubmission(owner, {
+    taskId: lesson.task.id,
+    text: sampleDraft + ' Again.',
+    attempt: 2,
+    parentSubmissionId: id,
+  });
+  expect(
+    (await database.query('SELECT revision_kind FROM writing.submissions WHERE id=$1', [assisted]))
+      .rows,
+  ).toEqual([{ revision_kind: 'assisted' }]);
   expect(
     (
       await asUser(

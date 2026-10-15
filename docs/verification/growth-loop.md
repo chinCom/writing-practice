@@ -24,3 +24,14 @@ Implemented locally on `feat/growth-loop`. The [design](../superpowers/specs/202
 ### Limits and gates
 
 No hosted migration, live model call, push, or deployment occurred. Synthetic tests do not establish target-error precision or grader noise. The 40-text human-annotated study, 25% second review, and 30-text noise calibration remain pending. Native-speaker review of Vietnamese strings remains pending. M4 enforcement and reviewed content remain gated.
+
+## M2 — self-revision
+
+- Target answers, explanations, accessible labels, nearby previews, next-step answer hints, and rewrite stay hidden before revision or explicit “Show me”. Legacy and non-target corrections keep Apply.
+- Apply and Explain endpoints reject hidden target answers. Show me saves owner-only, immutable assistance history. Undo does not erase history. Revision reservations derive `revision_kind` from that history and inherit assistance from their parent.
+- Migration `0011_self_revision.sql` is additive and local only. Existing applied target choices seed assistance history. Old revisions keep unknown provenance (`NULL`).
+- Same-grader revisions report targets as avoided when uses fall below half the first attempt. They do not claim these targets were fixed.
+- Progress labels revision score changes “How much you fixed” and distinguishes revision practice from new-writing growth.
+- `npm run check`: 139 passed, 7 skipped. Full Playwright: 274 passed, 10 skipped. Production build passed. Desktop/mobile screenshots: `ux/screenshots/growth-self-revision-{desktop,mobile}.png`.
+- The first full check found an outdated page mock and the previously observed recovery-deadline timing flake. Updated the mock; the full rerun passed.
+- Author self-review only. No hosted sign-in, migration, paid model calls, or deployment. The UI hides answers; this is not a secrecy boundary against inspecting response data. Assistance provenance records app actions, not whether someone copied from another source.

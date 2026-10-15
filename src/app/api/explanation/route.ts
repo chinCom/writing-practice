@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { apiFailure, ApiError, readJson, requireApiUser } from '@/lib/api';
 import { loadFeedback } from '@/lib/db/queries';
+import { requireCorrectionAnswer } from '@/lib/db/corrections';
 import { failExplanation, finishExplanation, reserveExplanation } from '@/lib/db/explanations';
 import { explainCorrection } from '@/lib/llm/explain';
 import { LlmError } from '@/lib/llm/grade';
@@ -23,6 +24,7 @@ export async function POST(request: Request) {
     const correction = saved?.feedback.json.corrections[correctionIndex];
     if (!saved || !correction || saved.feedback.json.safety_flag)
       throw new ApiError('NOT_FOUND', 404);
+    await requireCorrectionAnswer(user.id, submissionId, correctionIndex);
     const reserved = await reserveExplanation(user.id, submissionId, correctionIndex);
     if (reserved.kind === 'completed')
       return NextResponse.json(

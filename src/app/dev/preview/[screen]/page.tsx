@@ -124,7 +124,9 @@ export default async function Page({
         preview
       />
     );
-  if (screen === 'feedback-targets' || screen === 'feedback-targets-safety') {
+  if (
+    ['feedback-targets', 'feedback-targets-safety', 'feedback-targets-revision'].includes(screen)
+  ) {
     return (
       <FeedbackView
         submissionId="preview"
@@ -138,6 +140,8 @@ export default async function Page({
           ],
           safety_flag: screen === 'feedback-targets-safety',
         }}
+        hasPreviousVersion={screen === 'feedback-targets-revision'}
+        attempt={screen === 'feedback-targets-revision' ? 2 : 1}
         mock
       />
     );

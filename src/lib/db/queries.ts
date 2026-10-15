@@ -8,6 +8,7 @@ import {
   feedbackRows,
   submissions,
   targetEvidence,
+  targetAssistance,
 } from './schema';
 import { targetsForUnit, validateTargetReport } from '@/lib/targets';
 import { countWords } from '@/lib/draft';
@@ -120,6 +121,23 @@ export async function reserveSubmission(userId: string, input: FeedbackInput, re
       )
         throw new Error('INVALID_PARENT');
     }
+    const [revisionParent] = input.parentSubmissionId
+      ? await database
+          .select()
+          .from(submissions)
+          .where(eq(submissions.id, input.parentSubmissionId))
+      : [];
+    const assistance = input.parentSubmissionId
+      ? await database
+          .select()
+          .from(targetAssistance)
+          .where(eq(targetAssistance.submissionId, input.parentSubmissionId))
+      : [];
+    const revisionKind = input.parentSubmissionId
+      ? assistance.length > 0 || revisionParent?.revisionKind === 'assisted'
+        ? ('assisted' as const)
+        : ('self' as const)
+      : null;
     const [submission] = await database
       .insert(submissions)
       .values({
@@ -130,6 +148,7 @@ export async function reserveSubmission(userId: string, input: FeedbackInput, re
         wordCount: countWords(input.text),
         attempt: input.attempt,
         parentSubmissionId: input.parentSubmissionId,
+        revisionKind,
       })
       .returning();
     await database
@@ -222,6 +241,24 @@ export async function loadFeedback(userId: string, submissionId: string) {
           .where(eq(submissions.id, submissionId))
       )[0] ?? null,
   );
+}
+export async function loadOriginalFeedback(userId: string, submissionId: string) {
+  return withUserDatabase(userId, async (database) => {
+    let id = submissionId;
+    for (let depth = 0; depth < 20; depth++) {
+      const [row] = await database.select().from(submissions).where(eq(submissions.id, id));
+      if (!row) return null;
+      if (!row.parentSubmissionId) {
+        return (
+          (
+            await database.select().from(feedbackRows).where(eq(feedbackRows.submissionId, id))
+          )[0] ?? null
+        );
+      }
+      id = row.parentSubmissionId;
+    }
+    return null;
+  });
 }
 export function recentSubmissions(userId: string) {
   return withUserDatabase(userId, recentSubmissionsInTransaction);

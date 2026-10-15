@@ -9,7 +9,9 @@ test('Progress compares first and latest checks and shows course completion', as
   await expect(table.getByRole('row', { name: /Grammar/ })).toContainText('3.3');
   await expect(table.getByRole('row', { name: /Errors per 100 words/ })).toBeVisible();
   await expect(improvement.getByText('Average score went from', { exact: false })).toBeVisible();
-  await expect(improvement.getByText(/Your revisions scored \+/)).toBeVisible();
+  await expect(
+    improvement.getByText(/How much you fixed: revision scores changed by \+/),
+  ).toBeVisible();
   await expect(improvement.getByText(/not CEFR or IELTS results/)).toBeVisible();
   const course = page.getByRole('region', { name: 'Your course' });
   await expect(course.getByText(/of 63 lessons/)).toBeVisible();

@@ -19,7 +19,7 @@ import HelpOutline from '@mui/icons-material/HelpOutlined';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
 import MarkedText from './MarkedText';
 import { maxRevisionAttempts } from '@/lib/limits';
-import { revisionText } from '@/lib/revision';
+import { revisionText, targetCorrectionIndexes } from '@/lib/revision';
 import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
 import ScoreBars from './ScoreBars';
 import TargetReport from './TargetReport';
@@ -34,6 +34,8 @@ export default function FeedbackView({
   feedback,
   mock,
   hasPreviousVersion = false,
+  hasSubmittedRevision = false,
+  avoided = [],
   initialChoices,
   taskId = 'weekend',
   attempt = 1,
@@ -44,6 +46,8 @@ export default function FeedbackView({
   feedback: LocatedFeedback;
   mock: boolean;
   hasPreviousVersion?: boolean;
+  hasSubmittedRevision?: boolean;
+  avoided?: string[];
   initialChoices?: CorrectionChoice[];
   taskId?: string;
   attempt?: number;
@@ -59,6 +63,17 @@ export default function FeedbackView({
   const preview = mock && submissionId === 'preview';
   const choiceState = useCorrectionChoices(submissionId, preview, initialChoices);
   useUnsavedWriting(choiceState.pending || choiceState.errors.length > 0, t('choiceLeave'));
+  const targetIndexes = targetCorrectionIndexes(feedback);
+  const answersUnlocked = hasPreviousVersion || attempt > 1 || hasSubmittedRevision;
+  const hiddenAnswers = new Set(
+    [...targetIndexes].filter(
+      (index) =>
+        !answersUnlocked &&
+        !choiceState.choices.some((item) => item.correctionIndex === index && item.revealed),
+    ),
+  );
+  const rewriteAvailable =
+    !targetIndexes.size || answersUnlocked || choiceState.choices.some((item) => item.revealed);
   const applied = new Set(
     choiceState.choices
       .filter((item) => item.status === 'applied')
@@ -114,7 +129,7 @@ export default function FeedbackView({
     }
   }
   const saveErrors = choiceState.errors
-    .filter((item) => 'status' in item.change)
+    .filter((item) => !('reason' in item.change))
     .map(({ change, code }) => (
       <Alert
         key={change.correctionIndex}
@@ -129,6 +144,8 @@ export default function FeedbackView({
       correction={correction}
       submissionId={submissionId}
       preview={mock && submissionId === 'preview'}
+      answerHidden={hiddenAnswers.has(active)}
+      onReveal={() => void choiceState.save({ correctionIndex: active, reveal: true })}
       index={active}
       total={total}
       applied={applied.has(active)}
@@ -183,6 +200,11 @@ export default function FeedbackView({
             {t('title')}
           </Typography>
           {feedback.target_report ? <TargetReport report={feedback.target_report} /> : null}
+          {avoided.map((tag) => (
+            <Alert key={tag} severity="info">
+              {t('targetAvoided', { topic: t('tags.' + tag) })}
+            </Alert>
+          ))}
           <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'start' }}>
             <Chip
               size="small"
@@ -288,6 +310,7 @@ export default function FeedbackView({
             corrections={feedback.corrections}
             active={active}
             applied={applied}
+            hiddenAnswers={hiddenAnswers}
             onSelect={select}
           />
           <Typography variant="caption" color="text.secondary" sx={{ marginBlockStart: 2 }}>
@@ -325,7 +348,7 @@ export default function FeedbackView({
                   {t('compare')}
                 </Button>
               ) : null}
-              {feedback.level_up_rewrite ? (
+              {feedback.level_up_rewrite && rewriteAvailable ? (
                 <Button
                   variant="outlined"
                   aria-expanded={rewrite}
@@ -335,7 +358,7 @@ export default function FeedbackView({
                 </Button>
               ) : null}
             </Stack>
-            <Collapse in={rewrite}>
+            <Collapse in={rewrite && rewriteAvailable} unmountOnExit>
               <Typography
                 dir="ltr"
                 sx={(currentTheme) => ({ ...currentTheme.typography.canvas, marginBlockStart: 3 })}
@@ -347,7 +370,7 @@ export default function FeedbackView({
               <Box component="span" sx={{ fontWeight: 600 }}>
                 {t('next')}:{' '}
               </Box>
-              {feedback.next_step}
+              {hiddenAnswers.size ? t('selfRevisionNext') : feedback.next_step}
             </Typography>
           </Box>
         </Paper>
@@ -380,19 +403,27 @@ export default function FeedbackView({
                   <Typography variant="subtitle2" color="secondary.main">
                     {t('tags.' + item.tag)}
                   </Typography>
-                  <Typography dir="ltr" variant="body2" sx={{ marginBlock: 1 }}>
-                    <Box component="del">{item.original}</Box>
-                    {' → '}
-                    <Box component="span" sx={{ color: 'success.dark', fontWeight: 600 }}>
-                      {item.suggestion}
-                    </Box>
-                  </Typography>
-                  <Typography variant="body2">{item.explanation}</Typography>
+                  {hiddenAnswers.has(index) ? (
+                    <Typography variant="body2" sx={{ marginBlock: 1 }}>
+                      {item.original} · {t('targetCue', { topic: t('tags.' + item.tag) })}
+                    </Typography>
+                  ) : (
+                    <>
+                      <Typography dir="ltr" variant="body2" sx={{ marginBlock: 1 }}>
+                        <Box component="del">{item.original}</Box>
+                        {' → '}
+                        <Box component="span" sx={{ color: 'success.dark', fontWeight: 600 }}>
+                          {item.suggestion}
+                        </Box>
+                      </Typography>
+                      <Typography variant="body2">{item.explanation}</Typography>
+                    </>
+                  )}
                 </ButtonBase>
               </Paper>
             );
           })}
-          {feedback.priorities.length > 1 ? (
+          {feedback.priorities.length > 1 && hiddenAnswers.size === 0 ? (
             <Stack sx={{ gap: 0.75, paddingBlockStart: 1 }}>
               <Typography variant="subtitle2">{t('priorities')}</Typography>
               {feedback.priorities.map((priority) => (
@@ -450,6 +481,8 @@ export default function FeedbackView({
             correction={correction}
             submissionId={submissionId}
             preview={mock && submissionId === 'preview'}
+            answerHidden={hiddenAnswers.has(active)}
+            onReveal={() => void choiceState.save({ correctionIndex: active, reveal: true })}
             index={active}
             total={total}
             applied={applied.has(active)}
