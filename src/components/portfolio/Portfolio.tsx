@@ -1,17 +1,28 @@
 'use client';
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
+import Skeleton from '@mui/material/Skeleton';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import type { PortfolioPage, WritingVersion } from '@/lib/revision';
+import PortfolioEntry from './PortfolioEntry';
+
+const visuallyHidden = {
+  position: 'absolute',
+  inlineSize: 1,
+  blockSize: 1,
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  whiteSpace: 'nowrap',
+} as const;
 
 export default function Portfolio({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('portfolio');
-  const format = useFormatter();
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const [entries, setEntries] = useState<WritingVersion[]>([]);
   const [offset, setOffset] = useState<number | null>(0);
   const [loading, setLoading] = useState(true);
@@ -93,39 +104,25 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
           {t(sessionExpired ? 'sessionExpired' : 'loadError')}
         </Alert>
       ) : null}
-      {entries.map((entry) => (
-        <Paper key={entry.id} variant="outlined" sx={{ p: 3 }}>
-          <Stack sx={{ gap: 1.5 }}>
-            <Typography variant="h3">{t('version', { n: entry.attempt })}</Typography>
-            <Typography variant="body2" color="text.secondary">
-              {format.dateTime(new Date(entry.createdAt), {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}{' '}
-              · {t('words', { n: entry.wordCount })}
-            </Typography>
-            <Typography dir="ltr" sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
-              {entry.text}
-            </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 1 }}>
-              <Button component={NextLink} href={'/feedback/' + entry.id}>
-                {t('open')}
-              </Button>
-              {entry.parentSubmissionId ? (
-                <Button
-                  variant="outlined"
-                  component={NextLink}
-                  href={preview ? '/dev/preview/revision' : '/revision/' + entry.id}
-                >
-                  {t('compare')}
-                </Button>
-              ) : null}
-            </Stack>
-          </Stack>
-        </Paper>
+      {entries.map((entry, order) => (
+        <PortfolioEntry key={entry.id} entry={entry} order={order} preview={preview} />
       ))}
-      {loading ? <Typography role="status">{t('loading')}</Typography> : null}
+      {loading ? (
+        <Stack sx={{ gap: 3 }}>
+          <Typography role="status" sx={visuallyHidden}>
+            {t('loading')}
+          </Typography>
+          {[0, 1].map((placeholder) => (
+            <Skeleton
+              key={placeholder}
+              aria-hidden="true"
+              variant="rounded"
+              height={150}
+              animation={reducedMotion ? false : 'pulse'}
+            />
+          ))}
+        </Stack>
+      ) : null}
       {!loading && !error && !entries.length ? (
         <Alert
           severity="info"

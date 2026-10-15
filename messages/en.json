@@ -28,7 +28,9 @@
     "delta": "Change",
     "scoreNote": "AI scores can vary. A higher score is not a certified assessment or proof of learning.",
     "openPrevious": "Open previous feedback",
-    "openCurrent": "Open current feedback"
+    "openCurrent": "Open current feedback",
+    "showMore": "Show full text",
+    "showLess": "Show less"
   },
   "app": {
     "portfolio": "Portfolio",

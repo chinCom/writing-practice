@@ -28,7 +28,9 @@
     "delta": "Thay đổi",
     "scoreNote": "Điểm AI có thể thay đổi. Điểm cao hơn không phải chứng nhận hay bằng chứng về tiến bộ.",
     "openPrevious": "Mở phản hồi trước",
-    "openCurrent": "Mở phản hồi hiện tại"
+    "openCurrent": "Mở phản hồi hiện tại",
+    "showMore": "Xem toàn bộ văn bản",
+    "showLess": "Thu gọn"
   },
   "app": {
     "portfolio": "Hồ sơ bài viết",
