@@ -49,7 +49,7 @@ Open `/dev/preview/path?course=full&track=core` or `/dev/preview/path?course=ful
 7. Confirm the intended database and its backup. Existing databases need migrations through `0009_writing_course.sql` before seeding. No additional migration is required for track support.
 8. Run `npm run curriculum:seed` with the intended `DATABASE_URL`.
 
-The seeder validates both approvals and combined content before opening a database connection. It upserts all 29 units in one transaction without deleting learner writing or progress. Missing or stale approval blocks the entire seed. No teacher approval or hosted content seed was performed for this slice.
+The seeder validates both approvals and combined content before opening a database connection. It upserts all 29 units in one transaction without deleting learner writing or progress. Missing or stale approval blocks the entire seed. On 2026-10-15, both tracks were approved by chinhCom and seeded to the hosted database: 29 units, 87 lessons.
 
 Hosted migration `0009` was applied previously with user approval. See [hosted schema verification](../docs/verification/today-database.md#hosted-schema-upgrade).
 
