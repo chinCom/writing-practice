@@ -532,5 +532,189 @@
     "suggestion": "Coach suggestion",
     "close": "Close suggestion",
     "inWriting": "The coach's question is next to the highlighted part of your writing."
+  },
+  "landing": {
+    "title": "Write in English. See what to fix.",
+    "body": "Writing coach marks your mistakes on the page, explains them in short English, and helps you revise. Practice with lessons from first words to advanced essays.",
+    "start": "Start writing for free",
+    "signIn": "Sign in",
+    "demoLabel": "Try it: edit this sentence",
+    "demoText": "Yesterday I go to the the park and eated an ice cream.",
+    "demoResult": "Your marked sentence",
+    "demoClear": "No mistakes found by these quick checks. The full coach checks much more after you sign in.",
+    "demoLocal": "This demo runs only in your browser. It checks a few common mistakes and sends nothing to a server. The full coach uses AI after you sign in.",
+    "steps": {
+      "write": {
+        "title": "Write",
+        "body": "Answer a short task at your level, from a few words to a full essay."
+      },
+      "mark": {
+        "title": "See your marks",
+        "body": "The coach underlines each mistake and explains it when you ask."
+      },
+      "revise": {
+        "title": "Revise",
+        "body": "Apply fixes, rewrite, and compare your new version with the first one."
+      }
+    }
+  },
+  "legal": {
+    "nav": "Legal",
+    "draft": "Draft under legal review. This text is not final. Items in [brackets] still need confirmation.",
+    "effective": "Effective date: [EFFECTIVE DATE]",
+    "privacy": {
+      "title": "Privacy policy",
+      "sections": [
+        {
+          "title": "Who we are",
+          "body": [
+            "Writing coach is operated by [OPERATOR NAME], [COUNTRY]. Contact us at [CONTACT EMAIL] about this policy or your data."
+          ]
+        },
+        {
+          "title": "What we collect",
+          "body": [
+            "Account data: your email address. If you sign in with Google, we also receive the basic profile data that Google shares, such as your name.",
+            "Profile and settings: your native language, goal, self-reported level, daily study time, weekly goal, and interface preferences.",
+            "Your writing and learning data: drafts, submitted writing, revisions, AI feedback, explanations, correction choices and reports, practice answers, and progress.",
+            "Technical data: sign-in session cookies, daily usage counts, and the IP address and request logs that our hosting and database providers process to run the service."
+          ]
+        },
+        {
+          "title": "How we use your data",
+          "body": [
+            "We use your data to run your account, save your work, check your writing, show your progress, enforce daily limits, prevent abuse, and fix problems.",
+            "We do not sell your data. We do not use it for advertising."
+          ]
+        },
+        {
+          "title": "AI processing",
+          "body": [
+            "Your writing is processed by a third-party AI provider, DeepSeek. We send your writing to the AI provider only when you ask for a check, an explanation, a placement result, or development help.",
+            "We send the writing, the task, your level, and your native language. We do not send your name or email address.",
+            "The AI provider may process data outside your country, including in [AI PROVIDER COUNTRY]. AI feedback can be wrong.",
+            "The live demo on the home page runs only in your browser and sends nothing to a server."
+          ]
+        },
+        {
+          "title": "Service providers",
+          "body": [
+            "Supabase stores accounts and app data. DeepSeek processes writing for AI feedback. Google handles Google sign-in if you choose it. [HOSTING PROVIDER] hosts the website.",
+            "Each provider processes data only to provide its service to us."
+          ]
+        },
+        {
+          "title": "Cookies and browser storage",
+          "body": [
+            "We use cookies that keep you signed in and remember your language. Your browser also stores your appearance setting and unsaved drafts.",
+            "We do not use advertising or analytics cookies."
+          ]
+        },
+        {
+          "title": "How long we keep data",
+          "body": [
+            "We keep your data while your account is active. After you ask us to delete your account, we delete your data within [RETENTION PERIOD], unless the law requires us to keep it. Backups expire within [BACKUP PERIOD]."
+          ]
+        },
+        {
+          "title": "Your rights",
+          "body": [
+            "You can ask to access, export, correct, or delete your data. Email [CONTACT EMAIL] from the address on your account. In-app export and deletion are not available yet.",
+            "You can also complain to the data protection authority in your country."
+          ]
+        },
+        {
+          "title": "Children",
+          "body": [
+            "You must be at least 13 years old to use Writing coach. If the law in your country requires parental consent at your age, a parent or guardian must agree before you use the service.",
+            "If you think a child has given us data without the required consent, contact [CONTACT EMAIL] and we will delete it."
+          ]
+        },
+        {
+          "title": "Security",
+          "body": [
+            "We use encrypted connections and access rules so that only you can read your writing. No system is completely secure."
+          ]
+        },
+        {
+          "title": "Changes to this policy",
+          "body": [
+            "If we change this policy, we will update the effective date. For important changes, we will tell you in the app or by email."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of use",
+      "sections": [
+        {
+          "title": "Agreement",
+          "body": [
+            "These terms apply when you use Writing coach, which is operated by [OPERATOR NAME]. If you use the service, you agree to these terms and to the privacy policy."
+          ]
+        },
+        {
+          "title": "Who can use the service",
+          "body": [
+            "You must be at least 13 years old. If the law in your country requires parental consent at your age, a parent or guardian must agree to these terms for you."
+          ]
+        },
+        {
+          "title": "Your account",
+          "body": [
+            "Keep access to your email or Google account secure. You are responsible for activity on your account. Tell us at [CONTACT EMAIL] if you think someone else used it."
+          ]
+        },
+        {
+          "title": "Your writing",
+          "body": [
+            "You keep the rights to your writing. You allow us to store, process, and send it to our service providers, including the AI provider, only to provide the service to you.",
+            "Do not submit other people's personal data or content that you do not have the right to share."
+          ]
+        },
+        {
+          "title": "AI feedback and levels",
+          "body": [
+            "Feedback, corrections, scores, and level estimates come from AI and automatic checks. They can be wrong. Use them as practice guidance.",
+            "Level and band estimates are practice estimates. They are not official CEFR or IELTS results. Writing coach is not affiliated with IELTS or its owners."
+          ]
+        },
+        {
+          "title": "Acceptable use",
+          "body": [
+            "Do not use the service to break the law, harass people, or submit harmful content. Do not try to bypass daily limits, overload the service, access other accounts, or collect data automatically.",
+            "We can limit or suspend accounts that break these rules."
+          ]
+        },
+        {
+          "title": "Changes and availability",
+          "body": [
+            "The service is currently free and in development. We can change, limit, or stop features. Daily limits apply to AI checks and explanations."
+          ]
+        },
+        {
+          "title": "Disclaimers and liability",
+          "body": [
+            "We provide the service as it is, without guarantees, to the extent the law allows. Our liability is limited to the extent the law allows. Nothing in these terms limits rights that the law does not allow us to limit."
+          ]
+        },
+        {
+          "title": "Ending your use",
+          "body": [
+            "You can stop using the service at any time. To delete your account and data, email [CONTACT EMAIL]."
+          ]
+        },
+        {
+          "title": "Governing law",
+          "body": [
+            "The laws of [COUNTRY] apply to these terms, unless the law of your country gives you other rights."
+          ]
+        },
+        {
+          "title": "Contact",
+          "body": ["Send questions about these terms to [CONTACT EMAIL]."]
+        }
+      ]
+    }
   }
 }

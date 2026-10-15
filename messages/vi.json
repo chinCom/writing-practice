@@ -532,5 +532,189 @@
     "suggestion": "Gợi ý của trợ lý",
     "close": "Đóng gợi ý",
     "inWriting": "Câu hỏi của trợ lý nằm cạnh phần được tô sáng trong bài viết của bạn."
+  },
+  "landing": {
+    "title": "Viết bằng tiếng Anh. Thấy ngay chỗ cần sửa.",
+    "body": "Writing coach đánh dấu lỗi ngay trên bài viết, giải thích bằng tiếng Anh ngắn gọn và giúp bạn sửa bài. Luyện tập với các bài học từ những từ đầu tiên đến bài luận nâng cao.",
+    "start": "Bắt đầu viết miễn phí",
+    "signIn": "Đăng nhập",
+    "demoLabel": "Thử ngay: sửa câu này",
+    "demoText": "Yesterday I go to the the park and eated an ice cream.",
+    "demoResult": "Câu của bạn đã được đánh dấu",
+    "demoClear": "Các bước kiểm tra nhanh này không tìm thấy lỗi. Sau khi đăng nhập, công cụ đầy đủ sẽ kiểm tra kỹ hơn nhiều.",
+    "demoLocal": "Bản thử này chỉ chạy trong trình duyệt của bạn. Nó kiểm tra một vài lỗi thường gặp và không gửi gì đến máy chủ. Sau khi đăng nhập, công cụ đầy đủ sẽ dùng AI.",
+    "steps": {
+      "write": {
+        "title": "Viết",
+        "body": "Làm một bài viết ngắn đúng trình độ, từ vài từ đến một bài luận hoàn chỉnh."
+      },
+      "mark": {
+        "title": "Xem các đánh dấu",
+        "body": "Công cụ gạch chân từng lỗi và giải thích khi bạn yêu cầu."
+      },
+      "revise": {
+        "title": "Sửa bài",
+        "body": "Áp dụng gợi ý, viết lại và so sánh bản mới với bản đầu tiên."
+      }
+    }
+  },
+  "legal": {
+    "nav": "Pháp lý",
+    "draft": "Bản nháp đang được xem xét pháp lý. Nội dung này chưa phải bản cuối. Các mục trong [ngoặc vuông] vẫn cần xác nhận.",
+    "effective": "Ngày hiệu lực: [EFFECTIVE DATE]",
+    "privacy": {
+      "title": "Chính sách quyền riêng tư",
+      "sections": [
+        {
+          "title": "Chúng tôi là ai",
+          "body": [
+            "Writing coach do [OPERATOR NAME], [COUNTRY] vận hành. Liên hệ với chúng tôi qua [CONTACT EMAIL] về chính sách này hoặc dữ liệu của bạn."
+          ]
+        },
+        {
+          "title": "Dữ liệu chúng tôi thu thập",
+          "body": [
+            "Dữ liệu tài khoản: địa chỉ email của bạn. Nếu bạn đăng nhập bằng Google, chúng tôi cũng nhận dữ liệu hồ sơ cơ bản mà Google chia sẻ, chẳng hạn như tên của bạn.",
+            "Hồ sơ và cài đặt: ngôn ngữ mẹ đẻ, mục tiêu, trình độ tự đánh giá, thời gian học mỗi ngày, mục tiêu hằng tuần và tùy chọn giao diện.",
+            "Bài viết và dữ liệu học tập: bản nháp, bài đã nộp, bản sửa, phản hồi của AI, phần giải thích, lựa chọn và báo cáo về các gợi ý sửa, câu trả lời luyện tập và tiến độ.",
+            "Dữ liệu kỹ thuật: cookie phiên đăng nhập, số lượt sử dụng mỗi ngày, địa chỉ IP và nhật ký yêu cầu mà nhà cung cấp lưu trữ và cơ sở dữ liệu xử lý để vận hành dịch vụ."
+          ]
+        },
+        {
+          "title": "Cách chúng tôi sử dụng dữ liệu",
+          "body": [
+            "Chúng tôi dùng dữ liệu để vận hành tài khoản, lưu bài của bạn, kiểm tra bài viết, hiển thị tiến độ, áp dụng giới hạn hằng ngày, ngăn chặn lạm dụng và sửa lỗi.",
+            "Chúng tôi không bán dữ liệu của bạn và không dùng dữ liệu cho quảng cáo."
+          ]
+        },
+        {
+          "title": "Xử lý bằng AI",
+          "body": [
+            "Bài viết của bạn được xử lý bởi một nhà cung cấp AI bên thứ ba là DeepSeek. Chúng tôi chỉ gửi bài viết đến nhà cung cấp AI khi bạn yêu cầu kiểm tra, giải thích, xếp trình độ hoặc hỗ trợ phát triển bài viết.",
+            "Chúng tôi gửi bài viết, đề bài, trình độ và ngôn ngữ mẹ đẻ của bạn. Chúng tôi không gửi tên hoặc địa chỉ email của bạn.",
+            "Nhà cung cấp AI có thể xử lý dữ liệu bên ngoài quốc gia của bạn, bao gồm tại [AI PROVIDER COUNTRY]. Phản hồi của AI có thể sai.",
+            "Bản thử trực tiếp trên trang chủ chỉ chạy trong trình duyệt của bạn và không gửi gì đến máy chủ."
+          ]
+        },
+        {
+          "title": "Nhà cung cấp dịch vụ",
+          "body": [
+            "Supabase lưu trữ tài khoản và dữ liệu ứng dụng. DeepSeek xử lý bài viết để tạo phản hồi AI. Google xử lý việc đăng nhập bằng Google nếu bạn chọn. [HOSTING PROVIDER] lưu trữ trang web.",
+            "Mỗi nhà cung cấp chỉ xử lý dữ liệu để cung cấp dịch vụ của họ cho chúng tôi."
+          ]
+        },
+        {
+          "title": "Cookie và bộ nhớ trình duyệt",
+          "body": [
+            "Chúng tôi dùng cookie để giữ bạn đăng nhập và ghi nhớ ngôn ngữ. Trình duyệt của bạn cũng lưu cài đặt giao diện và các bản nháp chưa lưu.",
+            "Chúng tôi không dùng cookie quảng cáo hoặc phân tích."
+          ]
+        },
+        {
+          "title": "Thời gian lưu giữ dữ liệu",
+          "body": [
+            "Chúng tôi lưu dữ liệu khi tài khoản của bạn còn hoạt động. Sau khi bạn yêu cầu xóa tài khoản, chúng tôi xóa dữ liệu trong vòng [RETENTION PERIOD], trừ khi pháp luật yêu cầu lưu giữ. Bản sao lưu hết hạn trong vòng [BACKUP PERIOD]."
+          ]
+        },
+        {
+          "title": "Quyền của bạn",
+          "body": [
+            "Bạn có thể yêu cầu truy cập, xuất, sửa hoặc xóa dữ liệu của mình. Hãy gửi email đến [CONTACT EMAIL] từ địa chỉ gắn với tài khoản. Tính năng xuất và xóa dữ liệu trong ứng dụng chưa có.",
+            "Bạn cũng có thể khiếu nại với cơ quan bảo vệ dữ liệu tại quốc gia của bạn."
+          ]
+        },
+        {
+          "title": "Trẻ em",
+          "body": [
+            "Bạn phải từ 13 tuổi trở lên để sử dụng Writing coach. Nếu pháp luật tại quốc gia của bạn yêu cầu sự đồng ý của cha mẹ ở độ tuổi của bạn, cha mẹ hoặc người giám hộ phải đồng ý trước khi bạn sử dụng dịch vụ.",
+            "Nếu bạn cho rằng một trẻ em đã cung cấp dữ liệu cho chúng tôi mà không có sự đồng ý cần thiết, hãy liên hệ [CONTACT EMAIL] và chúng tôi sẽ xóa dữ liệu đó."
+          ]
+        },
+        {
+          "title": "Bảo mật",
+          "body": [
+            "Chúng tôi dùng kết nối được mã hóa và quy tắc truy cập để chỉ bạn mới đọc được bài viết của mình. Không có hệ thống nào an toàn tuyệt đối."
+          ]
+        },
+        {
+          "title": "Thay đổi chính sách",
+          "body": [
+            "Nếu thay đổi chính sách này, chúng tôi sẽ cập nhật ngày hiệu lực. Với các thay đổi quan trọng, chúng tôi sẽ thông báo trong ứng dụng hoặc qua email."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Điều khoản sử dụng",
+      "sections": [
+        {
+          "title": "Thỏa thuận",
+          "body": [
+            "Các điều khoản này áp dụng khi bạn sử dụng Writing coach, do [OPERATOR NAME] vận hành. Khi sử dụng dịch vụ, bạn đồng ý với các điều khoản này và chính sách quyền riêng tư."
+          ]
+        },
+        {
+          "title": "Ai có thể sử dụng dịch vụ",
+          "body": [
+            "Bạn phải từ 13 tuổi trở lên. Nếu pháp luật tại quốc gia của bạn yêu cầu sự đồng ý của cha mẹ ở độ tuổi của bạn, cha mẹ hoặc người giám hộ phải đồng ý với các điều khoản này thay cho bạn."
+          ]
+        },
+        {
+          "title": "Tài khoản của bạn",
+          "body": [
+            "Hãy giữ an toàn cho email hoặc tài khoản Google của bạn. Bạn chịu trách nhiệm về hoạt động trên tài khoản của mình. Hãy báo cho chúng tôi qua [CONTACT EMAIL] nếu bạn nghĩ người khác đã sử dụng tài khoản đó."
+          ]
+        },
+        {
+          "title": "Bài viết của bạn",
+          "body": [
+            "Bạn giữ quyền đối với bài viết của mình. Bạn cho phép chúng tôi lưu trữ, xử lý và gửi bài viết đến các nhà cung cấp dịch vụ, bao gồm nhà cung cấp AI, chỉ để cung cấp dịch vụ cho bạn.",
+            "Không gửi dữ liệu cá nhân của người khác hoặc nội dung mà bạn không có quyền chia sẻ."
+          ]
+        },
+        {
+          "title": "Phản hồi AI và trình độ",
+          "body": [
+            "Phản hồi, gợi ý sửa, điểm số và ước tính trình độ đến từ AI và các bước kiểm tra tự động. Chúng có thể sai. Hãy dùng chúng làm hướng dẫn luyện tập.",
+            "Các ước tính trình độ và band là ước tính luyện tập, không phải kết quả CEFR hoặc IELTS chính thức. Writing coach không liên kết với IELTS hoặc các chủ sở hữu của IELTS."
+          ]
+        },
+        {
+          "title": "Sử dụng hợp lệ",
+          "body": [
+            "Không dùng dịch vụ để vi phạm pháp luật, quấy rối người khác hoặc gửi nội dung có hại. Không cố vượt qua giới hạn hằng ngày, làm quá tải dịch vụ, truy cập tài khoản khác hoặc thu thập dữ liệu tự động.",
+            "Chúng tôi có thể giới hạn hoặc tạm ngưng các tài khoản vi phạm những quy tắc này."
+          ]
+        },
+        {
+          "title": "Thay đổi và tính sẵn sàng",
+          "body": [
+            "Dịch vụ hiện miễn phí và đang được phát triển. Chúng tôi có thể thay đổi, giới hạn hoặc ngừng các tính năng. Giới hạn hằng ngày áp dụng cho việc kiểm tra và giải thích bằng AI."
+          ]
+        },
+        {
+          "title": "Miễn trừ và giới hạn trách nhiệm",
+          "body": [
+            "Chúng tôi cung cấp dịch vụ theo hiện trạng, không có bảo đảm, trong phạm vi pháp luật cho phép. Trách nhiệm của chúng tôi được giới hạn trong phạm vi pháp luật cho phép. Không điều khoản nào giới hạn các quyền mà pháp luật không cho phép chúng tôi giới hạn."
+          ]
+        },
+        {
+          "title": "Ngừng sử dụng",
+          "body": [
+            "Bạn có thể ngừng sử dụng dịch vụ bất cứ lúc nào. Để xóa tài khoản và dữ liệu, hãy gửi email đến [CONTACT EMAIL]."
+          ]
+        },
+        {
+          "title": "Luật áp dụng",
+          "body": [
+            "Pháp luật của [COUNTRY] áp dụng cho các điều khoản này, trừ khi pháp luật tại quốc gia của bạn cho bạn các quyền khác."
+          ]
+        },
+        {
+          "title": "Liên hệ",
+          "body": ["Gửi câu hỏi về các điều khoản này đến [CONTACT EMAIL]."]
+        }
+      ]
+    }
   }
 }

@@ -10,6 +10,7 @@ import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import { signIn } from '@/app/login/actions';
+import LegalLinks from '@/components/landing/LegalLinks';
 export default function Login({
   configured,
   callbackError = false,
@@ -96,6 +97,7 @@ export default function Login({
         {state === 'sent' ? <Alert severity="success">{t('sent')}</Alert> : null}
         {state === 'error' ? <Alert severity="error">{t('error')}</Alert> : null}
         <Typography variant="caption">{t('privacy')}</Typography>
+        <LegalLinks />
       </Stack>
     </Paper>
   );
