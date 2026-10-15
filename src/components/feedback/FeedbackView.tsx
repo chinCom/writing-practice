@@ -22,6 +22,7 @@ import { maxRevisionAttempts } from '@/lib/limits';
 import { revisionText } from '@/lib/revision';
 import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
 import ScoreBars from './ScoreBars';
+import TargetReport from './TargetReport';
 import CorrectionCard from './CorrectionCard';
 import ConnectorLayer from './ConnectorLayer';
 import { useCorrectionChoices } from './use-correction-choices';
@@ -181,6 +182,7 @@ export default function FeedbackView({
           <Typography component="h1" variant="h1">
             {t('title')}
           </Typography>
+          {feedback.target_report ? <TargetReport report={feedback.target_report} /> : null}
           <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'start' }}>
             <Chip
               size="small"

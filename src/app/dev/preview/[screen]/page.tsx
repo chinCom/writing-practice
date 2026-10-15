@@ -124,6 +124,24 @@ export default async function Page({
         preview
       />
     );
+  if (screen === 'feedback-targets' || screen === 'feedback-targets-safety') {
+    return (
+      <FeedbackView
+        submissionId="preview"
+        text={sampleDraft}
+        feedback={{
+          ...markedPageSample,
+          corrections: locateCorrections(sampleDraft, markedPageSample.corrections),
+          target_report: [
+            { tag: 'verb-tense', uses: 6, errors: 3, correction_indexes: [0, 1, 2] },
+            { tag: 'articles', uses: 0, errors: 0, correction_indexes: [] },
+          ],
+          safety_flag: screen === 'feedback-targets-safety',
+        }}
+        mock
+      />
+    );
+  }
   if (screen === 'feedback' || screen === 'feedback-many') {
     const feedback = screen === 'feedback-many' ? manyCorrectionsSample : markedPageSample;
     const text = screen === 'feedback-many' ? manyCorrectionsText : sampleDraft;

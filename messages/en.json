@@ -219,6 +219,10 @@
     "account": "Your writing account"
   },
   "feedback": {
+    "targetsTitle": "Your targets",
+    "targetCorrect": "{correct, number} of {uses, number} uses correct",
+    "targetErrors": "{errors, plural, =0 {No target errors to review} one {# error to review} other {# errors to review}}",
+    "targetUnused": "Not used in this writing. Try this target in your next draft.",
     "reportError": "Your report could not be saved. Keep the selected reason and try again.",
     "dismiss": "Dismiss suggestion",
     "restore": "Restore suggestion",

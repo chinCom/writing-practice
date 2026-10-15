@@ -7,6 +7,8 @@
 
 ## 0. Status
 
+- Growth loop M1: trusted Core unit targets, validated optional target reports, atomic owner-only evidence, and target-first feedback work locally. Pass rules and revision controls are unchanged. Migration `0010_target_evidence.sql` is local only. Checks: 138 tests passed / 7 skipped; Playwright 268 passed / 10 skipped; production build passed. See [growth-loop evidence and limits](docs/verification/growth-loop.md). M2 onward remains incomplete; human evaluation and content-review gates remain active.
+
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
 - Portfolio: skeleton loading placeholders, long entries clamp to four lines with a show-more toggle, entries fade in with a short stagger; static under reduced motion (`tests/e2e/portfolio-motion.spec.ts`)
 - Progress: first-attempt rubric and error-rate trends, then-vs-now comparison, revision gain, and Core/IELTS course completion. Today follows the Core path (placement → lesson → writing) and shows goal-met and improvement status. No migration.
@@ -68,7 +70,7 @@ An AI coach (DeepSeek V4.1 Flash) reads what the learner writes, gives structure
 
 1. **Revision beats correction.** Learners improve by rewriting, not by reading corrections. Every feedback screen ends in a "revise" action.
 2. **Few, clear priorities.** Max 3 priorities per submission. Never a wall of red.
-3. **Strengths first.** Feedback always opens with something specific the learner did well.
+3. **Focused feedback.** Show the unit target report first when available, then something specific the learner did well. Legacy feedback opens with strengths.
 4. **Level-appropriate.** Explanations and suggested vocabulary must not exceed the learner's level by more than one CEFR step.
 5. **Learner's language helps.** Offer explanations in the learner's native language for Pre-A1–B1.
 6. **Cheap by default.** Use auto-graded drills and pre-generated content wherever AI isn't needed.
