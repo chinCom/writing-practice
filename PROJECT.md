@@ -8,6 +8,7 @@
 ## 0. Status
 
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
+- Progress: level chart animates with markers and a light area fill, calendar marks today (`aria-current="date"`) and written days pop in; static under reduced motion (`tests/e2e/progress-motion.spec.ts`)
 - Practice: segmented violet step progress, result alert eases in, question card fades without remounting (focus stays in the answer field), completion check pops; static under reduced motion (`tests/e2e/practice-motion.spec.ts`)
 - Learning path: lessons are a node timeline (done, current, available, locked, checkpoint) with a drawn progress line and a two-pulse current marker; links and disabled Locked buttons keep their accessible names (`tests/e2e/path-motion.spec.ts`)
 - Today motion: weekly goal ring fills once to the real value and written-day checks pop in sequence; static under reduced motion (`tests/e2e/today-motion.spec.ts`)

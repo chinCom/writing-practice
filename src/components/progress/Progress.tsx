@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -12,6 +13,7 @@ import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { LineChart } from '@mui/x-charts/LineChart';
 import type { ProgressSummary } from '@/lib/progress';
+import { tickPop } from '@/theme/theme';
 import ReviewInsights from './ReviewInsights';
 
 const levels = ['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -22,6 +24,8 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
   const first = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
   const count = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() + 1, 0)).getUTCDate();
   const offset = (first.getUTCDay() + 6) % 7;
+  const todayKey = today.toISOString().slice(0, 10);
+  let writtenOrder = 0;
   return (
     <Paper sx={{ p: 3 }}>
       <Typography variant="h3" sx={{ mb: 2 }}>
@@ -41,7 +45,10 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
         ))}
         {Array.from({ length: count }, (_, index) => {
           const date = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), index + 1));
-          const written = data.writingDays.includes(date.toISOString().slice(0, 10));
+          const key = date.toISOString().slice(0, 10);
+          const written = data.writingDays.includes(key);
+          const current = key === todayKey;
+          const order = written ? writtenOrder++ : 0;
           const label = format.dateTime(date, {
             month: 'long',
             day: 'numeric',
@@ -52,6 +59,7 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
             <Box
               key={index}
               role="img"
+              aria-current={current ? 'date' : undefined}
               aria-label={t(written ? 'writingDay' : 'noWriting', { date: label })}
               sx={{
                 aspectRatio: '1',
@@ -60,6 +68,15 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
                 borderRadius: '50%',
                 bgcolor: written ? 'success.dark' : 'transparent',
                 color: written ? 'success.contrastText' : 'text.primary',
+                outline: current ? '2px solid' : 'none',
+                outlineColor: 'primary.main',
+                outlineOffset: 2,
+                '@media (prefers-reduced-motion: no-preference)': written
+                  ? {
+                      animation: `${tickPop} 220ms cubic-bezier(0.22, 0.7, 0.2, 1) backwards`,
+                      animationDelay: order * 70 + 'ms',
+                    }
+                  : {},
               }}
             >
               <Typography variant="caption">{index + 1}</Typography>
@@ -77,6 +94,7 @@ export function ProgressPanels({ data }: { data: ProgressSummary }) {
   const t = useTranslations('progress');
   const format = useFormatter();
   const theme = useTheme();
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const maximum = Math.max(1, ...data.errors.map((item) => item.count));
   return (
     <Stack sx={{ gap: 3 }}>
@@ -104,7 +122,7 @@ export function ProgressPanels({ data }: { data: ProgressSummary }) {
           {data.trajectory.length ? (
             <LineChart
               height={260}
-              skipAnimation
+              skipAnimation={reducedMotion}
               xAxis={[
                 {
                   data: data.trajectory.map((item) => new Date(item.at)),
@@ -127,6 +145,7 @@ export function ProgressPanels({ data }: { data: ProgressSummary }) {
                   data: data.trajectory.map((item) => levels.indexOf(item.level)),
                   color: theme.palette.success.main,
                   area: true,
+                  showMark: true,
                   label: t('estimate'),
                   valueFormatter: (value) => (value === null ? '' : levels[value]),
                 },

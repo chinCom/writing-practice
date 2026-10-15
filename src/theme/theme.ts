@@ -1,6 +1,7 @@
 import type { CSSObject } from '@mui/material/styles';
 import { createTheme, keyframes } from '@mui/material/styles';
 import type { PaletteOptions } from '@mui/material/styles';
+import '@mui/x-charts/themeAugmentation';
 import { tokens } from './tokens';
 
 // Determinate bars grow in once. Only the bar's transform animates, so aria-valuenow stays exact.
@@ -277,6 +278,10 @@ export function makeTheme(today = false, cssVarPrefix = 'mui') {
         },
       },
       MuiOutlinedInput: { styleOverrides: { root: { borderRadius: tokens.radius.md } } },
+      MuiLineChart: {
+        // The line carries the value. A light fill keeps a flat level from becoming a solid block.
+        defaultProps: { sx: { '& .MuiLineChart-area': { fillOpacity: 0.16 } } },
+      },
       MuiCircularProgress: {
         // Rings fill slowly, then ease out. The component sets the value after mount.
         variants: [
