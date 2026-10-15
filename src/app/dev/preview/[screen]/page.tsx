@@ -21,7 +21,13 @@ import { sampleDraft } from '@/mocks/draft.sample';
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { manyCorrectionsSample, manyCorrectionsText } from '@/mocks/manyCorrections.sample';
 import { progressSample } from '@/mocks/progress.sample';
-import { todayProgressSample, todaySubmissionsSample, todayPathSample } from '@/mocks/today.sample';
+import {
+  todayProgressSample,
+  todaySubmissionsSample,
+  todayPathSample,
+  todayNextSample,
+  todayGoalMetSample,
+} from '@/mocks/today.sample';
 export default async function Page({
   params,
   searchParams,
@@ -82,12 +88,23 @@ export default async function Page({
       <Today
         preview
         progress={todayProgressSample}
+        next={todayNextSample}
         submissions={todaySubmissionsSample}
         due={12}
         path={todayPathSample}
         pastTense
       />
     );
+  if (screen === 'today-placement')
+    return (
+      <Today
+        preview
+        progress={todayProgressSample}
+        next={{ kind: 'placement', href: '/placement' }}
+      />
+    );
+  if (screen === 'today-goal-met')
+    return <Today preview progress={todayGoalMetSample} weeklyGoal={5} next={todayNextSample} />;
   if (screen === 'today-goal') return <GoalPreview />;
   if (screen === 'settings')
     return <Settings preferences={{ explanation: 'en', daily: '15' }} signedIn preview />;

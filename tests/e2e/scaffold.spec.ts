@@ -4,7 +4,7 @@ test('daily preview opens a locally saved writing draft without automatic correc
 }) => {
   await page.goto('/dev/preview/today');
   await expect(page.getByRole('heading', { name: 'Make room for a little writing' })).toBeVisible();
-  await page.getByRole('link', { name: 'Start writing', exact: true }).click();
+  await page.getByRole('link', { name: 'Start lesson', exact: true }).click();
   const writing = page.getByRole('textbox', { name: 'Your writing' });
   await expect(writing).toHaveAttribute('spellcheck', 'false');
   await expect(writing).toHaveCSS('overflow-y', 'auto');

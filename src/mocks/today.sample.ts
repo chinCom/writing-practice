@@ -1,4 +1,22 @@
 import { summarizeProgress } from '@/lib/progress';
+import { nextTask } from '@/lib/next-task';
+import { pathSample } from '@/mocks/curriculum.sample';
+import { progressSample } from '@/mocks/progress.sample';
+
+export const todayNextSample = nextTask(pathSample);
+export const todayGoalMetSample = {
+  ...summarizeProgress(
+    Array.from({ length: 10 }, (_, index) => ({
+      at: '2026-10-14T' + String(index).padStart(2, '0') + ':00:00Z',
+      words: 60,
+      level: 'A2',
+      corrections: [],
+    })),
+    [],
+    new Date('2026-10-14T12:00:00Z'),
+  ),
+  improvement: progressSample.improvement,
+};
 import { summarizeImprovement } from '@/lib/improvement';
 import type { SavedSubmission } from '@/components/today/SavedFeedback';
 import type { LearningSnapshotData } from '@/components/today/LearningSnapshot';
