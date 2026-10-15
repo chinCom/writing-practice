@@ -9,10 +9,14 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
 import LinearProgress from '@mui/material/LinearProgress';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import CalendarMonthOutlined from '@mui/icons-material/CalendarMonthOutlined';
 import WritingField from '@/components/ui/WritingField';
 import HintText from '@/components/ui/HintText';
+import { tickPop } from '@/theme/theme';
 import type { PracticeAnswer, PracticeQuestion } from '@/lib/practice';
 
 function PracticeHint({ result }: { result: PracticeAnswer }) {
@@ -33,6 +37,37 @@ function PracticeHint({ result }: { result: PracticeAnswer }) {
   if (hint?.kind === 'phrase')
     return <HintText text={t('retryPhrase', { phrase: hint.phrase })} terms={[hint.phrase]} />;
   return <HintText text={t('retryGeneric')} terms={[]} />;
+}
+
+// One segment per question: finished and current segments use the secondary color, later ones stay outlined.
+function PracticeSteps({ index, total, label }: { index: number; total: number; label: string }) {
+  return (
+    <Stack
+      direction="row"
+      role="progressbar"
+      aria-label={label}
+      aria-valuemin={0}
+      aria-valuemax={total}
+      aria-valuenow={index}
+      sx={{ flex: 1, gap: 0.75 }}
+    >
+      {Array.from({ length: total }, (_, step) => (
+        <Box
+          key={step}
+          sx={(theme) => ({
+            flex: 1,
+            blockSize: 10,
+            borderRadius: 999,
+            border: 2,
+            borderColor: step <= index ? 'secondary.main' : 'divider',
+            bgcolor: step < index ? 'secondary.main' : 'transparent',
+            transition: theme.transitions.create(['background-color', 'border-color']),
+            '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+          })}
+        />
+      ))}
+    </Stack>
+  );
 }
 
 export default function Practice({ preview = false }: { preview?: boolean }) {
@@ -59,6 +94,13 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
   const checking = useRef(false);
   const answerInput = useRef<HTMLInputElement>(null);
   const question = questions[index];
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const card = useRef<HTMLDivElement>(null);
+  // Fade the same card for each question. Remounting it would drop focus from the answer field.
+  useEffect(() => {
+    if (!reducedMotion && index > 0)
+      card.current?.animate({ opacity: [0, 1] }, { duration: 150, easing: 'ease-out' });
+  }, [index, reducedMotion]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -164,6 +206,18 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
         {!busy && !error && !question && (
           <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
             <Stack sx={{ gap: 2 }}>
+              {finishedBatch ? (
+                <CheckCircle
+                  aria-hidden="true"
+                  sx={{
+                    color: 'success.main',
+                    fontSize: '3rem',
+                    '@media (prefers-reduced-motion: no-preference)': {
+                      animation: `${tickPop} 300ms cubic-bezier(0.22, 0.7, 0.2, 1) backwards`,
+                    },
+                  }}
+                />
+              ) : null}
               <Typography component="h2" variant="h2">
                 {t(finishedBatch ? 'complete' : 'empty')}
               </Typography>
@@ -195,14 +249,9 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
               <Typography variant="body2">
                 {t('question', { n: index + 1, total: questions.length })}
               </Typography>
-              <LinearProgress
-                variant="determinate"
-                value={(index / questions.length) * 100}
-                sx={{ flex: 1 }}
-                aria-label={t('progress')}
-              />
+              <PracticeSteps index={index} total={questions.length} label={t('progress')} />
             </Stack>
-            <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
+            <Paper ref={card} variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
               <Stack sx={{ gap: 3 }}>
                 <Typography variant="subtitle2" sx={{ color: 'secondary.main' }}>
                   {tags(question.tag)}
@@ -251,19 +300,21 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
                   </Stack>
                 </Box>
                 {result && !pending && (
-                  <Alert role="status" severity={result.correct ? 'success' : 'warning'}>
-                    <Typography variant="subtitle1">
-                      {t(result.correct ? 'correct' : result.complete ? 'revealed' : 'tryAgain')}
-                    </Typography>
-                    <Typography variant="body2">
-                      <PracticeHint result={result} />
-                    </Typography>
-                    {result.suggestion && (
-                      <Typography variant="body1" dir="ltr" sx={{ mt: 1, fontWeight: 700 }}>
-                        <HintText text={result.suggestion} terms={[result.suggestion]} />
+                  <Collapse in appear timeout={reducedMotion ? 0 : 200}>
+                    <Alert role="status" severity={result.correct ? 'success' : 'warning'}>
+                      <Typography variant="subtitle1">
+                        {t(result.correct ? 'correct' : result.complete ? 'revealed' : 'tryAgain')}
                       </Typography>
-                    )}
-                  </Alert>
+                      <Typography variant="body2">
+                        <PracticeHint result={result} />
+                      </Typography>
+                      {result.suggestion && (
+                        <Typography variant="body1" dir="ltr" sx={{ mt: 1, fontWeight: 700 }}>
+                          <HintText text={result.suggestion} terms={[result.suggestion]} />
+                        </Typography>
+                      )}
+                    </Alert>
+                  </Collapse>
                 )}
                 {result?.complete && (
                   <Stack sx={{ gap: 2, alignItems: 'flex-end' }}>

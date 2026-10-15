@@ -26,7 +26,7 @@ export default function ScoreBars({
       : t(name);
   return (
     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
-      {(['task', 'grammar', 'organization', 'vocabulary'] as const).map((name) => (
+      {(['task', 'grammar', 'organization', 'vocabulary'] as const).map((name, order) => (
         <Box
           key={name}
           sx={{
@@ -42,6 +42,7 @@ export default function ScoreBars({
             value={scores[name] * 20}
             color={scores[name] >= 4 ? 'success' : scores[name] === 3 ? 'info' : 'error'}
             aria-label={t('score', { name: label(name), n: scores[name] })}
+            sx={{ '--bar-delay': order * 80 + 'ms' }}
           />
           <Typography variant="caption" sx={{ fontVariantNumeric: 'tabular-nums' }}>
             {scores[name]}/5

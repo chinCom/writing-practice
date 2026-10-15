@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import type { LearningPath as Path } from '@/lib/db/curriculum';
+import PathNode from './PathNode';
 export default function LearningPath({
   path,
   preview = false,
@@ -114,42 +115,32 @@ export default function LearningPath({
                         unit.lessons.length
                       }
                     />
-                    {unit.lessons.map((lesson) => (
-                      <Stack
-                        key={lesson.id}
-                        direction={{ xs: 'column', sm: 'row' }}
-                        sx={{
-                          gap: 1,
-                          alignItems: { sm: 'center' },
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        {lesson.state === 'locked' ? (
-                          <Button disabled variant="outlined">
-                            {lesson.title} · {t('locked')}
-                          </Button>
-                        ) : (
-                          <Button
-                            variant={lesson.state === 'current' ? 'contained' : 'outlined'}
-                            component={NextLink}
-                            href={
-                              preview
-                                ? '/dev/preview/lesson' +
-                                  (fullCourse ? '?course=full&lesson=' + lesson.id : '')
-                                : '/lesson/' + lesson.id
-                            }
-                          >
-                            {lesson.title}
-                          </Button>
-                        )}
-                        <Typography variant="caption">
-                          {t(lesson.state)} ·{' '}
-                          {t(lesson.warmupsDone ? 'practiceDone' : 'practiceNeeded')} ·{' '}
-                          {t(lesson.writingDone ? 'writingDone' : 'writingNeeded')}
-                          {lesson.task.isCheckpoint ? ' · ' + t('checkpoint') : ''}
-                        </Typography>
-                      </Stack>
-                    ))}
+                    <Box component="ol" sx={{ listStyle: 'none', m: 0, p: 0 }}>
+                      {unit.lessons.map((lesson, order) => (
+                        <PathNode
+                          key={lesson.id}
+                          title={lesson.title}
+                          state={lesson.state as 'done' | 'current' | 'locked' | 'available'}
+                          checkpoint={lesson.task.isCheckpoint}
+                          last={order === unit.lessons.length - 1}
+                          order={order}
+                          href={
+                            preview
+                              ? '/dev/preview/lesson' +
+                                (fullCourse ? '?course=full&lesson=' + lesson.id : '')
+                              : '/lesson/' + lesson.id
+                          }
+                          meta={
+                            <>
+                              {t(lesson.state)} ·{' '}
+                              {t(lesson.warmupsDone ? 'practiceDone' : 'practiceNeeded')} ·{' '}
+                              {t(lesson.writingDone ? 'writingDone' : 'writingNeeded')}
+                              {lesson.task.isCheckpoint ? ' · ' + t('checkpoint') : ''}
+                            </>
+                          }
+                        />
+                      ))}
+                    </Box>
                   </Stack>
                 </Paper>
               ))}

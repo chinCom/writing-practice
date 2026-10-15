@@ -1,7 +1,16 @@
 import type { CSSObject } from '@mui/material/styles';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, keyframes } from '@mui/material/styles';
 import type { PaletteOptions } from '@mui/material/styles';
 import { tokens } from './tokens';
+
+// Determinate bars grow in once. Only the bar's transform animates, so aria-valuenow stays exact.
+export const tickPop = keyframes`
+  from { opacity: 0; transform: scale(0.6); }
+`;
+
+const barGrow = keyframes`
+  from { transform: translateX(-100%); }
+`;
 declare module '@mui/material/styles' {
   interface Palette {
     highlighter: Palette['primary'];
@@ -268,11 +277,40 @@ export function makeTheme(today = false, cssVarPrefix = 'mui') {
         },
       },
       MuiOutlinedInput: { styleOverrides: { root: { borderRadius: tokens.radius.md } } },
+      MuiCircularProgress: {
+        // Rings fill slowly, then ease out. The component sets the value after mount.
+        variants: [
+          {
+            props: { variant: 'determinate' },
+            style: {
+              '& .MuiCircularProgress-circle': {
+                '@media (prefers-reduced-motion: no-preference)': {
+                  transition: 'stroke-dashoffset 900ms cubic-bezier(0.22, 0.7, 0.2, 1)',
+                },
+                '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+              },
+            },
+          },
+        ],
+      },
       MuiLinearProgress: {
         styleOverrides: {
           root: { height: 8, borderRadius: tokens.radius.pill },
           bar: { borderRadius: tokens.radius.pill },
         },
+        variants: [
+          {
+            props: { variant: 'determinate' },
+            style: {
+              '& .MuiLinearProgress-bar': {
+                '@media (prefers-reduced-motion: no-preference)': {
+                  animation: `${barGrow} 700ms cubic-bezier(0.22, 0.7, 0.2, 1) backwards`,
+                  animationDelay: 'var(--bar-delay, 0ms)',
+                },
+              },
+            },
+          },
+        ],
       },
     },
   });

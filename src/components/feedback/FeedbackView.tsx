@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
@@ -65,6 +65,12 @@ export default function FeedbackView({
   );
   const activeChoice = choiceState.choices.find((item) => item.correctionIndex === active);
   const container = useRef<HTMLDivElement>(null);
+  const cardFade = useRef<HTMLDivElement>(null);
+  // Fade the card on the same element. Remounting it would drop keyboard focus from its buttons.
+  useEffect(() => {
+    if (!reducedMotion)
+      cardFade.current?.animate({ opacity: [0, 1] }, { duration: 150, easing: 'ease-out' });
+  }, [active, reducedMotion]);
   const total = feedback.corrections.length;
   const correction = feedback.corrections[active];
   const windowStart = Math.min(Math.max(0, active - 1), Math.max(0, total - 3));
@@ -354,7 +360,7 @@ export default function FeedbackView({
             if (index === active)
               return (
                 <Box key="active" data-card={index}>
-                  {details}
+                  <Box ref={cardFade}>{details}</Box>
                 </Box>
               );
             return (

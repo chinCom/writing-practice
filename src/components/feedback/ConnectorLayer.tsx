@@ -35,7 +35,8 @@ export default function ConnectorLayer({
         const cardRect = card.getBoundingClientRect();
         if (!markRect) return;
         const x1 = markRect.right - bounds.left;
-        const y1 = markRect.bottom - bounds.top;
+        // Four pixels below the glyph box is the gap between lines, so the line misses descenders.
+        const y1 = markRect.bottom - bounds.top + 4;
         const x2 = cardRect.left - bounds.left;
         const y2 = cardRect.top - bounds.top + 24;
         const paperRect = root
@@ -98,13 +99,19 @@ export default function ConnectorLayer({
             color: theme.vars.palette.marks[markStyle(corrections[line.index].tag).group],
           })}
         >
-          <path
+          <Box
+            component="path"
             data-connector
             d={line.path}
             fill="none"
             stroke="currentColor"
-            strokeWidth={line.index === active ? 1.5 : 1}
-            opacity={line.index === active ? 0.8 : 0.4}
+            sx={(theme) => ({
+              strokeWidth: line.index === active ? 1.5 : 1,
+              opacity: line.index === active ? 0.8 : 0.4,
+              '@media (prefers-reduced-motion: no-preference)': {
+                transition: theme.transitions.create(['stroke-width', 'opacity']),
+              },
+            })}
           />
           <circle cx={line.x1} cy={line.y1} r={2} fill="currentColor" />
           <circle cx={line.x2} cy={line.y2} r={3} fill="currentColor" />

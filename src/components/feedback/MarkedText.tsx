@@ -1,8 +1,13 @@
 'use client';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { keyframes } from '@mui/material/styles';
 import type { LocatedCorrection } from '@/lib/feedback/schema';
 import { markStyle } from './mark-style';
+
+const settleIn = keyframes`
+  from { text-decoration-color: transparent; }
+`;
 
 export default function MarkedText({
   text,
@@ -23,7 +28,7 @@ export default function MarkedText({
     .map((correction, index) => ({ ...correction, index }))
     .filter((correction) => correction.start !== null && correction.end !== null)
     .sort((a, b) => a.start! - b.start!);
-  for (const correction of located) {
+  for (const [order, correction] of located.entries()) {
     const start = correction.start!;
     const end = correction.end!;
     const style = markStyle(correction.tag);
@@ -55,6 +60,14 @@ export default function MarkedText({
           textUnderlineOffset: theme.spacing(0.5),
           bgcolor: active === correction.index ? 'tonal.primary' : 'transparent',
           borderRadius: 0.25,
+          transition: theme.transitions.create(
+            ['background-color', 'color', 'text-decoration-color'],
+            { duration: theme.transitions.duration.shortest },
+          ),
+          '@media (prefers-reduced-motion: no-preference)': {
+            animation: `${settleIn} 150ms ease-out backwards`,
+            animationDelay: order * 60 + 'ms',
+          },
           '&:focus-visible': {
             outline: '2px solid',
             outlineColor: 'secondary.main',

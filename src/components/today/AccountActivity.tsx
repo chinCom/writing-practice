@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
@@ -11,7 +12,18 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
+import { tickPop } from '@/theme/theme';
 import type { ProgressSummary } from '@/lib/progress';
+
+// Start at zero, then move to the real value so the ring fills once after the page appears.
+function useFillIn(value: number) {
+  const [filled, setFilled] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setFilled(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  return filled ? value : 0;
+}
 
 export default function AccountActivity({
   progress,
@@ -24,6 +36,7 @@ export default function AccountActivity({
 }) {
   const t = useTranslations('today');
   const format = useFormatter();
+  const ringValue = useFillIn(Math.min(100, (progress.weeklySessions / goal) * 100));
   return (
     <Card data-testid="today-week" sx={{ height: '100%' }}>
       <CardContent sx={{ p: 3, height: '100%' }}>
@@ -39,7 +52,7 @@ export default function AccountActivity({
           </Typography>
         </Stack>
         <Stack direction="row" sx={{ justifyContent: 'space-between', mt: 4, gap: 0.5 }}>
-          {progress.week.map((day) => {
+          {progress.week.map((day, order) => {
             const date = new Date(day.date + 'T12:00:00Z');
             const name = format.dateTime(date, { weekday: 'long', timeZone: 'UTC' });
             const current = day.date === progress.asOf.slice(0, 10);
@@ -63,7 +76,16 @@ export default function AccountActivity({
                   }}
                 >
                   {day.written ? (
-                    <CheckCircle sx={{ color: 'success.main', fontSize: '2rem' }} />
+                    <CheckCircle
+                      sx={{
+                        color: 'success.main',
+                        fontSize: '2rem',
+                        '@media (prefers-reduced-motion: no-preference)': {
+                          animation: `${tickPop} 220ms cubic-bezier(0.22, 0.7, 0.2, 1) backwards`,
+                          animationDelay: order * 70 + 'ms',
+                        },
+                      }}
+                    />
                   ) : (
                     <RadioButtonUnchecked sx={{ color: 'divider', fontSize: '2rem' }} />
                   )}
@@ -96,7 +118,7 @@ export default function AccountActivity({
             <CircularProgress
               aria-hidden
               variant="determinate"
-              value={Math.min(100, (progress.weeklySessions / goal) * 100)}
+              value={ringValue}
               size={150}
               thickness={3.2}
               sx={{ position: 'absolute', color: 'success.main' }}
