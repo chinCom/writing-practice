@@ -1,9 +1,10 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import { courseDraft } from './course-content';
+import { type CurriculumTrack } from '@/lib/curriculum';
 import { buildCoursePath } from '@/lib/curriculum-path';
 const lessons = courseDraft.flatMap((unit) => unit.lessons);
-export async function coursePreview() {
+export async function coursePreview(track: CurriculumTrack = 'core') {
   let state: { warmups: Record<string, boolean>; written: number[] } = { warmups: {}, written: [] };
   try {
     const value = JSON.parse((await cookies()).get('course-preview')?.value ?? '{}');
@@ -30,7 +31,7 @@ export async function coursePreview() {
     path: {
       chosenLevel: 'PRE_A1' as const,
       placement: null,
-      units: buildCoursePath(courseDraft, 'PRE_A1', progress, checks),
+      units: buildCoursePath(courseDraft, 'PRE_A1', progress, checks, track),
     },
   };
 }

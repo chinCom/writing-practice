@@ -207,7 +207,7 @@ export default function FeedbackView({
           </Stack>
         </Stack>
         <Box sx={{ paddingBlockStart: { lg: 1 }, minInlineSize: 0 }}>
-          <ScoreBars scores={feedback.scores} />
+          <ScoreBars scores={feedback.scores} taskId={taskId} />
         </Box>
       </Box>
       {coursePreview ? (

@@ -1,0 +1,1754 @@
+[
+  {
+    "id": "ielts-task1-dynamic-charts",
+    "level": "B1",
+    "order": 4,
+    "title": "IELTS Task 1: Dynamic line graphs and time-series bar charts",
+    "theme": "IELTS Academic Task 1 — Summarizing trends, peaks, and overviews over time",
+    "outcome": "Write Band 7+ IELTS Academic Task 1 reports (150-180 words) for dynamic charts with a clear 2-sentence overview and precise trend vocabulary.",
+    "grammarFocus": ["verb-tense", "comparatives-superlatives", "prepositions", "task-response"],
+    "vocabulary": [
+      "overall",
+      "upward trend",
+      "surged",
+      "declined steadily",
+      "peaked at",
+      "overtook",
+      "fluctuated",
+      "respectively"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task1-dynamic-charts-1",
+        "title": "Paraphrasing the prompt and writing a Band 7+ Overview",
+        "miniLesson": {
+          "markdown": "### The Golden Rule of IELTS Academic Task 1: Never Skip the Overview\nTo score **Band 7+ in Task Achievement**, your report needs a dedicated **Overview paragraph** (placed immediately after your 1-sentence introduction) that summarizes 2–3 macro trends across the entire period **without quoting specific numbers**.\n\n- **Paragraph 1 (Introduction)**: Paraphrase the chart title (`The line graph illustrates the proportion of households... between 2005 and 2025.`).\n- **Paragraph 2 (Overview)**: `Overall, it is clear that [Category A and B] followed an upward trend, whereas [Category C] declined steadily over the twenty-year period. Additionally, [Category A] became the most popular option by the end of the timeframe.`",
+          "modelText": "The line graph compares the percentage of commuters in a European city who used four different modes of transport—cars, buses, bicycles, and the metro—between 2000 and 2020.\n\nOverall, it is clear that metro and bicycle usage experienced significant growth over the twenty-year period, whereas reliance on private cars and buses declined. Notably, although cars were by far the most common transport choice in 2000, the metro overtook them to become the primary commuter mode by 2020.\n\nIn 2000, just over half of all commuters (52%) drove to work, while bus passengers accounted for 28% of the total. Over the next two decades, car usage fell steadily to 31% in 2020, and bus ridership dropped by half to 14%. Conversely, the share of metro commuters more than doubled from 15% in 2000 to a peak of 37% in 2020, surpassing cars in 2015. Similarly, cycling rose threefold from 5% to 18% over the same timeframe."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "What belongs in a Band 7+ IELTS Task 1 Overview paragraph?",
+            "options": [
+              "The main overall trends and highest/lowest transitions without specific percentages or dates.",
+              "Every single number from every year in the chart.",
+              "Your personal opinion on why people should ride bicycles."
+            ],
+            "answer": "The main overall trends and highest/lowest transitions without specific percentages or dates.",
+            "hint": "Save specific figures for Body Paragraphs 3 and 4; keep the Overview focused on macro trends."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the verb meaning 'passed another line to become higher': 'The metro ___ private cars in 2015 to become the leading mode.'",
+            "options": ["overtook", "undertook", "mistook"],
+            "answer": "overtook",
+            "hint": "'overtook' (past of overtake) or 'surpassed' is ideal when two lines cross on a graph."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the preposition for the total change: 'Bus ridership dropped of 14% between 2000 and 2020.'",
+            "options": [
+              "Bus ridership dropped by 14% between 2000 and 2020.",
+              "Bus ridership dropped of 14% between 2000 and 2020.",
+              "Bus ridership dropped at 14% between 2000 and 2020."
+            ],
+            "answer": "Bus ridership dropped by 14% between 2000 and 2020.",
+            "hint": "With verbs of rise/fall, use 'by' for the size of the difference and 'to' for the final level."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-dynamic-charts-1-task",
+          "title": "Paraphrasing the prompt and writing a Band 7+ Overview",
+          "genre": "paragraphs",
+          "prompt": "IELTS Academic Task 1 (150-180 words): A line graph shows the percentage of households in Country X with access to Fiber Broadband (2010: 12%, 2015: 38%, 2020: 74%), Mobile 4G/5G Data (2010: 20%, 2015: 55%, 2020: 88%), and Fixed Dial-Up/ADSL (2010: 65%, 2015: 40%, 2020: 9%). Write a complete report with a paraphrased introduction, a 2-sentence Overview, and a detailed data paragraph.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "compares",
+            "Overall, it is clear that",
+            "upward trend",
+            "whereas",
+            "overtook",
+            "accounted for",
+            "conversely",
+            "surpassing"
+          ],
+          "checklist": [
+            "Paraphrase the chart prompt in sentence one using 'between 2010 and 2020'",
+            "Include a 2-sentence Overview starting with 'Overall,' without quoting numbers",
+            "Contrast the rising technologies with the falling one using accurate figures (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "ielts-task1-dynamic-charts-2",
+        "title": "Varying trend structures: Verb+Adverb vs. Adjective+Noun",
+        "miniLesson": {
+          "markdown": "### Boosting Grammatical Range in Trend Descriptions\nTo move from Band 6.0 to Band 7.5 in **Grammatical Range and Accuracy**, alternate between two core trend structures:\n\n1. **`Subject + Verb + Adverb`**: `Solar generation rose sharply from 10% to 35%.`\n2. **`There was a + Adjective + Noun + in...` / `Subject + experienced a + Adjective + Noun`**: `Solar generation experienced a sharp rise over the decade.`",
+          "modelText": "The bar chart illustrates annual electricity generation by source—coal, natural gas, and renewables—in terawatt-hours (TWh) in a Southeast Asian nation from 2012 to 2022.\n\nOverall, total renewable electricity output expanded dramatically over the decade, while coal-fired generation followed a downward trajectory after 2017. Natural gas remained a stable contributor throughout the ten-year period.\n\nIn 2012, coal generated 120 TWh of electricity, making it the dominant power source. After reaching a peak of 135 TWh in 2017, coal output experienced a noticeable decline, falling to 90 TWh by 2022. Meanwhile, natural gas saw minor fluctuations between 75 TWh and 82 TWh across the entire decade. In contrast, renewable energy—comprising solar and wind—started at a modest 15 TWh in 2012 and grew gradually to 30 TWh in 2017. Over the final five years, there was a dramatic surge in renewable output, which climbed more than threefold to finish at 105 TWh in 2022, overtaking coal for the first time."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Convert 'rose sharply' into an adjective+noun phrase: 'Over the final five years, there was a ___ in renewable output.'",
+            "options": ["sharp rise", "sharply rise", "rose sharp"],
+            "answer": "sharp rise",
+            "hint": "After 'there was a...', use an adjective ('sharp') + singular noun ('rise' / 'surge')."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the preposition after the noun 'decline': 'Coal output experienced a noticeable decline of 90 TWh in 2022 (from 135 TWh).'",
+            "options": [
+              "Coal output experienced a noticeable decline to 90 TWh in 2022.",
+              "Coal output experienced a noticeable decline at 90 TWh in 2022.",
+              "Coal output experienced a noticeable decline on 90 TWh in 2022."
+            ],
+            "answer": "Coal output experienced a noticeable decline to 90 TWh in 2022.",
+            "hint": "Use 'a decline to [final number]' or 'a decline of [difference: 45 TWh]'."
+          },
+          {
+            "type": "choose",
+            "prompt": "Which participle phrase cleanly attaches a final milestone to the end of a sentence?",
+            "options": [
+              "...climbed to 105 TWh in 2022, overtaking coal for the first time.",
+              "...climbed to 105 TWh in 2022, overtake coal for the first time.",
+              "...climbed to 105 TWh in 2022, and overtook is coal."
+            ],
+            "answer": "...climbed to 105 TWh in 2022, overtaking coal for the first time.",
+            "hint": "Adding ', overtaking...' or ', reaching a peak of...' boosts grammatical range naturally."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-dynamic-charts-2-task",
+          "title": "Varying trend structures: Verb+Adverb vs. Adjective+Noun",
+          "genre": "paragraphs",
+          "prompt": "IELTS Academic Task 1 (150-180 words): A time-series bar chart shows annual book sales (in millions of copies) across three formats in the UK from 2014 to 2024: Hardcover Print (2014: 80m, 2019: 78m, 2024: 82m), E-books (2014: 65m, 2019: 50m, 2024: 38m), and Audiobooks (2014: 12m, 2019: 35m, 2024: 74m). Write a report alternating between 'Verb + Adverb' and 'Adjective + Noun' trend structures.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "illustrates",
+            "trajectory",
+            "experienced a",
+            "fluctuations",
+            "there was a",
+            "surge",
+            "threefold",
+            "overtaking"
+          ],
+          "checklist": [
+            "Include a clear Introduction and a number-free Overview paragraph",
+            "Use both 'verb + adverb' ('fell steadily') and 'adjective + noun' ('a dramatic surge')",
+            "Cite exact figures from 2014, 2019, and 2024 without offering personal opinions (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "ielts-task1-dynamic-charts-3",
+        "title": "Checkpoint: Full 20-year dynamic line graph report",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 1 Checkpoint: Unassisted Dynamic Graph Report\nGroup your detailed figures into two logical body paragraphs (e.g., **Paragraph 3: Rising Categories** and **Paragraph 4: Falling/Stable Categories**) so the examiner sees clear **Coherence and Cohesion**.",
+          "modelText": "The line graph illustrates the average monthly household expenditure (in US dollars) on three communication categories—landline telephone calls, mobile phone plans, and home broadband internet—in an Asian country between 2004 and 2024.\n\nOverall, household spending on mobile plans and home broadband increased substantially over the twenty-year period, whereas expenditure on traditional landline calls plummeted. Although landline services represented the largest monthly expense in 2004, mobile plans became the highest-spending category from 2012 onward.\n\nIn 2004, families spent an average of $45 per month on landline calls, compared with $22 on mobile plans and just $10 on home internet. Over the following decade, landline spending experienced a steep drop to $18 in 2014 before falling further to a negligible $4 per month by 2024. In contrast, monthly expenditure on mobile plans surged past landlines in 2010 and reached $68 in 2024, more than tripling its initial figure. Similarly, broadband spending grew steadily throughout the period, rising fivefold from $10 in 2004 to $52 in 2024."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why is grouping rising categories in one body section and falling categories in another better than describing 2004, then 2008, then 2012 year by year?",
+            "options": [
+              "Grouping by trend pattern highlights analytical comparisons instead of producing a mechanical list.",
+              "It lets you skip half the lines on the graph.",
+              "It makes the essay shorter than 80 words."
+            ],
+            "answer": "Grouping by trend pattern highlights analytical comparisons instead of producing a mechanical list.",
+            "hint": "Examiners award Band 7+ when you group data logically by trend or feature."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the precise adverbial multiplier: 'Broadband spending rose ___ from $10 in 2004 to $50 in 2024.'",
+            "options": ["fivefold", "five-times-ly", "fifth"],
+            "answer": "fivefold",
+            "hint": "Use 'twofold / threefold / fivefold' right after the verb to express exact multiplication."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the verb tense for a finished historical range (2004–2024): 'In 2004, families spend $45 on landline calls.'",
+            "options": [
+              "In 2004, families spent $45 on landline calls.",
+              "In 2004, families spend $45 on landline calls.",
+              "In 2004, families have spent $45 on landline calls."
+            ],
+            "answer": "In 2004, families spent $45 on landline calls.",
+            "hint": "Always use the past simple ('spent') for completed past years."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-dynamic-charts-3-task",
+          "title": "Checkpoint: Full 20-year dynamic line graph report",
+          "genre": "paragraphs",
+          "prompt": "IELTS Academic Task 1 Checkpoint (150-180 words): A line graph shows the percentage of total retail sales made through three channels in Country Y from 2005 to 2025: Large Supermarkets (2005: 58%, 2015: 54%, 2025: 49%), Independent Local Shops (2005: 36%, 2015: 24%, 2025: 13%), and Online E-Commerce (2005: 6%, 2015: 22%, 2025: 38%). Write a full Band 7+ report.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "illustrates",
+            "Overall",
+            "plummeted",
+            "from ... onward",
+            "compared with",
+            "steep drop",
+            "in contrast",
+            "surged"
+          ],
+          "checklist": [
+            "Write an Introduction, a 2-sentence Overview, and logically grouped body details",
+            "Keep all historical figures in the past simple tense",
+            "Include at least two comparisons across categories and write 150 to 180 words"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task1-static-comparisons",
+    "level": "B1",
+    "order": 5,
+    "title": "IELTS Task 1: Static tables, pie charts, and clustered bars",
+    "theme": "IELTS Academic Task 1 — Grouping rankings, proportions, and cross-category outliers",
+    "outcome": "Write Band 7+ IELTS Academic Task 1 reports (150-180 words) for single-year tables and pie charts using comparative rankings and proportion phrases.",
+    "grammarFocus": ["comparatives-superlatives", "determiners", "cohesion", "task-response"],
+    "vocabulary": [
+      "proportion",
+      "accounted for",
+      "lion's share",
+      "marginally",
+      "twice as high as",
+      "by contrast",
+      "outlier",
+      "ranked"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task1-static-comparisons-1",
+        "title": "Describing proportions and fractions in pie charts and tables",
+        "miniLesson": {
+          "markdown": "### Translating Raw Percentages into Varied Proportion Phrases\nWhen a static chart has no time movement, avoid using *rose* or *fell*! Instead, vary how you express **shares and proportions** by alternating exact percentages with clean fraction phrases:\n\n- `49%` → *just under half of the total (49%)*\n- `33%` → *roughly one-third (33%)*\n- `26%` → *slightly more than a quarter (26%)*\n- `76%` → *just over three-quarters (76%)*",
+          "modelText": "The two pie charts compare the proportion of household water consumption across five domestic activities in Sydney and Tokyo in 2023.\n\nOverall, outdoor garden watering accounted for the largest share of residential water use in Sydney, whereas indoor bathroom activities—specifically showers and baths—dominated consumption in Tokyo. Kitchen water use represented the smallest category in both cities.\n\nIn Sydney, garden irrigation consumed just over two-fifths (42%) of total household water, which was more than four times the figure recorded in Tokyo (9%). Showers and baths ranked second in Sydney at roughly one-quarter (24%), followed by laundry at 18% and toilet flushing at 10%. By contrast, households in Tokyo used nearly half of their water (46%) for showers and baths, nearly double Sydney's share. Laundry and toilet flushing in Tokyo accounted for 22% and 16% respectively, while kitchen dishwashing and cooking made up a mere 6% in Sydney and 7% in Tokyo."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why must you NEVER write 'Garden watering rose to 42%' when describing a single-year 2023 pie chart?",
+            "options": [
+              "Because a static single-year chart shows fixed shares at one point in time, not trends.",
+              "Because 42% is smaller than 9%.",
+              "Because pie charts never contain numbers."
+            ],
+            "answer": "Because a static single-year chart shows fixed shares at one point in time, not trends.",
+            "hint": "Using trend verbs ('rose/fell') on a static single-year chart is a classic Band 5.5 Task Achievement mistake."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the accurate fraction approximation for 24%: 'Showers ranked second in Sydney at ___ (24%).'",
+            "options": ["roughly one-quarter", "nearly three-quarters", "just over half"],
+            "answer": "roughly one-quarter",
+            "hint": "25% is one-quarter, so 24% is 'roughly one-quarter' or 'just under a quarter'."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the placement of 'respectively': 'Laundry and toilet flushing accounted for respectively 22% and 16%.'",
+            "options": [
+              "Laundry and toilet flushing accounted for 22% and 16% respectively.",
+              "Respective laundry and toilet flushing accounted for 22% and 16%.",
+              "Laundry and toilet flushing accounted for respectively 22% and 16%."
+            ],
+            "answer": "Laundry and toilet flushing accounted for 22% and 16% respectively.",
+            "hint": "Place 'respectively' at the end of the clause after the two paired numbers."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-static-comparisons-1-task",
+          "title": "Describing proportions and fractions in pie charts and tables",
+          "genre": "paragraphs",
+          "prompt": "IELTS Academic Task 1 (150-180 words): Two pie charts show how university students in Domestic Dormitories vs. Off-Campus Apartments spent their monthly living budget in 2024: Housing & Utilities (Dorm: 38%, Apartment: 52%), Food & Groceries (Dorm: 32%, Apartment: 21%), Transport (Dorm: 6%, Apartment: 15%), and Leisure & Books (Dorm: 24%, Apartment: 12%). Write a static comparison report using fraction approximations and 'respectively'.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "proportion",
+            "accounted for",
+            "dominated",
+            "just over",
+            "roughly one-quarter",
+            "by contrast",
+            "respectively",
+            "mere"
+          ],
+          "checklist": [
+            "Avoid trend verbs ('rose/fell'); use static verbs ('accounted for', 'made up', 'represented')",
+            "Pair exact percentages with at least two fraction phrases ('just over half', 'roughly a quarter')",
+            "Use 'respectively' accurately to report paired figures (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "ielts-task1-static-comparisons-2",
+        "title": "Grouping multi-row tables by highs, lows, and outliers",
+        "miniLesson": {
+          "markdown": "### Conquering Complex Tables: Group by Pattern, Not Row by Row\nWhen given a 5-row by 4-column table, describing every cell in order creates a confusing wall of numbers. Instead, divide your body paragraphs into **Group 1 (Top-Ranking Rows / Outliers)** and **Group 2 (Lower-Ranking Rows / Narrow Gaps)**.",
+          "modelText": "The table compares five countries—Norway, South Korea, Germany, Brazil, and Vietnam—in terms of electric vehicle (EV) market share, public charging stations per 100,000 residents, and average government purchase subsidies in 2024.\n\nOverall, Norway led by a wide margin in both EV adoption and charging density despite offering tax exemptions rather than direct cash subsidies, whereas South Korea maintained the highest density of public chargers relative to its moderate EV share. Brazil recorded the lowest figures across all three indicators.\n\nNorway stood out as a clear outlier in adoption, with electric models accounting for 82% of new car sales and 490 public chargers per 100,000 residents. Germany and South Korea occupied the middle tier of vehicle sales at 24% and 16% respectively, matched by substantial buyer subsidies of $4,800 and $5,200. Remarkably, however, South Korea boasted 510 public chargers per 100,000 people—slightly higher than Norway's network. By contrast, Vietnam (14% EV share) outpaced Brazil (4% EV share) more than threefold in adoption, even though both emerging markets had fewer than 45 public chargers per 100,000 residents."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "What makes South Korea 'remarkable' in the model table report?",
+            "options": [
+              "It had the highest charger density (510) despite having a moderate 16% EV sales share.",
+              "It had 0% electric vehicles.",
+              "It is located in Europe."
+            ],
+            "answer": "It had the highest charger density (510) despite having a moderate 16% EV sales share.",
+            "hint": "Spotting where a country breaks the expected ranking pattern ('Remarkably, however,...') is a Band 8 analytical skill."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Complete the precision modifier before a comparative adjective: 'South Korea's charger density was ___ higher than Norway's network.'",
+            "options": ["slightly", "very", "more"],
+            "answer": "slightly",
+            "hint": "Use 'slightly / marginally / substantially / far' before a comparative adjective ('higher')."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the comparative structure: 'Norway's EV share was over three times higher as Germany's.'",
+            "options": [
+              "Norway's EV share was over three times as high as Germany's.",
+              "Norway's EV share was over three times higher as Germany's.",
+              "Norway's EV share was over three times high than Germany's."
+            ],
+            "answer": "Norway's EV share was over three times as high as Germany's.",
+            "hint": "Use 'three times as [adjective] as' (or 'three times higher than')."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-static-comparisons-2-task",
+          "title": "Grouping multi-row tables by highs, lows, and outliers",
+          "genre": "paragraphs",
+          "prompt": "IELTS Academic Task 1 (150-180 words): A 2024 table compares four cities (Singapore, Zurich, Taipei, and Bangkok) across three metrics: Public Transit Share of Commutes (Singapore: 67%, Zurich: 64%, Taipei: 58%, Bangkok: 29%), Average Monthly Transit Pass Cost (Singapore: $95, Zurich: $185, Taipei: $42, Bangkok: $48), and Average One-Way Commute Time (Singapore: 38 mins, Zurich: 31 mins, Taipei: 36 mins, Bangkok: 54 mins). Write a static report grouping the data logically.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "in terms of",
+            "by a wide margin",
+            "outlier",
+            "middle tier",
+            "remarkably",
+            "slightly higher than",
+            "by contrast",
+            "even though"
+          ],
+          "checklist": [
+            "Summarize the overarching leaders and lowest-ranking city in the Overview",
+            "Highlight at least one cross-column contrast (such as Taipei's low pass cost despite high ridership)",
+            "Use degree modifiers ('slightly', 'substantially') with comparatives (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "ielts-task1-static-comparisons-3",
+        "title": "Checkpoint: Clustered bar chart across age groups or genders",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 2 Checkpoint: Comparing Demographic Patterns\nIn clustered bar charts comparing age brackets or genders, organize your report around **where the groups diverge sharply** versus **where they behave similarly**.",
+          "modelText": "The clustered bar chart compares the percentage of people in three age brackets (18–29, 30–49, and 50+) who participated in five leisure activities—jogging, team sports, gym workouts, cycling, and gardening—in Australia in 2024.\n\nOverall, physical participation preferences shifted markedly with age: younger adults strongly favored gym workouts and team sports, whereas gardening was overwhelmingly dominated by the 50+ age group. In contrast, cycling attracted a relatively similar share of participants across all three generations.\n\nAmong 18-to-29-year-olds, gym workouts were the most popular activity at 44%, followed closely by team sports at 36%. Participation in both categories declined progressively in older brackets, with only 14% of people aged 50 and over using a gym and just 7% playing team sports. Conversely, gardening showed the opposite pattern, engaging 48% of the 50+ cohort compared with 22% of 30–49-year-olds and a mere 6% of young adults. Meanwhile, jogging peaked in the 30–49 bracket at 34%, while cycling remained steady across all ages between 19% and 23%."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "What are the three structural patterns identified in the model's body paragraphs?",
+            "options": [
+              "Activities that fall with age, activities that rise with age, and age-neutral activities.",
+              "Activities done on Monday, Tuesday, and Wednesday.",
+              "Only the numbers for 18-29-year-olds."
+            ],
+            "answer": "Activities that fall with age, activities that rise with age, and age-neutral activities.",
+            "hint": "Grouping categories by their demographic direction makes a 15-bar chart effortless to read."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the verb that shows a category reaching its highest level in the middle group: 'Jogging ___ in the 30–49 bracket at 34%.'",
+            "options": ["peaked", "plummeted", "vanished"],
+            "answer": "peaked",
+            "hint": "'peaked in [group] at [X]%' works for both time peaks and demographic peaks."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the hyphenation in the plural age noun: 'Among 18-to-29-years-old, gym workouts were the top choice.'",
+            "options": [
+              "Among 18-to-29-year-olds, gym workouts were the top choice.",
+              "Among 18-to-29-years-old, gym workouts were the top choice.",
+              "Among 18-to-29-year-old, gym workouts were the top choice."
+            ],
+            "answer": "Among 18-to-29-year-olds, gym workouts were the top choice.",
+            "hint": "The plural noun form puts '-s' at the very end: '18-to-29-year-olds'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-static-comparisons-3-task",
+          "title": "Checkpoint: Clustered bar chart across age groups or genders",
+          "genre": "paragraphs",
+          "prompt": "IELTS Academic Task 1 Checkpoint (150-180 words): A clustered bar chart shows the primary news source (%) for three age groups (18–29, 30–49, 50+) in 2024: Social Media Apps (18–29: 54%, 30–49: 31%, 50+: 12%), Online News Websites (18–29: 28%, 30–49: 42%, 50+: 30%), Television News (18–29: 11%, 30–49: 20%, 50+: 49%), and Print/Radio (18–29: 7%, 30–49: 7%, 50+: 9%). Write a complete Band 7+ static comparison report.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "compares",
+            "shifted markedly",
+            "overwhelmingly",
+            "dominated by",
+            "declined progressively",
+            "conversely",
+            "peaked",
+            "remained steady"
+          ],
+          "checklist": [
+            "Include a clear Introduction and a 2-sentence Overview highlighting the age contrast and the steady category",
+            "Group categories logically by pattern (youth-skewed, older-skewed, middle-peaking, and uniform)",
+            "Support comparisons with accurate percentages across 150 to 180 words"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task1-general-letters",
+    "level": "B1",
+    "order": 6,
+    "title": "IELTS General Training Task 1: Formal, semi-formal, and informal letters",
+    "theme": "IELTS General Training Task 1 — Register control and covering all three prompt bullets",
+    "outcome": "Write Band 7.5+ IELTS General Training letters (150-180 words) with flawless tone calibration and dedicated paragraphs for all three bullet points.",
+    "grammarFocus": ["register", "tone-formality", "modal-verbs", "task-response"],
+    "vocabulary": [
+      "writing to express",
+      "dissatisfaction",
+      "rectify",
+      "inconvenience",
+      "delighted",
+      "accommodate",
+      "propose",
+      "faithfully"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task1-general-letters-1",
+        "title": "Calibrating salutations, contractions, and sign-offs across letter types",
+        "miniLesson": {
+          "markdown": "### The 3 Registers of IELTS General Training Task 1\nExaminers grade **Tone consistency** under Task Achievement. Match your opening, grammar, and sign-off strictly:\n\n1. **Formal** (*Dear Sir or Madam,* → no contractions → *Yours faithfully,*)\n2. **Semi-Formal** (*Dear Mr. / Ms. [Surname],* → polite modals, no slang → *Yours sincerely,* or *Best regards,*)\n3. **Informal** (*Dear [First Name],* / *Hi [First Name],* → natural contractions like *I'm*, *you'll* → *Best wishes,* or *Warmly,*)",
+          "modelText": "Dear Mr. Harrison,\n\nI am writing to inform you that I will be away from my apartment in Unit 12B for three weeks next month, from November 4 to November 25, as I am traveling to Singapore for a company training program.\n\nWhile I am abroad, my younger brother, Minh, will be staying in my flat to water my balcony plants and collect my mail. I have already given him a spare key and explained the building's recycling and quiet-hour rules, so there will be no disruption to the neighbors. In case you need to reach him urgently, his mobile number is 0912-345-678.\n\nAdditionally, I noticed yesterday that the rubber seal around the bathroom window is loose, allowing rainwater to drip onto the sill during heavy storms. Since Minh works remotely from the apartment on weekdays, I would be very grateful if your maintenance technician could replace the window seal during the second week of November. Please let me know which morning suits your schedule.\n\nYours sincerely,\nLan Anh"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Which salutation and sign-off pair is strictly required for a formal IELTS letter when you do NOT know the recipient's name?",
+            "options": [
+              "Dear Sir or Madam, ... Yours faithfully,",
+              "Dear Mr. Smith, ... See ya later,",
+              "Hey Boss, ... Yours faithfully,"
+            ],
+            "answer": "Dear Sir or Madam, ... Yours faithfully,",
+            "hint": "'Dear Sir or Madam,' always pairs with 'Yours faithfully,'; 'Dear Mr./Ms. [Name],' pairs with 'Yours sincerely,'."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the polite semi-formal request structure: 'I would be very ___ if your technician could replace the window seal.'",
+            "options": ["grateful", "angry", "casual"],
+            "answer": "grateful",
+            "hint": "'I would be very grateful if you could...' is a high-scoring semi-formal/formal request frame."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the register mismatch in a formal complaint letter to an airline: 'Dear Sir or Madam, I'm super mad because you guys lost my suitcase.'",
+            "options": [
+              "Dear Sir or Madam, I am writing to report that my checked suitcase was misplaced on Flight VN214.",
+              "Dear Sir or Madam, I'm super mad because you guys lost my suitcase.",
+              "Yo Airline, where is my bag at?"
+            ],
+            "answer": "Dear Sir or Madam, I am writing to report that my checked suitcase was misplaced on Flight VN214.",
+            "hint": "Formal letters avoid contractions ('I'm') and slang ('super mad', 'you guys')."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-general-letters-1-task",
+          "title": "Calibrating salutations, contractions, and sign-offs across letter types",
+          "genre": "paragraphs",
+          "prompt": "IELTS General Training Task 1 (150-180 words): You are going away for three weeks and a relative will stay in your rented apartment. Write a semi-formal letter to your landlord (Mr./Ms. Davis). In your letter: (1) explain why and when you will be away, (2) introduce the relative who will stay in your apartment and give their contact details, and (3) ask the landlord to arrange a minor repair while you are gone.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "inform you",
+            "traveling",
+            "spare key",
+            "disruption",
+            "in case",
+            "additionally",
+            "grateful if",
+            "Yours sincerely"
+          ],
+          "checklist": [
+            "Open with 'Dear Mr./Ms. [Surname],' and close with 'Yours sincerely,'",
+            "Dedicate one short paragraph to each of the three prompt bullet points",
+            "Maintain a polite, semi-formal tone without slang (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "ielts-task1-general-letters-2",
+        "title": "Expanding all three prompt bullets evenly in an informal letter",
+        "miniLesson": {
+          "markdown": "### Avoiding the 'Bullet 3 Rush' in General Training Task 1\nMany test-takers write 120 words on Bullet 1 and only one rushed sentence on Bullet 3—which caps Task Achievement at Band 6.0. Give **each of the three prompt bullets its own balanced 40-to-55-word paragraph** with concrete, realistic details.",
+          "modelText": "Hi Sarah,\n\nIt was wonderful to hear that you're finally taking a week off in December! If you're looking for a peaceful coastal escape without tourist crowds, you should definitely spend a few days on Phu Quy Island, where I went with my college friends last spring.\n\nThe island is famous for its crystal-clear lagoons and dramatic volcanic cliffs. You can rent a small electric scooter for just a few dollars a day and ride along the coast road at sunrise, when the fishing boats return to the harbor. In the afternoon, I'd recommend snorkeling over the coral reefs at Bai Nho beach and eating grilled seafood right by the lighthouse.\n\nTo get the best experience, book a family-run homestay in Tam Thanh village rather than a large hotel near the ferry pier. Not only are the village homestays much quieter at night, but the hosts also cook fresh home-style breakfasts and can arrange a small wooden boat to take you to the nearby islets.\n\nHave a fantastic trip, and send me photos!\n\nWarm wishes,\nMinh"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why are contractions like 'you're' and 'I'd recommend' encouraged in an IELTS letter to a close friend?",
+            "options": [
+              "They demonstrate natural informal register control required for letters to friends.",
+              "They are grammatical mistakes that lower your score.",
+              "They are only used in academic reports."
+            ],
+            "answer": "They demonstrate natural informal register control required for letters to friends.",
+            "hint": "In an informal letter to a friend, using contractions and warm openings shows Band 7+ register awareness."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Complete the inverted emphasis structure in paragraph three: 'Not only ___ the village homestays quieter, but the hosts also cook fresh breakfasts.'",
+            "options": ["are", "is", "they are"],
+            "answer": "are",
+            "hint": "After 'Not only' at the start of a clause, invert the verb and subject ('are the village homestays')."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the verb form after 'recommend': 'I'd recommend to snorkel over the coral reefs.'",
+            "options": [
+              "I'd recommend snorkeling over the coral reefs.",
+              "I'd recommend to snorkel over the coral reefs.",
+              "I'd recommend snorkel over the coral reefs."
+            ],
+            "answer": "I'd recommend snorkeling over the coral reefs.",
+            "hint": "When no person object follows 'recommend', use the '-ing' gerund ('recommend snorkeling')."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-general-letters-2-task",
+          "title": "Expanding all three prompt bullets evenly in an informal letter",
+          "genre": "paragraphs",
+          "prompt": "IELTS General Training Task 1 (150-180 words): An English-speaking friend wants to spend a one-week holiday in your country and has asked for your advice. Write an informal letter to your friend. In your letter: (1) recommend one specific town or region to visit, (2) describe two or three activities they can do there, and (3) give advice on where to stay and why.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "wonderful to hear",
+            "peaceful",
+            "famous for",
+            "sunrise",
+            "I'd recommend",
+            "homestay",
+            "Not only",
+            "Warm wishes"
+          ],
+          "checklist": [
+            "Use a warm informal greeting, natural contractions, and a friendly sign-off",
+            "Develop all three bullet points into three distinct, well-balanced paragraphs",
+            "Include at least one 'I'd recommend + verb-ing' or 'Not only..., but... also' structure (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B1"
+        }
+      },
+      {
+        "id": "ielts-task1-general-letters-3",
+        "title": "Checkpoint: Formal complaint and resolution letter",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 4 Checkpoint: Formal Complaint Letter (`Dear Sir or Madam,`)\nWrite a controlled, authoritative formal letter with zero contractions, a clear statement of purpose, specific factual details of the service failure, and a firm, reasonable resolution request.",
+          "modelText": "Dear Sir or Madam,\n\nI am writing to express my dissatisfaction with the technical arrangements at the Rosewood Conference Hall, which my company booked on October 10 for a forty-person regional training seminar (Booking Reference #RW-904).\n\nWhen confirming our reservation two weeks prior to the event, we paid an additional surcharge for the executive audiovisual package, including a ceiling projector and two wireless microphones. However, upon arriving at 8:00 AM on the morning of the seminar, we discovered that the main projector bulb was burned out and no on-site technician was available until 10:30 AM. As a result, our keynote speaker had to present for over two hours without visual slides, and the backup room microphone cut out repeatedly during the afternoon Q&A session.\n\nGiven that these equipment failures disrupted a critical client-facing event, I request a full refund of the $350 audiovisual surcharge and a twenty percent credit toward our invoice total. I have attached copies of our signed contract and receipt, and I look forward to receiving your written confirmation within seven business days.\n\nYours faithfully,\nQuang Tran"
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "What makes the complaint in paragraph two persuasive and professional rather than emotional?",
+            "options": [
+              "It cites exact times, specific equipment paid for, and the concrete impact on the keynote speaker.",
+              "It uses all-caps exclamation marks to insult the hotel staff.",
+              "It forgets to mention what went wrong."
+            ],
+            "answer": "It cites exact times, specific equipment paid for, and the concrete impact on the keynote speaker.",
+            "hint": "Factual specificity (times, reference numbers, exact equipment) gives a formal complaint weight."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the formal causal conjunction at the start of paragraph three: '___ that these equipment failures disrupted our event, I request a full refund of the surcharge.'",
+            "options": ["Given", "Because of", "Although"],
+            "answer": "Given",
+            "hint": "'Given that + [clause], I request...' is an authoritative formal transition."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the preposition phrase for prior timing: 'When confirming our booking two weeks prior the event, we paid a surcharge.'",
+            "options": [
+              "When confirming our booking two weeks prior to the event, we paid a surcharge.",
+              "When confirming our booking two weeks prior the event, we paid a surcharge.",
+              "When confirming our booking two weeks prior at the event, we paid a surcharge."
+            ],
+            "answer": "When confirming our booking two weeks prior to the event, we paid a surcharge.",
+            "hint": "Always include 'to' in 'prior to [an event/date]'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-general-letters-3-task",
+          "title": "Checkpoint: Formal complaint and resolution letter",
+          "genre": "paragraphs",
+          "prompt": "IELTS General Training Task 1 Checkpoint (150-180 words): You recently organized a full-day company workshop at a local hotel, but several facilities you paid for did not work properly. Write a formal letter to the hotel manager ('Dear Sir or Madam,'). In your letter: (1) state the date, event details, and purpose of your letter, (2) explain the specific problems that occurred and how they affected your attendees, and (3) state what compensation or action you expect the hotel to take.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "dissatisfaction",
+            "Booking Reference",
+            "prior to",
+            "surcharge",
+            "upon arriving",
+            "Given that",
+            "refund",
+            "Yours faithfully"
+          ],
+          "checklist": [
+            "Open with 'Dear Sir or Madam,' and close with 'Yours faithfully,' with zero contractions",
+            "Cover all three prompt bullets in three clear, factual paragraphs",
+            "Specify a concrete refund or resolution request and timeframe (150-180 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task1-processes-maps",
+    "level": "B2",
+    "order": 4,
+    "title": "IELTS Task 1: Process diagrams and before/after maps",
+    "theme": "IELTS Academic Task 1 — Passive voice sequencing and spatial transformation language",
+    "outcome": "Write Band 7.5+ IELTS Academic Task 1 reports (180-240 words) for manufacturing processes and urban redevelopment maps.",
+    "grammarFocus": ["passive-voice", "prepositions", "connectors", "cohesion"],
+    "vocabulary": [
+      "subsequently",
+      "extracted",
+      "conveyed",
+      "filtrate",
+      "demolished",
+      "converted into",
+      "pedestrianized",
+      "adjacent to"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task1-processes-maps-1",
+        "title": "Describing man-made processes with present simple passive and sequencers",
+        "miniLesson": {
+          "markdown": "### Mastering Process Diagrams: Present Simple Passive + Stage Grouping\nIn a manufacturing or recycling diagram, the focus is on **what happens to the material**, not who operates the machine. Use the **present simple passive** (`is harvested`, `are crushed`, `is subsequently heated`) and divide the Overview into **total stages + where the cycle begins and ends**.",
+          "modelText": "The diagram illustrates how used glass bottles are recycled into new containers. Overall, this is a repeating cycle with three broad phases: collection and preparation, crushing and melting, and production of replacement bottles. Finished containers return to beverage companies for reuse.\n\nFirst, consumers place empty bottles in local collection bins. Trucks then carry them to a sorting plant, where water jets remove labels and other residue. The clean bottles are separated into clear, green, and brown glass before entering a crusher.\n\nNext, the resulting fragments, known as cullet, are mixed with a small amount of silica sand. The mixture is heated in a furnace until it becomes liquid. This molten glass is poured into molds to form new bottles, which gradually cool on a conveyor belt. Finally, workers inspect the containers for defects before sending them to beverage producers. Collection starts the cycle again once consumers have emptied the new bottles."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why do process reports primarily use the present simple passive ('are washed', 'is heated') rather than active past tense?",
+            "options": [
+              "Because a process diagram shows a repeatable procedure focused on the material itself.",
+              "Because industrial machines took place in the 19th century.",
+              "Because active verbs are banned in English."
+            ],
+            "answer": "Because a process diagram shows a repeatable procedure focused on the material itself.",
+            "hint": "Present simple passive keeps the material ('the glass', 'the mixture') as the grammatical topic across stages."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Combine two stages with a preposition + passive gerund: 'The bottles are washed with water jets ___ sorted by color.'",
+            "options": ["before being", "before be", "after been"],
+            "answer": "before being",
+            "hint": "'before being + past participle' ('before being sorted') links two passive stages smoothly."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the passive verb agreement: 'The crushed glass fragments is heated in a furnace.'",
+            "options": [
+              "The crushed glass fragments are heated in a furnace.",
+              "The crushed glass fragments is heated in a furnace.",
+              "The crushed glass fragments been heated in a furnace."
+            ],
+            "answer": "The crushed glass fragments are heated in a furnace.",
+            "hint": "Plural 'fragments' requires 'are heated'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-processes-maps-1-task",
+          "title": "Describing man-made processes with present simple passive and sequencers",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Academic Task 1 (150-180 words): A process diagram shows the 7 stages of producing freeze-dried instant coffee from raw coffee beans: (1) Harvesting & sun-drying beans, (2) Roasting at 200°C & grinding into coarse powder, (3) Dissolving in hot water to extract liquid coffee concentrate, (4) Freezing the concentrate to -45°C on a belt, (5) Milling the frozen slab into granules, (6) Sublimating ice in a vacuum chamber, and (7) Sealing dry granules in airtight jars. Write a complete Band 7.5+ process report.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "illustrates",
+            "divided into",
+            "subsequently",
+            "before being",
+            "where it is",
+            "molten",
+            "conveyor belt",
+            "dispatched"
+          ],
+          "checklist": [
+            "State the total number of stages and group them into 2-3 macro phases in the Overview",
+            "Use present simple passive verbs ('are roasted', 'is frozen') consistently",
+            "Include at least one 'before being + past participle' or 'where it is + past participle' structure (180-260 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "ielts-task1-processes-maps-2",
+        "title": "Describing before-and-after maps with compass directions and transformation verbs",
+        "miniLesson": {
+          "markdown": "### Map Reports: Spatial Anchoring & Transformation Verbs\nWhen comparing a town or campus map across two years (e.g., 1995 vs. Today), anchor every location using **cardinal directions** (*in the northwest corner*, *along the southern bank*, *adjacent to*) and precise **transformation verbs**:\n\n- **Buildings**: *demolished, knocked down, replaced by, converted into, expanded*\n- **Trees/Green space**: *cleared, felled, chopped down to make way for*\n- **Roads/Zones**: *pedestrianized, extended, relocated*",
+          "modelText": "The maps compare Seaview in 1995 with its present layout. Overall, the town has changed from a fishing and agricultural settlement into a residential and tourist destination. The central street is now pedestrianized, while the historic cafe remains in place.\n\nIn the north, farmland has been replaced by a golf course. Part of the woodland to the northeast has also been cleared for holiday apartments and tennis courts. On the western seafront, a seafood restaurant now occupies the former fish market site, opposite the unchanged cafe. These developments have substantially reduced the area used for agriculture.\n\nAlong the southern coast, the fishing docks have become a yacht marina with a landscaped boardwalk. The former main road through the town center has been closed to vehicles and converted into a pedestrian shopping area. A new bus terminal on the eastern edge provides access to the town without requiring vehicles to enter this central zone."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Which verb phrase is specifically appropriate for removing trees or forest on a map?",
+            "options": [
+              "The trees in the northeast were felled / cleared to make way for apartments.",
+              "The trees in the northeast were demolished and renovated.",
+              "The trees were pedestrianized into apartments."
+            ],
+            "answer": "The trees in the northeast were felled / cleared to make way for apartments.",
+            "hint": "Buildings are 'demolished/knocked down', whereas trees and forests are 'felled/cleared/cut down'."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the precise spatial phrase: 'The historic cafe ___ across the road remained unchanged.'",
+            "options": ["directly opposite", "in the middle of", "on top"],
+            "answer": "directly opposite",
+            "hint": "'directly opposite' or 'adjacent to' gives the reader exact spatial orientation."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the compass preposition: 'A new bus terminal was built in the eastern outskirts of the town.'",
+            "options": [
+              "A new bus terminal was built on the eastern outskirts of the town.",
+              "A new bus terminal was built in the eastern outskirts of the town.",
+              "A new bus terminal was built at the eastern outskirts of the town."
+            ],
+            "answer": "A new bus terminal was built on the eastern outskirts of the town.",
+            "hint": "Standard collocation: 'on the outskirts of a town/city', 'in the northwest corner', 'along the southern coast'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-processes-maps-2-task",
+          "title": "Describing before-and-after maps with compass directions and transformation verbs",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Academic Task 1 (150-180 words): Two maps show the layout of Riverside University Library in 2005 and Today. In 2005: North side had Printed Book Shelves (west) and Print Newspapers/Magazines (east); Center had a large Manual Borrow/Return Desk; South side had Silent Individual Desks (west) and a Bookshop (east). Today: North-west Printed Shelves were reduced by half to add an Audio/Podcast Studio; North-east Newspapers were replaced by a Digital Archive Room; the central Manual Desk was removed to create an Open Collaborative Lounge; South-west Silent Desks remained unchanged; South-east Bookshop was converted into a Cafe with self-service checkout machines adjacent to the entrance. Write a complete Band 7.5+ map report.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "illustrate",
+            "undergone",
+            "demolition",
+            "quadrant",
+            "to make way for",
+            "replaced by",
+            "remained unchanged",
+            "converted into"
+          ],
+          "checklist": [
+            "State the overall character of the transformation in the Overview",
+            "Use accurate compass directions ('in the northwest corner', 'along the southern side') and spatial prepositions",
+            "Mention both what changed ('converted into', 'replaced by') and what remained unchanged (180-260 words)"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "ielts-task1-processes-maps-3",
+        "title": "Checkpoint: Hybrid urban-waterfront redevelopment map report",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 3 Checkpoint: Complete Map & Infrastructure Report\nNotice how the model text below uses **past simple passive** for changes between two past years (e.g., 2000 and 2020) and **present perfect passive** (`has been transformed`) when the second map is labeled **Today / Present**.",
+          "modelText": "The maps show changes to the Harbor Industrial Precinct since 2000. Overall, industrial land has become a mixed residential and cultural district. The clock tower and northern canal basin remain, but most warehouses and storage areas have changed use.\n\nPreviously, three timber warehouses and a fenced loading bay occupied the western riverfront. The northern warehouse is now an art gallery, while the other two have been replaced by apartments with underground parking. A promenade and cycle lane occupy the former loading area, allowing public access along the river.\n\nTo the east of the clock tower, a coal yard and unused railway siding have been removed. A wetland park, outdoor cafes, and an amphitheater now occupy this land. Transport links have also improved: a pedestrian bridge crosses the southern channel, and a light-rail station stands on the northeastern boundary. Together, these changes have opened the waterfront to residents and visitors rather than restricting it to industrial users."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Which verb tense is most accurate when comparing a map from '2000' with a map labeled 'Today'?",
+            "options": [
+              "Past simple passive for 2000 ('was dominated') and present perfect passive for Today.",
+              "Future simple ('will be demolished') for everything.",
+              "Present continuous for 2000."
+            ],
+            "answer": "Past simple passive for 2000 ('was dominated') and present perfect passive for Today.",
+            "hint": "Present perfect passive connects past redevelopment to the 'Today' map visible now."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the precise noun for turning an old building into a modern facility without knocking it down: 'The northernmost warehouse has been ___ and converted into an art gallery.'",
+            "options": ["renovated", "erased", "evaporated"],
+            "answer": "renovated",
+            "hint": "When a structure's shell is kept and upgraded, it is 'renovated / refurbished and converted into...'."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the non-defining relative clause for an unchanged feature: 'East of the clock tower—that remains in its original position—the coal yard was cleared.'",
+            "options": [
+              "East of the clock tower—which remains in its original position—the coal yard was cleared.",
+              "East of the clock tower—that remains in its original position—the coal yard was cleared.",
+              "East of the clock tower—who remains in its original position—the coal yard was cleared."
+            ],
+            "answer": "East of the clock tower—which remains in its original position—the coal yard was cleared.",
+            "hint": "Never use 'that' inside a parenthetical non-defining relative clause; use 'which'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task1-processes-maps-3-task",
+          "title": "Checkpoint: Hybrid urban-waterfront redevelopment map report",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Academic Task 1 Checkpoint (150-180 words): Two maps show Greenvale Town Center in 2005 and Today. In 2005, a two-lane Highway cut straight through the center from West to East; north of the highway stood an Old Bus Depot (west) and a Historic Town Hall (east); south of the highway were a Surface Car Park (west) and an Open Vegetable Market (east). Today, the Highway has been diverted into a Ring Road around the northern perimeter, and the central stretch has been pedestrianized with trees; the Old Bus Depot was demolished to build a Multi-Modal Metro & Bus Hub; the Historic Town Hall was preserved and expanded with a Glass Annex; the Surface Car Park was replaced by a Public Park & Playground; and the Open Market was converted into a Two-Story Covered Food Hall. Write a complete Band 7.5+ map report.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "transformed",
+            "preserved",
+            "renovated",
+            "demolished",
+            "to make way for",
+            "landscaped",
+            "in their place",
+            "furthermore"
+          ],
+          "checklist": [
+            "Summarize the shift from vehicle-heavy town center to pedestrianized hub in the Overview",
+            "Group spatial details logically (e.g., central highway & northern half vs. southern half)",
+            "Use present perfect passive and past simple passive accurately across 180 to 260 words"
+          ],
+          "minWords": 150,
+          "maxWords": 180,
+          "isCheckpoint": true,
+          "targetLevel": "B2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task2-opinion-essays",
+    "level": "B2",
+    "order": 5,
+    "title": "IELTS Task 2: Opinion (To what extent do you agree or disagree) essays",
+    "theme": "IELTS Task 2 — Thesis-led introductions, clear position, and PEEL body paragraphs",
+    "outcome": "Write Band 7.5+ IELTS Task 2 Opinion essays (250-300 words) with an unmistakable position throughout and fully extended PEEL paragraphs.",
+    "grammarFocus": ["task-response", "paragraphing", "cohesion", "conditionals"],
+    "vocabulary": [
+      "contend",
+      "compelling",
+      "disproportionately",
+      "subsidize",
+      "prerequisite",
+      "sustainable",
+      "invariably",
+      "ultimately"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task2-opinion-essays-1",
+        "title": "Taking a clear, qualified position in the 2-sentence introduction",
+        "miniLesson": {
+          "markdown": "### Avoiding the 'Fence-Sitting' Trap in Opinion Essays\nWhen an IELTS Task 2 prompt asks *To what extent do you agree or disagree?*, never write a vague introduction like *This essay will discuss both sides and give my opinion at the end.* To score **Band 7+ in Task Response**, state your exact position in **Sentence 2 of your introduction**:\n\n- **Sentence 1 (Paraphrase)**: Reword the prompt's claim in your own vocabulary.\n- **Sentence 2 (Thesis & Blueprint)**: `While I acknowledge that [concession], I firmly contend that [your core position] because [Reason 1] and [Reason 2].`",
+          "modelText": "It is often argued that governments should invest their entire public-health budget in preventive lifestyle education rather than hospital treatment. While I agree that expanding preventive campaigns is essential to curb chronic disease, I firmly contend that states must maintain robust funding for acute clinical care because accidents and genetic conditions cannot be prevented through lifestyle choices alone.\n\nOn the one hand, channeling a substantial share of healthcare funds into public nutrition, vaccination, and anti-smoking initiatives yields massive long-term savings. A large proportion of modern hospital admissions—including type-two diabetes, hypertension, and smoking-related lung disease—stem directly from modifiable daily habits. When municipalities subsidize community sports centers, mandate clear sugar labeling on beverages, and offer free annual blood-pressure screenings, fewer citizens require costly intensive-care beds decades later.\n\nNevertheless, neglecting hospital infrastructure in favor of prevention alone would leave millions of citizens dangerously unprotected. Even the healthiest population faces road traffic collisions, complicated childbirths, infectious outbreaks, and hereditary cancers that require trained surgeons, diagnostic scanners, and emergency wards. Moreover, patients already living with advanced illnesses cannot simply be told to eat better; they depend on immediate medical intervention to survive. In conclusion, although preventive education reduces future strain on medical systems, governments must balance it with well-funded hospitals so every citizen receives timely life-saving care.\n\nA balanced budget also needs transparent priorities. Preventive projects should be evaluated against measurable health outcomes, while hospitals need sufficient reserves to handle unexpected demand. Funding one approach should therefore complement, rather than eliminate, the other part of a resilient health service."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why does a 'qualified agreement' thesis ('While I agree that X is vital, I contend that Y must also be funded because...') score so well in IELTS Task 2?",
+            "options": [
+              "It states a crystal-clear position from the start while allowing two well-focused body paragraphs.",
+              "It hides the writer's opinion so the examiner has to guess.",
+              "It uses memorized clichés from the internet."
+            ],
+            "answer": "It states a crystal-clear position from the start while allowing two well-focused body paragraphs.",
+            "hint": "A qualified position gives you a clear stance across the whole essay and natural topics for Body 1 and Body 2."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the precise verb meaning 'arise or result from': 'Many modern hospital admissions ___ directly from modifiable daily habits.'",
+            "options": ["stem", "root", "branch"],
+            "answer": "stem",
+            "hint": "'stem from [a cause]' is a natural Band 7.5+ verb phrase for cause and effect."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the verb form after 'in favor of': 'Neglecting hospitals in favor of prevent alone would be dangerous.'",
+            "options": [
+              "Neglecting hospitals in favor of prevention alone would be dangerous.",
+              "Neglecting hospitals in favor of prevent alone would be dangerous.",
+              "Neglecting hospitals in favor of to prevent alone would be dangerous."
+            ],
+            "answer": "Neglecting hospitals in favor of prevention alone would be dangerous.",
+            "hint": "After the prepositional phrase 'in favor of', use a noun ('prevention') or gerund ('preventing')."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-opinion-essays-1-task",
+          "title": "Taking a clear, qualified position in the 2-sentence introduction",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'Some people believe that universities should only fund practical subjects like engineering, medicine, and technology, and stop funding arts and humanities courses. To what extent do you agree or disagree?' Write a 3- or 4-paragraph essay with a clear qualified thesis in your introduction.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "it is often argued",
+            "While I acknowledge",
+            "firmly contend",
+            "stem directly from",
+            "subsidize",
+            "nevertheless",
+            "moreover",
+            "in conclusion"
+          ],
+          "checklist": [
+            "Paraphrase the prompt and state a clear, qualified thesis in your opening paragraph",
+            "Develop one core reason per body paragraph with concrete examples",
+            "Restate your position in the conclusion without introducing new arguments (240-300 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "ielts-task2-opinion-essays-2",
+        "title": "Extending body paragraphs with single-idea depth instead of shopping lists",
+        "miniLesson": {
+          "markdown": "### Depth Over Breadth: Avoiding the 'Three Undeveloped Ideas' Trap\nBand 6.0 writers cram three separate ideas (*First..., Second..., Third...*) into a single 80-word body paragraph, leaving every point superficial. Band 7.5+ writers build each body paragraph around **one overarching argument** and unpack it across 4–5 sentences:\n\n1. **Topic Sentence**: Clear argument.\n2. **Mechanism (`This is because...` / `When...`)**: Explain how it works in practice.\n3. **Concrete Illustration (`For example,...`)**: Real-world policy, workplace, or educational scenario.\n4. **Consequence (`Consequently,...`)**: Tie back to the prompt.",
+          "modelText": "Some urban planners argue that levying congestion charges on private cars entering city centers is the most effective way to reduce traffic. I strongly agree with this view, provided that municipal authorities reinvest the resulting revenue directly into high-frequency public transport.\n\nThe primary reason congestion pricing succeeds is that it attaches an immediate, visible financial cost to solo rush-hour driving. When road access is completely free at the point of use, commuters naturally choose the convenience of a private car even for short three-kilometer journeys, ignoring the collective delay they impose on thousands of bus passengers. For example, after cities such as Singapore and Stockholm introduced automated electronic road pricing during peak morning hours, discretionary car trips dropped by nearly twenty percent within the first year, and average bus speeds rose noticeably. Consequently, pricing scarce road space encourages drivers to carpool, shift non-urgent errands to off-peak hours, or switch to rail.\n\nHowever, for such a charge to remain socially fair, every dollar collected must be ring-fenced to expand affordable transit alternatives. If a city penalizes drivers without adding suburban feeder buses or metro carriages, the fee merely acts as a regressive tax on working commuters who have no other way to reach their jobs. In conclusion, peak-hour road pricing is a powerful tool for clearing urban gridlock when paired with immediate reinvestment in public transit.\n\nExemptions also require careful design. Emergency vehicles and residents with disabilities may need special arrangements, but broad exceptions would weaken the incentive to change travel habits. Authorities should publish regular reports showing whether shorter journeys and better services actually justify the charge."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why does a single fully unpacked argument per body paragraph outscore a 'First, Second, Third' shopping list in IELTS Task 2?",
+            "options": [
+              "IELTS rubrics reward fully extended, well-supported ideas over brief unproved lists.",
+              "Examiners are not allowed to read the word 'First'.",
+              "Shopping lists use too many periods."
+            ],
+            "answer": "IELTS rubrics reward fully extended, well-supported ideas over brief unproved lists.",
+            "hint": "Unpacking the 'how', 'for example', and 'consequently' of one strong point proves Band 7.5+ development."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the conditional conjunction meaning 'on the condition that': 'I agree with this view, ___ that cities reinvest the revenue into buses.'",
+            "options": ["provided", "unless", "despite"],
+            "answer": "provided",
+            "hint": "'provided that' or 'providing that' introduces a precise policy condition."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the adjective vs. adverb error: 'Average bus speeds rose noticeable after the charge launched.'",
+            "options": [
+              "Average bus speeds rose noticeably after the charge launched.",
+              "Average bus speeds rose noticeable after the charge launched.",
+              "Average bus speeds noticeable rose after the charge."
+            ],
+            "answer": "Average bus speeds rose noticeably after the charge launched.",
+            "hint": "Use the adverb 'noticeably' to modify the action verb 'rose'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-opinion-essays-2-task",
+          "title": "Extending body paragraphs with single-idea depth instead of shopping lists",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'Some people think that imposing a higher tax on sugary drinks and fast food is the best way to solve rising public health problems. To what extent do you agree or disagree?' Write an essay where each body paragraph develops one deep argument using Topic Sentence -> Mechanism -> Example -> Consequence.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "provided that",
+            "primary reason",
+            "at the point of use",
+            "for example",
+            "consequently",
+            "socially fair",
+            "regressive",
+            "in conclusion"
+          ],
+          "checklist": [
+            "State a clear position using 'provided that' or a qualified thesis in paragraph one",
+            "Develop one unified argument per body paragraph (Topic -> Mechanism -> Example -> Consequence)",
+            "Keep total length between 240 and 300 words"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "ielts-task2-opinion-essays-3",
+        "title": "Checkpoint: Full IELTS Task 2 Opinion essay",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 5 Checkpoint: Complete Task 2 Opinion Essay\nDemonstrate a clear position from introduction to conclusion, two deeply developed body paragraphs, and accurate conditional and relative clauses.",
+          "modelText": "Many educators believe that secondary schools should make community service or unpaid volunteering a mandatory requirement for graduation. While compulsory programmes can sometimes feel burdensome during exam seasons, I strongly agree that structured community service should be part of the high-school curriculum because it cultivates civic empathy and exposes teenagers to practical workplace responsibilities.\n\nFirst and foremost, participating in local community projects helps adolescents look beyond their immediate academic pressure and understand diverse social realities. Modern secondary education often isolates students inside competitive exam tracks, leaving them with little awareness of the challenges faced by elderly neighbors, disabled residents, or low-income families. When a sixteen-year-old spends two hours a week tutoring younger children at a neighborhood center or assisting at a community kitchen, abstract lessons about citizenship become tangible human relationships. As a result, students graduate with stronger social empathy and a lasting sense of civic responsibility.\n\nEqually important, well-designed volunteering placements allow teenagers to develop foundational soft skills before entering university or the labor market. Coordinating a park clean-up or organizing charity book donations requires reliability, teamwork, and clear communication with adults outside a teenager's family circle. Provided that schools keep the required hours reasonable—such as twenty hours per academic year—and allow students to choose causes that match their interests, volunteering enriches rather than disrupts academic study. In conclusion, integrating manageable community service into secondary education prepares young people to become both capable professionals and compassionate citizens.\n\nSchools should also offer accessible alternatives for students with disabilities or caring duties, ensuring that participation remains fair and educational rather than punitive."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "How does paragraph three address the potential counter-argument against mandatory volunteering?",
+            "options": [
+              "It embeds a practical safeguard ('Provided that hours stay reasonable...') to avoid overload.",
+              "It says exams do not matter at all.",
+              "It contradicts the thesis statement."
+            ],
+            "answer": "It embeds a practical safeguard ('Provided that hours stay reasonable...') to avoid overload.",
+            "hint": "Embedding a realistic safeguard shows Band 7.5+ maturity without losing your clear stance."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the precise verb meaning 'develop or nurture a quality gradually': 'Structured volunteering ___ civic empathy in teenagers.'",
+            "options": ["cultivates", "demolishes", "postpones"],
+            "answer": "cultivates",
+            "hint": "'cultivate empathy / skills / habits' is an idiomatic C1/Band 8 collocation."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the verb agreement after 'requires': 'Organizing book donations require reliability and teamwork.'",
+            "options": [
+              "Organizing book donations requires reliability and teamwork.",
+              "Organizing book donations require reliability and teamwork.",
+              "Organize book donations requires reliability and teamwork."
+            ],
+            "answer": "Organizing book donations requires reliability and teamwork.",
+            "hint": "The singular gerund subject 'Organizing book donations' takes 'requires'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-opinion-essays-3-task",
+          "title": "Checkpoint: Full IELTS Task 2 Opinion essay",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Writing Task 2 Checkpoint (250-350 words): 'Some people believe that all university students should be required to complete a semester-long workplace internship before they can graduate. To what extent do you agree or disagree?' Write a complete Band 7.5+ Opinion essay.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "mandatory",
+            "burdensome",
+            "cultivates",
+            "first and foremost",
+            "tangible",
+            "equally important",
+            "provided that",
+            "compassionate"
+          ],
+          "checklist": [
+            "State a clear position in your introduction and maintain it consistently",
+            "Extend each body paragraph with mechanism, concrete illustration, and consequence",
+            "Include at least one 'Provided that...' or gerund-subject clause across 240 to 300 words"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": true,
+          "targetLevel": "B2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task2-discussion-essays",
+    "level": "B2",
+    "order": 6,
+    "title": "IELTS Task 2: Discussion (Both views and opinion) and Outweigh essays",
+    "theme": "IELTS Task 2 — Impartial attribution of opposing views vs. explicit authorial voice",
+    "outcome": "Write Band 7.5+ IELTS Discussion and Advantages/Disadvantages essays (250-300 words) that separate third-party views from your own opinion.",
+    "grammarFocus": ["task-response", "cohesion", "register", "connectors"],
+    "vocabulary": [
+      "proponents",
+      "advocates",
+      "maintain that",
+      "conversely",
+      "contend",
+      "outweigh",
+      "short-sighted",
+      "indispensable"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task2-discussion-essays-1",
+        "title": "Distinguishing third-party attribution from your own authorial voice",
+        "miniLesson": {
+          "markdown": "### The #1 Scoring Rule for 'Discuss Both Views and Give Your Opinion'\nIn a Discussion essay, examiners check two distinct things:\n1. Did you discuss **both** views fairly?\n2. Is **your own opinion** unmistakably separate from the views you attribute to others?\n\n- **Body 1 (View A — The side you disagree with)**: Use third-person attribution (`Advocates of X argue that...`, `From this perspective,...`).\n- **Body 2 (View B + Your Opinion)**: Signal the shift explicitly (`However, I side with those who contend that...`, `In my view,...`).",
+          "modelText": "While some people argue that international sporting events such as the Olympics and the World Cup are a wasteful extravagance for host nations, others believe they bring lasting economic and cultural rewards. Although poorly planned tournaments can leave cities with underused stadiums, I contend that well-managed global events deliver long-term infrastructure and tourism benefits that justify the investment.\n\nCritics of hosting mega-events point out that constructing specialized arenas and athlete villages requires billions of dollars in public funds that could otherwise support schools, hospitals, or social housing. In several past host cities, bespoke velodromes and aquatic centers fell into disrepair within a few years of the closing ceremony, saddling local taxpayers with decades of maintenance debt. From a purely short-term accounting perspective, ticket and broadcast revenues rarely cover these initial capital outlays.\n\nHowever, I share the view that strategic host cities can use international tournaments as a catalyst to accelerate essential urban transit and regeneration projects. When cities such as Barcelona, London, or Tokyo prepared for global games, they directed the bulk of their budgets into permanent airport rail links, revitalized waterfronts, and modular athlete housing that was subsequently converted into thousands of residential apartments. Furthermore, global media coverage places the host country on the world tourism map for decades afterward. In conclusion, while vanity stadiums are indeed wasteful, hosting major sporting events is worthwhile when governments design every facility for post-tournament public use.\n\nPublic oversight is essential to this argument. Residents should see realistic maintenance budgets before a bid is approved, and independent reviews should compare projected benefits with alternative uses of the same funds."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why do many candidates get stuck at Band 6.0 on 'Discuss both views and give your opinion' essays?",
+            "options": [
+              "They use third-person phrases in both body paragraphs and hide their opinion until the end.",
+              "They write 275 words.",
+              "They use paragraphs."
+            ],
+            "answer": "They use third-person phrases in both body paragraphs and hide their opinion until the end.",
+            "hint": "To score Band 7+ in Task Response, your own opinion must be clear in the thesis, developed in the body, and restated in the conclusion."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the voice-shift phrase that aligns your opinion with View B at the start of Body Paragraph 2: 'However, I ___ the view that strategic host cities can use tournaments as a catalyst.'",
+            "options": ["share", "borrow", "refuse"],
+            "answer": "share",
+            "hint": "'However, I share the view that...' or 'However, I side with those who argue that...' makes your voice unmistakable."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the participle clause showing result: '...fell into disrepair, saddled local taxpayers with maintenance debt.'",
+            "options": [
+              "...fell into disrepair, saddling local taxpayers with maintenance debt.",
+              "...fell into disrepair, saddled local taxpayers with maintenance debt.",
+              "...fell into disrepair, to saddle local taxpayers with maintenance debt."
+            ],
+            "answer": "...fell into disrepair, saddling local taxpayers with maintenance debt.",
+            "hint": "Use the active present participle (', saddling...') to express the consequence of the preceding clause."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-discussion-essays-1-task",
+          "title": "Distinguishing third-party attribution from your own authorial voice",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'Some people believe that employees should stay in the same company for their entire career, while others think changing jobs frequently is better for professional growth. Discuss both these views and give your own opinion.' Write a complete essay clearly separating third-party attribution from your own stance.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "extravagance",
+            "critics",
+            "point out that",
+            "saddling",
+            "However, I share the view",
+            "catalyst",
+            "subsequently",
+            "in conclusion"
+          ],
+          "checklist": [
+            "State both views and your own clear opinion in the introduction",
+            "Use third-person attribution ('Proponents of X argue...') in Body 1",
+            "Signal your own stance explicitly ('However, I share the view that...') in Body 2 and the conclusion (240-300 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "ielts-task2-discussion-essays-2",
+        "title": "Do the advantages outweigh the disadvantages? Proving net weight",
+        "miniLesson": {
+          "markdown": "### 'Outweigh' Essays: Why Listing 1 Pro and 1 Con Is Not Enough\nWhen a prompt asks *Do the advantages of X outweigh the disadvantages?*, you cannot just list one benefit and one drawback and stop. You must **evaluate why the drawbacks are manageable or temporary**, whereas **the advantages are systemic and transformative**.",
+          "modelText": "In many countries, physical cash is rapidly being replaced by mobile wallets, contactless cards, and instant QR-code transfers. Although a cashless economy introduces legitimate privacy and accessibility concerns, I believe the advantages far outweigh the disadvantages because digital payments reduce transaction crime, streamline small-business accounting, and can be designed to include vulnerable citizens.\n\nAdmittedly, transitioning away from physical banknotes creates two real challenges that governments must manage carefully. First, elderly citizens in rural areas who lack smartphones or digital literacy can feel excluded when shops refuse coins and notes. Second, complete reliance on banking servers means that a temporary power outage or cyberattack can briefly disrupt everyday purchases. However, both drawbacks are operational hurdles rather than permanent flaws: banks can provide simple offline-capable payment cards, and municipal regulations can require essential pharmacies and grocery stores to keep accepting cash.\n\nBy contrast, the economic and social benefits of digital payments are transformative and enduring. For small street vendors and independent retailers, instant QR transfers eliminate the risk of counterfeit bills, nighttime cash robberies, and time-consuming trips to deposit physical notes at a bank branch. Moreover, transparent digital records help micro-businesses prove their monthly revenue so they can qualify for fair low-interest bank loans instead of predatory informal credit. In conclusion, because the risks of digital payments are easily mitigated through sensible safeguards, their economic advantages clearly prevail.\n\nFinancial inclusion must nevertheless remain a practical commitment. Community training and accessible account services would help people who cannot navigate complex applications. Without these measures, efficiency gains for confident users could conceal substantial costs for others."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "How does the end of Body Paragraph 1 prove that the disadvantages do NOT outweigh the advantages?",
+            "options": [
+              "It shows that both drawbacks are manageable operational hurdles with practical policy fixes.",
+              "It pretends that power outages never happen.",
+              "It says elderly people do not buy groceries."
+            ],
+            "answer": "It shows that both drawbacks are manageable operational hurdles with practical policy fixes.",
+            "hint": "Explicitly minimizing the weight of the drawbacks at the end of Body 1 sets up your winning side in Body 2."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the verb meaning 'win out or prove stronger in the end': 'In conclusion, the economic advantages clearly ___.'",
+            "options": ["prevail", "surrender", "vanish"],
+            "answer": "prevail",
+            "hint": "'prevail' or 'far outweigh the drawbacks' delivers a decisive final evaluation."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the plural/uncountable agreement: 'Physical cash are rapidly being replaced by mobile wallets.'",
+            "options": [
+              "Physical cash is rapidly being replaced by mobile wallets.",
+              "Physical cash are rapidly being replaced by mobile wallets.",
+              "Physical cashes are rapidly being replaced by mobile wallets."
+            ],
+            "answer": "Physical cash is rapidly being replaced by mobile wallets.",
+            "hint": "'Cash' is an uncountable singular noun and takes 'is'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-discussion-essays-2-task",
+          "title": "Do the advantages outweigh the disadvantages? Proving net weight",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'More and more students are choosing to study at universities in a foreign country rather than in their homeland. Do the advantages of studying abroad outweigh the disadvantages?' Write an Outweigh essay that explicitly evaluates why one side carries greater weight.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "far outweigh",
+            "Admittedly",
+            "excluded",
+            "operational hurdles",
+            "By contrast",
+            "transformative",
+            "mitigated",
+            "prevail"
+          ],
+          "checklist": [
+            "State clearly in your thesis that the advantages far outweigh the disadvantages (or vice versa)",
+            "Acknowledge two drawbacks in Body 1 and explain why they are manageable or temporary",
+            "Demonstrate why the benefits in Body 2 are deeper and more lasting (240-300 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "B2"
+        }
+      },
+      {
+        "id": "ielts-task2-discussion-essays-3",
+        "title": "Checkpoint: Full Discussion & Opinion essay under exam constraints",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 6 Checkpoint: Complete Discussion Essay\nDemonstrate balanced examination of both perspectives, unmistakable voice separation, and a cohesive synthesis.",
+          "modelText": "While some economists argue that governments should prioritize rapid economic growth above all else, others contend that environmental protection must take precedence even if it slows industrial expansion. Although rising incomes are vital for lifting populations out of poverty, I believe that safeguarding ecological systems must be the primary policy boundary because environmental collapse ultimately destroys the foundation of economic prosperity itself.\n\nAdvocates of growth-first policies emphasize that tax revenues generated by manufacturing, construction, and exports fund the public infrastructure that developing societies urgently need. Without robust industrial expansion, governments struggle to build rural hospitals, modernize grids, or create stable employment for millions of young graduates. From this viewpoint, strict emissions caps or land-use bans are luxuries that lower-income nations can only afford after achieving high per-capita wealth.\n\nHowever, I side with environmental scientists and economists who point out that treating nature as an expendable input is economically self-defeating. When unregulated factories pollute river basins or clear coastal mangroves, the immediate profits earned by a handful of corporations are dwarfed by the long-term public cost of agricultural crop failures, storm damage, and respiratory illness. In Vietnam's Mekong Delta, for instance, saltwater intrusion and land subsidence already threaten the livelihoods of millions of farming families. Furthermore, modern green technologies—such as solar microgrids and circular manufacturing—now allow nations to expand employment without repeating twentieth-century pollution. In conclusion, rather than sacrificing the environment for short-term GDP gains, governments must embed ecological limits at the heart of economic planning.\n\nThis does not mean rejecting development. Instead, governments should compare immediate gains with environmental costs and require firms to prevent damage before projects receive approval."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Select the passive comparison phrase meaning 'made to look tiny by comparison': 'Immediate corporate profits are ___ by the long-term public cost of crop failures.'",
+            "options": ["dwarfed", "enlarged", "celebrated"],
+            "answer": "dwarfed",
+            "hint": "'are dwarfed by [a much larger cost]' is a high-impact Band 8 comparative structure."
+          },
+          {
+            "type": "choose",
+            "prompt": "How does the model introduction establish both views AND the writer's opinion in just two sentences?",
+            "options": [
+              "Sentence 1 contrasts both views, and Sentence 2 states the writer's qualified stance.",
+              "It copies the prompt word for word.",
+              "It waits until the last word of the essay to mention the environment."
+            ],
+            "answer": "Sentence 1 contrasts both views, and Sentence 2 states the writer's qualified stance.",
+            "hint": "That 2-sentence introduction blueprint works for every IELTS Discussion essay."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the adjective form after 'economically': 'Treating nature as an expendable input is economically self-defeat.'",
+            "options": [
+              "Treating nature as an expendable input is economically self-defeating.",
+              "Treating nature as an expendable input is economically self-defeat.",
+              "Treating nature as an expendable input is economical self-defeating."
+            ],
+            "answer": "Treating nature as an expendable input is economically self-defeating.",
+            "hint": "Use the compound participial adjective 'self-defeating' after the adverb 'economically'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-discussion-essays-3-task",
+          "title": "Checkpoint: Full Discussion & Opinion essay under exam constraints",
+          "genre": "formal correspondence",
+          "prompt": "IELTS Writing Task 2 Checkpoint (250-350 words): 'Some people think that the main purpose of schools is to turn children into good citizens and workers, rather than to benefit them as individuals. Discuss both these views and give your own opinion.' Write a complete Band 7.5+ Discussion essay.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "take precedence",
+            "Advocates of",
+            "from this viewpoint",
+            "However, I side with",
+            "self-defeating",
+            "dwarfed by",
+            "for instance",
+            "embed"
+          ],
+          "checklist": [
+            "Open with a 2-sentence introduction contrasting both views and stating your opinion",
+            "Attribute View A fairly in Body 1, then shift explicitly to your own stance in Body 2",
+            "Include a concrete example and close with a synthesized conclusion (240-300 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": true,
+          "targetLevel": "B2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task2-problem-solution",
+    "level": "C1",
+    "order": 4,
+    "title": "IELTS Task 2: Causes/Solutions and Two-Part Direct Question essays",
+    "theme": "IELTS Task 2 — Specific root-cause diagnosis and paired, feasible interventions",
+    "outcome": "Write Band 8.0 IELTS Problem-Solution and Two-Part essays (260-340 words) where specific causes map directly to targeted, multi-actor solutions.",
+    "grammarFocus": ["task-response", "cohesion", "register", "collocation"],
+    "vocabulary": [
+      "stem from",
+      "exacerbate",
+      "prohibitive",
+      "incentivize",
+      "curb",
+      "concerted",
+      "viable",
+      "alleviate"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task2-problem-solution-1",
+        "title": "Pairing specific root causes with mirrored solutions",
+        "miniLesson": {
+          "markdown": "### The 'Mirrored Cause & Solution' Blueprint\nIn a *What are the causes of this problem, and what measures can be taken to solve it?* essay, avoid listing three random causes in Body 1 and three unrelated clichés (*The government should raise awareness*) in Body 2. Instead, select **two specific structural causes** in Body 1, and design **two mirrored solutions** in Body 2 that directly target Cause 1 and Cause 2.",
+          "modelText": "Across many developed and rapidly industrializing nations, the average age at which young adults purchase their first home or start a family has risen sharply over the past two decades. This demographic shift stems primarily from prohibitive urban housing costs and the rise of precarious early-career employment, both of which require coordinated housing and labor-market reforms.\n\nTwo structural pressures explain why young people are delaying major life milestones. First, residential property prices in major employment hubs have grown three to four times faster than entry-level wages, driven by speculative real-estate investment and restrictive zoning laws that limit high-density apartment construction near transit lines. Second, even university-educated graduates now spend their twenties navigating short-term contract roles and gig-economy work while carrying substantial educational or living debt. Without predictable multi-year income or affordable rent, committing to a mortgage or raising children becomes financially reckless.\n\nAddressing these twin bottlenecks requires targeted interventions that match each underlying cause. To curb housing inflation, municipal and national governments should upzone land within walking distance of metro stations for mid-rise public-private rental housing while levying steep vacancy taxes on speculative second homes. Simultaneously, to alleviate early-career insecurity, policymakers can incentivize employers through payroll-tax credits to convert long-term contractors into permanent staff and expand subsidized municipal childcare for working parents. Where cities such as Vienna have combined transit-oriented social housing with stable tenant protections and universal early childhood education, young families enjoy far greater financial predictability. In conclusion, young adults delay settling down not out of personal reluctance, but because urban housing and entry-level work have grown prohibitively insecure; reforming residential zoning and labor contracts offers the surest path forward."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Why does mirroring Solution 1 -> Cause 1 and Solution 2 -> Cause 2 score so highly in IELTS Coherence & Cohesion?",
+            "options": [
+              "It creates tight symmetry so every proposed policy directly solves a diagnosed root cause.",
+              "It allows the writer to repeat the exact same sentences twice.",
+              "It avoids answering the second question in the prompt."
+            ],
+            "answer": "It creates tight symmetry so every proposed policy directly solves a diagnosed root cause.",
+            "hint": "Mirrored cause-and-solution architecture eliminates vague 'raise awareness' filler."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the C1 adjective meaning 'so high in price that it prevents people from buying': 'This shift stems from ___ urban housing costs.'",
+            "options": ["prohibitive", "charitable", "negligible"],
+            "answer": "prohibitive",
+            "hint": "'prohibitive costs / prices' is a natural Band 8 collocation."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the verb pattern after 'incentivize': 'Governments can incentivize employers converting contractors into permanent staff.'",
+            "options": [
+              "Governments can incentivize employers to convert contractors into permanent staff.",
+              "Governments can incentivize employers converting contractors into permanent staff.",
+              "Governments can incentivize employers convert contractors into permanent staff."
+            ],
+            "answer": "Governments can incentivize employers to convert contractors into permanent staff.",
+            "hint": "Use 'incentivize + object + to-infinitive' ('incentivize employers to convert')."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-problem-solution-1-task",
+          "title": "Pairing specific root causes with mirrored solutions",
+          "genre": "application letter",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'In many cities, an increasing number of people suffer from chronic stress and burnout related to their work. What are the main causes of this trend, and what measures can employers and individuals take to address it?' Write a 4-paragraph Cause & Solution essay where your two solutions in Body 2 directly mirror your two causes in Body 1.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "stems primarily from",
+            "prohibitive",
+            "precarious",
+            "structural pressures",
+            "twin bottlenecks",
+            "curb",
+            "simultaneously",
+            "alleviate"
+          ],
+          "checklist": [
+            "Preview both the two root causes and the policy direction in your thesis statement",
+            "Diagnose two specific structural causes in Body Paragraph 1",
+            "Propose two concrete solutions in Body Paragraph 2 that directly target Cause 1 and Cause 2 (250-350 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "ielts-task2-problem-solution-2",
+        "title": "Answering Two-Part Direct Question essays with equal weight",
+        "miniLesson": {
+          "markdown": "### Mastering Two-Part ('Direct Question') Prompts\nPrompts that end with two separate questions—such as *(1) Why is this happening? (2) Is this a positive or negative development?*—must be answered directly in **both your thesis and your two body paragraphs**:\n\n- **Introduction**: Paraphrase + **1 sentence answering Question 1 and Question 2 directly**.\n- **Body 1**: Answer Question 1 thoroughly.\n- **Body 2**: Answer Question 2 thoroughly.",
+          "modelText": "In recent years, traditional neighborhood grocery shops and independent bookstalls have increasingly been replaced by large international retail chains and next-day e-commerce platforms. This consolidation is driven by consumer demand for lower prices and frictionless home delivery, and while it improves household purchasing power, I view the complete disappearance of independent local retailers as a largely negative development for community life.\n\nThe primary catalyst behind the decline of small family-owned shops is the massive economies of scale enjoyed by multinational supermarkets and online marketplaces. Because global platforms purchase inventory in bulk and operate automated regional warehouses, they can undercut independent shopkeepers by fifteen to twenty percent on everyday staples while offering thousands of product varieties under one virtual roof. For time-poor dual-income families, ordering groceries via a smartphone app in five minutes is far more convenient than visiting three separate neighborhood stalls before closing time.\n\nDespite these undeniable consumer conveniences, the erosion of independent street-level retail carries severe long-term social and economic costs. Local shop owners do more than sell goods; they recirculate profits within the municipality, hire neighborhood youth, and provide informal daily social contact for elderly residents who live alone. When a high street is hollowed out by courier warehouses and identical chain storefronts, neighborhoods lose both their distinctive cultural character and their economic resilience against corporate price hikes. Municipalities can preserve this neighborhood vitality by offering targeted business-rate relief for ground-floor independent grocers and helping local markets build shared neighborhood delivery cooperatives. In conclusion, although economies of scale and digital convenience explain why mega-retailers dominate, cities lose vital social and economic fabric when independent merchants vanish entirely."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "What happens to your Task Response score if you write 200 words explaining *why* small shops are closing (Question 1) and only one sentence on *whether it is positive or negative* (Question 2)?",
+            "options": [
+              "Task Response is capped at Band 6.0 when one question is developed much less than the other.",
+              "You automatically get Band 9.0.",
+              "Question 2 is optional in IELTS."
+            ],
+            "answer": "Task Response is capped at Band 6.0 when one question is developed much less than the other.",
+            "hint": "The Band 7+ descriptor requires addressing ALL parts of the prompt equally and fully."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the economic collocation meaning 'cost advantages gained by large production/purchasing volume': '...the massive ___ enjoyed by multinational supermarkets.'",
+            "options": ["economies of scale", "shortages of scale", "scales of economy"],
+            "answer": "economies of scale",
+            "hint": "'economies of scale' is an exact C1 economic collocation for retail and industrial essays."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the semicolon + elaboration structure: 'Local shop owners do more than sell goods, they recirculate profits within the community.'",
+            "options": [
+              "Local shop owners do more than sell goods; they recirculate profits within the community.",
+              "Local shop owners do more than sell goods, they recirculate profits within the community.",
+              "Local shop owners do more than sell goods; because they recirculate profits."
+            ],
+            "answer": "Local shop owners do more than sell goods; they recirculate profits within the community.",
+            "hint": "Use a semicolon (not a comma splice) between two closely linked independent clauses."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-problem-solution-2-task",
+          "title": "Answering Two-Part Direct Question essays with equal weight",
+          "genre": "application letter",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'Nowadays, many young people choose to work as self-employed freelancers or content creators rather than joining traditional companies. Why is this trend occurring? Do you think it is a positive or negative development overall?' Write a balanced 4-paragraph Two-Part essay.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "consolidation",
+            "driven by",
+            "catalyst",
+            "economies of scale",
+            "time-poor",
+            "erosion",
+            "hollowed out",
+            "social fabric"
+          ],
+          "checklist": [
+            "Answer both Question 1 and Question 2 explicitly in your thesis statement",
+            "Dedicate Body Paragraph 1 to answering the first question ('Why?')",
+            "Dedicate Body Paragraph 2 to evaluating whether the trend is positive or negative (250-350 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "ielts-task2-problem-solution-3",
+        "title": "Checkpoint: Two-part essay on education, technology, and youth",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 7 Checkpoint: Complete Band 8.0 Two-Part / Problem-Solution Essay\nDemonstrate balanced paragraph weighting, C1 causal and policy vocabulary, and zero mechanical clichés.",
+          "modelText": "In many countries today, fewer secondary-school students are choosing to study pure science and mathematics subjects at university. This decline stems largely from abstract, exam-driven classroom pedagogy and the perceived financial allure of business and media careers, a trend that poses serious risks to a nation's long-term technological and healthcare capacity.\n\nTwo interconnected factors explain why teenagers turn away from foundational scientific disciplines. First, secondary-school physics, chemistry, and calculus curricula frequently emphasize rote formula memorization for high-stakes standardized tests rather than hands-on laboratory inquiry, causing many capable students to view STEM subjects as dry and unforgiving. Second, students see graduates in finance, digital marketing, and commercial management earning rapid entry-level salaries without enduring the grueling laboratory hours required for scientific research. Faced with harder coursework and delayed financial rewards, pragmatic eighteen-year-olds naturally gravitate toward commercial degrees.\n\nIf left unaddressed, this talent drain will severely undermine both national innovation and public welfare over the coming decades. Modern economies depend on domestic cohorts of chemical engineers, epidemiologists, and materials scientists to develop renewable energy grid storage, manage aging populations, and respond to emerging public-health threats. When a country cannot train enough STEM specialists internally, its hospitals and technology firms become reliant on expensive foreign contractors, stalling homegrown research and development. Reversing this trajectory requires modernizing secondary-school laboratories around inquiry-based climate and engineering projects while expanding national research fellowships that guarantee competitive early-career compensation for STEM graduates. In conclusion, outdated teaching methods and skewed salary incentives are driving youth away from science, and addressing both pressures is vital to safeguard future economic and medical resilience."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Select the C1 participle opener showing how students react to conditions: '___ with harder coursework and delayed rewards, students gravitate toward business degrees.'",
+            "options": ["Faced", "Facing to", "To face"],
+            "answer": "Faced",
+            "hint": "'Faced with [a situation], [subject]...' is a concise C1 passive participle opener."
+          },
+          {
+            "type": "choose",
+            "prompt": "How does Body Paragraph 2 trace the concrete consequences of the STEM shortage?",
+            "options": [
+              "It names specific scientific roles and the exact national sectors that suffer without them.",
+              "It says 'Science is very nice and everyone likes it.'",
+              "It switches the topic to primary-school art classes."
+            ],
+            "answer": "It names specific scientific roles and the exact national sectors that suffer without them.",
+            "hint": "Naming specific professions and concrete sectoral impacts turns a general claim into Band 8 analysis."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the preposition after 'gravitate': 'Pragmatic students naturally gravitate in commercial degrees.'",
+            "options": [
+              "Pragmatic students naturally gravitate toward commercial degrees.",
+              "Pragmatic students naturally gravitate in commercial degrees.",
+              "Pragmatic students naturally gravitate at commercial degrees."
+            ],
+            "answer": "Pragmatic students naturally gravitate toward commercial degrees.",
+            "hint": "Standard collocation: 'gravitate toward / towards [something]'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-problem-solution-3-task",
+          "title": "Checkpoint: Two-part essay on education, technology, and youth",
+          "genre": "application letter",
+          "prompt": "IELTS Writing Task 2 Checkpoint (250-350 words): 'In many parts of the world, rural villages are losing their younger population as young adults move to major cities for work and study. Why is this happening, and what are the main effects on both rural communities and large cities?' Write a complete Band 8.0 Two-Part essay.",
+          "scaffold": "checklist",
+          "frames": [],
+          "wordBank": [
+            "stems largely from",
+            "interconnected",
+            "rote",
+            "Faced with",
+            "gravitate toward",
+            "If left unaddressed",
+            "undermine",
+            "reliant on"
+          ],
+          "checklist": [
+            "Answer both questions directly in your introduction",
+            "Give equal analytical depth to both Body Paragraph 1 (Causes) and Body Paragraph 2 (Effects)",
+            "Use C1 collocations ('Faced with...', 'If left unaddressed,...') across 250 to 350 words"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": true,
+          "targetLevel": "C1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "ielts-task2-band8-polish",
+    "level": "C1",
+    "order": 5,
+    "title": "IELTS Task 2: Band 8.0+ lexical precision, cohesion, and syntactic variety",
+    "theme": "IELTS Task 2 — Eliminating memorized templates and mastering Band 8+ rubric descriptors",
+    "outcome": "Produce unassisted Band 8.0+ IELTS Task 2 essays (260-350 words) free of mechanical templates, using lexical cohesion, inversion, and C1 collocations.",
+    "grammarFocus": ["cohesion", "collocation", "register", "relative-clauses"],
+    "vocabulary": [
+      "ubiquitous",
+      "ramification",
+      "exacerbate",
+      "disproportionately",
+      "indispensable",
+      "curtail",
+      "mitigate",
+      "paradigm"
+    ],
+    "lessons": [
+      {
+        "id": "ielts-task2-band8-polish-1",
+        "title": "Eliminating 'memorized template' penalties in Coherence and Cohesion",
+        "miniLesson": {
+          "markdown": "### Why Memorized Templates Cap Your Score at Band 6.0\nOfficial IELTS examiners are trained to spot and penalize memorized essay skeletons (*With the rapid development of modern society and technology, a controversial debate has arisen about...*, *Every coin has two sides*, *In a nutshell*). Replace mechanical sentence-initial linkers with **organic lexical cohesion** (`This disparity`, `Such interventions`, `Beyond its economic toll,...`).",
+          "modelText": "Targeted digital advertising—powered by real-time tracking of browsing histories, location data, and purchase habits—has become the financial engine of the modern internet. While behavioral ad targeting funds free online services and helps niche businesses reach likely buyers, I contend that its unchecked expansion erodes personal privacy and manipulates consumer behavior in ways that require strict regulatory limits.\n\nDefenders of personalized advertising point out that ad revenue subsidizes the search engines, video platforms, and independent news sites that billions of people use without paying subscription fees. For small artisanal brands or local service providers, algorithmic targeting also levels the commercial playing field, allowing them to show advertisements only to nearby users with relevant interests rather than buying expensive television airtime.\n\nBeyond these commercial conveniences, however, pervasive data harvesting inflicts deep social and psychological harm. To maximize click-through rates, ad networks assemble granular profiles that infer a user's financial anxieties, health vulnerabilities, and political leanings without meaningful consent. These behavioral profiles enable predatory lenders, gambling apps, and impulsive fast-fashion retailers to target susceptible individuals at moments of weakness. Even more troubling, when social-media algorithms optimize solely for advertising engagement, they amplify sensationalist and polarizing content that keeps users scrolling longer. Contextual advertising—which matches ads to the topic of the webpage currently being read rather than a user's private life history—already proves that publishers can generate healthy revenue without invasive surveillance. In conclusion, although digital advertising supports accessible online content, governments must prohibit non-consensual behavioral tracking so commercial profit does not come at the expense of citizen autonomy and mental well-being."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "Which opening sentence avoids memorized IELTS clichés and engages directly with the prompt topic?",
+            "options": [
+              "Targeted digital advertising—powered by real-time tracking—funds much of the modern internet.",
+              "Nowadays, with rapid development, advertising is a hot topic where every coin has two sides.",
+              "In this essay I will embark upon a journey to discuss the pros and cons of ads."
+            ],
+            "answer": "Targeted digital advertising—powered by real-time tracking—funds much of the modern internet.",
+            "hint": "Jumping straight into the specific mechanism of the topic proves authentic C1/Band 8 fluency."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Replace 'Secondly, Moreover,' at the start of the rebuttal paragraph with an organic bridge: '___ these commercial conveniences, however, pervasive data harvesting inflicts deep harm.'",
+            "options": ["Beyond", "In a nutshell", "Every coin"],
+            "answer": "Beyond",
+            "hint": "'Beyond these [summary noun], however,...' acknowledges the previous paragraph while pivoting smoothly."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the verb agreement in the 'allowing' clause: 'Algorithmic targeting levels the playing field, allows small brands to reach nearby users.'",
+            "options": [
+              "Algorithmic targeting levels the playing field, allowing small brands to reach nearby users.",
+              "Algorithmic targeting levels the playing field, allows small brands to reach nearby users.",
+              "Algorithmic targeting levels the playing field, allowed small brands to reach nearby users."
+            ],
+            "answer": "Algorithmic targeting levels the playing field, allowing small brands to reach nearby users.",
+            "hint": "Attach a result clause after a comma using the present participle (', allowing...'), not a comma-spliced finite verb."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-band8-polish-1-task",
+          "title": "Eliminating 'memorized template' penalties in Coherence and Cohesion",
+          "genre": "application letter",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'Many websites and apps collect personal data about users in order to show them personalized advertisements and content. Do you think the advantages of this practice outweigh the disadvantages?' Write a Band 8.0 essay with zero memorized clichés, using 'Beyond these [noun], however,...' and 'These [noun]...' cohesion.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "subsidizes",
+            "levels the playing field",
+            "Beyond these",
+            "pervasive",
+            "granular",
+            "susceptible",
+            "amplify",
+            "at the expense of"
+          ],
+          "checklist": [
+            "Open directly with the specific topic mechanism (zero 'Nowadays with the development of...' templates)",
+            "Bridge Body 1 and Body 2 using 'Beyond these [summary noun], however,...'",
+            "Use at least one ', allowing...' or ', enabling...' participle clause across 250 to 350 words"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "ielts-task2-band8-polish-2",
+        "title": "Showcasing Band 8+ Grammatical Range: Inversion, clefts, and non-defining clauses",
+        "miniLesson": {
+          "markdown": "### The Band 8.0 Grammatical Range Toolkit\nTo score Band 8.0+ in **Grammatical Range and Accuracy**, your essay needs error-free variety across complex sentence types—used naturally to highlight emphasis:\n\n1. **Negative Inversion**: `Not only does heritage preservation anchor civic identity, but it also generates sustainable tourism revenue.`\n2. **Parenthetical Non-Defining Clause**: `Historic shophouses—which evolved over centuries to suit tropical climates—offer lessons in passive cooling.`\n3. **Participle Conditioning**: `Left solely to speculative developers, historic quarters quickly lose their affordability.`",
+          "modelText": "As rapidly growing cities modernize their skylines, municipal authorities frequently face pressure to demolish historic neighborhoods in favor of high-rise commercial towers. While vertical redevelopment is indispensable for expanding office and housing supply in transit corridors, I contend that cities must preserve and adaptively reuse historic districts because they anchor cultural identity and foster resilient street-level economies.\n\nProponents of wholesale demolition argue that low-rise heritage buildings occupy prime metropolitan land inefficiently and require costly structural maintenance. In booming financial centers, replacing a block of century-old shophouses with a forty-story mixed-use tower can multiply floor space tenfold and lower per-unit energy consumption through modern insulation.\n\nNevertheless, erasing architectural heritage inflicts irreversible cultural and economic damage that glass skyscrapers cannot repair. Not only do historic quarters embody a city's collective memory across generations, but their human-scale streets also nurture independent artisans, family cafes, and cultural tourism that sterile office plazas rarely attract. Traditional courtyard houses and arcaded shophouses—which evolved over centuries to provide shade and natural cross-ventilation in tropical climates—also offer valuable design lessons for sustainable urbanism. Rather than treating preservation and density as mutually exclusive, forward-looking cities such as Singapore and Penang restore heritage facades for ground-floor commerce while concentrating high-density towers around suburban rail nodes. By granting transferable development rights to property owners who maintain landmark shophouses, municipal planners can protect neighborhood character while still meeting ambitious metropolitan housing targets. In conclusion, adaptive reuse and smart zoning allow modern cities to grow upward dynamically without severing their irreplaceable historical roots."
+        },
+        "warmups": [
+          {
+            "type": "gap-fill",
+            "prompt": "Complete the negative inversion in Body Paragraph 2: 'Not only ___ historic quarters embody a city's collective memory, but they also nurture local artisans.'",
+            "options": ["do", "does", "are"],
+            "answer": "do",
+            "hint": "With plural 'historic quarters' and base verb 'embody', invert with auxiliary 'do' ('Not only do historic quarters embody...')."
+          },
+          {
+            "type": "choose",
+            "prompt": "Why does the parenthetical clause '—which evolved over centuries to provide shade—' boost your IELTS score?",
+            "options": [
+              "It embeds analytical context inside a non-defining relative clause without breaking flow.",
+              "It replaces the need for a conclusion paragraph.",
+              "It uses slang to entertain the examiner."
+            ],
+            "answer": "It embeds analytical context inside a non-defining relative clause without breaking flow.",
+            "hint": "Parenthetical '—which...—' clauses demonstrate effortless control of complex subordination."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the reflexive/reciprocal phrase: 'Rather than treating preservation and density as mutual exclusive, cities can combine both.'",
+            "options": [
+              "Rather than treating preservation and density as mutually exclusive, cities can combine both.",
+              "Rather than treating preservation and density as mutual exclusive, cities can combine both.",
+              "Rather than treating preservation and density as mutual exclusively, cities can combine both."
+            ],
+            "answer": "Rather than treating preservation and density as mutually exclusive, cities can combine both.",
+            "hint": "Use the adverb 'mutually' to modify the adjective 'exclusive' ('mutually exclusive')."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-band8-polish-2-task",
+          "title": "Showcasing Band 8+ Grammatical Range: Inversion, clefts, and non-defining clauses",
+          "genre": "application letter",
+          "prompt": "IELTS Writing Task 2 (250-350 words): 'Some people believe that old historic buildings in cities should be knocked down and replaced with modern buildings, while others think historic buildings should be preserved. Discuss both views and give your opinion.' Write a Band 8.0 essay showcasing negative inversion ('Not only do/does...'), a parenthetical '—which...—' clause, and 'mutually exclusive'.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "indispensable",
+            "adaptively reuse",
+            "wholesale",
+            "irreversible",
+            "Not only",
+            "human-scale",
+            "mutually exclusive",
+            "severing"
+          ],
+          "checklist": [
+            "Include one accurate 'Not only do/does..., but... also...' inverted sentence",
+            "Include one non-defining relative clause set off by commas or dashes",
+            "Resolve the binary using 'Rather than treating X and Y as mutually exclusive,...' (250-350 words)"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": false,
+          "targetLevel": "C1"
+        }
+      },
+      {
+        "id": "ielts-task2-band8-polish-3",
+        "title": "Checkpoint: Unassisted Band 8.0+ IELTS Task 2 Mastery Challenge",
+        "miniLesson": {
+          "markdown": "### IELTS Unit 8 Checkpoint: Full Band 8.0+ Timed Essay Simulation\nIn this final IELTS Workspace checkpoint, write an unassisted 260 to 350 word Task 2 essay with **zero scaffolding** (`scaffold: 'none'`), demonstrating full command of **Task Response**, **Coherence and Cohesion**, **Lexical Resource**, and **Grammatical Range and Accuracy**.",
+          "modelText": "Rapid advances in artificial intelligence and robotics are automating not only routine factory assembly, but also white-collar tasks across accounting, law, and customer support. While automation inevitably displaces workers in repetitive roles during the transition period, I contend that its long-term impact will be predominantly positive provided that governments and employers modernize adult retraining and tax policy.\n\nConcerns over technological unemployment are understandable given the speed at which algorithmic systems now process data. Unlike twentieth-century industrial machines that primarily replaced manual labor, generative software can draft standard contracts, audit financial ledgers, and triage routine medical scans in seconds. Left unmanaged, this shift risks widening income inequality by rewarding capital owners and specialized AI architects while compressing wages for entry-level clerical workers.\n\nNevertheless, history and contemporary evidence suggest that automation ultimately elevates living standards when paired with proactive institutional adaptation. By offloading tedious, error-prone administrative drudgery to machines, professionals in healthcare, education, and engineering can redirect their energy toward complex human judgment, creative problem solving, and empathetic patient or student care. Furthermore, an aging global workforce makes productivity gains from automation indispensable to sustain pension systems and public services. To ensure these productivity dividends are shared broadly, governments should fund modular mid-career reskilling grants and reform corporate tax incentives so companies are rewarded for augmenting human staff rather than merely cutting headcount. Countries that pair industrial digitization with portable lifelong-learning accounts and wage-insurance schemes have consistently achieved both high robotic adoption and low structural unemployment. In conclusion, automation is not an uncontrollable economic fate; guided by forward-looking education and fiscal policy, it can liberate human workers from routine drudgery for higher-value creative work."
+        },
+        "warmups": [
+          {
+            "type": "choose",
+            "prompt": "What makes the passive participle opener 'Left unmanaged, this shift risks widening income inequality...' so effective at the end of Body Paragraph 1?",
+            "options": [
+              "It compactly states what happens without policy action, setting up Body Paragraph 2.",
+              "It introduces a spelling error.",
+              "It contradicts the thesis statement."
+            ],
+            "answer": "It compactly states what happens without policy action, setting up Body Paragraph 2.",
+            "hint": "'Left unmanaged,' (= 'If it is left unmanaged,') is a hallmark Band 8.5 syntactic compression."
+          },
+          {
+            "type": "gap-fill",
+            "prompt": "Select the precise verb meaning 'enhancing human capability rather than replacing it': '...so companies are rewarded for ___ human staff rather than cutting headcount.'",
+            "options": ["augmenting", "abolishing", "ignoring"],
+            "answer": "augmenting",
+            "hint": "'augmenting human workers' vs. 'replacing/displacing workers' is the core lexical contrast in AI essays."
+          },
+          {
+            "type": "fix-the-error",
+            "prompt": "Fix the preposition after 'redirect': 'Professionals can redirect their energy in complex human judgment.'",
+            "options": [
+              "Professionals can redirect their energy toward complex human judgment.",
+              "Professionals can redirect their energy in complex human judgment.",
+              "Professionals can redirect their energy at complex human judgment."
+            ],
+            "answer": "Professionals can redirect their energy toward complex human judgment.",
+            "hint": "Standard collocation: 'redirect energy/resources toward (or into) [something]'."
+          }
+        ],
+        "task": {
+          "id": "ielts-task2-band8-polish-3-task",
+          "title": "Checkpoint: Unassisted Band 8.0+ IELTS Task 2 Mastery Challenge",
+          "genre": "application letter",
+          "prompt": "IELTS Writing Task 2 Final Checkpoint (250-350 words): 'Artificial intelligence and automation are increasingly taking over tasks previously performed by human workers in both factories and offices. Do you think the positive effects of this trend outweigh the negative effects?' Write an unassisted Band 8.0+ essay.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [
+            "inevitably",
+            "displaces",
+            "predominantly",
+            "Left unmanaged",
+            "drudgery",
+            "redirect",
+            "indispensable",
+            "augmenting"
+          ],
+          "checklist": [
+            "State a clear, nuanced position in your opening paragraph without using memorized templates",
+            "Develop both body paragraphs with concrete mechanisms, lexical cohesion, and complex syntax",
+            "Synthesize your argument in a crisp conclusion totaling 250 to 350 words"
+          ],
+          "minWords": 250,
+          "maxWords": 350,
+          "isCheckpoint": true,
+          "targetLevel": "C1"
+        }
+      }
+    ]
+  }
+]

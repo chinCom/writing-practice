@@ -220,9 +220,10 @@ Use descriptive names and small components. Format code with Prettier.
 ## Current limits
 
 The standalone weekend task remains available at A2. Coach explanations remain in English.
-Placement estimates remain A1–B1. The learning path supports seven starting levels and a draft PRE_A1–C2 course with 21 units and 63 lessons.
-Hosted migration `0009_writing_course.sql` is applied. Hosted lessons still await teacher approval and reviewed-content seeding.
-See [curriculum review](curriculum/README.md) and [course evidence](docs/verification/writing-course.md).
+Placement estimates remain A1–B1. The learning path supports seven Core starting levels, 21 Core units (63 lessons), and eight IELTS units (24 lessons).
+URL tabs select Core or IELTS. IELTS offers independent module entry, Task 1/2 contracts, and task-specific rubric labels on the existing 1–5 scale, not official bands.
+Hosted migration `0009_writing_course.sql` is applied. Both tracks still await separate teacher approval and reviewed-content seeding. No new migration is required.
+See [curriculum review](curriculum/README.md) and [track evidence](docs/verification/curriculum-tracks.md).
 The larger 15-unit-per-level curriculum, certified level exams, and nightly generated drills are not available.
 Learning profiles and weekly goals are available. Broader AI evaluation and sustained-load testing remain outstanding.
 Account export, account deletion, and production abuse controls are not available yet.

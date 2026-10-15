@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { curriculumSchema } from '../../src/lib/curriculum';
 
 test('an empty warm-up selector keeps its label above the selected text', async ({ page }) => {
   await page.goto('/dev/preview/lesson?course=full&lesson=first-words-1');
@@ -17,11 +18,11 @@ test('an empty warm-up selector keeps its label above the selected text', async 
     .toBeLessThan(8);
 });
 
-test('advanced independent writing has no empty word bank', async ({ page, context }) => {
-  const units = JSON.parse(await readFile('curriculum/course.draft.json', 'utf8'));
-  const lessons = units.flatMap(
-    (unit: { lessons: { task: { id: string; targetLevel: string } }[] }) => unit.lessons,
+test('advanced writing renders only the supplied word bank', async ({ page, context }) => {
+  const units = curriculumSchema.parse(
+    JSON.parse(await readFile('curriculum/course.draft.json', 'utf8')),
   );
+  const lessons = units.flatMap((unit) => unit.lessons);
   const index = lessons.findIndex(
     (lesson: { task: { targetLevel: string } }) => lesson.task.targetLevel === 'C1',
   );
@@ -31,10 +32,9 @@ test('advanced independent writing has no empty word bank', async ({ page, conte
       value: JSON.stringify({
         written: Array.from({ length: index }, (_, i) => i),
         warmups: Object.fromEntries(
-          Array.from({ length: index + 1 }, (_, i) => [
-            [i + ':0', true],
-            [i + ':1', true],
-          ]).flat(),
+          lessons
+            .slice(0, index + 1)
+            .flatMap((lesson, i) => lesson.warmups.map((_, j) => [i + ':' + j, true])),
         ),
       }),
       domain: '127.0.0.1',
@@ -43,7 +43,11 @@ test('advanced independent writing has no empty word bank', async ({ page, conte
   ]);
   await page.goto('/dev/preview/curriculum-write?course=full&task=' + lessons[index].task.id);
   await expect(page.getByRole('textbox', { name: 'Your writing' })).toBeVisible();
-  await expect(page.getByText('Useful phrases (word bank)', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Useful phrases (word bank)', { exact: true })).toHaveCount(
+    lessons[index].task.wordBank.length ? 1 : 0,
+  );
+  for (const phrase of lessons[index].task.wordBank)
+    await expect(page.getByRole('button', { name: phrase, exact: true })).toBeVisible();
 });
 test('opens every course level without exposing answer keys and completes a lesson through writing', async ({
   page,
@@ -55,11 +59,13 @@ test('opens every course level without exposing answer keys and completes a less
   await expect(lesson).toHaveAttribute('href', /lesson=.*first-words-1/);
   await lesson.click();
   await expect(page.getByRole('heading', { name: 'Names and roles', exact: true })).toBeVisible();
-  await page.getByRole('combobox', { name: 'Your answer' }).selectOption('I am Lin.');
-  await page.getByRole('button', { name: 'Check answer', exact: true }).click();
-  await page.getByRole('button', { name: 'Next warm-up' }).click();
-  await page.getByRole('combobox', { name: 'Your answer' }).selectOption('I am a student.');
-  await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+  const units = JSON.parse(await readFile('curriculum/course.draft.json', 'utf8'));
+  for (const [index, warmup] of units[0].lessons[0].warmups.entries()) {
+    await page.getByRole('combobox', { name: 'Your answer' }).selectOption(warmup.answer);
+    await page.getByRole('button', { name: 'Check answer', exact: true }).click();
+    if (index < units[0].lessons[0].warmups.length - 1)
+      await page.getByRole('button', { name: 'Next warm-up' }).click();
+  }
   await page.getByRole('link', { name: 'Start writing', exact: true }).click();
   const writing = page.getByRole('textbox', { name: 'Your writing' });
   await writing.fill('I am Kim. I am a student.');

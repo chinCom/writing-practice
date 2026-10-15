@@ -1,6 +1,20 @@
 import { z } from 'zod';
 import { ErrorTag } from './feedback/schema';
 
+export const curriculumTrack = z.enum(['core', 'ielts']);
+export type CurriculumTrack = z.infer<typeof curriculumTrack>;
+export function trackForId(id: string): CurriculumTrack {
+  return id.startsWith('ielts-') ? 'ielts' : 'core';
+}
+export function ieltsModule(id: string): 'academic' | 'general' | 'essay' | null {
+  if (trackForId(id) !== 'ielts') return null;
+  if (id.startsWith('ielts-task2-')) return 'essay';
+  return id.startsWith('ielts-task1-general-') ? 'general' : 'academic';
+}
+export function getTrackUnits<T extends { id: string }>(units: T[], track: CurriculumTrack): T[] {
+  return units.filter((unit) => trackForId(unit.id) === track);
+}
+
 export const curriculumLevel = z.enum(['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
 export const courseRanges = {
   PRE_A1: [5, 20],
@@ -70,11 +84,30 @@ export const curriculumSchema = z
       }
       for (const lesson of unit.lessons) {
         const task = lesson.task;
-        const ranges = courseRanges;
+        if (
+          trackForId(lesson.id) !== trackForId(unit.id) ||
+          trackForId(task.id) !== trackForId(unit.id)
+        )
+          context.addIssue({
+            code: 'custom',
+            message: 'Lesson and task IDs must match their unit track',
+          });
+        const modelWords = lesson.miniLesson.modelText.trim().split(/\s+/).length;
+        if (modelWords < task.minWords || modelWords > task.maxWords)
+          context.addIssue({
+            code: 'custom',
+            message: 'Model text must match its task word range',
+          });
+        const ranges =
+          ieltsModule(unit.id) === 'essay'
+            ? [250, 350]
+            : trackForId(unit.id) === 'ielts'
+              ? [150, 180]
+              : courseRanges[unit.level];
         if (
           task.targetLevel !== unit.level ||
-          task.minWords !== ranges[unit.level][0] ||
-          task.maxWords !== ranges[unit.level][1]
+          task.minWords !== ranges[0] ||
+          task.maxWords !== ranges[1]
         )
           context.addIssue({ code: 'custom', message: 'Incorrect task level or word range' });
       }
@@ -95,10 +128,10 @@ export const curriculumSchema = z
     }
     for (const level of new Set(units.map((unit) => unit.level))) {
       const orders = units
-        .filter((unit) => unit.level === level)
+        .filter((unit) => unit.level === level && trackForId(unit.id) === 'core')
         .map((unit) => unit.order)
         .sort((a, b) => a - b);
-      if (!orders.length || orders.some((order, index) => order !== index + 1))
+      if (orders.some((order, index) => order !== index + 1))
         context.addIssue({ code: 'custom', message: 'Unit order must start at one with no gaps' });
     }
   });

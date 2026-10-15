@@ -8,12 +8,12 @@
 ## 0. Status
 
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
-- Last implemented slice: seven audit fixes, immediate Apply with next-correction selection and ordered saves, and an original 21-unit/63-lesson PRE_A1–C2 draft course
-- Verification: local checks and all-lesson database traversal passed. See [course evidence](docs/verification/writing-course.md) for final counts, browser artifacts, and limits; [database deadline evidence](docs/verification/database-deadlines.md) and [evaluation scope](evals/README.md) describe separate checks
-- Current implementation slice: course and correction flows work locally. Hosted migration `0009_writing_course.sql` is applied. Teacher approval and reviewed-content seeding remain publication gates. The broad quality milestone remains incomplete
+- Last implemented slice: separate Core (21 units/63 lessons) and IELTS (8 units/24 lessons) tracks, URL tabs, Today entry, IELTS task contracts, and task-specific rubric labels
+- Verification: local checks and owner-isolated database traversal of all 87 lessons passed. See [track evidence](docs/verification/curriculum-tracks.md) for final browser/build evidence and limits; [database deadline evidence](docs/verification/database-deadlines.md) and [evaluation scope](evals/README.md) describe separate checks
+- Current implementation slice: both draft tracks work locally. Hosted migration `0009_writing_course.sql` was applied previously; no new schema change is required. Separate teacher approvals and reviewed-content seeding remain publication gates. The broad quality milestone remains incomplete
 - Open decisions: §22; the larger 15-unit-per-level curriculum, teacher approval of the seven-level draft, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
 - Code maintenance: Prettier + EditorConfig; run `npm run format` and `npm run check`; no subagents
-- Release state: PR #1 was merged as `a1a83d7`. Current course/audit changes and earlier local fixes are on `feat/writing-course`. No course migration, seed, push, or deployment was performed
+- Release state: working on `master` after `d8b23c0`. Track changes remain local and uncommitted. No hosted seed, new migration, push, or deployment was performed for this slice
 - Verification limits: live email delivery/PKCE, Google account completion, natural access-JWT expiry, and a new signed-in hosted explanation remain untested. The seven reviewed audit findings are fixed locally; production integrations remain separately gated
 
 ### Current feature status
@@ -28,7 +28,7 @@
 | Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery, bounded database queue and operation deadlines | Durable background worker and sustained-load verification |
 | Feedback and revision | Marked text, immediate Apply/Undo with ordered saves and error retry, automatic next correction, mobile sheet, reporting, and revision/compare with a 20-attempt boundary | New hosted signed-in correction workflow verification and report review tools |
 | Explain | On-demand short English explanations, owner-only saved reuse, loading/retry, 60 new attempts per UTC day | Native-language explanations and new hosted browser workflow verification |
-| Learning path | A1–B1 placement estimate, seven-level starts, 21-unit/63-lesson draft, private server grading, writing-required progression, and checkpoint locks | Teacher review/publication, larger course, and validated exams |
+| Learning path | A1–B1 placement estimate, seven-level Core starts, 21-unit/63-lesson Core draft, 8-unit/24-lesson IELTS workspace, URL track tabs, private server grading, writing-required progression, and checkpoint locks | Separate teacher reviews/publication, larger course, and validated exams; IELTS uses the practice 1–5 scale, not official bands |
 | Practice | Saved correction exercises, server-side answer checks, one retry, owner-only history, 1/3/7/14/30-day review, dismissal/restoration, and refreshed multi-batch completion | Varied AI-generated drills and nightly generation |
 | Progress | Real writing/review aggregates, CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation |
 | Landing and portfolio | `/` redirects to Today; owner-only paginated portfolio and parent-revision comparison | Public live demo |

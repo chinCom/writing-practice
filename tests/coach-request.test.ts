@@ -99,6 +99,6 @@ it('recovers saved feedback after database timeouts without starting another pai
 it('reports a failed stored check without starting another paid request', async () => {
   mode = 'failed';
   postCalls = 0;
-  expect(await recoverCoach('test-key')).toEqual({ status: 'failed', code: 'COACH_UNAVAILABLE' });
+  expect(await recoverCoach('test-key')).toEqual({ status: 'failed', code: 'COACH_FAILED' });
   expect(postCalls).toBe(0);
 });

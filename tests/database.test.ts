@@ -18,7 +18,7 @@ import { sampleDraft } from '@/mocks/draft.sample';
 import { POST as checkWriting, GET as getCheck } from '@/app/api/feedback/route';
 import { PUT as saveWritingDraft } from '@/app/api/draft/route';
 import { currentUser } from '@/lib/auth/server';
-import { gradeWriting } from '@/lib/llm/grade';
+import { gradeWriting, LlmError } from '@/lib/llm/grade';
 import { explainCorrection } from '@/lib/llm/explain';
 import { POST as explainSavedCorrection } from '@/app/api/explanation/route';
 import { reserveExplanation, failExplanation, reserveDevelopment } from '@/lib/db/explanations';
@@ -553,6 +553,43 @@ it('recovers a completed API request without a second provider call', async () =
   expect(
     (await getCheck(new Request('http://localhost/api/feedback?requestKey=' + key))).status,
   ).toBe(404);
+  vi.mocked(gradeWriting).mockClear();
+});
+it('distinguishes invalid coach output from provider failures without exposing provider details', async () => {
+  vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const failures = [
+    ['LLM_INVALID_RESPONSE', 'COACH_INVALID_RESPONSE'],
+    ['LLM_UNAVAILABLE', 'COACH_UNAVAILABLE'],
+    ['LLM_TIMEOUT', 'COACH_TIMEOUT'],
+  ] as const;
+  for (const [index, [failure, code]] of failures.entries()) {
+    vi.mocked(gradeWriting).mockRejectedValueOnce(new LlmError(failure));
+    const response = await checkWriting(
+      new Request('http://localhost/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': `00000000-0000-4000-8000-00000000008${index}`,
+        },
+        body: JSON.stringify({ taskId: 'weekend', text: sampleDraft, attempt: 1 }),
+      }),
+    );
+    expect(response.status).toBe(502);
+    expect(await response.json()).toEqual({ ok: false, error: { code, message: code } });
+    const repeated = await checkWriting(
+      new Request('http://localhost/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': `00000000-0000-4000-8000-00000000008${index}`,
+        },
+        body: JSON.stringify({ taskId: 'weekend', text: sampleDraft, attempt: 1 }),
+      }),
+    );
+    expect(await repeated.json()).toMatchObject({ error: { code: 'COACH_FAILED' } });
+  }
   vi.mocked(gradeWriting).mockClear();
 });
 it('rejects oversized request streams before reading the complete body', async () => {

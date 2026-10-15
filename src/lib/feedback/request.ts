@@ -21,7 +21,7 @@ async function readResult(response: Response): Promise<CoachResult> {
     return { status: 'pending' };
   if (!response.ok || !result.ok)
     return { status: 'failed', code: result.error?.code ?? 'COACH_UNAVAILABLE' };
-  if (result.data?.status === 'failed') return { status: 'failed', code: 'COACH_UNAVAILABLE' };
+  if (result.data?.status === 'failed') return { status: 'failed', code: 'COACH_FAILED' };
   if (result.data?.submissionId && result.data.status !== 'pending')
     return { status: 'completed', submissionId: result.data.submissionId };
   return { status: 'pending' };

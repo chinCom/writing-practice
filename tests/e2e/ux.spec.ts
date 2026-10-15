@@ -108,6 +108,47 @@ test('expired session offers sign-in without discarding writing', async ({ page 
   await expect(writing).toHaveValue(message);
 });
 
+test('a failed recovered check reports an unknown cause and preserves writing for retry', async ({
+  page,
+}) => {
+  let posts = 0;
+  await page.route('**/api/feedback**', (route) => {
+    if (route.request().method() === 'POST') {
+      posts++;
+      return route.fulfill({ status: 202, json: { ok: true, data: { status: 'pending' } } });
+    }
+    return route.fulfill({
+      json: { ok: true, data: { submissionId: 'failed', status: 'failed' } },
+    });
+  });
+  const writing = await openEditor(page);
+  await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
+  await expect(
+    page
+      .getByRole('alert')
+      .filter({ hasText: 'This check failed. Its original error is unavailable.' }),
+  ).toBeVisible();
+  await expect(writing).toHaveValue(message);
+  expect(posts).toBe(1);
+  await page.getByRole('button', { name: 'Try again', exact: true }).click();
+  await expect.poll(() => posts).toBe(2);
+});
+
+test('invalid coach output is not described as a provider outage', async ({ page }) => {
+  await page.route('**/api/feedback', (route) =>
+    route.fulfill({ status: 502, json: { ok: false, error: { code: 'COACH_INVALID_RESPONSE' } } }),
+  );
+  const writing = await openEditor(page);
+  await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
+  await expect(
+    page
+      .getByRole('alert')
+      .filter({ hasText: 'The coach returned feedback we could not validate.' }),
+  ).toBeVisible();
+  await expect(writing).toHaveValue(message);
+  await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeEnabled();
+});
+
 test('daily quota explains when checking can resume', async ({ page }) => {
   await page.route('**/api/feedback', (route) =>
     route.fulfill({ status: 429, json: { ok: false, error: { code: 'DAILY_LIMIT' } } }),

@@ -86,7 +86,7 @@ export async function POST(request: Request) {
         { headers: privateHeaders },
       );
     }
-    if (previous?.status === 'failed') throw new ApiError('COACH_UNAVAILABLE', 502);
+    if (previous?.status === 'failed') throw new ApiError('COACH_FAILED', 502);
     claimed = await claimSubmission(user.id, submissionId);
     if (!claimed) {
       return NextResponse.json(
@@ -120,7 +120,14 @@ export async function POST(request: Request) {
     });
     return apiFailure(
       error instanceof LlmError
-        ? new ApiError(error.message === 'LLM_TIMEOUT' ? 'COACH_TIMEOUT' : 'COACH_UNAVAILABLE', 502)
+        ? new ApiError(
+            error.message === 'LLM_TIMEOUT'
+              ? 'COACH_TIMEOUT'
+              : error.message === 'LLM_INVALID_RESPONSE'
+                ? 'COACH_INVALID_RESPONSE'
+                : 'COACH_UNAVAILABLE',
+            502,
+          )
         : error,
     );
   }

@@ -191,7 +191,28 @@ export default function Today({
             }}
           >
             <SavedFeedback submissions={submissions} preview={preview} />
-            <LearningSnapshot path={path} preview={preview} />
+            <Stack sx={{ gap: 2 }}>
+              <LearningSnapshot path={path} preview={preview} />
+              <Card>
+                <CardContent>
+                  <Stack sx={{ gap: 1.5 }}>
+                    <Typography component="h2" variant="h3">
+                      {t('ieltsTitle')}
+                    </Typography>
+                    <Typography variant="body2">{t('ieltsIntro')}</Typography>
+                    <Button
+                      component={NextLink}
+                      variant="outlined"
+                      href={
+                        preview ? '/dev/preview/path?course=full&track=ielts' : '/path?track=ielts'
+                      }
+                    >
+                      {t('ieltsTitle')}
+                    </Button>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Stack>
           </Box>
         </>
       ) : null}

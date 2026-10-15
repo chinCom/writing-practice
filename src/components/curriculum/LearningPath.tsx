@@ -1,4 +1,9 @@
 'use client';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import { ieltsModule, type CurriculumTrack } from '@/lib/curriculum';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
@@ -13,21 +18,45 @@ export default function LearningPath({
   path,
   preview = false,
   fullCourse = false,
+  track = 'core',
 }: {
   path: Path;
   preview?: boolean;
   fullCourse?: boolean;
+  track?: CurriculumTrack;
 }) {
   const t = useTranslations('curriculum');
+  const tags = useTranslations('feedback.tags');
+  const base = preview ? '/dev/preview/path?course=full&' : '/path?';
+  const groups =
+    track === 'ielts' ? (['academic', 'general', 'essay'] as const) : (['core'] as const);
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Stack sx={{ gap: 3 }}>
         <Typography component="h1" variant="h1">
           {t('pathTitle')}
         </Typography>
-        <Typography>{t('pathIntro')}</Typography>
-        <Alert severity="info">{t('courseScope')}</Alert>
-        {!path.chosenLevel ? (
+        <Tabs value={track} variant="fullWidth" aria-label={t('tracks')}>
+          <Tab
+            value="core"
+            wrapped
+            sx={{ minWidth: 0 }}
+            label={t('coreTrack')}
+            component={NextLink}
+            href={base + 'track=core'}
+          />
+          <Tab
+            value="ielts"
+            wrapped
+            sx={{ minWidth: 0 }}
+            label={t('ieltsTrack')}
+            component={NextLink}
+            href={base + 'track=ielts'}
+          />
+        </Tabs>
+        <Typography>{t(track === 'ielts' ? 'ieltsIntro' : 'pathIntro')}</Typography>
+        {track === 'core' ? <Alert severity="info">{t('courseScope')}</Alert> : null}
+        {track === 'core' && !path.chosenLevel ? (
           <Button
             component={NextLink}
             href={preview ? '/dev/preview/placement' : '/placement'}
@@ -35,57 +64,99 @@ export default function LearningPath({
           >
             {t('placementTitle')}
           </Button>
-        ) : (
+        ) : track === 'core' && path.chosenLevel ? (
           <Chip
             label={t('startingAt', { level: path.chosenLevel })}
             sx={{ alignSelf: 'flex-start' }}
           />
-        )}
+        ) : null}
         {!path.units.length ? <Alert severity="info">{t('contentPending')}</Alert> : null}
-        {path.units.map((unit) => (
-          <Paper variant="outlined" key={unit.id} sx={{ p: 3 }}>
-            <Stack sx={{ gap: 2 }}>
-              <Stack direction="row" sx={{ alignItems: 'center', gap: 2 }}>
-                <Chip label={unit.level} />
-                <Typography variant="h2">{unit.title}</Typography>
-              </Stack>
-              <Typography>{unit.outcome}</Typography>
-              {unit.lessons.map((lesson) => (
-                <Stack
-                  key={lesson.id}
-                  direction={{ xs: 'column', sm: 'row' }}
-                  sx={{ gap: 1, alignItems: { sm: 'center' }, justifyContent: 'space-between' }}
-                >
-                  {lesson.state === 'locked' ? (
-                    <Button disabled variant="outlined">
-                      {lesson.title} · {t('locked')}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant={lesson.state === 'current' ? 'contained' : 'outlined'}
-                      component={NextLink}
-                      href={
-                        preview
-                          ? '/dev/preview/lesson' +
-                            (fullCourse ? '?course=full&lesson=' + lesson.id : '')
-                          : '/lesson/' + lesson.id
+        {groups.map((group) => (
+          <Stack key={group} sx={{ gap: 3 }}>
+            {group !== 'core' ? (
+              <Box>
+                <Typography component="h2" variant="h2">
+                  {t(group)}
+                </Typography>
+                <Typography color="text.secondary">
+                  {t(group === 'essay' ? 'essayRange' : 'taskOneRange')}
+                </Typography>
+              </Box>
+            ) : null}
+            {path.units
+              .filter((unit) => group === 'core' || ieltsModule(unit.id) === group)
+              .map((unit) => (
+                <Paper variant="outlined" key={unit.id} sx={{ p: 3 }}>
+                  <Stack sx={{ gap: 2 }}>
+                    <Stack direction="row" sx={{ alignItems: 'center', gap: 2 }}>
+                      <Chip label={unit.level} />
+                      <Typography component={track === 'ielts' ? 'h3' : 'h2'} variant="h2">
+                        {unit.title}
+                      </Typography>
+                    </Stack>
+                    <Typography>{unit.outcome}</Typography>
+                    <Stack direction="row" useFlexGap sx={{ gap: 1, flexWrap: 'wrap' }}>
+                      {unit.grammarFocus.map((tag) => (
+                        <Chip key={tag} label={tags(tag)} size="small" variant="outlined" />
+                      ))}
+                    </Stack>
+                    <Typography variant="caption">
+                      {t('lessonProgress', {
+                        done: unit.lessons.filter((lesson) => lesson.state === 'done').length,
+                        total: unit.lessons.length,
+                      })}
+                    </Typography>
+                    <LinearProgress
+                      aria-label={unit.title}
+                      variant="determinate"
+                      value={
+                        (100 * unit.lessons.filter((lesson) => lesson.state === 'done').length) /
+                        unit.lessons.length
                       }
-                    >
-                      {lesson.title}
-                    </Button>
-                  )}
-                  <Typography variant="caption">
-                    {t(lesson.state)} · {t(lesson.warmupsDone ? 'practiceDone' : 'practiceNeeded')}{' '}
-                    · {t(lesson.writingDone ? 'writingDone' : 'writingNeeded')}
-                    {lesson.task.isCheckpoint ? ' · ' + t('checkpoint') : ''}
-                  </Typography>
-                </Stack>
+                    />
+                    {unit.lessons.map((lesson) => (
+                      <Stack
+                        key={lesson.id}
+                        direction={{ xs: 'column', sm: 'row' }}
+                        sx={{
+                          gap: 1,
+                          alignItems: { sm: 'center' },
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        {lesson.state === 'locked' ? (
+                          <Button disabled variant="outlined">
+                            {lesson.title} · {t('locked')}
+                          </Button>
+                        ) : (
+                          <Button
+                            variant={lesson.state === 'current' ? 'contained' : 'outlined'}
+                            component={NextLink}
+                            href={
+                              preview
+                                ? '/dev/preview/lesson' +
+                                  (fullCourse ? '?course=full&lesson=' + lesson.id : '')
+                                : '/lesson/' + lesson.id
+                            }
+                          >
+                            {lesson.title}
+                          </Button>
+                        )}
+                        <Typography variant="caption">
+                          {t(lesson.state)} ·{' '}
+                          {t(lesson.warmupsDone ? 'practiceDone' : 'practiceNeeded')} ·{' '}
+                          {t(lesson.writingDone ? 'writingDone' : 'writingNeeded')}
+                          {lesson.task.isCheckpoint ? ' · ' + t('checkpoint') : ''}
+                        </Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
+                </Paper>
               ))}
-            </Stack>
-          </Paper>
+          </Stack>
         ))}
         <Typography variant="body2" color="text.secondary">
-          {t('unlockRule')}
+          {t(track === 'ielts' ? 'ieltsUnlock' : 'unlockRule')}
         </Typography>
       </Stack>
     </Container>

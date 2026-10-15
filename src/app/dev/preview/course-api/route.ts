@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { coursePreview } from '@/mocks/course-preview';
-import { gradeWarmup } from '@/lib/curriculum';
+import { gradeWarmup, trackForId } from '@/lib/curriculum';
 import { parseFeedbackInput } from '@/lib/feedback/input';
 import { readJson } from '@/lib/api';
 export async function GET() {
@@ -25,7 +25,9 @@ export async function POST(request: Request) {
         parentSubmissionId: z.string().optional(),
       })
       .parse(await readJson(request));
-    const { state, lessons, path } = await coursePreview();
+    const { state, lessons, path } = await coursePreview(
+      trackForId(body.lessonId ?? body.taskId ?? ''),
+    );
     const index = lessons.findIndex((item) =>
       body.lessonId ? item.id === body.lessonId : item.task.id === body.taskId,
     );

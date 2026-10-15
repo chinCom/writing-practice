@@ -50,6 +50,9 @@ export default function LiveStudio({
   const [error, setError] = useState<
     | 'saveError'
     | 'error'
+    | 'unavailable'
+    | 'invalidFeedback'
+    | 'failedCheck'
     | 'dailyLimit'
     | 'sessionExpired'
     | 'timeout'
@@ -132,10 +135,14 @@ export default function LiveStudio({
       return;
     }
     rememberCheck(null);
-    const errors: Record<string, 'sessionExpired' | 'dailyLimit' | 'timeout' | 'inProgress'> = {
+    const errors: Record<string, NonNullable<typeof error>> = {
       UNAUTHENTICATED: 'sessionExpired',
       DAILY_LIMIT: 'dailyLimit',
       COACH_TIMEOUT: 'timeout',
+      COACH_UNAVAILABLE: 'unavailable',
+      COACH_FAILED: 'failedCheck',
+      COACH_NOT_CONFIGURED: 'unavailable',
+      COACH_INVALID_RESPONSE: 'invalidFeedback',
       CHECK_IN_PROGRESS: 'inProgress',
     };
     setError(errors[result.code] ?? 'error');
@@ -315,7 +322,11 @@ export default function LiveStudio({
                   <Button disabled={busy !== null} onClick={() => check(true)}>
                     {live('recover')}
                   </Button>
-                ) : error === 'error' || error === 'timeout' ? (
+                ) : error === 'error' ||
+                  error === 'timeout' ||
+                  error === 'unavailable' ||
+                  error === 'invalidFeedback' ||
+                  error === 'failedCheck' ? (
                   <Button disabled={busy !== null} onClick={() => check()}>
                     {live('retry')}
                   </Button>

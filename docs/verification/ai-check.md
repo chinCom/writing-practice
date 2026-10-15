@@ -55,6 +55,29 @@ Browser workflow checks also simulate API responses. Database integration checks
 The live-provider test covers the provider directly; the hosted check covers the original feedback query and migration.
 No new hosted browser sign-in or new hosted feedback submission was performed for this slice.
 
+## Error classification follow-up
+
+Code inspection found two error-reporting defects:
+
+- The feedback route mapped invalid model output and transport failures to the same `COACH_UNAVAILABLE` code.
+- The editor mapped `COACH_UNAVAILABLE` to wording that suggested it could not read the learner's writing.
+- Recovery and repeated failed requests reported provider unavailability even though storage contains no original error code.
+
+The route now returns `COACH_INVALID_RESPONSE` for rejected feedback. The editor shows separate English and Vietnamese messages
+for unavailable checks and invalid feedback. Recovered failures use `COACH_FAILED` with an explicit unknown-cause message.
+All three retain the draft and offer an explicit retry.
+
+Verification: `npm run check` passed with 112 tests and seven opt-in skips. The focused API, adapter, and recovery suite passed
+35 tests. Twenty focused desktop/mobile UX checks passed, including four new error-classification regressions that failed before their fixes. Browser failures were simulated;
+these checks do not prove a successful live generation.
+
+The reported generation timeout remains unresolved. Two direct synthetic streaming requests bypassed the application and SDK.
+Both received HTTP 200 headers, then produced no content or reasoning tokens before a 15-second deadline.
+One used `thinking: { type: 'disabled' }`; the other used `reasoning_effort: 'none'`.
+This evidence does not establish a service-wide outage or prove that all application paths are correct.
+Persisted failed checks still store only failure status, not the original error code. Recovery therefore cannot restore the exact reason;
+it no longer labels that unknown reason as a provider outage.
+
 ## Limits
 
 The provider deadline bounds AI requests, not every possible database or network delay.

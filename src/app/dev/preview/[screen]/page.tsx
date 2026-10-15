@@ -1,3 +1,4 @@
+import { trackForId } from '@/lib/curriculum';
 import { notFound } from 'next/navigation';
 import Today from '@/components/today/Today';
 import LearningPath from '@/components/curriculum/LearningPath';
@@ -26,16 +27,26 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ screen: string }>;
-  searchParams: Promise<{ revise?: string; course?: string; lesson?: string; task?: string }>;
+  searchParams: Promise<{
+    revise?: string;
+    course?: string;
+    lesson?: string;
+    task?: string;
+    track?: string;
+  }>;
 }) {
   if (process.env.NODE_ENV !== 'development') notFound();
   const { screen } = await params;
   const query = await searchParams;
   const full = query.course === 'full' || screen === 'course-feedback';
   if (full) {
-    const { path } = await coursePreview();
+    const track =
+      query.track === 'ielts' || trackForId(query.lesson ?? query.task ?? '') === 'ielts'
+        ? 'ielts'
+        : 'core';
+    const { path } = await coursePreview(track);
     const lessons = path.units.flatMap((unit) => unit.lessons);
-    if (screen === 'path') return <LearningPath path={path} preview fullCourse />;
+    if (screen === 'path') return <LearningPath path={path} track={track} preview fullCourse />;
     if (screen === 'lesson') {
       const lesson = lessons.find((item) => item.id === query.lesson);
       if (!lesson || lesson.state === 'locked') notFound();

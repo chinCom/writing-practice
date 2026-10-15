@@ -12,6 +12,9 @@ const bob = '00000000-0000-4000-8000-000000000072';
 const course = curriculumSchema.parse(
   JSON.parse(await readFile('curriculum/course.draft.json', 'utf8')),
 );
+const ielts = curriculumSchema.parse(
+  JSON.parse(await readFile('curriculum/ielts.draft.json', 'utf8')),
+);
 vi.mock('server-only', () => ({}));
 vi.mock('@/lib/db/client', () => ({
   withUserDatabase: (userId: string, work: (transaction: unknown) => Promise<unknown>) =>
@@ -27,7 +30,7 @@ beforeAll(async () => {
     GRANT USAGE ON SCHEMA auth TO authenticated; INSERT INTO auth.users VALUES ('${alice}'),('${bob}');`);
   for (const name of ['0000_writing', '0008_curriculum', '0009_writing_course'])
     await database.exec(await readFile('drizzle/' + name + '.sql', 'utf8'));
-  for (const unit of course)
+  for (const unit of [...course, ...ielts])
     await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
       unit.id,
       unit.level,
@@ -111,4 +114,50 @@ it('traverses all 63 lessons through owner-only server grading and safe writing,
   const other = (await loadPath(bob)).units.flatMap((unit) => unit.lessons);
   expect(other[0].state).toBe('current');
   expect(other.slice(1).every((lesson) => lesson.state === 'locked')).toBe(true);
+}, 30000);
+
+it('resolves every IELTS lesson and task with independent units, private answers, and owned checkpoint progress', async () => {
+  for (const unit of ielts) {
+    const first = await loadLesson(alice, unit.lessons[0].id);
+    expect(first.state).toBe('current');
+    for (const [index, lesson] of unit.lessons.entries()) {
+      expect((await loadLesson(alice, lesson.id)).task.id).toBe(lesson.task.id);
+      await expect(loadTask(alice, lesson.task.id)).rejects.toThrow('WARMUPS_REQUIRED');
+      for (const [warmupIndex, warmup] of lesson.warmups.entries())
+        await answerWarmup(alice, lesson.id, warmupIndex, warmup.answer);
+      expect((await loadTask(alice, lesson.task.id)).minWords).toBe(lesson.task.minWords);
+      const id = crypto.randomUUID();
+      await database.query(
+        "INSERT INTO writing.submissions(id,user_id,task_id,text,word_count,attempt,status) VALUES ($1,$2,$3,$4,$5,1,'completed')",
+        [id, alice, lesson.task.id, lesson.miniLesson.modelText, lesson.task.minWords],
+      );
+      const scores = { task: 4, organization: 4, grammar: 4, vocabulary: 4 };
+      await database.query(
+        "INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,'test','test')",
+        [id, alice, JSON.stringify({ safety_flag: true, scores })],
+      );
+      expect((await loadLesson(alice, lesson.id)).state).toBe('current');
+      if (lesson.task.isCheckpoint) {
+        await database.query('UPDATE writing.feedback SET json=$1 WHERE submission_id=$2', [
+          JSON.stringify({ safety_flag: false, scores: { ...scores, grammar: 2 } }),
+          id,
+        ]);
+        expect((await loadLesson(alice, lesson.id)).state).toBe('current');
+      }
+      await database.query('UPDATE writing.feedback SET json=$1 WHERE submission_id=$2', [
+        JSON.stringify({ safety_flag: false, scores }),
+        id,
+      ]);
+      expect((await loadLesson(alice, lesson.id)).state).toBe('done');
+      if (index < 2)
+        expect((await loadLesson(alice, unit.lessons[index + 1].id)).state).toBe('current');
+    }
+  }
+  const workspace = await loadPath(alice, 'ielts');
+  expect(workspace.units).toHaveLength(8);
+  expect(JSON.stringify(workspace)).not.toMatch(/"(?:answer|hint)":/);
+  const other = await loadPath(bob, 'ielts');
+  expect(other.units.every((unit) => unit.lessons[0].state === 'current')).toBe(true);
+  expect(other.units.every((unit) => unit.lessons[1].state === 'locked')).toBe(true);
+  expect((await loadPath(alice)).units).toHaveLength(21);
 }, 30000);

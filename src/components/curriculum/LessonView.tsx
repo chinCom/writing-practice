@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import WritingField from '@/components/ui/WritingField';
+import { trackForId } from '@/lib/curriculum';
+import IeltsContract from './IeltsContract';
 import type { LearningPath } from '@/lib/db/curriculum';
 type Lesson = LearningPath['units'][number]['lessons'][number];
 export default function LessonView({
@@ -72,7 +74,11 @@ export default function LessonView({
       <Stack sx={{ gap: 3 }}>
         <Button
           component={NextLink}
-          href={preview ? '/dev/preview/path' + (fullCourse ? '?course=full' : '') : '/path'}
+          href={
+            (preview ? '/dev/preview/path' + (fullCourse ? '?course=full&' : '?') : '/path?') +
+            'track=' +
+            trackForId(lesson.id)
+          }
           sx={{ alignSelf: 'flex-start' }}
         >
           {t('backToPath')}
@@ -80,6 +86,7 @@ export default function LessonView({
         <Typography component="h1" variant="h1">
           {lesson.title}
         </Typography>
+        <IeltsContract taskId={lesson.task.id} />
         <Paper variant="outlined" sx={{ p: 3 }}>
           <Stack sx={{ gap: 2 }}>
             <Typography variant="h2">{t('miniLesson')}</Typography>

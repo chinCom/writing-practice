@@ -1,7 +1,21 @@
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import OpenAI from 'openai';
 import { curriculumSchema } from '../src/lib/curriculum';
 import { ErrorTag } from '../src/lib/feedback/schema';
+
+const drafts = await Promise.all(
+  ['course', 'ielts'].map(async (name) =>
+    curriculumSchema.parse(
+      JSON.parse(await readFile('curriculum/' + name + '.draft.json', 'utf8')),
+    ),
+  ),
+);
+curriculumSchema.parse(drafts.flat());
+console.log(
+  'Validated Core (21 units / 63 lessons) and IELTS (8 units / 24 lessons) draft inputs.',
+);
+// Validation is offline. The legacy candidate generator remains separately opt-in and never publishes.
+if (process.argv.includes('--validate')) process.exit(0);
 if (process.env.GENERATE_CURRICULUM_LIVE !== 'true')
   throw new Error('Set GENERATE_CURRICULUM_LIVE=true to approve one paid offline generation call.');
 if (!process.env.DEEPSEEK_API_KEY) throw new Error('DEEPSEEK_API_KEY is required');

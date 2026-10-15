@@ -15,12 +15,14 @@ import {
   weekendTask,
   type CurriculumLevel,
   type PlacementResult,
+  type CurriculumTrack,
+  trackForId,
 } from '@/lib/curriculum';
 import { ApiError } from '@/lib/api';
 import { buildCoursePath } from '@/lib/curriculum-path';
 
 type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
-export async function pathInTransaction(database: Transaction) {
+export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
   const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
   const content = units.length ? curriculumSchema.parse(units.map((unit) => unit.content)) : [];
   const [placement] = await database.select().from(placementResults);
@@ -34,15 +36,15 @@ export async function pathInTransaction(database: Transaction) {
   return {
     chosenLevel,
     placement: placement?.result ?? null,
-    units: buildCoursePath(content, chosenLevel, progress, checks),
+    units: buildCoursePath(content, chosenLevel, progress, checks, track),
   };
 }
 export type LearningPath = Awaited<ReturnType<typeof pathInTransaction>>;
-export async function loadPath(userId: string) {
-  return withUserDatabase(userId, pathInTransaction);
+export async function loadPath(userId: string, track: CurriculumTrack = 'core') {
+  return withUserDatabase(userId, (database) => pathInTransaction(database, track));
 }
 async function lessonInTransaction(database: Transaction, lessonId: string) {
-  const path = await pathInTransaction(database);
+  const path = await pathInTransaction(database, trackForId(lessonId));
   const lesson = path.units.flatMap((unit) => unit.lessons).find((item) => item.id === lessonId);
   if (!lesson) throw new ApiError('NOT_FOUND', 404);
   if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
@@ -54,7 +56,7 @@ export async function loadLesson(userId: string, lessonId: string) {
 export async function loadTask(userId: string, taskId: string) {
   if (taskId === 'weekend') return weekendTask;
   return withUserDatabase(userId, async (database) => {
-    const path = await pathInTransaction(database);
+    const path = await pathInTransaction(database, trackForId(taskId));
     const lesson = path.units
       .flatMap((unit) => unit.lessons)
       .find((item) => item.task.id === taskId);
