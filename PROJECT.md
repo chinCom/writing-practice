@@ -7,7 +7,7 @@
 
 ## 0. Status
 
-- Growth loop M1–M2 work locally: trusted target reports, atomic owner-only evidence, and self-revision with explicit “Show me” assistance history. Pass rules stay unchanged. Migrations `0010_target_evidence.sql` and `0011_self_revision.sql` are local only. Checks: 139 tests passed / 7 skipped; Playwright 274 passed / 10 skipped; production build passed. See [growth-loop evidence and limits](docs/verification/growth-loop.md). M3 onward remains incomplete; human evaluation and content-review gates remain active.
+- Growth loop M1–M2 work locally: trusted target reports, atomic owner-only evidence, and self-revision with explicit “Show me” assistance history. Pass rules stay unchanged. Migrations `0010_target_evidence.sql` and `0011_self_revision.sql` are local only. Latest checks: 143 tests passed / 7 skipped; Playwright 274 passed / 10 skipped for M1–M2; production build passed. M3 evaluation tooling is implemented, but its human study has not run. See [growth-loop evidence and limits](docs/verification/growth-loop.md). M3 onward remains incomplete; human evaluation and content-review gates remain active.
 
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
 - Portfolio: skeleton loading placeholders, long entries clamp to four lines with a show-more toggle, entries fade in with a short stagger; static under reduced motion (`tests/e2e/portfolio-motion.spec.ts`)

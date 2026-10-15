@@ -35,3 +35,27 @@ No hosted migration, live model call, push, or deployment occurred. Synthetic te
 - `npm run check`: 139 passed, 7 skipped. Full Playwright: 274 passed, 10 skipped. Production build passed. Desktop/mobile screenshots: `ux/screenshots/growth-self-revision-{desktop,mobile}.png`.
 - The first full check found an outdated page mock and the previously observed recovery-deadline timing flake. Updated the mock; the full rerun passed.
 - Author self-review only. No hosted sign-in, migration, paid model calls, or deployment. The UI hides answers; this is not a secrecy boundary against inspecting response data. Assistance provenance records app actions, not whether someone copied from another source.
+
+## M3 — evaluation tooling, study blocked
+
+The existing evaluator and opt-in harness now accept a human-annotated corpus and perform three runs per text.
+They record target precision, run instability, human pass disagreement, and within-text score/rate standard deviations.
+Incomplete outputs, absent reports, mixed versions, inadequate coverage, and missing second-review metadata cannot pass.
+Synthetic unit tests cover the calculations; fixture reviewer labels do not constitute a real study.
+
+**Not completed:** No consented, de-identified, human-annotated 40-text A1–B1 corpus or 30-text calibration corpus is available.
+No paid call was made. M3 is not passed. M4 enforcement and dependent milestones remain blocked by this study.
+Content publication for M6–M9 still requires product-owner review. D5 pilot recruitment and dates remain undecided.
+See [the existing harness instructions](../../evals/README.md#growth-loop-target-study-m3) for the next action.
+
+Verification: `npm run check` passed (143 tests, 7 skipped; formatting, types, lint, design checks passed).
+`npm run build` passed. The target-study command without `EVAL_LIVE=true` failed before loading credentials or making calls, as required.
+M3 changes do not alter UI; M1–M2 full browser verification remains 274 passed, 10 skipped.
+Author self-review found no remaining blocker in this slice. Manual reviewer validation remains mandatory.
+
+### Handoff
+
+- Goal: continue the transfer-focused growth loop on branch `feat/growth-loop`.
+- Location: `/home/very_dumb_code/Projects/writing-practice-growth-loop`.
+- Next action: supply the private annotated corpus, verify consent and reviewer metadata, then explicitly approve the paid three-run study.
+- Keep M4 enforcement disabled until reviewed precision and calibration evidence pass. Do not apply local migrations to hosted data without release approval.

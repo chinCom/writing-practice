@@ -49,3 +49,47 @@ The original scorer rejected correct fixes inside longer snippets. A failing reg
 Expand to 100–200 texts across levels. Obtain qualified human review of expected corrections and clean texts.
 Add repeat-run analysis, task scores, safety/injection cases, provider cost accounting, and release quality thresholds.
 Do not mark the broad evaluation milestone complete from this pilot.
+
+## Growth-loop target study (M3)
+
+The same harness accepts a private JSONL corpus through `EVAL_TARGET_CORPUS`.
+No corpus or passing study result is supplied. The existing synthetic pilot does not satisfy this gate.
+
+**Privacy and cost risk:** Obtain consent, remove identifying details, and manually verify annotations before running.
+The command sends every text to the provider three times. Each call can retry validation once.
+Use 30 texts for calibration, or at least 40 for precision eligibility (maximum 60).
+Keep the corpus and generated `evals/results/targets-latest.json` private. The result contains model-produced text.
+Do not commit real learner writing or identifying reviewer names.
+
+```sh
+EVAL_LIVE=true EVAL_TARGET_CORPUS=/private/reviewed-targets.jsonl DEEPSEEK_MODEL=<pinned-model-id> npm run evals
+```
+
+Each JSONL object has these fields:
+
+- `id`: unique, de-identified case identifier.
+- `text`: consented learner writing, at most 6,500 characters.
+- `level`: `A1`, `A2`, or `B1`.
+- `task`: full existing curriculum task object, same level, not a checkpoint.
+- `annotation`: `human` (synthetic data is for calculation tests only).
+- `annotator`: non-identifying reviewer code.
+- `secondCheckedBy`: distinct reviewer code for at least 25% of the precision corpus.
+- `expectedTaskScore`: human task score, integer 0–5.
+- `targets`: one or two distinct entries with `tag`, `uses` (0–100), and `expected` corrections.
+  Each expected correction contains `original` and accepted `suggestions`.
+
+Cover all three levels and the five most frequent countable A1–B1 Core focus tags:
+`connectors`, `verb-tense`, `prepositions`, `modal-verbs`, and `punctuation`.
+These tags come from the checked-in `curriculum/course.draft.json`; broad discourse tags are feedback-only.
+
+The summary records target-error precision, pass instability (runs differing from their text's majority),
+and disagreement with the human pass result. Eligibility conservatively requires both disagreement rates ≤10%,
+precision ≥0.85, complete valid three-run results, fixed grader version, coverage, and review metadata.
+The calculation cannot prove that reviewers are qualified or that consent exists. Manual review remains required.
+No report automatically enables progression.
+
+Noise is the square root of mean within-text sample variance, for each rubric score and target error rate.
+Zero-use target rates are unknown and excluded, not recorded as perfect accuracy.
+Missing reports, failed calls, duplicate runs, and mixed grader versions prevent eligibility.
+Failed calls have unknown usage; their reported token and latency fields are zero placeholders, not measured cost.
+The pinned model identifier cannot prevent a provider from silently updating an alias.

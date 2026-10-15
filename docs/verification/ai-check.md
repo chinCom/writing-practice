@@ -86,3 +86,10 @@ Session storage recovery is limited to the same tab. Clearing browser storage re
 Per-account limits do not replace production abuse controls.
 Non-thinking mode has sample-response evidence, not a comprehensive teaching-quality evaluation.
 These changes are included in the current implementation commit. They are not pushed or deployed.
+
+## Growth-loop evaluation follow-up
+
+The existing evaluation harness now supports the three-run target precision and noise studies.
+See [the corpus contract and opt-in command](../../evals/README.md#growth-loop-target-study-m3).
+Local synthetic tests verify arithmetic and rejection of incomplete/mixed-version studies.
+No human-reviewed corpus or live target study has run. No progression gate was enabled.
