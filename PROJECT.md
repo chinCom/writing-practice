@@ -8,7 +8,11 @@
 ## 0. Status
 
 - Phase: writing core, A1–B1 placement estimate, and seven-level learning-path implementation. Dedicated Free Supabase is connected. The full learning app is not complete
-- Last implemented slice: separate Core (21 units/63 lessons) and IELTS (8 units/24 lessons) tracks, URL tabs, Today entry, IELTS task contracts, and task-specific rubric labels
+- Practice: segmented violet step progress, result alert eases in, question card fades without remounting (focus stays in the answer field), completion check pops; static under reduced motion (`tests/e2e/practice-motion.spec.ts`)
+- Learning path: lessons are a node timeline (done, current, available, locked, checkpoint) with a drawn progress line and a two-pulse current marker; links and disabled Locked buttons keep their accessible names (`tests/e2e/path-motion.spec.ts`)
+- Today motion: weekly goal ring fills once to the real value and written-day checks pop in sequence; static under reduced motion (`tests/e2e/today-motion.spec.ts`)
+- Latest UI slice: Writing Studio sweep rewritten (one evenly spaced band per line, scroll-synced, emoji-safe), save-status dot, word-range meter, check-button loading state; Feedback marks settle in, card fades, connector easing, score bars grow in; all fall back to static under reduced motion (`tests/e2e/read-sweep.spec.ts`, `tests/e2e/feedback-motion.spec.ts`; before/after screenshots in `docs/verification/studio/`)
+- Earlier slice: public landing page with a local live demo, plus draft privacy and terms pages (`tests/e2e/landing.spec.ts`; screenshots in `docs/verification/ux/screenshots/landing-*.png`). Previous slice: separate Core (21 units/63 lessons) and IELTS (8 units/24 lessons) tracks, URL tabs, Today entry, IELTS task contracts, and task-specific rubric labels
 - Verification: local checks and owner-isolated database traversal of all 87 lessons passed. See [track evidence](docs/verification/curriculum-tracks.md) for final browser/build evidence and limits; [database deadline evidence](docs/verification/database-deadlines.md) and [evaluation scope](evals/README.md) describe separate checks
 - Current implementation slice: both draft tracks work locally. Hosted migration `0009_writing_course.sql` was applied previously; no new schema change is required. Separate teacher approvals and reviewed-content seeding remain publication gates. The broad quality milestone remains incomplete
 - Open decisions: §22; the larger 15-unit-per-level curriculum, teacher approval of the seven-level draft, payments, legal review, and public abuse controls remain gated. The trusted client-IP source and shared limiter configuration are pending. SMTP configuration and public email delivery remain unverified
@@ -31,7 +35,7 @@
 | Learning path | A1–B1 placement estimate, seven-level Core starts, 21-unit/63-lesson Core draft, 8-unit/24-lesson IELTS workspace, URL track tabs, private server grading, writing-required progression, and checkpoint locks | Separate teacher reviews/publication, larger course, and validated exams; IELTS uses the practice 1–5 scale, not official bands |
 | Practice | Saved correction exercises, server-side answer checks, one retry, owner-only history, 1/3/7/14/30-day review, dismissal/restoration, and refreshed multi-batch completion | Varied AI-generated drills and nightly generation |
 | Progress | Real writing/review aggregates, CEFR estimate history, error categories, XP, UTC streaks, and per-tag accuracy/review boxes | Broad mastery validation |
-| Landing and portfolio | `/` redirects to Today; owner-only paginated portfolio and parent-revision comparison | Public live demo |
+| Landing and portfolio | Signed-out `/` shows the landing page with a local live demo (signed-in users go to Today); draft privacy and terms pages; owner-only paginated portfolio and parent-revision comparison | Legal details and review; in-app data export and deletion |
 
 The remaining sections describe the target product unless a current implementation note states otherwise. Unchecked milestones are not completed features.
 
@@ -650,7 +654,8 @@ Checkboxes mark verified delivered behavior, not planned code. Phase completion 
 - [ ] Per-tag error mastery and nightly AI drill generation
 - [x] Owner-based daily writing and explanation limits in PostgreSQL
 - [ ] Per-IP abuse controls, Pro plans, Stripe, pricing page
-- [ ] Landing page with live demo; privacy policy and terms
+- [x] Landing page with live demo (local in-browser checks, no AI call); draft `/privacy` and `/terms` pages linked from landing and login
+- [ ] Privacy policy and terms published: fill the [bracketed] operator, contact, country, AI-provider country, hosting, and retention details; legal review; remove the draft notice
 - [ ] PWA basics; Sentry and PostHog
 
 **Phase 5 — Beta (week 8+)**
@@ -668,4 +673,4 @@ Checkboxes mark verified delivered behavior, not planned code. Phase completion 
 - [ ] Primary goal for v1: general English, IELTS/TOEFL, or workplace writing
 - [ ] Payments provider: Stripe or a merchant-of-record (Paddle / Lemon Squeezy)
 - [ ] Pro allowance and paid plan design; current free writing allowance is 20/day and explanations are 60 new attempts/day
-- [ ] Whether minors are in scope at launch
+- [ ] Whether minors are in scope at launch — interim: draft terms require age 13+, with parental consent where local law requires it; the app has no consent flow, so legal review must confirm this
