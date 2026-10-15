@@ -10,6 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import IeltsContract from '@/components/curriculum/IeltsContract';
+import TaskChart from '@/components/curriculum/TaskChart';
 import type { CurriculumTask } from '@/lib/curriculum';
 
 type TaskBriefProps = {
@@ -36,6 +37,7 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
       </Stack>
       {task ? <IeltsContract taskId={task.id} /> : null}
       <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>
+      {task ? <TaskChart taskId={task.id} /> : null}
       <Typography variant="body2" color="text.secondary">
         {task ? t('taskWordRange', { min: task.minWords, max: task.maxWords }) : t('wordRange')}
       </Typography>

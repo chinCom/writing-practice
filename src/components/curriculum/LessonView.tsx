@@ -13,6 +13,7 @@ import Alert from '@mui/material/Alert';
 import WritingField from '@/components/ui/WritingField';
 import { trackForId } from '@/lib/curriculum';
 import IeltsContract from './IeltsContract';
+import TaskChart from './TaskChart';
 import type { LearningPath } from '@/lib/db/curriculum';
 type Lesson = LearningPath['units'][number]['lessons'][number];
 export default function LessonView({
@@ -87,6 +88,7 @@ export default function LessonView({
           {lesson.title}
         </Typography>
         <IeltsContract taskId={lesson.task.id} />
+        <TaskChart taskId={lesson.task.id} />
         <Paper variant="outlined" sx={{ p: 3 }}>
           <Stack sx={{ gap: 2 }}>
             <Typography variant="h2">{t('miniLesson')}</Typography>
