@@ -1,7 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import OpenAI from 'openai';
-import { FeedbackSchema } from '@/lib/feedback/schema';
+import { FeedbackSchema, type ErrorTag } from '@/lib/feedback/schema';
+import type { z } from 'zod';
+import { validateTargetReport } from '@/lib/targets';
 import mockFeedback from '@/mocks/feedback.sample.json';
 import { weekendTask, type CurriculumTask } from '@/lib/curriculum';
 
@@ -12,6 +14,7 @@ export interface GradeOptions {
   mock: boolean;
   timeoutMs?: number;
   task?: CurriculumTask;
+  targets?: z.infer<typeof ErrorTag>[];
 }
 export class LlmError extends Error {}
 export async function gradeWriting(text: string, options: GradeOptions) {
@@ -47,7 +50,12 @@ export async function gradeWriting(text: string, options: GradeOptions) {
         messages: [
           {
             role: 'system',
-            content: system + '\nTrusted task configuration:\n' + JSON.stringify(task),
+            content:
+              system +
+              '\nTrusted task configuration:\n' +
+              JSON.stringify(task) +
+              '\nTrusted active targets: ' +
+              JSON.stringify(options.targets ?? []),
           },
           {
             role: 'user',
@@ -60,7 +68,7 @@ export async function gradeWriting(text: string, options: GradeOptions) {
           },
         ],
         response_format: { type: 'json_object' },
-        max_tokens: 2400,
+        max_tokens: options.targets?.length ? 2700 : 2400,
         thinking: { type: 'disabled' },
       };
       completion = await client.chat.completions.create(request, { signal });
@@ -78,7 +86,10 @@ export async function gradeWriting(text: string, options: GradeOptions) {
     try {
       const choice = completion.choices[0];
       if (choice?.finish_reason !== 'stop') throw new Error('Incomplete feedback');
-      const data = FeedbackSchema.parse(JSON.parse(choice.message.content ?? ''));
+      const data = validateTargetReport(
+        FeedbackSchema.parse(JSON.parse(choice.message.content ?? '')),
+        options.targets ?? [],
+      );
       if (data.corrections.length > (['PRE_A1', 'A1', 'A2'].includes(task.targetLevel) ? 8 : 12))
         throw new Error('Too many corrections');
       return { data, usage, model: options.model, latencyMs: Date.now() - started, mock: false };

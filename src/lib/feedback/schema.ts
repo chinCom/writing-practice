@@ -14,6 +14,16 @@ export const CorrectionSchema = z.strictObject({
   explanation_l1: explanation.optional(),
   confidence: z.number().min(0).max(1),
 });
+export const TargetReportSchema = z
+  .array(
+    z.strictObject({
+      tag: ErrorTag,
+      uses: z.number().int().min(0).max(100),
+      errors: z.number().int().min(0).max(100),
+      correction_indexes: z.array(z.number().int().min(0).max(11)).max(12),
+    }),
+  )
+  .max(3);
 export const FeedbackSchema = z.strictObject({
   cefr_estimate: Level,
   scores: z.strictObject({ task: score, organization: score, grammar: score, vocabulary: score }),
@@ -23,6 +33,7 @@ export const FeedbackSchema = z.strictObject({
   level_up_rewrite: z.string().max(10000),
   next_step: explanation,
   safety_flag: z.boolean(),
+  target_report: TargetReportSchema.optional().catch(undefined),
 });
 export type Feedback = z.infer<typeof FeedbackSchema>;
 export type Correction = z.infer<typeof CorrectionSchema>;
