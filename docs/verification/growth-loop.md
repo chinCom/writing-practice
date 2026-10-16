@@ -276,3 +276,42 @@ On 2026-10-16 the same 60 private texts and AI-reviewed reference ran three time
 A local, count-only breakdown of the 365 target claims: 129 overlap a same-tag reference location (37 exact; the rest differ in fix wording, which the exact matcher rejects), 35 match edits the reviewer withheld as optional, 7 overlap a reference error under another tag, and 194 appear in no reference at all.
 
 **Conclusion:** report availability is fixed. Accuracy is not: even generous location matching (about 35–45%) is far below the 0.85 gate, and three runs of the same text disagree on the pass result 18% of the time. `GROWTH_TARGETS` stays off. Next: reduce grader over-editing and have a human adjudicate a sample of the 194 unreferenced claims to separate reference gaps from grader errors. The private report stays in the ignored `evals/results/targets-ai-diagnostic.json`; the earlier report is kept privately outside the repository.
+
+### AI adjudication (provisional; not human gold; does not pass M3)
+
+`feedback-growth-5`: 365 raw claims, 303 unique; 194 unmatched raw claims, 170 unique. Blinded adjudication: 200 items, including 15 matched-error and 15 missed-reference controls. Paid provider calls: 0.
+
+Among the 170 unique unmatched claims: 50 right-tag real errors (29.4%), 47 over-corrections or optional edits (27.6%), 62 real errors with the wrong tag (36.5%), and 11 ambiguous (6.5%). Only 26 (15.3%) also had a valid minimal fix. Run-weighted: 58/194 right-tag errors (29.9%), 53/194 over-edits (27.3%), 71/194 wrong-tag errors (36.6%), 12/194 ambiguous (6.2%); 34/194 valid target fixes (17.5%).
+
+| Unmatched group | Unique claims | Right-tag reference gaps | Over-editing | Wrong-tag real errors | Ambiguous |
+| --- | --- | --- | --- | --- | --- |
+| connectors | 17 | 6 (35.3%) | 4 (23.5%) | 7 | 0 |
+| modal-verbs | 27 | 3 (11.1%) | 9 (33.3%) | 12 | 3 |
+| prepositions | 51 | 12 (23.5%) | 16 (31.4%) | 20 | 3 |
+| punctuation | 44 | 21 (47.7%) | 10 (22.7%) | 12 | 1 |
+| verb-tense | 31 | 8 (25.8%) | 8 (25.8%) | 11 | 4 |
+| A1 | 22 | 8 (36.4%) | 5 (22.7%) | 8 | 1 |
+| A2 | 48 | 6 (12.5%) | 17 (35.4%) | 22 | 3 |
+| B1 | 100 | 36 (36.0%) | 25 (25.0%) | 32 | 7 |
+
+| Conditional revised precision baseline | Unique claims | Run-weighted claims |
+| --- | --- | --- |
+| All location matches assumed valid, including withheld and cross-tag edits | 159–170 / 303 (52.5–56.1%) | 205–217 / 365 (56.2–59.5%) |
+| Same-tag expected-location matches assumed valid; withheld excluded | 125–136 / 303 (41.3–44.9%) | 163–175 / 365 (44.7–47.9%) |
+
+Ranges count ambiguous claims as wrong/right. These assume matched fixes are valid; only 5/15 matched controls had both the correct tag and a valid minimal fix. They are conditional estimates, not measured precision or confidence intervals. The original 37/343 (10.8%) used exact fixes after relocation; this extraction uses saved indexes and original overlap, so the metrics are not directly comparable.
+
+Control real-error accuracy: matched 15/15 (100%); missed reference 14/15 (93.3%); neither below 80%. Same-session repeat: verdict 20/20 (100%); tag and fix each 19/20 (95%); all three 18/20 (90%). Prior verdicts were not redisplayed, but conversation context was not isolated. One clerical tag-boolean inconsistency was corrected after comparison and retained in the repeat audit. Human spot-check queue: 20 items, five per verdict. Human gold: 0; M3 passes: 0.
+
+## AI-led grader fixes (`feedback-growth-6`)
+
+The zero-budget follow-up uses the provisional AI findings to improve future grading. It does not replace human gold or pass M3.
+
+- The prompt requires clear level-appropriate errors, permits zero corrections, omits optional style edits, preserves valid usage variants and modal meaning, and separates actual errors from optional rewrites.
+- Tag guidance distinguishes tense, verb form, agreement, modals, articles, spelling, capitalization, prepositions, infinitives, questions, punctuation and connectors. Active targets must not determine an unrelated error's tag.
+- Live response filtering removes style, confidence below 0.7, unchanged suggestions, snippets absent from the exact source or crossing word boundaries, and original/suggestion spans over twelve words. Reports derive errors and indexes after filtering. Filtering adds no provider call. Saved feedback and historical reports remain unchanged.
+- The new prompt version keeps future evidence separate from `feedback-growth-5`. Growth Targets remains opt-in and off by default; validated mastery and growth claims remain gated.
+
+Offline replay applied only the new deterministic filter to saved outputs, without invoking a model: 365 raw target claims became 322; 303 unique claims became 261. Removed claims: 5 unchanged, 4 source mismatches, and 34 over twelve words. Of the 194 raw unmatched claims, 27 were removed. All 34 unmatched raw claims previously judged by AI to have a real error, correct tag and valid minimal fix survived. These are mechanical filter results, not measured precision for the new prompt. Strict source matching and length limits can suppress genuine errors when the model quotes them incorrectly or too broadly.
+
+Verification: failing local regressions first reproduced invalid-claim retention and target-count inflation. Synthetic provider and unit tests verify filtering before target derivation, an empty correction list, unchanged request count, exact source boundaries, capitalization and punctuation-spacing edits, and both word limits. `npm run check` passed: formatting, types, lint, design checks; 190 tests passed, 7 skipped. No paid calls, hosted changes, deployment, or human adjudication occurred. The revised prompt's semantic accuracy remains unevaluated.

@@ -1,1 +1,1 @@
-export const feedbackPromptVersion = 'feedback-growth-5';
+export const feedbackPromptVersion = 'feedback-growth-6';

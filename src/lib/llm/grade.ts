@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import OpenAI from 'openai';
 import { FeedbackSchema, ModelFeedbackSchema, type ErrorTag } from '@/lib/feedback/schema';
+import { filterLiveCorrections } from '@/lib/feedback/corrections';
 import type { z } from 'zod';
 import { validateTargetReport } from '@/lib/targets';
 import mockFeedback from '@/mocks/feedback.sample.json';
@@ -86,12 +87,13 @@ export async function gradeWriting(text: string, options: GradeOptions) {
     try {
       const choice = completion.choices[0];
       if (choice?.finish_reason !== 'stop') throw new Error('Incomplete feedback');
+      const parsed = ModelFeedbackSchema.parse(JSON.parse(choice.message.content ?? ''));
+      if (parsed.corrections.length > (['PRE_A1', 'A1', 'A2'].includes(task.targetLevel) ? 8 : 12))
+        throw new Error('Too many corrections');
       const data = validateTargetReport(
-        ModelFeedbackSchema.parse(JSON.parse(choice.message.content ?? '')),
+        { ...parsed, corrections: filterLiveCorrections(text, parsed.corrections) },
         options.targets ?? [],
       );
-      if (data.corrections.length > (['PRE_A1', 'A1', 'A2'].includes(task.targetLevel) ? 8 : 12))
-        throw new Error('Too many corrections');
       return { data, usage, model: options.model, latencyMs: Date.now() - started, mock: false };
     } catch {
       if (attempt === 1) throw new LlmError('LLM_INVALID_RESPONSE');
