@@ -414,7 +414,12 @@
     "finish": "Finish practice",
     "next": "Next question",
     "why": "Why this is back",
-    "whyBody": "This phrase comes from your saved writing. Review it now to help you remember. Answers are checked without an AI call."
+    "whyBody": "This phrase comes from your saved writing. Review it now to help you remember. Answers are checked without an AI call.",
+    "transferAnswer": "Complete the new sentence",
+    "transferCheck": "Check new sentence",
+    "transferTitle": "Try a new sentence",
+    "transferBody": "Use your target in fresh context. These drills do not count as new-writing progress.",
+    "transferEmpty": "No transfer exercises are due for your current unit."
   },
   "progress": {
     "title": "See your writing grow",
@@ -451,6 +456,27 @@
     "accuracy": "Review accuracy",
     "unreviewed": "Not reviewed yet",
     "reviewAccuracy": "{n} of {total} ({percent})",
+    "benchmarksTitle": "Unit benchmarks",
+    "benchmarkEmpty": "Finish a reviewed unit with matched start and checkpoint prompts to see a comparison.",
+    "benchmarkVersion": "Grader: {version}",
+    "benchmarkBefore": "Unit start: {value} / 5",
+    "benchmarkAfter": "Checkpoint: {value} / 5",
+    "benchmarkChange": "Score comparison: {change}",
+    "benchmark-uncalibrated": "No verified noise calibration",
+    "benchmark-about-same": "About the same",
+    "benchmark-higher": "Higher",
+    "benchmark-lower": "Lower",
+    "benchmarkContext": "Writing context · start → checkpoint",
+    "benchmarkWords": "Words: {before} → {after}",
+    "benchmarkRange": "Task range: {before} → {after}",
+    "benchmarkInRange": "within range",
+    "benchmarkOutOfRange": "outside range",
+    "benchmarkSentence": "Mean sentence length: {before} → {after}",
+    "benchmarkMtld": "Lexical diversity (MTLD): {before} → {after}",
+    "benchmarkInsufficient": "not enough text",
+    "benchmarkUnused": "not used",
+    "benchmarkDisclaimer": "Safe first attempts on matched reviewed prompts with the same grader only. Without verified human noise calibration, these values do not establish improvement. Sentence length and MTLD are context, not scores. MTLD needs at least 50 words.",
+    "unmatchedTrends": "Historical trends use different tasks and may use different graders. They are descriptive, not benchmark evidence.",
     "improvementTitle": "Your improvement",
     "thenVsNow": "Your first 3 checks compared with your latest 3",
     "then": "Then",
@@ -475,7 +501,28 @@
     "levelCount": "{level} · {done}/{total}",
     "continueLesson": "Continue: {title}",
     "findLevel": "Find your starting level",
-    "recentLessons": "Recently completed"
+    "recentLessons": "Recently completed",
+    "targets": {
+      "title": "Targets",
+      "provisional": "Provisional: these AI estimates describe new writing, not a mastery certificate. Lesson progress is unchanged.",
+      "empty": "Complete a Core writing check with target feedback to see evidence here.",
+      "rate": "{rate} wrong ({errors, number}/{uses, number} uses)",
+      "unused": "Not used — no error rate",
+      "first": "First new task: {rate}",
+      "latest": "Latest new task: {rate}",
+      "total": "{tasks, plural, one {# distinct task} other {# distinct tasks}} · {errors, number} errors in {uses, number} uses",
+      "scheduled": "Next review: {date} (UTC)",
+      "overdue": "Review due since {date} (UTC)",
+      "unscheduled": "No review date yet. Try this target in another new task.",
+      "rule": "First attempts only. Rates use the latest grader version at each level. Two consecutive new tasks with at least 5 uses and at most 20% errors (minimum allowance: 1 error) start reviews at 1, 3, 7, 14 and 30 days. Missing or sparse uses do not show secure learning.",
+      "states": {
+        "unknown": "Unknown",
+        "new": "New",
+        "learning": "Learning",
+        "secure": "Secure",
+        "review-due": "Review due"
+      }
+    }
   },
   "onboarding": {
     "title": "Set up your writing practice",
@@ -539,6 +586,9 @@
     "checkpoint": "Checkpoint",
     "unlockRule": "Complete each lesson’s warm-ups. Pass a checkpoint with an average score of 3.5 and grammar of at least 3 to unlock the next unit.",
     "backToPath": "Back to learning path",
+    "readingTitle": "Read before you write",
+    "readingSummary": "Summarise the main ideas in your own words. Do not copy the passage.",
+    "readingContinuation": "Continue the passage with a coherent next part. Keep the source details consistent.",
     "miniLesson": "A short lesson",
     "model": "Model message",
     "warmups": "Warm-ups",
@@ -567,7 +617,9 @@
     "taskOneContract": "Min 150 words · Recommended 20 mins",
     "essayContract": "Min 250 words · Recommended 40 mins",
     "ieltsUnlock": "Start any module. Complete its warm-ups and safe writing to continue; checkpoints retain the rubric floor.",
-    "lessonProgress": "{done} of {total} lessons complete"
+    "lessonProgress": "{done} of {total} lessons complete",
+    "noticingTitle": "Read and notice",
+    "checkSelections": "Check selections"
   },
   "development": {
     "title": "Develop your ideas",

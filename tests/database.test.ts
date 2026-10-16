@@ -16,7 +16,8 @@ import {
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { sampleDraft } from '@/mocks/draft.sample';
 import { curriculumDraft } from '@/mocks/curriculum-content';
-import { loadTask, loadLesson } from '@/lib/db/curriculum';
+import { loadTask, loadLesson, loadTaskContext } from '@/lib/db/curriculum';
+import { loadProgress } from '@/lib/db/progress';
 import { feedbackPromptVersion } from '@/lib/prompts/version';
 import { POST as checkWriting, GET as getCheck } from '@/app/api/feedback/route';
 import { PUT as saveWritingDraft } from '@/app/api/draft/route';
@@ -90,6 +91,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0010_target_evidence.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0011_self_revision.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0012_mastery_advisory.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0014_benchmark_context.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -520,6 +522,216 @@ it('reuses a check key, rejects changed content and recovers owner-only feedback
   await failSubmission(charlie, id);
   expect(await loadCheck(charlie, key)).toMatchObject({ id, status: 'completed' });
   expect(await reserveSubmission(charlie, input, key)).toBe(id);
+});
+it('reads only safe owner first-attempt targets and measures due reviews without changing unlocking', async () => {
+  const owner = '00000000-0000-4000-8000-000000000089';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const unit = { ...curriculumDraft[0], grammarFocus: ['subject-verb-agreement'] };
+  for (const content of [unit, ...curriculumDraft.slice(1)])
+    await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
+      content.id,
+      content.level,
+      content.order,
+      JSON.stringify(content),
+      'Test reviewer',
+      'synthetic-hash',
+    ]);
+  const lesson = unit.lessons[0];
+  await database.query(
+    `INSERT INTO writing.placement_results(user_id,status,chosen_level,calls_today,call_day,started_at,updated_at)
+    VALUES ($1,'completed','A1',1,'2026-10-15',now(),now())`,
+    [owner],
+  );
+  await database.query(
+    'INSERT INTO writing.lesson_progress(user_id,lesson_id,warmups) VALUES ($1,$2,$3)',
+    [
+      owner,
+      lesson.id,
+      JSON.stringify(Object.fromEntries(lesson.warmups.map((_, index) => [String(index), true]))),
+    ],
+  );
+  let firstId: string | null = null;
+  for (const [index, options] of [
+    { task: 'prior-1' },
+    { task: 'prior-2' },
+    { task: 'revision', attempt: 2 },
+    { task: 'unsafe', unsafe: true },
+    { task: 'failed', status: 'failed' },
+  ].entries()) {
+    const [row]: { id: string }[] = (
+      await database.query<{ id: string }>(
+        `INSERT INTO writing.submissions(user_id,task_id,text,word_count,attempt,status,created_at,parent_submission_id)
+      VALUES ($1,$2,'Synthetic writing',40,$3,$4,now() - ($5 || ' days')::interval,$6) RETURNING id`,
+        [
+          owner,
+          options.task,
+          'attempt' in options ? options.attempt : 1,
+          'status' in options ? options.status : 'completed',
+          String(10 - index),
+          'attempt' in options ? firstId : null,
+        ],
+      )
+    ).rows;
+    firstId ??= row.id;
+    await database.query(
+      'INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,$4,$5)',
+      [
+        row.id,
+        owner,
+        JSON.stringify({ ...markedPageSample, safety_flag: 'unsafe' in options }),
+        'synthetic-pinned',
+        feedbackPromptVersion,
+      ],
+    );
+    await database.query(
+      `INSERT INTO writing.target_evidence(submission_id,user_id,tag,level,uses,errors,is_first_attempt,grader_version)
+      VALUES ($1,$2,'articles','A1',10,0,$3,$4)`,
+      [row.id, owner, !('attempt' in options), `synthetic-pinned:${feedbackPromptVersion}`],
+    );
+  }
+  expect((await loadProgress(owner)).targets).toMatchObject([
+    { tag: 'articles', state: 'review-due', tasks: 2, uses: 20, errors: 0 },
+  ]);
+  expect((await loadProgress(bob)).targets).toEqual([]);
+  expect((await loadTaskContext(owner, lesson.task.id)).targets).toEqual([
+    'subject-verb-agreement',
+    'articles',
+  ]);
+  const pending = await reserveSubmission(owner, {
+    taskId: lesson.task.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  const output = {
+    ...markedPageSample,
+    corrections: [],
+    target_report: [
+      { tag: 'subject-verb-agreement' as const, uses: 10, errors: 0, correction_indexes: [] },
+      { tag: 'articles' as const, uses: 10, errors: 0, correction_indexes: [] },
+    ],
+  };
+  await completeSubmission(owner, pending, output, {
+    data: output,
+    model: 'synthetic-pinned',
+    mock: false,
+    latencyMs: 1,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+  });
+  expect(
+    (await loadProgress(owner)).targets.find((target) => target.tag === 'articles'),
+  ).toMatchObject({ state: 'secure', tasks: 3 });
+  expect((await loadLesson(owner, unit.lessons[1].id)).state).toBe('current');
+  expect((await loadTaskContext(owner, 'weekend')).targets).toEqual([]);
+  await database.query('DELETE FROM auth.users WHERE id=$1', [owner]);
+  await database.query('DELETE FROM writing.curriculum_units');
+});
+
+it('freezes reviewed benchmark provenance at reservation and marks only real first-attempt checkpoint evidence', async () => {
+  const owner = '00000000-0000-4000-8000-000000000087';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const unit = structuredClone(curriculumDraft[0]);
+  unit.parallelPrompt = {
+    ...unit.lessons[0].task,
+    id: unit.lessons.at(-1)!.task.id,
+    isCheckpoint: true,
+    prompt: 'A new parallel writing situation.',
+  };
+  await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
+    unit.id,
+    unit.level,
+    unit.order,
+    JSON.stringify(unit),
+    'Synthetic reviewer',
+    'exact-reviewed-hash',
+  ]);
+  const baseline = await reserveSubmission(owner, {
+    taskId: unit.lessons[0].task.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  const checkpoint = await reserveSubmission(owner, {
+    taskId: unit.parallelPrompt.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  expect(await loadFeedback(owner, checkpoint)).toBeNull();
+  expect(
+    (
+      await asUser(
+        owner,
+        'SELECT benchmark_context FROM writing.submissions WHERE id=' + "'" + checkpoint + "'",
+      )
+    ).rows,
+  ).toMatchObject([
+    { benchmark_context: { role: 'checkpoint', contentHash: 'exact-reviewed-hash' } },
+  ]);
+  expect(
+    (await asUser(bob, 'SELECT * FROM writing.submissions WHERE id=' + "'" + checkpoint + "'"))
+      .rows,
+  ).toEqual([]);
+  await database.query('UPDATE writing.curriculum_units SET content_hash=$1 WHERE id=$2', [
+    'edited-after-reservation',
+    unit.id,
+  ]);
+  const output = {
+    ...markedPageSample,
+    corrections: [],
+    target_report: [
+      { tag: 'subject-verb-agreement' as const, uses: 5, errors: 0, correction_indexes: [] },
+      { tag: 'articles' as const, uses: 5, errors: 0, correction_indexes: [] },
+    ],
+  };
+  const result = {
+    data: output,
+    model: 'pinned',
+    mock: false,
+    latencyMs: 1,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+  };
+  await completeSubmission(owner, baseline, output, result);
+  await completeSubmission(owner, checkpoint, output, result);
+  const evidence = await asUser(
+    owner,
+    'SELECT is_benchmark FROM writing.target_evidence WHERE submission_id=' +
+      "'" +
+      checkpoint +
+      "'",
+  );
+  expect(evidence.rows).toEqual([{ is_benchmark: true }, { is_benchmark: true }]);
+  const revision = await reserveSubmission(owner, {
+    taskId: unit.parallelPrompt.id,
+    text: sampleDraft,
+    attempt: 2,
+    parentSubmissionId: checkpoint,
+  });
+  await completeSubmission(owner, revision, output, result);
+  const mock = await reserveSubmission(owner, {
+    taskId: unit.parallelPrompt.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  await completeSubmission(owner, mock, output, { ...result, model: 'mock', mock: true });
+  expect(
+    (
+      await asUser(
+        owner,
+        'SELECT is_benchmark FROM writing.target_evidence WHERE submission_id IN (' +
+          "'" +
+          revision +
+          "','" +
+          mock +
+          "')",
+      )
+    ).rows.every(
+      (row) =>
+        typeof row === 'object' &&
+        row !== null &&
+        'is_benchmark' in row &&
+        row.is_benchmark === false,
+    ),
+  ).toBe(true);
+  await database.query('DELETE FROM auth.users WHERE id=$1', [owner]);
+  await database.query('DELETE FROM writing.curriculum_units');
 });
 it('stores trusted target evidence atomically, privately and immutably through the check route', async () => {
   const owner = '00000000-0000-4000-8000-000000000095';

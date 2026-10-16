@@ -6,72 +6,8 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableBody from '@mui/material/TableBody';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { scoreKeys, type Improvement as ImprovementData } from '@/lib/improvement';
-
-function ChangeChip({ delta, lowerIsBetter = false }: { delta: number; lowerIsBetter?: boolean }) {
-  const format = useFormatter();
-  const improving = lowerIsBetter ? delta < 0 : delta > 0;
-  return (
-    <Chip
-      size="small"
-      color={improving ? 'success' : 'default'}
-      variant={improving ? 'tonal' : 'outlined'}
-      label={format.number(delta, { signDisplay: 'exceptZero', maximumFractionDigits: 1 })}
-    />
-  );
-}
-
-function ThenVsNowTable({ comparison }: { comparison: NonNullable<ImprovementData['thenVsNow']> }) {
-  const t = useTranslations('progress');
-  const format = useFormatter();
-  return (
-    <Stack sx={{ gap: 2 }}>
-      <Typography component="h3" variant="h3">
-        {t('thenVsNow')}
-      </Typography>
-      <TableContainer>
-        <Table size="small" aria-label={t('thenVsNow')} sx={{ fontVariantNumeric: 'tabular-nums' }}>
-          <TableHead>
-            <TableRow>
-              {(['skill', 'then', 'now', 'change'] as const).map((key) => (
-                <TableCell key={key}>{t(key)}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {([...scoreKeys, 'average', 'errorsPer100Words'] as const).map((key) => (
-              <TableRow key={key}>
-                <TableCell component="th" scope="row">
-                  {t(key === 'errorsPer100Words' ? 'errorRate' : key)}
-                </TableCell>
-                <TableCell>
-                  {format.number(comparison.then[key], { maximumFractionDigits: 1 })}
-                </TableCell>
-                <TableCell>
-                  {format.number(comparison.now[key], { maximumFractionDigits: 1 })}
-                </TableCell>
-                <TableCell>
-                  <ChangeChip
-                    delta={comparison.now[key] - comparison.then[key]}
-                    lowerIsBetter={key === 'errorsPer100Words'}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Stack>
-  );
-}
 
 function WeeklyScoreChart({ weekly }: { weekly: ImprovementData['weekly'] }) {
   const t = useTranslations('progress');
@@ -186,11 +122,7 @@ export default function Improvement({ data }: { data: ImprovementData }) {
         <Typography id="improvement-title" variant="h2">
           {t('improvementTitle')}
         </Typography>
-        {data.thenVsNow ? (
-          <ThenVsNowTable comparison={data.thenVsNow} />
-        ) : (
-          <Typography>{t('checksNeeded', { n: data.checksNeeded })}</Typography>
-        )}
+        <Typography variant="body2">{t('unmatchedTrends')}</Typography>
         {data.weekly.length >= 2 ? (
           <Box
             sx={{

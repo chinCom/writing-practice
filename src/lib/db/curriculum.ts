@@ -19,8 +19,9 @@ import {
   trackForId,
 } from '@/lib/curriculum';
 import { ApiError } from '@/lib/api';
+import { gradeNoticing, type TextSpan } from '@/lib/noticing';
 import { buildCoursePath } from '@/lib/curriculum-path';
-import { targetsForUnit } from '@/lib/targets';
+import { trustedTargetsInTransaction } from './targets';
 
 type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
 export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
@@ -73,7 +74,7 @@ export async function loadTaskContext(userId: string, taskId: string) {
     if (!lesson) throw new ApiError('NOT_FOUND', 404);
     if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
     if (!lesson.warmupsDone) throw new ApiError('WARMUPS_REQUIRED', 403);
-    return { task: lesson.task, targets: targetsForUnit(unit!) };
+    return { task: lesson.task, targets: await trustedTargetsInTransaction(database, unit!) };
   });
 }
 export async function answerWarmup(
@@ -109,6 +110,21 @@ export async function answerWarmup(
         },
       });
     return { correct, hint: correct ? null : warmup.hint, warmupsDone: done, answers };
+  });
+}
+export async function answerNoticing(userId: string, lessonId: string, selected: TextSpan[]) {
+  return withUserDatabase(userId, async (database) => {
+    await lessonInTransaction(database, lessonId);
+    const [unit] = await database
+      .select({ content: curriculumUnits.content })
+      .from(curriculumUnits)
+      .where(
+        sql`${curriculumUnits.content}->'lessons' @> ${JSON.stringify([{ id: lessonId }])}::jsonb`,
+      );
+    const exercise = unit?.content.lessons.find((lesson) => lesson.id === lessonId)?.noticing;
+    if (!exercise) throw new ApiError('NOT_FOUND', 404);
+    const correct = gradeNoticing(exercise, selected);
+    return { correct, ...(correct ? { explanation: exercise.explanation } : {}) };
   });
 }
 export async function reservePlacement(userId: string) {

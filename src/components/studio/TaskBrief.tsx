@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import ReadingPassage from '@/components/curriculum/ReadingPassage';
 import IeltsContract from '@/components/curriculum/IeltsContract';
 import TaskChart from '@/components/curriculum/TaskChart';
 import type { CurriculumTask } from '@/lib/curriculum';
@@ -38,6 +39,7 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
       {task ? <IeltsContract taskId={task.id} /> : null}
       <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>
       {task ? <TaskChart taskId={task.id} /> : null}
+      <ReadingPassage reading={task?.reading} />
       <Typography variant="body2" color="text.secondary">
         {task ? t('taskWordRange', { min: task.minWords, max: task.maxWords }) : t('wordRange')}
       </Typography>

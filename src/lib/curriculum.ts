@@ -45,28 +45,99 @@ export const taskSchema = z.strictObject({
   maxWords: z.number().int().min(5).max(500),
   isCheckpoint: z.boolean(),
   targetLevel: curriculumLevel,
+  reading: z
+    .strictObject({
+      mode: z.enum(['summary', 'continuation']),
+      title: z.string().min(1).max(150),
+      text: z.string().min(30).max(3000),
+    })
+    .optional(),
 });
-export const lessonSchema = z.strictObject({
+export const noticingSchema = z.strictObject({
+  instruction: z.string().min(1).max(500),
+  spans: z
+    .array(z.strictObject({ start: z.number().int().min(0), end: z.number().int().positive() }))
+    .min(2)
+    .max(6),
+  explanation: z.string().min(1).max(500),
+});
+export const lessonSchema = z
+  .strictObject({
+    id: z.string().regex(/^[a-z0-9-]{1,80}$/),
+    title: z.string().min(1).max(150),
+    miniLesson: z.strictObject({
+      markdown: z.string().min(1).max(3000),
+      modelText: z.string().min(1).max(6500),
+    }),
+    warmups: z.array(warmupSchema).min(2).max(6),
+    task: taskSchema,
+    noticing: noticingSchema.optional(),
+  })
+  .superRefine((lesson, context) => {
+    const spans = lesson.noticing?.spans ?? [];
+    const text = lesson.miniLesson.modelText;
+    const sorted = [...spans].sort((a, b) => a.start - b.start);
+    if (
+      sorted.some(
+        (span, index) =>
+          span.end <= span.start ||
+          span.end > text.length ||
+          (index > 0 && span.start < sorted[index - 1].end),
+      )
+    )
+      context.addIssue({
+        code: 'custom',
+        message: 'Noticing spans must be distinct, non-overlapping model-text ranges',
+      });
+  });
+export const transferDrillSchema = z.strictObject({
   id: z.string().regex(/^[a-z0-9-]{1,80}$/),
-  title: z.string().min(1).max(150),
-  miniLesson: z.strictObject({
-    markdown: z.string().min(1).max(3000),
-    modelText: z.string().min(1).max(6500),
-  }),
-  warmups: z.array(warmupSchema).min(2).max(6),
-  task: taskSchema,
+  tag: ErrorTag,
+  prompt: z.string().min(1).max(500),
+  answers: z.array(z.string().min(1).max(300)).min(1).max(5),
+  explanation: z.string().min(1).max(500),
 });
-export const unitSchema = z.strictObject({
-  id: z.string().regex(/^[a-z0-9-]{1,80}$/),
-  level: curriculumLevel,
-  order: z.number().int().min(1).max(20),
-  title: z.string().min(1).max(150),
-  theme: z.string().min(1).max(150),
-  outcome: z.string().min(1).max(300),
-  grammarFocus: z.array(ErrorTag).min(1).max(5),
-  vocabulary: z.array(z.string().max(100)).max(20),
-  lessons: z.array(lessonSchema).min(1).max(6),
-});
+export const unitSchema = z
+  .strictObject({
+    id: z.string().regex(/^[a-z0-9-]{1,80}$/),
+    level: curriculumLevel,
+    order: z.number().int().min(1).max(20),
+    title: z.string().min(1).max(150),
+    theme: z.string().min(1).max(150),
+    outcome: z.string().min(1).max(300),
+    grammarFocus: z.array(ErrorTag).min(1).max(5),
+    vocabulary: z.array(z.string().max(100)).max(20),
+    lessons: z.array(lessonSchema).min(1).max(6),
+    transferDrills: z.array(transferDrillSchema).max(12).optional(),
+    parallelPrompt: taskSchema.optional(),
+  })
+  .superRefine((unit, context) => {
+    const first = unit.lessons[0].task;
+    const parallel = unit.parallelPrompt;
+    if (
+      parallel &&
+      (!parallel.isCheckpoint ||
+        parallel.genre !== first.genre ||
+        parallel.targetLevel !== unit.level ||
+        parallel.minWords !== first.minWords ||
+        parallel.maxWords !== first.maxWords ||
+        parallel.id !== unit.lessons.at(-1)?.task.id)
+    )
+      context.addIssue({
+        code: 'custom',
+        message:
+          'Parallel checkpoint must match the first task genre, range, level and checkpoint ID',
+      });
+    const drills = unit.transferDrills ?? [];
+    if (
+      new Set(drills.map((item) => item.id)).size !== drills.length ||
+      drills.some((item) => !unit.grammarFocus.includes(item.tag))
+    )
+      context.addIssue({
+        code: 'custom',
+        message: 'Transfer drills need distinct IDs and unit focus tags',
+      });
+  });
 export const curriculumSchema = z
   .array(unitSchema)
   .min(3)
@@ -140,10 +211,15 @@ export type Lesson = z.infer<typeof lessonSchema>;
 export type CurriculumTask = z.infer<typeof taskSchema>;
 export type Warmup = z.infer<typeof warmupSchema>;
 export type CurriculumLevel = z.infer<typeof curriculumLevel>;
-export type PublicLesson = Omit<Lesson, 'warmups'> & { warmups: Omit<Warmup, 'answer' | 'hint'>[] };
+export type PublicLesson = Omit<Lesson, 'warmups' | 'noticing'> & {
+  warmups: Omit<Warmup, 'answer' | 'hint'>[];
+  noticing?: Pick<NonNullable<Lesson['noticing']>, 'instruction'>;
+};
 export function publicLesson(lesson: Lesson): PublicLesson {
+  const { noticing, ...ordinary } = lesson;
   return {
-    ...lesson,
+    ...ordinary,
+    ...(noticing ? { noticing: { instruction: noticing.instruction } } : {}),
     warmups: lesson.warmups.map(({ type, prompt, options }) => ({
       type,
       prompt,

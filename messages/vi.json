@@ -414,7 +414,12 @@
     "finish": "Hoàn thành luyện tập",
     "next": "Câu hỏi tiếp theo",
     "why": "Vì sao cần ôn lại",
-    "whyBody": "Cụm từ này lấy từ bài viết đã lưu của bạn. Ôn lại để nhớ lâu hơn. Câu trả lời được kiểm tra mà không gọi AI."
+    "whyBody": "Cụm từ này lấy từ bài viết đã lưu của bạn. Ôn lại để nhớ lâu hơn. Câu trả lời được kiểm tra mà không gọi AI.",
+    "transferAnswer": "Hoàn thành câu mới",
+    "transferCheck": "Kiểm tra câu mới",
+    "transferTitle": "Thử một câu mới",
+    "transferBody": "Dùng mục tiêu trong ngữ cảnh mới. Bài luyện này không tính là tiến bộ qua bài viết mới.",
+    "transferEmpty": "Không có bài chuyển giao đến hạn trong học phần hiện tại."
   },
   "progress": {
     "title": "Xem bài viết của bạn tiến bộ",
@@ -451,6 +456,27 @@
     "accuracy": "Độ chính xác khi ôn",
     "unreviewed": "Chưa ôn tập",
     "reviewAccuracy": "{n} trên {total} ({percent})",
+    "benchmarksTitle": "Đối chiếu trong đơn vị học",
+    "benchmarkEmpty": "Hoàn thành đơn vị đã duyệt với đề đầu và cuối tương đương để xem đối chiếu.",
+    "benchmarkVersion": "Phiên bản chấm: {version}",
+    "benchmarkBefore": "Đầu đơn vị: {value} / 5",
+    "benchmarkAfter": "Bài cuối: {value} / 5",
+    "benchmarkChange": "Đối chiếu điểm: {change}",
+    "benchmark-uncalibrated": "Chưa có hiệu chuẩn độ nhiễu được xác minh",
+    "benchmark-about-same": "Gần như nhau",
+    "benchmark-higher": "Cao hơn",
+    "benchmark-lower": "Thấp hơn",
+    "benchmarkContext": "Thông tin bài viết · đầu → cuối",
+    "benchmarkWords": "Số từ: {before} → {after}",
+    "benchmarkRange": "Khoảng số từ: {before} → {after}",
+    "benchmarkInRange": "trong khoảng",
+    "benchmarkOutOfRange": "ngoài khoảng",
+    "benchmarkSentence": "Độ dài câu trung bình: {before} → {after}",
+    "benchmarkMtld": "Độ đa dạng từ vựng (MTLD): {before} → {after}",
+    "benchmarkInsufficient": "chưa đủ văn bản",
+    "benchmarkUnused": "chưa dùng",
+    "benchmarkDisclaimer": "Chỉ dùng lần đầu an toàn, đề tương đương đã duyệt và cùng phiên bản chấm. Khi chưa xác minh hiệu chuẩn độ nhiễu bằng đánh giá của con người, số liệu chưa chứng minh tiến bộ. Độ dài câu và MTLD chỉ là thông tin, không phải điểm. MTLD cần ít nhất 50 từ.",
+    "unmatchedTrends": "Xu hướng trước đây dùng các đề khác nhau và có thể khác phiên bản chấm. Đây là mô tả, không phải bằng chứng từ đề tương đương.",
     "improvementTitle": "Sự tiến bộ của bạn",
     "thenVsNow": "3 bài chấm đầu tiên so với 3 bài gần nhất",
     "then": "Trước",
@@ -475,7 +501,28 @@
     "levelCount": "{level} · {done}/{total}",
     "continueLesson": "Tiếp tục: {title}",
     "findLevel": "Tìm trình độ bắt đầu",
-    "recentLessons": "Vừa hoàn thành"
+    "recentLessons": "Vừa hoàn thành",
+    "targets": {
+      "title": "Mục tiêu",
+      "provisional": "Tạm tính: các ước tính AI này mô tả bài viết mới, không phải chứng nhận thành thạo. Tiến độ bài học không thay đổi.",
+      "empty": "Hoàn thành một lượt kiểm tra bài viết Core có phản hồi mục tiêu để xem dữ liệu tại đây.",
+      "rate": "{rate} sai ({errors, number}/{uses, number} lần dùng)",
+      "unused": "Chưa dùng — chưa có tỷ lệ lỗi",
+      "first": "Bài mới đầu tiên: {rate}",
+      "latest": "Bài mới gần nhất: {rate}",
+      "total": "{tasks, number} bài khác nhau · {errors, number} lỗi trong {uses, number} lần dùng",
+      "scheduled": "Lần ôn tiếp theo: {date} (UTC)",
+      "overdue": "Đến hạn ôn từ {date} (UTC)",
+      "unscheduled": "Chưa có lịch ôn. Hãy dùng mục tiêu này trong một bài mới khác.",
+      "rule": "Chỉ tính lần viết đầu. Tỷ lệ dùng phiên bản chấm mới nhất ở từng trình độ. Hai bài mới liên tiếp có ít nhất 5 lần dùng và tối đa 20% lỗi (cho phép ít nhất 1 lỗi) bắt đầu lịch ôn sau 1, 3, 7, 14 và 30 ngày. Chưa dùng hoặc dùng quá ít không chứng minh đã vững.",
+      "states": {
+        "unknown": "Chưa rõ",
+        "new": "Mới",
+        "learning": "Đang học",
+        "secure": "Vững",
+        "review-due": "Đến hạn ôn"
+      }
+    }
   },
   "onboarding": {
     "title": "Thiết lập luyện viết",
@@ -539,6 +586,9 @@
     "checkpoint": "Bài kiểm tra",
     "unlockRule": "Hoàn thành các bài khởi động. Đạt điểm trung bình 3,5 và ngữ pháp ít nhất 3 ở bài kiểm tra để mở khóa chương tiếp theo.",
     "backToPath": "Về lộ trình học",
+    "readingTitle": "Đọc trước khi viết",
+    "readingSummary": "Tóm tắt ý chính bằng lời của bạn. Không sao chép đoạn văn.",
+    "readingContinuation": "Viết tiếp một phần hợp lý. Giữ chi tiết nhất quán với đoạn văn gốc.",
     "miniLesson": "Bài học ngắn",
     "model": "Tin nhắn mẫu",
     "warmups": "Bài khởi động",
@@ -567,7 +617,9 @@
     "taskOneContract": "Tối thiểu 150 từ · Đề xuất 20 phút",
     "essayContract": "Tối thiểu 250 từ · Đề xuất 40 phút",
     "ieltsUnlock": "Bắt đầu bất kỳ mô-đun nào. Hoàn thành bài khởi động và bài viết an toàn để tiếp tục; bài kiểm tra vẫn cần đạt mức điểm yêu cầu.",
-    "lessonProgress": "Đã hoàn thành {done}/{total} bài"
+    "lessonProgress": "Đã hoàn thành {done}/{total} bài",
+    "noticingTitle": "Đọc và nhận biết",
+    "checkSelections": "Kiểm tra lựa chọn"
   },
   "development": {
     "title": "Phát triển ý tưởng",
