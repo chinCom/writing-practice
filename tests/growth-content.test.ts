@@ -8,20 +8,22 @@ import course from '../curriculum/course.draft.json';
 import { curriculumSchema } from '@/lib/curriculum';
 import { modelWords } from '@/lib/noticing';
 import { targetsForUnit } from '@/lib/targets';
-it('blocks growth publication before opening a database connection without exact human approval', () => {
+it('passes the approval gate and still stops before opening a database connection', () => {
   expect(() =>
     execFileSync(process.execPath, ['--import', 'tsx', 'scripts/seed-curriculum.ts'], {
       env: { ...process.env, GROWTH_CONTENT: 'true', DATABASE_URL: '' },
       stdio: 'pipe',
     }),
-  ).toThrow(/The review must approve this exact content hash and name a human reviewer/);
+  ).toThrow(/DATABASE_URL is required/);
 });
-it('keeps the unapproved review tied to the formatted draft bytes', () => {
+it('keeps the human approval tied to the exact formatted draft bytes', () => {
   const hash = createHash('sha256')
     .update(readFileSync('curriculum/growth.draft.json'))
     .digest('hex');
-  expect(review.approved).toBe(false);
-  expect(review.reviewer).toBe('');
+  // Any content edit changes the hash and must be reviewed again before publication.
+  expect(review.approved).toBe(true);
+  expect(review.reviewer.trim()).not.toBe('');
+  expect(Number.isFinite(Date.parse(review.reviewedAt))).toBe(true);
   expect(review.contentHash).toBe(hash);
 });
 it('provides 21 review-gated Core units with word-selectable noticing, transfer sets and matched checkpoints', () => {

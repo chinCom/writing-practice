@@ -55,11 +55,11 @@ Hosted migration `0009` was applied previously with user approval. See [hosted s
 
 ## Growth-content review (M6–M9)
 
-`growth.draft.json` is a separate, unapproved enrichment of the 21 Core units. It preserves existing IDs. It contains 21 noticing exercises, 124 transfer items, 21 parallel checkpoint prompts, and 12 source-based tasks. Existing Core and IELTS sources and approvals are unchanged.
+`growth.draft.json` is a separate enrichment of the 21 Core units, approved by chinhCom on 2026-10-16. It preserves existing IDs. It contains 21 noticing exercises, 124 transfer items, 21 parallel checkpoint prompts, and 12 source-based tasks. Existing Core and IELTS sources and approvals are unchanged.
 
 Run `python3 scripts/author-growth.py` only when intentionally regenerating this draft. The command overwrites growth edits and resets approval. It formats the draft before computing the review hash. Run `npx vitest run tests/growth-content.test.ts` to validate the content contract.
 
-The product owner must review span meanings, target/level fit, accepted answers, prompt difficulty, and source-based tasks. Record approval in `growth.review.json` with the same human-review fields shown above. Keep `approved: false` until that review is complete.
+The product owner must review span meanings, target/level fit, accepted answers, prompt difficulty, and source-based tasks. Record approval in `growth.review.json` with the same human-review fields shown above. Keep `approved: false` until that review is complete. Any regeneration resets approval and needs a new review.
 
 After release approval, database backup, and migrations through `0014_benchmark_context.sql`, use `GROWTH_CONTENT=true npm run curriculum:seed` with the intended database. This replaces Core content, not IELTS. The seed validates the exact growth hash and existing IELTS approval before opening a connection. The normal seed still selects the existing Core source. No growth-content publication or hosted migration occurred during implementation.
 

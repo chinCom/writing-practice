@@ -1,7 +1,7 @@
 {
-  "approved": false,
+  "approved": true,
   "contentHash": "71af0c1970285303f2fc8a303537f3411e0b965cf664f0c7305f0661e3c39eab",
-  "reviewer": "",
-  "reviewedAt": null,
-  "note": "AI-authored draft. Review span semantics, target/level fit, alternate answers, parallel-prompt difficulty and reading tasks before approval."
+  "reviewer": "chinhCom",
+  "reviewedAt": "2026-10-16T00:00:00Z",
+  "note": "Approved by the product owner on 2026-10-16 after review of the corrected draft (commit baf76e5)."
 }
