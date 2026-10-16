@@ -98,8 +98,12 @@ export function answerTransfer(
     await database.execute(
       sql`INSERT INTO writing.transfer_answers(user_id,unit_id,item_id,content_hash,version,answer,result) VALUES (${userId},${unitId},${itemId},${hash},${version},${normalized},${JSON.stringify(result)}::jsonb)`,
     );
+    // Raw SQL parameters bypass Drizzle's timestamp column encoder.
+    const nextReviewAt = new Date(
+      Date.now() + (result.complete ? result.days * 86400000 : 0),
+    ).toISOString();
     await database.execute(
-      sql`UPDATE writing.transfer_progress SET version=${result.version},box=${result.box},misses=${result.misses},next_review_at=${result.complete ? new Date(Date.now() + result.days * 86400000) : new Date()} WHERE unit_id=${unitId} AND item_id=${itemId} AND content_hash=${hash}`,
+      sql`UPDATE writing.transfer_progress SET version=${result.version},box=${result.box},misses=${result.misses},next_review_at=${nextReviewAt} WHERE unit_id=${unitId} AND item_id=${itemId} AND content_hash=${hash}`,
     );
     return result;
   });
