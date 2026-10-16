@@ -50,15 +50,15 @@ The remaining sections describe the target product unless a current implementati
 
 ## 1. What we're building
 
-**{APP_NAME}** is a web app where non-native English speakers learn to **write** English, from zero (Pre-A1) to advanced (C2). It is **writing-focused**: model-text noticing and source passages support writing. There are no separate speaking, listening, or reading modules.
+**{APP_NAME}** is a web app where non-native English speakers learn to **write** English, from zero (Pre-A1) to advanced (C2). It is **writing-focused**: model-text noticing and source passages support writing. There are no separate speaking, listening, or reading modules. The learning loop and its evidence are specified in the [Growth Loop design](docs/superpowers/specs/2026-10-15-growth-loop-design.md).
 
 An AI coach (DeepSeek V4.1 Flash) reads what the learner writes, gives structured feedback, and makes them revise. The loop is the product:
 
-1. Short mini-lesson with a model text
+1. Short mini-lesson with a model text, and a noticing task on the lesson's 1–2 targets
 2. Auto-graded warm-up drills (no AI)
 3. Writing task graded by the coach
-4. Feedback → learner revises → coach checks the revision
-5. Mistakes go into a personal error bank for spaced review
+4. Feedback → learner revises → coach checks the revision. With `GROWTH_TARGETS=true`, feedback reports the targets first and target-error answers stay hidden until the first revision
+5. Targets and mistakes return in spaced drills and in later writing; growth is measured on new writing, not on revisions
 
 **Audience:** adult and teen learners worldwide, often on phones, often with limited bandwidth. UI language is not always English.
 
@@ -284,6 +284,7 @@ Two short writing prompts plus a few quick grammar items. The coach returns a CE
 
 ### 7.4 Progression
 
+- Lesson pass (target, Growth Loop §8.5): target errors ≤ max(1, 20% of uses) in the latest check; after 2 revisions the lesson passes and missed targets carry into the next lesson. Advisory until the target-report precision gate passes.
 - Unit unlock: checkpoint task with average rubric score ≥ 3.5 **and** grammar ≥ 3.
 - CEFR estimate shown to the learner = median of the last 5 submissions' estimates; it only moves after **3 consecutive** submissions point the same way (prevents jumping around).
 - A full "Level exam" (timed) is offered after the last unit of a level.
@@ -508,6 +509,8 @@ The list below is the target model. Profiles, curriculum, persisted per-tag mast
 ---
 
 ## 15. Mastery, error bank, spaced review
+
+Target design: per-target evidence and computed mastery replace the stored `skill_mastery` score below. See [Growth Loop §8](docs/superpowers/specs/2026-10-15-growth-loop-design.md).
 
 **Current Practice boundary:** loading Practice seeds exercises from confident, located, non-style corrections in saved non-crisis feedback. Answers use normalized exact phrase matching, not AI grading. Retry hints identify the remaining mismatch in the submitted answer instead of repeating the original explanation. A single-word mismatch after an already-correct modal includes the saved replacement and the base-form rule. Missing words use a generic whole-phrase reminder. The original explanation and full suggested phrase appear after completion. One wrong answer permits a retry; a missed first attempt returns the drill to box 1. Correct first attempts advance the box, up to box 5. Review intervals are 1, 3, 7, 14, and 30 days. Per-tag mastery, accepted-correction status, and nightly generation below remain targets.
 
