@@ -259,3 +259,20 @@ The product-owner content review found defects in `curriculum/growth.draft.json`
 Checks: `npx vitest run tests/growth-content.test.ts tests/transfer.test.ts` passed. `npm run check` passed: 179 passed, 7 skipped. E2E on an isolated port 3100 (`noticing`, `transfer`, `read-to-write`): 14 passed.
 
 Approval is still pending. `curriculum/growth.review.json` keeps `approved: false`, with the new content hash. All passages are invented teaching texts. A teacher must check facts, span meanings, accepted answers and difficulty before approval.
+
+## Provisional AI diagnostic rerun (`feedback-growth-5`)
+
+On 2026-10-16 the same 60 private texts and AI-reviewed reference ran three times on `deepseek-flash:feedback-growth-5`, after the server began deriving target errors from the grader's own corrections. The reference is still AI-made, not human gold.
+
+| Measure | `feedback-targets-3` | `feedback-growth-5` |
+| --- | --- | --- |
+| Calls / failed | 180 / 15 | 180 / 14 |
+| Successful calls with a usable target report | 58 of 165 | 166 of 166 |
+| Exact target matches / unmatched claims | 19 / 119 | 37 / 306 |
+| Precision against the provisional reference | 13.8% | 10.8% |
+| Pass disagreement with the reference | 36.2% | 43.4% |
+| Pass disagreement between the three runs of one text | 3.4% (8 texts only) | 18.1% |
+
+A local, count-only breakdown of the 365 target claims: 129 overlap a same-tag reference location (37 exact; the rest differ in fix wording, which the exact matcher rejects), 35 match edits the reviewer withheld as optional, 7 overlap a reference error under another tag, and 194 appear in no reference at all.
+
+**Conclusion:** report availability is fixed. Accuracy is not: even generous location matching (about 35–45%) is far below the 0.85 gate, and three runs of the same text disagree on the pass result 18% of the time. `GROWTH_TARGETS` stays off. Next: reduce grader over-editing and have a human adjudicate a sample of the 194 unreferenced claims to separate reference gaps from grader errors. The private report stays in the ignored `evals/results/targets-ai-diagnostic.json`; the earlier report is kept privately outside the repository.
