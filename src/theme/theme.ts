@@ -197,6 +197,26 @@ export function makeTheme(today = false, cssVarPrefix = 'mui') {
         styleOverrides: { root: { borderRadius: today ? 10 : tokens.radius.lg } },
       },
       MuiPaper: { styleOverrides: { outlined: { borderRadius: today ? 10 : tokens.radius.lg } } },
+      MuiTab: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            borderBlockEnd: '1px solid',
+            borderColor: theme.vars.palette.text.secondary,
+          }),
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            height: 4,
+            '@media (prefers-reduced-motion: no-preference)': {
+              transition:
+                'left 250ms cubic-bezier(0.22, 0.7, 0.2, 1), width 250ms cubic-bezier(0.22, 0.7, 0.2, 1)',
+            },
+            '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+          },
+        },
+      },
       MuiTableCell: {
         styleOverrides: {
           root: today
