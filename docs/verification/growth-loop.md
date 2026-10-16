@@ -223,3 +223,24 @@ Local M1–M2 and M5–M9 behavior is implemented. M4 remains advisory, not an e
 M3 still requires qualified human annotations, 25% independent review, precision/pass-disagreement acceptance, and same-version noise calibration. The old AI diagnostic cannot calibrate `feedback-growth-4`.
 No hosted migrations, content seed, live signed-in verification, additional paid calls, push, merge, or deployment occurred for M6–M9. Native-speaker Vietnamese review remains pending.
 The next action is product-owner review of the separate growth draft, followed by the approved human study and release checks. D5 pilot recruitment/dates and validated product outcomes remain undecided. Keep mastery enforcement and calibrated growth claims disabled.
+
+## Growth targets switch and robust report contract
+
+### Changes
+
+- `GROWTH_TARGETS=true` turns targets on. Any other value, including unset, turns them off.
+- Off: `targetsForUnit` and `trustedTargetsInTransaction` return no targets, so the grader gets none and no new `target_report` or target evidence is saved. Saved reports are hidden from the feedback page, progress benchmarks and the check route. Legacy target drills are not withheld. Target progress, advisory targets and carried targets are not shown. Transfer drills depend on trusted targets, so they are also hidden.
+- Prompt `feedback-growth-5`: the model returns only `tag` and `uses` per target. `validateTargetReport` derives `errors` and `correction_indexes` from same-tag, non-style corrections, and raises `uses` to the error count. A missing target gets 0 uses. A malformed `target_report` drops only the model's counts, so the server still derives the errors. Saved full-shape reports still parse.
+- Evaluator (`src/lib/evaluation.ts`) needed no change. It still calls `validateTargetReport`, so older full-shape runs are re-derived from their corrections.
+- Vitest sets `GROWTH_TARGETS=true` for existing growth tests. Playwright sets it for the dev server.
+
+### Verification
+
+- `npm run check`: format, typecheck, lint, design rules and Vitest passed. Vitest reported 41 files passed, 6 skipped, 178 tests passed, 7 skipped.
+- `npx playwright test tests/e2e/feedback-targets.spec.ts tests/e2e/target-progress.spec.ts tests/e2e/mastery-advisory.spec.ts tests/e2e/feedback-self-revision.spec.ts tests/e2e/course.spec.ts tests/e2e/ux.spec.ts`: 52 passed across desktop and mobile projects, with the switch on.
+- Off-path coverage is synthetic: `tests/targets.test.ts` and `tests/database.test.ts` (`with GROWTH_TARGETS off ...`). They use mocked grader output and PGlite, not a live provider.
+- Not run: the paid diagnostic. No hosted database, paid AI call or live provider was used. Off-path browser behavior was not covered by Playwright.
+
+### Remaining
+
+Re-run the paid diagnostic only after the approved budget and human review. Its results will apply to `feedback-growth-5`, not to earlier cohorts.

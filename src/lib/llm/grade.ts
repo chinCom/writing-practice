@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import OpenAI from 'openai';
-import { FeedbackSchema, type ErrorTag } from '@/lib/feedback/schema';
+import { FeedbackSchema, ModelFeedbackSchema, type ErrorTag } from '@/lib/feedback/schema';
 import type { z } from 'zod';
 import { validateTargetReport } from '@/lib/targets';
 import mockFeedback from '@/mocks/feedback.sample.json';
@@ -87,7 +87,7 @@ export async function gradeWriting(text: string, options: GradeOptions) {
       const choice = completion.choices[0];
       if (choice?.finish_reason !== 'stop') throw new Error('Incomplete feedback');
       const data = validateTargetReport(
-        FeedbackSchema.parse(JSON.parse(choice.message.content ?? '')),
+        ModelFeedbackSchema.parse(JSON.parse(choice.message.content ?? '')),
         options.targets ?? [],
       );
       if (data.corrections.length > (['PRE_A1', 'A1', 'A2'].includes(task.targetLevel) ? 8 : 12))

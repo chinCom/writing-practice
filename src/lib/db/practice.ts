@@ -1,5 +1,6 @@
 import 'server-only';
 import { hintTerms } from '@/lib/hint-text';
+import { growthTargetsEnabled } from '@/lib/targets';
 import { and, asc, eq, lte, sql } from 'drizzle-orm';
 import { withUserDatabase, type Transaction } from './client';
 import {
@@ -79,6 +80,7 @@ export async function seedSubmissionPractice(
 }
 
 function availablePracticeDrill() {
+  if (!growthTargetsEnabled()) return sql`TRUE`;
   // Keep already-seeded and legacy target drills hidden too. Show me is not a revision.
   return sql`EXISTS (
     SELECT 1 FROM writing.submissions source

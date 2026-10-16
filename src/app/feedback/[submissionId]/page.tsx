@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { currentUser } from '@/lib/auth/server';
 import { loadFeedback, loadOriginalFeedback } from '@/lib/db/queries';
 import { avoidedTargets } from '@/lib/revision';
+import { visibleFeedback } from '@/lib/targets';
 import { loadCorrectionChoices, hasSubmittedRevision } from '@/lib/db/corrections';
 import FeedbackView from '@/components/feedback/FeedbackView';
 export default async function Page({ params }: { params: Promise<{ submissionId: string }> }) {
@@ -16,19 +17,23 @@ export default async function Page({ params }: { params: Promise<{ submissionId:
   const sameGrader =
     original?.model === result.feedback.model &&
     original?.promptVersion === result.feedback.promptVersion;
+  const feedback = visibleFeedback(result.feedback.json);
   return (
     <FeedbackView
       submissionId={submissionId}
       taskId={result.submission.taskId}
       attempt={result.submission.attempt}
       text={result.submission.text}
-      feedback={result.feedback.json}
+      feedback={feedback}
       mock={result.feedback.model === 'mock'}
       hasPreviousVersion={Boolean(result.submission.parentSubmissionId)}
       hasSubmittedRevision={await hasSubmittedRevision(user.id, submissionId)}
       avoided={
         sameGrader
-          ? avoidedTargets(original?.json.target_report, result.feedback.json.target_report)
+          ? avoidedTargets(
+              original && visibleFeedback(original.json).target_report,
+              feedback.target_report,
+            )
           : []
       }
       initialChoices={

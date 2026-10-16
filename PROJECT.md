@@ -167,6 +167,7 @@ DEEPSEEK_BASE_URL=https://api.deepseek.com
 DEEPSEEK_MODEL=deepseek-flash
 DEEPSEEK_MODEL_ADVANCED=deepseek-v4-pro
 USE_MOCK_LLM=false               # true = return canned JSON from /mocks, no network
+GROWTH_TARGETS=false             # true = Growth Loop targets on (grader input, target UI, evidence); other values = off
 
 # Supabase / DB
 NEXT_PUBLIC_SUPABASE_URL=

@@ -1112,6 +1112,102 @@ it('withholds legacy target drills from queues and answers until a completed rev
   expect(hidden.questions).toEqual([]);
   expect(new Date(hidden.nextReviewAt!).getTime()).toBeGreaterThan(Date.now() + 23 * 3600000);
 });
+
+it('with GROWTH_TARGETS off, sends no grader targets, saves no target evidence and shows legacy target drills', async () => {
+  const owner = '00000000-0000-4000-8000-000000000101';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const unit = curriculumDraft[0];
+  const lesson = unit.lessons[0];
+  for (const content of curriculumDraft)
+    await database.query(
+      'INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6) ON CONFLICT DO NOTHING',
+      [content.id, content.level, content.order, JSON.stringify(content), 'Test reviewer', 'hash'],
+    );
+  await database.query(
+    `INSERT INTO writing.placement_results
+    (user_id,status,chosen_level,calls_today,call_day,started_at,updated_at)
+    VALUES ($1,'completed','A1',1,'2026-10-15',now(),now())`,
+    [owner],
+  );
+  await database.query(
+    'INSERT INTO writing.lesson_progress(user_id,lesson_id,warmups) VALUES ($1,$2,$3)',
+    [
+      owner,
+      lesson.id,
+      JSON.stringify(Object.fromEntries(lesson.warmups.map((_, index) => [String(index), true]))),
+    ],
+  );
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  vi.mocked(gradeWriting)
+    .mockClear()
+    .mockResolvedValue({
+      data: {
+        ...markedPageSample,
+        target_report: [
+          { tag: 'subject-verb-agreement', uses: 4, errors: 1, correction_indexes: [0] },
+        ],
+      },
+      usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+      model: 'synthetic-pinned',
+      latencyMs: 1,
+      mock: false,
+    });
+  vi.stubEnv('GROWTH_TARGETS', 'false');
+  const response = await checkWriting(
+    new Request('http://localhost/api/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Idempotency-Key': '00000000-0000-4000-8000-000000000102',
+      },
+      body: JSON.stringify({ taskId: lesson.task.id, text: sampleDraft, attempt: 1 }),
+    }),
+  );
+  expect(response.status).toBe(200);
+  expect(vi.mocked(gradeWriting).mock.calls.at(-1)?.[1].targets).toEqual([]);
+  expect((await response.json()).data.feedback).not.toHaveProperty('target_report');
+  expect((await asUser(owner, 'SELECT * FROM writing.target_evidence')).rows).toEqual([]);
+  expect((await loadProgress(owner)).targets).toEqual([]);
+
+  // Legacy target drills from an older grader stay answerable while the switch is off.
+  const legacy = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft,
+    attempt: 1,
+  });
+  const feedback = {
+    ...markedPageSample,
+    corrections: markedPageSample.corrections.slice(0, 2).map((item, index) => ({
+      ...item,
+      tag: index === 0 ? ('verb-tense' as const) : ('spelling' as const),
+      start: sampleDraft.indexOf(item.original),
+      end: sampleDraft.indexOf(item.original) + item.original.length,
+    })),
+    target_report: [{ tag: 'verb-tense', uses: 4, errors: 1, correction_indexes: [0] }],
+  };
+  await database.query("UPDATE writing.submissions SET status='completed' WHERE id=$1", [legacy]);
+  await database.query(
+    "INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,'test','test')",
+    [legacy, owner, JSON.stringify(feedback)],
+  );
+  expect((await loadPractice(owner)).questions.map((question) => question.original)).toContain(
+    'go',
+  );
+  const drill = (
+    await database.query<{ id: string }>(
+      'SELECT id FROM writing.practice_drills WHERE submission_id=$1 AND correction_index=0',
+      [legacy],
+    )
+  ).rows[0];
+  expect(await answerPractice(owner, drill.id, 'went', 0)).toMatchObject({
+    correct: true,
+    suggestion: 'went',
+  });
+  // Restore the enabled value used by the other growth tests; unstubAllEnvs would drop the DB stubs.
+  vi.stubEnv('GROWTH_TARGETS', 'true');
+});
 it('recovers a completed API request without a second provider call', async () => {
   vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<
     Awaited<ReturnType<typeof currentUser>>
