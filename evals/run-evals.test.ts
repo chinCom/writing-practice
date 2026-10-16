@@ -9,6 +9,7 @@ import {
   summarizeEvaluations,
   summarizeTargetStudy,
   targetStudyCaseSchema,
+  aiTargetDiagnosticCaseSchema,
   type TargetStudyRun,
   type EvaluationResult,
 } from '@/lib/evaluation';
@@ -103,23 +104,52 @@ it.skipIf(!process.env.EVAL_TARGET_CORPUS)(
     }
     if (!process.env.DEEPSEEK_API_KEY || !process.env.DEEPSEEK_MODEL)
       throw new Error('DEEPSEEK_API_KEY and an explicitly pinned DEEPSEEK_MODEL are required.');
+    const mode = process.env.EVAL_TARGET_MODE ?? 'human-study';
+    if (mode !== 'human-study' && mode !== 'ai-diagnostic')
+      throw new Error('EVAL_TARGET_MODE must be human-study or ai-diagnostic.');
+    const diagnostic = mode === 'ai-diagnostic';
     const cases = (await readFile(resolve(process.env.EVAL_TARGET_CORPUS!), 'utf8'))
       .trim()
       .split('\n')
-      .map((line) => targetStudyCaseSchema.parse(JSON.parse(line)));
+      .map((line) =>
+        diagnostic
+          ? aiTargetDiagnosticCaseSchema.parse(JSON.parse(line))
+          : targetStudyCaseSchema.parse(JSON.parse(line)),
+      );
     if (
       cases.length < 30 ||
       cases.length > 60 ||
       new Set(cases.map((sample) => sample.id)).size !== cases.length ||
-      cases.some((sample) => sample.annotation !== 'human')
+      cases.some((sample) => sample.annotation !== (diagnostic ? 'ai-reviewed' : 'human'))
     )
-      throw new Error('Use 30–60 distinct, consented, de-identified human-annotated texts.');
+      throw new Error(
+        'Use 30–60 distinct, consented, de-identified texts with the selected review provenance.',
+      );
     const model = process.env.DEEPSEEK_MODEL;
     const results: (TargetStudyRun & {
       promptTokens: number;
       completionTokens: number;
       latencyMs: number;
     })[] = [];
+    await mkdir('evals/results', { recursive: true });
+    const outputPath = diagnostic
+      ? 'evals/results/targets-ai-diagnostic.json'
+      : 'evals/results/targets-latest.json';
+    const saveReport = async () => {
+      const report = {
+        mode,
+        scope: diagnostic
+          ? 'Provisional AI-reviewed reference and estimated uses. Not human gold; never satisfies M3 or enables progression.'
+          : 'Operator-supplied human annotations; reviewer identity and consent require manual verification. Never activates progression.',
+        createdAt: new Date().toISOString(),
+        model,
+        promptVersion: feedbackPromptVersion,
+        summary: summarizeTargetStudy(cases, results),
+        results,
+      };
+      await writeFile(outputPath, JSON.stringify(report, null, 2) + '\n', { mode: 0o600 });
+      return report;
+    };
     for (const sample of cases) {
       for (let run = 1; run <= 3; run++) {
         const graderVersion = `${model}:${feedbackPromptVersion}`;
@@ -153,20 +183,15 @@ it.skipIf(!process.env.EVAL_TARGET_CORPUS)(
           });
         }
       }
+      await saveReport();
+      console.info(`Target study progress: ${results.length}/${cases.length * 3} calls recorded.`);
     }
-    const report = {
-      scope:
-        'Operator-supplied human annotations; reviewer identity and consent require manual verification. Never activates progression.',
-      createdAt: new Date().toISOString(),
-      model,
-      promptVersion: feedbackPromptVersion,
-      summary: summarizeTargetStudy(cases, results),
-      results,
-    };
-    await mkdir('evals/results', { recursive: true });
-    await writeFile('evals/results/targets-latest.json', JSON.stringify(report, null, 2) + '\n');
+    const report = await saveReport();
     console.info(report.summary);
-    expect(report.summary.complete).toBe(true);
+    if (diagnostic) {
+      expect(report.summary.gatePassed).toBe(false);
+      expect(report.summary.noiseReady).toBe(false);
+    } else expect(report.summary.complete).toBe(true);
   },
   180 * 90000,
 );

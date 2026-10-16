@@ -93,3 +93,24 @@ Zero-use target rates are unknown and excluded, not recorded as perfect accuracy
 Missing reports, failed calls, duplicate runs, and mixed grader versions prevent eligibility.
 Failed calls have unknown usage; their reported token and latency fields are zero placeholders, not measured cost.
 The pinned model identifier cannot prevent a provider from silently updating an alias.
+
+### Provisional AI diagnostic
+
+`EVAL_TARGET_MODE=ai-diagnostic` accepts a separate, strictly labelled AI-reviewed JSONL contract.
+Use `annotation: "ai-reviewed"`, `reviewStatus: "provisional-not-human-gold"`, and estimated `usesEstimate` instead of human `uses`.
+Each target also contains `withheldCorrections` and `reviewNote`; each case contains `taskNote`.
+The runner preserves AI provenance. It never relabels these cases as human annotations.
+
+```sh
+EVAL_LIVE=true EVAL_TARGET_MODE=ai-diagnostic EVAL_TARGET_CORPUS=/private/ai-review.jsonl DEEPSEEK_MODEL=<pinned-model-id> npm run evals
+```
+
+The same privacy and cost requirements apply. Reports checkpoint after each text; interrupted runs are not automatically resumed.
+The private, ignored output is `evals/results/targets-ai-diagnostic.json`, created with owner-only file permissions.
+`referencePassDisagreementRate` compares with the supplied reference. `humanPassDisagreementRate` is null for AI references.
+A target with zero uses cannot pass in either reference or model results.
+AI diagnostic reports always have `gatePassed: false` and `noiseReady: false`, even with perfect synthetic agreement.
+Diagnostic completion means calls were recorded, not that the model or the reference was validated.
+
+The approved 60-text diagnostic completed 180 calls on `deepseek-flash:feedback-targets-3`.
+Only 58 calls had usable target reports. See [results and limits](../docs/verification/growth-loop.md#provisional-ai-diagnostic) before interpreting the metrics.

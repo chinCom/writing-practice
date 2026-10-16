@@ -4,6 +4,7 @@ import {
   summarizeEvaluations,
   summarizeTargetStudy,
   targetStudyCaseSchema,
+  aiTargetDiagnosticCaseSchema,
   type TargetStudyCase,
   type TargetStudyRun,
 } from '@/lib/evaluation';
@@ -201,7 +202,8 @@ it('distinguishes run instability from human agreement and rejects inconsistent 
   }));
   const report = summarizeTargetStudy([sample], runs);
   expect(report.passDisagreementRate).toBe(0);
-  expect(report.humanPassDisagreementRate).toBe(1);
+  expect(report.referencePassDisagreementRate).toBe(1);
+  expect(report.humanPassDisagreementRate).toBeNull();
   expect(report.precision).toBeNull();
   expect(report.gatePassed).toBe(false);
   expect(summarizeTargetStudy([sample], [runs[0], runs[0], runs[2]]).complete).toBe(false);
@@ -219,6 +221,33 @@ it('distinguishes run instability from human agreement and rejects inconsistent 
       ],
     }).success,
   ).toBe(false);
+});
+
+it('does not count an unused target as passing in either the reference or the grader', () => {
+  for (const [referenceUses, reportedUses] of [
+    [0, 4],
+    [4, 0],
+  ]) {
+    const sample: TargetStudyCase = {
+      id: 'unused',
+      text: 'I live here.',
+      level: 'A2',
+      annotation: 'synthetic',
+      annotator: 'fixture',
+      expectedTaskScore: 3,
+      targets: [{ tag: 'verb-tense', uses: referenceUses, expected: [] }],
+    };
+    const feedback = FeedbackSchema.parse({
+      ...feedbackFixture,
+      corrections: [],
+      target_report: [{ tag: 'verb-tense', uses: reportedUses, errors: 0, correction_indexes: [] }],
+    });
+    const report = summarizeTargetStudy(
+      [sample],
+      [1, 2, 3].map((run) => ({ id: sample.id, run, graderVersion: 'fixture', feedback })),
+    );
+    expect(report.referencePassDisagreementRate).toBe(1);
+  }
 });
 
 it('requires the full coverage and independent-review metadata before marking a study eligible', () => {
@@ -274,5 +303,52 @@ it('requires the full coverage and independent-review metadata before marking a 
       cases,
       runs.map((run, index) => (index === 0 ? { ...run, feedback: null } : run)),
     ).gatePassed,
+  ).toBe(false);
+  const aiCases = cases.map((sample) => ({ ...sample, annotation: 'ai-reviewed' as const }));
+  expect(summarizeTargetStudy(aiCases, runs)).toMatchObject({
+    complete: true,
+    precision: 1,
+    passDisagreementRate: 0,
+    referencePassDisagreementRate: 0,
+    humanPassDisagreementRate: null,
+    gatePassed: false,
+    noiseReady: false,
+  });
+});
+
+it('keeps provisional AI use estimates distinct from human-study annotations', () => {
+  const sample = {
+    id: 'ai-fixture',
+    level: 'A2',
+    annotation: 'ai-reviewed',
+    annotator: 'assistant-ai',
+    reviewStatus: 'provisional-not-human-gold',
+    expectedTaskScore: 3,
+    taskNote: 'Provisional.',
+    text: 'I goed home.',
+    task: weekendTask,
+    targets: [
+      {
+        tag: 'verb-tense',
+        usesEstimate: 4,
+        expected: [{ original: 'goed', suggestions: ['went'] }],
+        withheldCorrections: [],
+        reviewNote: 'AI estimate.',
+      },
+    ],
+  };
+  expect(targetStudyCaseSchema.safeParse(sample).success).toBe(false);
+  const parsed = aiTargetDiagnosticCaseSchema.parse(sample);
+  expect(parsed.annotation).toBe('ai-reviewed');
+  expect(parsed.targets[0].uses).toBe(4);
+  expect(targetStudyCaseSchema.safeParse(parsed).success).toBe(false);
+  expect(aiTargetDiagnosticCaseSchema.safeParse({ ...sample, annotation: 'human' }).success).toBe(
+    false,
+  );
+  expect(
+    aiTargetDiagnosticCaseSchema.safeParse({
+      ...sample,
+      targets: [{ ...sample.targets[0], usesEstimate: 0 }],
+    }).success,
   ).toBe(false);
 });

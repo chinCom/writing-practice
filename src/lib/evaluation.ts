@@ -44,6 +44,58 @@ export const targetStudyCaseSchema = z
       });
   });
 
+// Provisional AI reviews have a separate input contract and can never become human gold.
+export const aiTargetDiagnosticCaseSchema = z
+  .strictObject({
+    id: targetStudyCaseSchema.shape.id,
+    level: targetStudyCaseSchema.shape.level,
+    annotator: targetStudyCaseSchema.shape.annotator,
+    expectedTaskScore: targetStudyCaseSchema.shape.expectedTaskScore,
+    text: targetStudyCaseSchema.shape.text,
+    task: taskSchema,
+    annotation: z.literal('ai-reviewed'),
+    reviewStatus: z.literal('provisional-not-human-gold'),
+    taskNote: z.string(),
+    targets: z
+      .array(
+        z.strictObject({
+          tag: ErrorTag,
+          usesEstimate: z.number().int().min(0).max(100),
+          expected: targetStudyCaseSchema.shape.targets.element.shape.expected,
+          withheldCorrections: z.array(
+            z.strictObject({
+              original: z.string(),
+              suggestion: z.string(),
+              reason: z.string(),
+            }),
+          ),
+          reviewNote: z.string(),
+        }),
+      )
+      .min(1)
+      .max(2),
+  })
+  .superRefine((sample, context) => {
+    if (
+      sample.task.targetLevel !== sample.level ||
+      sample.task.isCheckpoint ||
+      new Set(sample.targets.map((target) => target.tag)).size !== sample.targets.length ||
+      sample.targets.some((target) => target.expected.length > target.usesEstimate)
+    )
+      context.addIssue({
+        code: 'custom',
+        message: 'Inconsistent provisional annotations or task.',
+      });
+  })
+  .transform((sample) => ({
+    ...sample,
+    targets: sample.targets.map(({ tag, usesEstimate, expected }) => ({
+      tag,
+      uses: usesEstimate,
+      expected,
+    })),
+  }));
+
 export interface ExpectedCorrection {
   original: string;
   suggestions: string[];
@@ -148,7 +200,7 @@ export function summarizeEvaluations(results: EvaluationResult[]) {
 export interface TargetStudyCase {
   id: string;
   level: 'A1' | 'A2' | 'B1';
-  annotation: 'human' | 'synthetic';
+  annotation: 'human' | 'synthetic' | 'ai-reviewed';
   annotator: string;
   expectedTaskScore: number;
   text: string;
@@ -215,14 +267,18 @@ export function summarizeTargetStudy(cases: TargetStudyCase[], runs: TargetStudy
     if (valid.length !== 3) complete = false;
     const humanPass =
       sample.expectedTaskScore >= 2 &&
-      sample.targets.every((target) => target.expected.length <= Math.max(1, target.uses * 0.2));
+      sample.targets.every(
+        (target) => target.uses > 0 && target.expected.length <= Math.max(1, target.uses * 0.2),
+      );
     const passResults: boolean[] = [];
     for (const run of valid) {
       const feedback = run.feedback!;
       validRuns++;
       const passes =
         feedback.scores.task >= 2 &&
-        feedback.target_report!.every((target) => target.errors <= Math.max(1, target.uses * 0.2));
+        feedback.target_report!.every(
+          (target) => target.uses > 0 && target.errors <= Math.max(1, target.uses * 0.2),
+        );
       passResults.push(passes);
       if (passes !== humanPass) humanDisagreements++;
       for (const target of sample.targets) {
@@ -281,7 +337,8 @@ export function summarizeTargetStudy(cases: TargetStudyCase[], runs: TargetStudy
     falsePositives,
     precision,
     passDisagreementRate,
-    humanPassDisagreementRate,
+    referencePassDisagreementRate: humanPassDisagreementRate,
+    humanPassDisagreementRate: humanReviewed ? humanPassDisagreementRate : null,
     secondChecked,
     gatePassed:
       corpusReady &&
