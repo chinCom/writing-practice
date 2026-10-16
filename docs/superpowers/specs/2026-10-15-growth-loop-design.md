@@ -3,7 +3,7 @@
 - **Author:** Claude (for chinhCom)
 - **Created:** 2026-10-15
 - **Authoritative copy:** `docs/superpowers/specs/2026-10-15-growth-loop-design.md`
-- **Status:** Proposal. D1–D4 were decided by the product owner on 2026-10-15 (§13). D5 (pilot) is still open.
+- **Status:** Implemented behind `GROWTH_TARGETS` (off by default), as of 2026-10-16. D1–D4 were decided on 2026-10-15 (§13); D5 (pilot) is still open. The M3 precision gate has not passed, so target features stay off; current evidence is in `docs/verification/growth-loop.md`. Decision recorded after implementation: answers for target errors are hidden in the UI only, not removed from response data (accepted because the cost of a learner reading them in developer tools is low).
 - **Depth:** Full design doc. The change runs for years, alters the pass rule for every lesson, adds curriculum content, and changes the AI feedback contract.
 
 ## 1. Objective
