@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Markdown from 'react-markdown';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
@@ -97,7 +98,22 @@ export default function LessonView({
         <Paper variant="outlined" sx={{ p: 3 }}>
           <Stack sx={{ gap: 2 }}>
             <Typography variant="h2">{t('miniLesson')}</Typography>
-            <Typography sx={{ whiteSpace: 'pre-line' }}>{lesson.miniLesson.markdown}</Typography>
+            <Box
+              sx={{
+                overflowWrap: 'break-word',
+                '& > :first-child': { marginBlockStart: 0 },
+                '& > :last-child': { marginBlockEnd: 0 },
+                '& h3, & h4, & h5, & h6': { typography: 'subtitle1', marginBlock: 2 },
+                '& p, & ul, & ol': { marginBlock: 1.5 },
+                '& ul, & ol': { paddingInlineStart: 3 },
+                '& li + li': { marginBlockStart: 1 },
+                '& code': { fontSize: '0.95em', whiteSpace: 'break-spaces' },
+              }}
+            >
+              <Markdown skipHtml components={{ h1: 'h3', h2: 'h3' }}>
+                {lesson.miniLesson.markdown}
+              </Markdown>
+            </Box>
             <Typography variant="subtitle1">{t('model')}</Typography>
             <Typography variant="canvas" dir="ltr">
               {lesson.miniLesson.modelText}
