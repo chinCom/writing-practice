@@ -32,6 +32,7 @@ beforeAll(async () => {
     '0000_writing',
     '0008_curriculum',
     '0009_writing_course',
+    '0010_target_evidence',
     '0012_mastery_advisory',
   ])
     await database.exec(await readFile('drizzle/' + name + '.sql', 'utf8'));

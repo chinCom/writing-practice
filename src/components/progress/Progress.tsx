@@ -16,6 +16,7 @@ import type { ProgressSummary } from '@/lib/progress';
 import { tickPop } from '@/theme/theme';
 import ReviewInsights from './ReviewInsights';
 import Improvement from './Improvement';
+import Targets from './Targets';
 import { CourseProgressPanel } from './CourseProgress';
 import type { ProgressPageData } from '@/lib/db/progress';
 
@@ -118,6 +119,7 @@ export function ProgressPanels({
           </Box>
         ))}
       </Stack>
+      <Targets targets={data.targets} />
       <Improvement data={data.improvement} />
       <CourseProgressPanel course={data.course} preview={preview} />
       <Box

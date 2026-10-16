@@ -113,7 +113,7 @@ The corpus and provisional review remain outside the repository. No prompt chang
 - Today and lesson pages show at most two recommendations, with unit targets before carried targets. Carrying resets at level boundaries.
 - Recommendations are not graded active targets. They do not alter completion, lesson unlocking, or the trusted unit targets sent to the grader.
 - The UI explicitly says lesson progress is unchanged. Enforced mastery and pass provenance remain deferred until M3 passes.
-- Derived target states, spacing, authored noticing/transfer items, and reviewed benchmarks remain later work. M5–M9 are not complete.
+- M5 target states and spacing are implemented separately below. Authored noticing/transfer items and reviewed benchmarks remain later work. M6–M9 are not complete.
 
 ### Verification
 
@@ -134,3 +134,34 @@ The corpus and provisional review remain outside the repository. No prompt chang
 - Address demonstrated grader/report failures against that reviewed reference before another paid study. Supply the Cambridge permission email date.
 - Record only summary numbers and permission metadata here. Keep essays, reviewer identities, and model outputs private.
 - Keep M4 enforcement disabled until reviewed precision and calibration evidence pass. Do not apply local migrations to hosted data without release approval.
+
+## M5 — Targets in Progress
+
+Implemented locally on `feat/target-progress` in `/home/very_dumb_code/Projects/writing-practice-target-progress`.
+See the [M5 implementation decisions and acceptance checks](../superpowers/plans/2026-10-15-target-progress.md).
+
+- Progress shows per-target first/latest error rates and raw counts from safe, completed first attempts on distinct tasks. Revisions and repeated attempts at the same task do not establish transfer.
+- Levels and grader versions stay separate. The latest observed version supplies each target cohort; old and new model results are never combined. Zero uses remain unknown, not perfect.
+- States are provisional: unknown, new, learning, secure, and review-due. Two consecutive distinct-task checks with at least five uses and errors ≤max(1, 20% of uses) start a review schedule.
+- Successful due checks advance through 1/3/7/14/30-day intervals. Early checks do not advance spacing. Zero or insufficient uses and unsuccessful checks reset the provisional sequence.
+- Due same-level targets fill unused trusted Core check slots. Unit targets take priority, with at most two active targets. Validation and evidence persistence use the same selection helper. IELTS and standalone checks remain target-free.
+- English and Vietnamese copy explicitly labels the feature provisional. No calibrated improvement, benchmark comparison, proficiency certification, or changed lesson pass rule is claimed.
+- No new migration or dependency is needed. Existing growth-loop migrations remain a hosted release prerequisite.
+
+### Verification
+
+- `npm run check`: 157 passed, 7 skipped; formatting, types, lint, and design checks passed.
+- Full browser suite: `npx playwright test -c .superpowers/playwright.worktree.ts` — 284 passed, 10 skipped. The local config uses an unconfigured server on port 3003 and two workers.
+- `npm run build`: passed. `git diff --check`: passed.
+- Pure tests first reproduced the missing behavior. Tests cover interval boundaries/cap, resets, revisions, repeated tasks, future/malformed evidence, level/version separation, and unit priority.
+- Real PGlite integration tests verify owner isolation, safety/failed-check exclusion, due-target grading and persistence, and unchanged lesson unlocking. Provider responses are synthetic.
+- Browser tests cover populated/empty states, raw counts, desktop/mobile layout, and Vietnamese dark mode. Inspected screenshots: `ux/screenshots/growth-progress-targets-{desktop,mobile,vi-mobile}.png`.
+- Author self-review checked the owner-scoped query, state reducer, trusted selection callers, translations, and UI. Project instructions prohibit subagents.
+
+### Limits and next milestone
+
+M3 precision and noise gates remain closed. These provisional rules do not establish validated mastery or measured growth.
+No live signed-in hosted workflow, paid model call, hosted migration, push, or deployment occurred for M5.
+Native-speaker review of Vietnamese copy remains pending.
+The next milestone is M6, reviewed noticing content and its UI. Product-owner content review remains mandatory.
+The recommended pilot dates and recruitment remain the owner’s decision (D5).

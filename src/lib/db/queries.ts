@@ -10,7 +10,8 @@ import {
   targetEvidence,
   targetAssistance,
 } from './schema';
-import { targetsForUnit, validateTargetReport } from '@/lib/targets';
+import { validateTargetReport } from '@/lib/targets';
+import { trustedTargetsInTransaction } from './targets';
 import { assessMastery } from '@/lib/mastery';
 import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
@@ -183,7 +184,8 @@ export async function completeSubmission(
     const unit = units.find(({ content }) =>
       content.lessons.some((lesson) => lesson.task.id === source.taskId),
     )?.content;
-    feedback = validateTargetReport(feedback, unit ? targetsForUnit(unit) : []);
+    const targets = unit ? await trustedTargetsInTransaction(database, unit) : [];
+    feedback = validateTargetReport(feedback, targets);
     await database.insert(feedbackRows).values({
       userId,
       submissionId,
@@ -211,7 +213,7 @@ export async function completeSubmission(
       const original =
         source.attempt > 1 ? await originalFeedbackInTransaction(database, submissionId) : null;
       const masteryAdvisory = assessMastery({
-        targets: targetsForUnit(unit),
+        targets,
         feedback,
         attempt: source.attempt,
         isCheckpoint: unit.lessons.find((lesson) => lesson.task.id === source.taskId)!.task

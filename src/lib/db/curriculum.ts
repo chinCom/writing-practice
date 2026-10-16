@@ -20,7 +20,7 @@ import {
 } from '@/lib/curriculum';
 import { ApiError } from '@/lib/api';
 import { buildCoursePath } from '@/lib/curriculum-path';
-import { targetsForUnit } from '@/lib/targets';
+import { trustedTargetsInTransaction } from './targets';
 
 type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
 export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
@@ -73,7 +73,7 @@ export async function loadTaskContext(userId: string, taskId: string) {
     if (!lesson) throw new ApiError('NOT_FOUND', 404);
     if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
     if (!lesson.warmupsDone) throw new ApiError('WARMUPS_REQUIRED', 403);
-    return { task: lesson.task, targets: targetsForUnit(unit!) };
+    return { task: lesson.task, targets: await trustedTargetsInTransaction(database, unit!) };
   });
 }
 export async function answerWarmup(

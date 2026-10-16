@@ -6,10 +6,13 @@ import { pathInTransaction } from './curriculum';
 import { summarizeProgress, type ProgressSummary } from '@/lib/progress';
 import { summarizeImprovement, type Improvement } from '@/lib/improvement';
 import { summarizeCourse, type CourseProgress } from '@/lib/course-progress';
+import { targetsInTransaction } from './targets';
+import type { TargetProgress } from '@/lib/target-progress';
 
 export type ProgressReport = ProgressSummary & { improvement: Improvement };
 export type ProgressPageData = ProgressReport & {
   course: { core: CourseProgress; ielts: CourseProgress };
+  targets: TargetProgress[];
 };
 
 export function loadProgress(userId: string): Promise<ProgressPageData> {
@@ -20,6 +23,7 @@ export function loadProgress(userId: string): Promise<ProgressPageData> {
     const ielts = await pathInTransaction(database, 'ielts');
     return {
       ...report,
+      targets: await targetsInTransaction(database, now),
       course: {
         core: summarizeCourse(core.units, 'core', now),
         ielts: summarizeCourse(ielts.units, 'ielts', now),

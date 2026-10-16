@@ -1,6 +1,7 @@
 import { summarizeProgress } from '@/lib/progress';
 import { summarizeImprovement, type CheckEvent } from '@/lib/improvement';
 import { summarizeCourse } from '@/lib/course-progress';
+import { summarizeTargets, type TargetEvent } from '@/lib/target-progress';
 import coreDraft from '../../curriculum/course.draft.json';
 import { curriculumSchema } from '@/lib/curriculum';
 import { buildCoursePath } from '@/lib/curriculum-path';
@@ -60,6 +61,28 @@ const summary = summarizeProgress(
 export const progressSample: ProgressPageData = {
   ...summary,
   improvement: summarizeImprovement(checks, now),
+  targets: summarizeTargets(
+    (
+      [
+        { tag: 'verb-tense', at: '2026-10-01T12:00:00Z', errors: 3 },
+        { tag: 'verb-tense', at: '2026-10-12T12:00:00Z', errors: 1 },
+        { tag: 'verb-tense', at: '2026-10-13T12:00:00Z', errors: 1 },
+        { tag: 'articles', at: '2026-10-12T12:00:00Z', errors: 0 },
+        { tag: 'articles', at: '2026-10-15T12:00:00Z', errors: 0 },
+        { tag: 'prepositions', at: '2026-10-14T12:00:00Z', uses: 0 },
+      ] as const
+    ).map((row, index): TargetEvent => ({
+      submissionId: 'target-' + index,
+      taskId: 'task-' + index,
+      level: 'A2',
+      uses: 10,
+      errors: 0,
+      isFirstAttempt: true,
+      graderVersion: 'synthetic:preview',
+      ...row,
+    })),
+    now,
+  ),
   course: {
     core: summarizeCourse(
       buildCoursePath(curriculumSchema.parse(coreDraft), 'A1', [], [], 'core'),
@@ -72,4 +95,5 @@ export const progressSample: ProgressPageData = {
 export const progressEmptySample: ProgressPageData = {
   ...progressSample,
   improvement: summarizeImprovement([], now),
+  targets: [],
 };

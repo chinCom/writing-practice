@@ -475,7 +475,28 @@
     "levelCount": "{level} · {done}/{total}",
     "continueLesson": "Tiếp tục: {title}",
     "findLevel": "Tìm trình độ bắt đầu",
-    "recentLessons": "Vừa hoàn thành"
+    "recentLessons": "Vừa hoàn thành",
+    "targets": {
+      "title": "Mục tiêu",
+      "provisional": "Tạm tính: các ước tính AI này mô tả bài viết mới, không phải chứng nhận thành thạo. Tiến độ bài học không thay đổi.",
+      "empty": "Hoàn thành một lượt kiểm tra bài viết Core có phản hồi mục tiêu để xem dữ liệu tại đây.",
+      "rate": "{rate} sai ({errors, number}/{uses, number} lần dùng)",
+      "unused": "Chưa dùng — chưa có tỷ lệ lỗi",
+      "first": "Bài mới đầu tiên: {rate}",
+      "latest": "Bài mới gần nhất: {rate}",
+      "total": "{tasks, number} bài khác nhau · {errors, number} lỗi trong {uses, number} lần dùng",
+      "scheduled": "Lần ôn tiếp theo: {date} (UTC)",
+      "overdue": "Đến hạn ôn từ {date} (UTC)",
+      "unscheduled": "Chưa có lịch ôn. Hãy dùng mục tiêu này trong một bài mới khác.",
+      "rule": "Chỉ tính lần viết đầu. Tỷ lệ dùng phiên bản chấm mới nhất ở từng trình độ. Hai bài mới liên tiếp có ít nhất 5 lần dùng và tối đa 20% lỗi (cho phép ít nhất 1 lỗi) bắt đầu lịch ôn sau 1, 3, 7, 14 và 30 ngày. Chưa dùng hoặc dùng quá ít không chứng minh đã vững.",
+      "states": {
+        "unknown": "Chưa rõ",
+        "new": "Mới",
+        "learning": "Đang học",
+        "secure": "Vững",
+        "review-due": "Đến hạn ôn"
+      }
+    }
   },
   "onboarding": {
     "title": "Thiết lập luyện viết",
