@@ -103,7 +103,7 @@ export function answerTransfer(
       Date.now() + (result.complete ? result.days * 86400000 : 0),
     ).toISOString();
     await database.execute(
-      sql`UPDATE writing.transfer_progress SET version=${result.version},box=${result.box},misses=${result.misses},next_review_at=${nextReviewAt} WHERE unit_id=${unitId} AND item_id=${itemId} AND content_hash=${hash}`,
+      sql`UPDATE writing.transfer_progress SET version=${result.version},box=${result.box},misses=${result.misses},next_review_at=${nextReviewAt} WHERE user_id=${userId} AND unit_id=${unitId} AND item_id=${itemId} AND content_hash=${hash}`,
     );
     return result;
   });
