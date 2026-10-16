@@ -645,6 +645,15 @@ it('stores trusted target evidence atomically, privately and immutably through t
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ submissionId: id, correctionIndex: 0, status }),
     });
+  expect((await loadPractice(owner)).questions).toEqual([]);
+  expect((await loadPractice(owner)).nextReviewAt).toBeNull();
+  const [hiddenDrill] = (
+    await database.query<{ id: string }>(
+      'SELECT id FROM writing.practice_drills WHERE submission_id=$1',
+      [id],
+    )
+  ).rows;
+  await expect(answerPractice(owner, hiddenDrill.id, 'wrong', 0)).rejects.toThrow('NOT_FOUND');
   expect((await saveCorrectionChoice(choiceRequest('applied'))).status).toBe(403);
   const explainRequest = new Request('http://localhost/api/explanation', {
     method: 'POST',
@@ -657,6 +666,9 @@ it('stores trusted target evidence atomically, privately and immutably through t
   );
   expect(revision.status).toBe(200);
   const revisionId = (await revision.json()).data.submissionId;
+  const afterRevision = await loadPractice(owner);
+  expect(afterRevision.questions.map((question) => question.id)).toContain(hiddenDrill.id);
+  expect(afterRevision.questions).toHaveLength(2);
   expect(
     (
       await database.query('SELECT revision_kind FROM writing.submissions WHERE id=$1', [
@@ -754,6 +766,112 @@ it('stores trusted target evidence atomically, privately and immutably through t
     (await database.query('SELECT * FROM writing.target_evidence WHERE user_id=$1', [owner])).rows,
   ).toEqual([]);
   vi.mocked(gradeWriting).mockClear();
+});
+it('withholds legacy target drills from queues and answers until a completed revision, not Show me', async () => {
+  const owner = '00000000-0000-4000-8000-000000000094';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const id = await reserveSubmission(owner, { taskId: 'weekend', text: sampleDraft, attempt: 1 });
+  const feedback = {
+    ...markedPageSample,
+    corrections: markedPageSample.corrections.slice(0, 2).map((item, index) => ({
+      ...item,
+      tag: index === 0 ? ('verb-tense' as const) : ('spelling' as const),
+      start: sampleDraft.indexOf(item.original),
+      end: sampleDraft.indexOf(item.original) + item.original.length,
+    })),
+    target_report: [{ tag: 'verb-tense', uses: 4, errors: 1, correction_indexes: [0] }],
+  };
+  // A pre-existing completed source, without the seeding marker, exercises legacy backfill.
+  await database.query("UPDATE writing.submissions SET status='completed' WHERE id=$1", [id]);
+  await database.query(
+    "INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,'test','test')",
+    [id, owner, JSON.stringify(feedback)],
+  );
+  const queue = await loadPractice(owner);
+  expect(queue.questions.map((question) => question.original)).toEqual(['swimmed']);
+  const drills = (
+    await database.query<{ id: string; correction_index: number }>(
+      'SELECT id,correction_index FROM writing.practice_drills WHERE submission_id=$1 ORDER BY correction_index',
+      [id],
+    )
+  ).rows;
+  const target = drills[0];
+  await expect(answerPractice(owner, target.id, 'went', 0)).rejects.toThrow('NOT_FOUND');
+  await expect(answerPractice(bob, target.id, 'went', 0)).rejects.toThrow('NOT_FOUND');
+  // Even replaying a previously saved answer must not disclose its explanation.
+  await database.query(
+    'INSERT INTO writing.practice_answers(drill_id,user_id,version,answer,result) VALUES ($1,$2,0,$3,$4)',
+    [target.id, owner, 'wrong', JSON.stringify({ explanation: 'Use went.', version: 1 })],
+  );
+  await expect(answerPractice(owner, target.id, 'wrong', 0)).rejects.toThrow('NOT_FOUND');
+  await database.query('DELETE FROM writing.practice_answers WHERE drill_id=$1', [target.id]);
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  const blockedAnswer = await submitPracticeAnswer(
+    new Request('http://localhost/api/practice', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ drillId: target.id, answer: 'went', version: 0 }),
+    }),
+  );
+  expect(blockedAnswer.status).toBe(404);
+  const reveal = new Request('http://localhost/api/corrections', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ submissionId: id, correctionIndex: 0, reveal: true }),
+  });
+  expect((await saveCorrectionChoice(reveal)).status).toBe(200);
+  expect((await loadPractice(owner)).questions.map((question) => question.original)).toEqual([
+    'swimmed',
+  ]);
+  // A different completed check and a pending/failed child must not unlock this source.
+  const unrelated = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft,
+    attempt: 1,
+  });
+  await database.query("UPDATE writing.submissions SET status='completed' WHERE id=$1", [
+    unrelated,
+  ]);
+  const revision = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft,
+    attempt: 2,
+    parentSubmissionId: id,
+  });
+  for (const status of ['pending', 'failed']) {
+    await database.query('UPDATE writing.submissions SET status=$1 WHERE id=$2', [
+      status,
+      revision,
+    ]);
+    expect((await loadPractice(owner)).questions.map((question) => question.original)).toEqual([
+      'swimmed',
+    ]);
+    await expect(answerPractice(owner, target.id, 'went', 1)).rejects.toThrow('NOT_FOUND');
+  }
+  await database.query("UPDATE writing.submissions SET status='completed' WHERE id=$1", [revision]);
+  expect((await loadPractice(owner)).questions.map((question) => question.original).sort()).toEqual(
+    ['go', 'swimmed'],
+  );
+  expect(await answerPractice(owner, target.id, 'went', 0)).toMatchObject({
+    correct: true,
+    complete: true,
+    suggestion: 'went',
+  });
+  // A pre-seeded target cannot leak through the next-review date either.
+  await database.query("UPDATE writing.submissions SET status='failed' WHERE id=$1", [revision]);
+  await database.query(
+    "UPDATE writing.practice_drills SET next_review_at=now()+interval '1 day' WHERE correction_index=1 AND submission_id=$1",
+    [id],
+  );
+  await database.query(
+    "UPDATE writing.practice_drills SET next_review_at=now()+interval '1 hour' WHERE id=$1",
+    [target.id],
+  );
+  const hidden = await loadPractice(owner);
+  expect(hidden.questions).toEqual([]);
+  expect(new Date(hidden.nextReviewAt!).getTime()).toBeGreaterThan(Date.now() + 23 * 3600000);
 });
 it('recovers a completed API request without a second provider call', async () => {
   vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<

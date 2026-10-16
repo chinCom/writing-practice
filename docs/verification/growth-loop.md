@@ -36,6 +36,19 @@ No hosted migration, live model call, push, or deployment occurred. Synthetic te
 - The first full check found an outdated page mock and the previously observed recovery-deadline timing flake. Updated the mock; the full rerun passed.
 - Author self-review only. No hosted sign-in, migration, paid model calls, or deployment. The UI hides answers; this is not a secrecy boundary against inspecting response data. Assistance provenance records app actions, not whether someone copied from another source.
 
+### M2 review fix — Practice answer leak
+
+Practice now applies the same availability rule to its due queue, next-review date, and answer submission.
+A first-attempt target drill stays unavailable until its source has a completed revision.
+Show me, unrelated completed checks, and pending or failed revisions do not unlock Practice.
+The rule covers already-seeded drills and legacy backfill. Non-target and revision drills remain available.
+Hidden drills reject direct answers and saved-answer replays before exposing explanations or hints.
+
+Regression tests first reproduced the leak in real PGlite, then passed with the shared query rule.
+`npm run check` passed: 144 tests, 7 skipped; formatting, types, lint, and design checks passed.
+`npm run build` passed. Author self-review checked all three query boundaries and owner isolation.
+No migration or UI change is needed. This is synthetic local evidence, not hosted verification.
+
 ## M3 — evaluation tooling, study blocked
 
 The existing evaluator and opt-in harness now accept a human-annotated corpus and perform three runs per text.
@@ -43,8 +56,13 @@ They record target precision, run instability, human pass disagreement, and with
 Incomplete outputs, absent reports, mixed versions, inadequate coverage, and missing second-review metadata cannot pass.
 Synthetic unit tests cover the calculations; fixture reviewer labels do not constitute a real study.
 
-**Not completed:** No consented, de-identified, human-annotated 40-text A1–B1 corpus or 30-text calibration corpus is available.
-No paid call was made. M3 is not passed. M4 enforcement and dependent milestones remain blocked by this study.
+**Not completed:** The owner reported a private 60-text Cambridge draft outside the repository: 6 A1, 24 A2, and 30 B1 texts.
+The owner confirmed consent and approved paid provider calls. No paid call was made.
+The draft still lacks human uses counts, task scores, and annotator codes; the 25% independent review also remains required.
+Do not substitute AI annotations for the human gate. The planned spreadsheet/finalization tools are owner-side work.
+The annotated corpus, pinned model identifier, and Cambridge permission email date remain pending.
+M3 is not passed. M4 enforcement and dependent milestones remain blocked by this study.
+A1 coverage is thin; Cambridge prompts also make lesson pass disagreement an approximation, not direct app-task validation.
 Content publication for M6–M9 still requires product-owner review. D5 pilot recruitment and dates remain undecided.
 See [the existing harness instructions](../../evals/README.md#growth-loop-target-study-m3) for the next action.
 
@@ -57,5 +75,6 @@ Author self-review found no remaining blocker in this slice. Manual reviewer val
 
 - Goal: continue the transfer-focused growth loop on branch `feat/growth-loop`.
 - Location: `/home/very_dumb_code/Projects/writing-practice-growth-loop`.
-- Next action: supply the private annotated corpus, verify consent and reviewer metadata, then explicitly approve the paid three-run study.
+- Next action: finish human annotations and independent review, validate the private corpus, supply a pinned model identifier, then run the approved three-run study.
+- Record only summary numbers and the Cambridge permission email date here. Keep essays, reviewer identities, and model outputs private.
 - Keep M4 enforcement disabled until reviewed precision and calibration evidence pass. Do not apply local migrations to hosted data without release approval.

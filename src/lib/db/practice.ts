@@ -78,6 +78,26 @@ export async function seedSubmissionPractice(
       .onConflictDoNothing();
 }
 
+function availablePracticeDrill() {
+  // Keep already-seeded and legacy target drills hidden too. Show me is not a revision.
+  return sql`EXISTS (
+    SELECT 1 FROM writing.submissions source
+    INNER JOIN writing.feedback feedback ON feedback.submission_id = source.id
+    WHERE source.id = ${practiceDrills.submissionId}
+      AND (
+        source.attempt > 1
+        OR NOT EXISTS (
+          SELECT 1 FROM jsonb_array_elements(COALESCE(feedback.json->'target_report', '[]'::jsonb)) report
+          WHERE report->'correction_indexes' @> jsonb_build_array(${practiceDrills.correctionIndex})
+        )
+        OR EXISTS (
+          SELECT 1 FROM writing.submissions revision
+          WHERE revision.parent_submission_id = source.id AND revision.status = 'completed'
+        )
+      )
+  )`;
+}
+
 async function duePracticeInTransaction(database: Transaction) {
   const now = new Date();
   const due = await database
@@ -86,6 +106,7 @@ async function duePracticeInTransaction(database: Transaction) {
     .where(
       and(
         lte(practiceDrills.nextReviewAt, now),
+        availablePracticeDrill(),
         sql`NOT EXISTS (SELECT 1 FROM writing.correction_choices c WHERE c.submission_id = ${practiceDrills.submissionId} AND c.correction_index = ${practiceDrills.correctionIndex} AND c.status = 'dismissed')`,
       ),
     )
@@ -95,7 +116,10 @@ async function duePracticeInTransaction(database: Transaction) {
     .select({ at: sql<Date | null>`min(${practiceDrills.nextReviewAt})` })
     .from(practiceDrills)
     .where(
-      sql`NOT EXISTS (SELECT 1 FROM writing.correction_choices c WHERE c.submission_id = ${practiceDrills.submissionId} AND c.correction_index = ${practiceDrills.correctionIndex} AND c.status = 'dismissed')`,
+      and(
+        availablePracticeDrill(),
+        sql`NOT EXISTS (SELECT 1 FROM writing.correction_choices c WHERE c.submission_id = ${practiceDrills.submissionId} AND c.correction_index = ${practiceDrills.correctionIndex} AND c.status = 'dismissed')`,
+      ),
     );
   const questions: PracticeQuestion[] = due.map(({ id, version, payload }) => ({
     id,
@@ -120,7 +144,7 @@ export async function answerPractice(
     const [drill] = await database
       .select()
       .from(practiceDrills)
-      .where(eq(practiceDrills.id, drillId));
+      .where(and(eq(practiceDrills.id, drillId), availablePracticeDrill()));
     if (!drill) throw new Error('NOT_FOUND');
     const [choice] = await database
       .select()
