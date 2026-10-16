@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
 import NextLink from 'next/link';
@@ -48,7 +49,7 @@ export default function LessonView({
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(
+      const response = await fetchWithStatus(
         preview
           ? fullCourse
             ? '/dev/preview/course-api'

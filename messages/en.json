@@ -1,4 +1,20 @@
 {
+  "network": {
+    "offlineTitle": "You are offline",
+    "offlineBody": "Check your internet connection before loading or saving. Keep this page open while you reconnect.",
+    "slowTitle": "This is taking a little longer",
+    "slowBody": "We are still waiting for a response. You can keep waiting and check your connection.",
+    "dismiss": "Dismiss notification",
+    "pageLoading": "Loading your page…",
+    "pageErrorTitle": "We could not load this page",
+    "pageErrorBody": "Your connection may be slow, or the service may be temporarily unavailable. Please try again.",
+    "retry": "Try again",
+    "retrying": "Trying again…",
+    "close": "Close",
+    "previewReady": "Connection preview is ready",
+    "previewSlow": "Load a slow page",
+    "previewError": "Preview a page loading error"
+  },
   "portfolio": {
     "title": "Your writing portfolio",
     "intro": "Reopen your saved writing and compare each revision with its previous version.",

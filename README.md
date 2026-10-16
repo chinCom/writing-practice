@@ -69,6 +69,11 @@ See `docs/verification/database-deadlines.md` for network fault checks and deplo
 
 The migration runner skips migrations that it has already applied. Do not edit an applied migration.
 
+`npm ci` also applies a checked-in patch to the pinned `postgres@3.4.9` driver.
+It prevents a disconnected transaction from writing to a closed socket or a replacement session.
+If install scripts were disabled, run `npm run postinstall` before starting the server.
+See `scripts/patch-postgres.mjs` and the disconnect regressions in `tests/postgres-disconnect.test.ts`.
+
 ## Set up the AI coach
 
 Set `DEEPSEEK_API_KEY` in `.env`. Keep this key on the server.
@@ -94,6 +99,11 @@ Do not edit a pending check to resubmit it. Wait for the result or failure befor
 **Cost risk:** Live AI calls use paid provider tokens. A free database plan does not cover AI costs.
 
 ## Use the app
+
+When loading takes more than five seconds, a small notification explains that the app is still
+waiting. An offline notification asks you to check your connection and keep the page open.
+You can dismiss either notification. They clear when the condition ends and do not resend saves
+or writing checks. A failed page load shows a friendly dialog with **Try again**.
 
 1. Open `/login` and sign in.
 2. Open `/onboarding` to save your learning profile. Settings also links to this page.

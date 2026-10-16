@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useRef, useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import Paper from '@mui/material/Paper';
@@ -30,7 +31,7 @@ export default function Transfer({ preview = false }: { preview?: boolean }) {
   const endpoint = preview ? '/dev/preview/transfer-api' : '/api/transfer';
   useEffect(() => {
     const controller = new AbortController();
-    fetch(endpoint, {
+    fetchWithStatus(endpoint, {
       cache: 'no-store',
       signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
     })
@@ -65,7 +66,7 @@ export default function Transfer({ preview = false }: { preview?: boolean }) {
     setBusy(true);
     setError(false);
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetchWithStatus(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

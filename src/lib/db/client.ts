@@ -24,6 +24,18 @@ const waiters: Array<(slot: Slot) => void> = [];
 function timeoutError() {
   return Object.assign(new Error('DATABASE_TIMEOUT'), { code: 'DATABASE_TIMEOUT' });
 }
+function connectionFailed(error: unknown) {
+  const cause = error instanceof Error && error.cause ? error.cause : error;
+  if (!cause || typeof cause !== 'object' || !('code' in cause)) return false;
+  return [
+    'CONNECTION_CLOSED',
+    'CONNECTION_DESTROYED',
+    'CONNECTION_ENDED',
+    'CONNECT_TIMEOUT',
+    'ECONNRESET',
+    'EPIPE',
+  ].includes(String(cause.code));
+}
 async function acquire(): Promise<Slot> {
   const available = slots.find((slot) => !slot.busy);
   if (available) {
@@ -60,28 +72,35 @@ export async function withUserDatabase<T>(
   try {
     slot.connection ??= connect();
     const { database, client } = slot.connection;
+    let closing: Promise<void> | undefined;
+    const closeConnection = () => (closing ??= client.end({ timeout: 0 }));
     const deadline = new Promise<never>((_, reject) => {
       timer = setTimeout(() => {
         expired = true;
         // This client owns exactly one slot. Destroy it rather than leaving a query running.
-        void client.end({ timeout: 0 }).finally(() => reject(timeoutError()));
+        void closeConnection().then(
+          () => reject(timeoutError()),
+          () => reject(timeoutError()),
+        );
       }, 10000);
     });
     const operation = database.transaction(async (transaction) => {
-      await transaction.execute(sql`SET LOCAL statement_timeout = '5s'`);
-      await transaction.execute(sql`SET LOCAL lock_timeout = '2s'`);
-      await transaction.execute(sql`SET LOCAL idle_in_transaction_session_timeout = '5s'`);
-      await transaction.execute(sql`SELECT set_config('request.jwt.claim.sub', ${userId}, true)`);
+      await transaction.execute(sql`SELECT
+        set_config('statement_timeout', '5s', true),
+        set_config('lock_timeout', '2s', true),
+        set_config('idle_in_transaction_session_timeout', '5s', true),
+        set_config('request.jwt.claim.sub', ${userId}, true)`);
       await transaction.execute(sql`SET LOCAL ROLE authenticated`);
       return work(transaction);
     });
     try {
       return await Promise.race([operation, deadline]);
     } catch (error) {
-      if (expired) {
-        await client.end({ timeout: 0 });
-        throw timeoutError();
+      if (expired || connectionFailed(error)) {
+        slot.connection = undefined;
+        await closeConnection().catch(() => undefined);
       }
+      if (expired) throw timeoutError();
       throw error;
     }
   } finally {

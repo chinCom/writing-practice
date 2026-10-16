@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useRef, useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import NextLink from 'next/link';
@@ -105,7 +106,7 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(endpoint, {
+    fetchWithStatus(endpoint, {
       cache: 'no-store',
       signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
     })
@@ -145,7 +146,7 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetchWithStatus(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

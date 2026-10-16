@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useRef, useState } from 'react';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -30,7 +31,7 @@ export default function WeeklyGoal({
   useEffect(() => {
     if (!preview) return;
     const controller = new AbortController();
-    fetch('/api/preferences', {
+    fetchWithStatus('/api/preferences', {
       cache: 'no-store',
       signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
     })
@@ -55,7 +56,7 @@ export default function WeeklyGoal({
     pending.current = value;
     setStatus('saving');
     try {
-      const response = await fetch('/api/preferences', {
+      const response = await fetchWithStatus('/api/preferences', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ weeklyGoal: value }),

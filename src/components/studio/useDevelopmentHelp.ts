@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useRef, useState } from 'react';
 import { DevelopmentSchema, type Development } from '@/lib/feedback/development';
 import type { CurriculumTask } from '@/lib/curriculum';
@@ -22,7 +23,7 @@ export function useDevelopmentHelp(text: string, task: CurriculumTask, disabled 
     setPending(true);
     setResult(null);
     try {
-      const response = await fetch('/api/development', {
+      const response = await fetchWithStatus('/api/development', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ taskId: task.id, text: text.trim() }),

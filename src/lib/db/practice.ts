@@ -19,6 +19,9 @@ import {
   type PracticeAnswer,
   type PracticeQuestion,
 } from '@/lib/practice';
+import type { LocatedFeedback } from '@/lib/feedback/schema';
+
+type PracticeSubmission = { id: string; text: string; feedback: LocatedFeedback };
 
 export function loadPractice(userId: string) {
   return withUserDatabase(userId, (database) => practiceInTransaction(database, userId));
@@ -48,35 +51,40 @@ async function seedPracticeInTransaction(database: Transaction, userId: string) 
     )
     .orderBy(asc(submissions.createdAt), asc(submissions.id))
     .limit(10);
-  for (const source of sources) await seedSubmissionPractice(database, userId, source);
+  await seedPracticeSources(database, userId, sources);
 }
 
-export async function seedSubmissionPractice(
+export function seedSubmissionPractice(
   database: Transaction,
   userId: string,
-  source: { id: string; text: string; feedback: import('@/lib/feedback/schema').LocatedFeedback },
+  source: PracticeSubmission,
 ) {
-  const marker = await database
+  return seedPracticeSources(database, userId, [source]);
+}
+
+async function seedPracticeSources(
+  database: Transaction,
+  userId: string,
+  sources: PracticeSubmission[],
+) {
+  if (!sources.length) return;
+  const markers = await database
     .insert(practiceSources)
-    .values({ userId, submissionId: source.id })
+    .values(sources.map((source) => ({ userId, submissionId: source.id })))
     .onConflictDoNothing()
-    .returning();
-  if (!marker.length) return;
-  const cards = source.feedback.safety_flag
-    ? []
-    : buildPracticeCards(source.text, source.feedback.corrections);
-  if (cards.length)
-    await database
-      .insert(practiceDrills)
-      .values(
-        cards.map((payload) => ({
-          userId,
-          submissionId: source.id,
-          correctionIndex: payload.correctionIndex,
-          payload,
-        })),
-      )
-      .onConflictDoNothing();
+    .returning({ submissionId: practiceSources.submissionId });
+  const claimed = new Set(markers.map((marker) => marker.submissionId));
+  // Seed the bounded legacy batch in two writes, even on a high-latency connection.
+  const cards = sources.flatMap((source) => {
+    if (!claimed.has(source.id) || source.feedback.safety_flag) return [];
+    return buildPracticeCards(source.text, source.feedback.corrections).map((payload) => ({
+      userId,
+      submissionId: source.id,
+      correctionIndex: payload.correctionIndex,
+      payload,
+    }));
+  });
+  if (cards.length) await database.insert(practiceDrills).values(cards).onConflictDoNothing();
 }
 
 function availablePracticeDrill() {
