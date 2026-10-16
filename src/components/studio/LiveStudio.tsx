@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -77,7 +78,7 @@ export default function LiveStudio({
     setError(null);
     const snapshot = text;
     try {
-      const response = await fetch('/api/draft', {
+      const response = await fetchWithStatus('/api/draft', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(

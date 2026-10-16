@@ -39,7 +39,7 @@ export async function progressInTransaction(
   database: Transaction,
   now = new Date(),
 ): Promise<ProgressReport> {
-  const writing = await database
+  const writingQuery = database
     .select({
       id: submissions.id,
       text: submissions.text,
@@ -57,7 +57,7 @@ export async function progressInTransaction(
     .where(
       and(eq(submissions.status, 'completed'), sql`${feedbackRows.json}->>'safety_flag' = 'false'`),
     );
-  const practice = await database
+  const practiceQuery = database
     .select({
       at: practiceAnswers.createdAt,
       result: practiceAnswers.result,
@@ -65,6 +65,7 @@ export async function progressInTransaction(
     })
     .from(practiceAnswers)
     .innerJoin(practiceDrills, eq(practiceAnswers.drillId, practiceDrills.id));
+  const [writing, practice] = await Promise.all([writingQuery, practiceQuery]);
   const summary = summarizeProgress(
     writing.map((row) => ({
       at: row.at.toISOString(),

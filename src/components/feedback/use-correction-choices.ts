@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useRef, useState } from 'react';
 import type { CorrectionChoice, CorrectionStatus, ReportReason } from '@/lib/feedback/choices';
 
@@ -35,7 +36,7 @@ export function useCorrectionChoices(
   useEffect(() => {
     if (initialChoices !== undefined) return;
     const controller = new AbortController();
-    void fetch(endpoint + '?submissionId=' + submissionId, {
+    void fetchWithStatus(endpoint + '?submissionId=' + submissionId, {
       signal: controller.signal,
       cache: 'no-store',
     })
@@ -68,7 +69,7 @@ export function useCorrectionChoices(
     setPendingCount((count) => count + 1);
     const work = queue.current.then(async () => {
       try {
-        const response = await fetch(
+        const response = await fetchWithStatus(
           'reason' in change ? endpoint + (preview ? '?report=true' : '/report') : endpoint,
           {
             method: 'POST',

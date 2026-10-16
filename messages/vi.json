@@ -1,4 +1,20 @@
 {
+  "network": {
+    "offlineTitle": "Bạn đang mất kết nối mạng",
+    "offlineBody": "Hãy kiểm tra kết nối internet trước khi tải hoặc lưu. Bạn nên giữ trang này mở trong lúc kết nối lại.",
+    "slowTitle": "Thao tác đang mất nhiều thời gian hơn",
+    "slowBody": "Ứng dụng vẫn đang chờ phản hồi. Bạn có thể chờ thêm và kiểm tra kết nối mạng.",
+    "dismiss": "Đóng thông báo",
+    "pageLoading": "Đang tải trang…",
+    "pageErrorTitle": "Chưa thể tải trang này",
+    "pageErrorBody": "Kết nối có thể đang chậm hoặc dịch vụ tạm thời chưa phản hồi. Vui lòng thử lại.",
+    "retry": "Thử lại",
+    "retrying": "Đang thử lại…",
+    "close": "Đóng",
+    "previewReady": "Trang xem thử kết nối đã sẵn sàng",
+    "previewSlow": "Tải thử một trang chậm",
+    "previewError": "Xem thử thông báo lỗi tải trang"
+  },
   "portfolio": {
     "title": "Hồ sơ bài viết của bạn",
     "intro": "Mở lại bài viết đã lưu và so sánh mỗi bản sửa với phiên bản trước.",

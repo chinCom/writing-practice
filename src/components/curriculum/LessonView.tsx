@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -47,7 +48,7 @@ export default function LessonView({
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(
+      const response = await fetchWithStatus(
         preview
           ? fullCourse
             ? '/dev/preview/course-api'

@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -33,7 +34,7 @@ export default function RevisionComparison({
     const timer = setTimeout(() => controller.abort(), 10000);
     async function load() {
       try {
-        const response = await fetch(
+        const response = await fetchWithStatus(
           preview
             ? '/dev/preview/revision-data'
             : '/api/revision?submissionId=' + encodeURIComponent(submissionId),

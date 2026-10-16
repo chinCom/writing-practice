@@ -73,6 +73,20 @@ it.runIf(process.env.RUN_DATABASE_DEADLINES === 'true')(
         transaction.execute(sql`SELECT auth.uid() AS owner`),
       );
       expect(resumed[0]).toMatchObject({ owner });
+
+      // A clean socket close takes a different driver path from a silent network stall.
+      await expect(
+        withUserDatabase(owner, async (transaction) => {
+          if (!lastClient) throw new Error('Missing active relay connection.');
+          lastClient.end();
+          await new Promise((resolve) => setTimeout(resolve, 50));
+          return transaction.execute(sql`SELECT 1`);
+        }),
+      ).rejects.toMatchObject({ code: 'CONNECTION_CLOSED' });
+      const reconnected = await withUserDatabase(owner, (transaction) =>
+        transaction.execute(sql`SELECT current_user AS role, auth.uid() AS owner`),
+      );
+      expect(reconnected[0]).toMatchObject({ role: 'authenticated', owner });
     } finally {
       vi.unstubAllEnvs();
       for (const socket of sockets) socket.destroy();
