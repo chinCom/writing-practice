@@ -54,7 +54,9 @@ function deriveTargetReport(
   if (feedback.safety_flag || !targets.length) return undefined;
   return targets.map((tag) => {
     const indexes = feedback.corrections.flatMap((correction, index) =>
-      correction.tag === tag && correction.severity !== 'style' ? [index] : [],
+      correction.tag === tag && correction.severity !== 'style' && correction.confidence >= 0.7
+        ? [index]
+        : [],
     );
     const uses = submitted?.find((item) => item.tag === tag)?.uses ?? 0;
     return {

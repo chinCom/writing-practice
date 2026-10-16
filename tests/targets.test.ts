@@ -98,6 +98,19 @@ it('derives the report from the model uses and same-tag corrections, keeping eve
       .target_report,
   ).toEqual([{ tag: 'verb-tense', uses: 2, errors: 2, correction_indexes: [0, 3] }]);
 });
+it('counts only confident corrections as target errors, matching the study scorer', () => {
+  const output = ModelFeedbackSchema.parse({
+    ...feedback,
+    corrections: [
+      { ...feedback.corrections[0], tag: 'verb-tense', severity: 'major', confidence: 0.69 },
+      { ...feedback.corrections[0], tag: 'verb-tense', severity: 'major', confidence: 0.7 },
+    ],
+    target_report: [{ tag: 'verb-tense', uses: 4 }],
+  });
+  expect(validateTargetReport(output, ['verb-tense']).target_report).toEqual([
+    { tag: 'verb-tense', uses: 4, errors: 1, correction_indexes: [1] },
+  ]);
+});
 it('accepts the uses-only model shape and still parses the full saved shape', () => {
   const uses = ModelFeedbackSchema.parse({
     ...feedback,

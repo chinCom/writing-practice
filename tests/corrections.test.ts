@@ -2,17 +2,19 @@ import { expect, it } from 'vitest';
 import { filterLiveCorrections } from '@/lib/feedback/corrections';
 import { correction } from './fixtures/feedback';
 
-it('drops unchanged, absent, optional, and uncertain live claims', () => {
+it('drops unchanged, absent and uncertain live claims but keeps optional style suggestions', () => {
   const valid = { ...correction, original: 'writed', suggestion: 'wrote' };
+  // Style suggestions stay visible to learners; target counts and Practice exclude them elsewhere.
+  const style = { ...valid, severity: 'style' as const };
   expect(
     filterLiveCorrections('Mina writed a postcard.', [
       { ...valid, suggestion: 'writed' },
       { ...valid, original: 'Mina wrote' },
-      { ...valid, severity: 'style' },
+      style,
       { ...valid, confidence: 0.69 },
       valid,
     ]),
-  ).toEqual([valid]);
+  ).toEqual([style, valid]);
 });
 
 it('requires the quoted source to match whole words and its exact spelling and spacing', () => {

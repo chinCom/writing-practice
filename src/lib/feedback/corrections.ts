@@ -19,10 +19,10 @@ function withinWordLimit(text: string): boolean {
 }
 
 // Enforce the live prompt's mechanical contract without guessing grammar or changing saved feedback.
+// Optional style suggestions stay visible; target counts and Practice exclude them separately.
 export function filterLiveCorrections(text: string, corrections: Correction[]): Correction[] {
   return corrections.filter(
     (correction) =>
-      correction.severity !== 'style' &&
       correction.confidence >= 0.7 &&
       correction.original !== correction.suggestion &&
       withinWordLimit(correction.original) &&
