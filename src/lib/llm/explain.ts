@@ -12,22 +12,12 @@ export interface ExplanationInput {
   explanation: string;
 }
 let prompt: Promise<string> | undefined;
-export async function explainCorrection(input: ExplanationInput, options: GradeOptions) {
+export async function explainCorrection(
+  input: ExplanationInput,
+  options: Omit<GradeOptions, 'mock'>,
+) {
   const started = Date.now();
   const usage = { promptTokens: 0, completionTokens: 0, cacheHitTokens: 0 };
-  if (options.mock)
-    return {
-      data: {
-        why_original:
-          'This is a design preview. The original phrase does not match the past time in this sample.',
-        why_suggestion:
-          'This is a design preview. The suggested verb shows a finished activity in the sample.',
-      },
-      usage,
-      model: 'mock',
-      mock: true,
-      latencyMs: 0,
-    };
   if (!options.apiKey) throw new LlmError('LLM_NOT_CONFIGURED');
   const client = new OpenAI({ apiKey: options.apiKey, baseURL: options.baseURL, maxRetries: 0 });
   prompt ??= readFile(resolve(process.cwd(), 'src/lib/prompts/explanation.system.md'), 'utf8');

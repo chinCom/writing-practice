@@ -37,7 +37,6 @@ function options() {
     apiKey: 'test',
     baseURL: 'http://127.0.0.1:' + address.port,
     model: 'test',
-    mock: false,
   };
 }
 const input = {

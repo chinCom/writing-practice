@@ -11,3 +11,6 @@ curriculum/supplied/
 # Target-study reports can contain learner-derived model text.
 evals/results/targets-latest.json
 evals/results/targets-ai-diagnostic.json
+
+# Licensed corpora must never be committed (Cambridge W&I licence forbids sharing).
+write-and-improve-corpus-2024*

@@ -1500,6 +1500,21 @@ it('explains saved corrections once, caches by owner and rejects forged or forei
   });
   expect((await explainSavedCorrection(request({ original: 'forged' }))).status).toBe(400);
   expect((await explainSavedCorrection(request({ correctionIndex: 3 }))).status).toBe(404);
+  // Mock-graded feedback is a preview; it must never reach a real explanation call.
+  const mockId = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft,
+    attempt: 1,
+  });
+  await completeSubmission(owner, mockId, located, {
+    data: markedPageSample,
+    usage: { promptTokens: 0, completionTokens: 0, cacheHitTokens: 0 },
+    model: 'mock',
+    latencyMs: 0,
+    mock: true,
+  });
+  expect((await explainSavedCorrection(request({ submissionId: mockId }))).status).toBe(404);
+  expect(vi.mocked(explainCorrection)).toHaveBeenCalledTimes(1);
   vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
     Awaited<ReturnType<typeof currentUser>>
   >);

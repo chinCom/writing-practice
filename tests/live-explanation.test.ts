@@ -36,7 +36,6 @@ it.skipIf(process.env.RUN_LIVE_EXPLANATION !== 'true')(
         apiKey: process.env.DEEPSEEK_API_KEY,
         baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
         model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
-        mock: false,
       });
       expect(result.mock).toBe(false);
       expect(result.usage.completionTokens).toBeGreaterThan(0);

@@ -22,7 +22,8 @@ export async function POST(request: Request) {
     const { submissionId, correctionIndex } = parsed.data;
     const saved = await loadFeedback(user.id, submissionId);
     const correction = saved?.feedback.json.corrections[correctionIndex];
-    if (!saved || !correction || saved.feedback.json.safety_flag)
+    // Mock-graded feedback is a design preview, so it never reaches the AI provider.
+    if (!saved || !correction || saved.feedback.json.safety_flag || saved.feedback.model === 'mock')
       throw new ApiError('NOT_FOUND', 404);
     await requireCorrectionAnswer(user.id, submissionId, correctionIndex);
     const reserved = await reserveExplanation(user.id, submissionId, correctionIndex);
@@ -49,7 +50,6 @@ export async function POST(request: Request) {
         apiKey: process.env.DEEPSEEK_API_KEY,
         baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
         model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
-        mock: saved.feedback.model === 'mock',
       },
     );
     await finishExplanation(user.id, reserved.requestKey, result);
