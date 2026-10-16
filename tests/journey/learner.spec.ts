@@ -137,7 +137,8 @@ test('a learner completes a lesson, revises, practises and returns to saved prog
   ).toBeVisible();
   await returned.screenshot({ path: testInfo.outputPath('saved-progress.png'), fullPage: true });
   await returned.goto(revisionURL);
-  await expect(returned.getByText(revisedText, { exact: true })).toBeVisible();
+  // Streaming briefly keeps a hidden copy outside main until the loading fallback is replaced.
+  await expect(returned.locator('#main').getByText(revisedText, { exact: true })).toBeVisible();
   await returned.goto('/path');
   await expect(
     returned.getByRole('link', { name: unit.lessons[1].title, exact: true }),
