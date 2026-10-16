@@ -1,3 +1,4 @@
+import { fetchWithStatus, withLoadingNotice } from '@/lib/network-status';
 export type CoachResult =
   | { status: 'completed'; submissionId: string }
   | { status: 'pending' }
@@ -26,15 +27,16 @@ async function readResult(response: Response): Promise<CoachResult> {
     return { status: 'completed', submissionId: result.data.submissionId };
   return { status: 'pending' };
 }
-export async function recoverCoach(
-  requestKey: string,
-  options: RequestOptions = {},
-): Promise<CoachResult> {
+export function recoverCoach(requestKey: string, options: RequestOptions = {}) {
+  return withLoadingNotice(() => lookupCoach(requestKey, options));
+}
+
+async function lookupCoach(requestKey: string, options: RequestOptions = {}): Promise<CoachResult> {
   const deadline = Date.now() + (options.recoveryTimeoutMs ?? 15000);
   let missing = false;
   do {
     try {
-      const response = await fetch(
+      const response = await fetchWithStatus(
         (options.endpoint ?? '/api/feedback') + '?requestKey=' + encodeURIComponent(requestKey),
         {
           cache: 'no-store',
@@ -58,13 +60,17 @@ export async function recoverCoach(
   } while (Date.now() < deadline);
   return missing ? { status: 'failed', code: 'NOT_FOUND' } : { status: 'pending' };
 }
-export async function requestCoach(
+export function requestCoach(input: unknown, requestKey: string, options: RequestOptions = {}) {
+  return withLoadingNotice(() => sendCoach(input, requestKey, options));
+}
+
+async function sendCoach(
   input: unknown,
   requestKey: string,
   options: RequestOptions = {},
 ): Promise<CoachResult> {
   try {
-    const response = await fetch(options.endpoint ?? '/api/feedback', {
+    const response = await fetchWithStatus(options.endpoint ?? '/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Idempotency-Key': requestKey },
       body: JSON.stringify(input),

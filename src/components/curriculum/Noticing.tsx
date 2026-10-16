@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Paper from '@mui/material/Paper';
@@ -31,7 +32,7 @@ export default function Noticing({
     setBusy(true);
     setError(false);
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetchWithStatus(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lessonId, selected }),

@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useState } from 'react';
 import Today from './Today';
 import { preferencesResult, type WeeklyGoal } from '@/lib/preferences';
@@ -7,7 +8,7 @@ export default function GoalPreview() {
   const [goal, setGoal] = useState<WeeklyGoal>(5);
   useEffect(() => {
     const controller = new AbortController();
-    fetch('/api/preferences', {
+    fetchWithStatus('/api/preferences', {
       signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
       cache: 'no-store',
     })

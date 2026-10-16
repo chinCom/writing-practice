@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
@@ -225,7 +226,7 @@ export default function Progress({
     const controller = new AbortController();
     let active = true;
     const timer = setTimeout(() => controller.abort(), 15000);
-    fetch(
+    fetchWithStatus(
       preview
         ? '/dev/preview/progress-data' + (variant === 'empty' ? '?variant=empty' : '')
         : '/api/progress',

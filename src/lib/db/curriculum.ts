@@ -25,20 +25,22 @@ import { trustedTargetsInTransaction } from './targets';
 
 type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
 export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
-  const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
+  const [units, [placement], progress, checks] = await Promise.all([
+    database.select({ content: curriculumUnits.content }).from(curriculumUnits),
+    database.select().from(placementResults),
+    database.select().from(lessonProgress),
+    database
+      .select({
+        taskId: submissions.taskId,
+        at: submissions.createdAt,
+        feedback: feedbackRows.json,
+        masteryAdvisory: submissions.masteryAdvisory,
+      })
+      .from(submissions)
+      .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
+      .where(eq(submissions.status, 'completed')),
+  ]);
   const content = units.length ? curriculumSchema.parse(units.map((unit) => unit.content)) : [];
-  const [placement] = await database.select().from(placementResults);
-  const progress = await database.select().from(lessonProgress);
-  const checks = await database
-    .select({
-      taskId: submissions.taskId,
-      at: submissions.createdAt,
-      feedback: feedbackRows.json,
-      masteryAdvisory: submissions.masteryAdvisory,
-    })
-    .from(submissions)
-    .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
-    .where(eq(submissions.status, 'completed'));
   const chosenLevel = (placement?.chosenLevel as CurriculumLevel | null) ?? null;
   return {
     chosenLevel,

@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
@@ -33,12 +34,15 @@ export default function ExplanationPanel({
     const deadline = Date.now() + 22000;
     try {
       while (true) {
-        const response = await fetch(preview ? '/dev/preview/explanation' : '/api/explanation', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ submissionId, correctionIndex: index }),
-          signal: AbortSignal.timeout(18000),
-        });
+        const response = await fetchWithStatus(
+          preview ? '/dev/preview/explanation' : '/api/explanation',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submissionId, correctionIndex: index }),
+            signal: AbortSignal.timeout(18000),
+          },
+        );
         const result = await response.json();
         if (response.status === 202 && Date.now() < deadline) {
           await new Promise((resolve) => setTimeout(resolve, 2000));

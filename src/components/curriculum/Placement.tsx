@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -39,7 +40,7 @@ export default function Placement({
     setBusy(true);
     setError(null);
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetchWithStatus(endpoint, {
         method: choose ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(choose ? { level } : { samples, answers }),

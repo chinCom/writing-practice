@@ -1,4 +1,5 @@
 'use client';
+import { fetchWithStatus } from '@/lib/network-status';
 
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
@@ -72,7 +73,7 @@ export default function Onboarding({
   useEffect(() => {
     if (!preview) return;
     const controller = new AbortController();
-    fetch('/api/profile', {
+    fetchWithStatus('/api/profile', {
       cache: 'no-store',
       signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
     })
@@ -96,7 +97,7 @@ export default function Onboarding({
     if (status === 'loading' || status === 'saving' || status === 'expired') return;
     setStatus('saving');
     try {
-      const response = await fetch('/api/profile', {
+      const response = await fetchWithStatus('/api/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile),

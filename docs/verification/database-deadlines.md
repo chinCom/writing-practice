@@ -10,6 +10,10 @@
 - Statements stop after five seconds. Lock waits stop after two seconds.
 - Transactions idle between statements stop after five seconds.
 - Every owned transaction reapplies these PostgreSQL limits before setting the authenticated role and owner.
+- Timeout settings and owner identity are configured in one statement, followed by the authenticated role.
+- A connection failure discards its operation slot's client; the next request reconnects.
+- Independent Today reads share one transaction and are submitted together. Legacy Practice seeding
+  marks up to ten sources with one insert and creates their cards with one insert.
 - API deadline failures return private HTTP 503 responses with `DATABASE_TIMEOUT` and `Retry-After: 2`.
 - Responses contain no SQL, writing, account identifiers, or database addresses.
 - Feedback treats a database timeout as an uncertain result. It looks up the existing request key without another paid POST.
@@ -43,7 +47,32 @@ Statement and lock evidence: `docs/verification/hosted/database-deadlines.json`.
 The default suite also tests a local TCP server that never completes the PostgreSQL handshake.
 It checks safe API failures and feedback recovery through a local HTTP server.
 
-Fresh verification:
+### Disconnected transaction regression
+
+The pinned `postgres@3.4.9` driver can issue its transaction rollback after its socket closes,
+throwing an uncaught `TypeError` from `socket.write`. A callback that outlives the disconnect can
+also reach a reconnected session. The local protocol-peer regression reproduced the crash in both
+ESM and CommonJS before the fix, without a hosted database or learner data.
+
+`scripts/patch-postgres.mjs` backports [upstream PR 1215](https://github.com/porsager/postgres/pull/1215)
+and the defensive null-socket guard from [PR 1209](https://github.com/porsager/postgres/pull/1209).
+The npm postinstall hook applies the patch to both module formats. It checks the pinned version,
+validates every source replacement before writing, and is safe to rerun. Review and remove the
+patch only after a released driver passes the disconnect regressions.
+
+`tests/postgres-disconnect.test.ts` runs the failure in child processes, checks that queued and late
+transaction statements reject, and verifies that fresh queries reconnect. The application slot
+regression checks that a failed client is discarded. The hosted network test additionally closes
+its own relay socket mid-transaction and verifies that the next operation restores the owner and
+authenticated role. Existing queue, statement, lock, and ten-second operation deadlines remain active.
+
+Verification on 2026-10-16: `npm run check` passed with 177 tests and seven intentional skips;
+formatting, types, lint, and design checks passed. All four opt-in hosted database checks passed,
+and the extended clean-close network test passed separately. Three Today backend loads using an
+empty synthetic owner took 2.7–2.9 seconds. This does not verify the learner's signed-in browser
+session or guarantee response times during a network slowdown.
+
+Earlier verification:
 
 - `npm run check`: 72 tests passed; four opt-in tests skipped. Formatting, types, lint, and design checks passed.
 - Both opt-in hosted database tests: passed.

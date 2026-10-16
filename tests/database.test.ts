@@ -306,6 +306,50 @@ it('persists correction choices, excludes dismissed drills, restores reviews, an
   vi.mocked(currentUser).mockResolvedValue(null);
   expect((await saveCorrectionChoice(request('/api/corrections', payload))).status).toBe(401);
 });
+it('backfills safe legacy corrections together, marks unsafe sources, and never duplicates cards', async () => {
+  const owner = crypto.randomUUID();
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const sources = Array.from({ length: 3 }, () => crypto.randomUUID());
+  for (const [index, id] of sources.entries()) {
+    await database.query(
+      "INSERT INTO writing.submissions(id,user_id,task_id,text,word_count,attempt,status) VALUES ($1,$2,'weekend',$3,58,1,'completed')",
+      [id, owner, sampleDraft],
+    );
+    const feedback = {
+      ...markedPageSample,
+      safety_flag: index === 2,
+      corrections: [
+        {
+          original: 'go',
+          suggestion: 'went',
+          tag: 'verb-tense',
+          severity: 'major',
+          explanation: 'Use past tense for last weekend.',
+          confidence: 0.99,
+          start: sampleDraft.indexOf('go'),
+          end: sampleDraft.indexOf('go') + 2,
+        },
+      ],
+    };
+    await database.query(
+      "INSERT INTO writing.feedback(submission_id,user_id,json,model,prompt_version) VALUES ($1,$2,$3,'test','test')",
+      [id, owner, JSON.stringify(feedback)],
+    );
+  }
+  const first = await loadPractice(owner);
+  const second = await loadPractice(owner);
+  expect(first.questions).toHaveLength(2);
+  expect(second.questions).toEqual(first.questions);
+  expect((await asUser(owner, 'SELECT * FROM writing.practice_sources')).rows).toHaveLength(3);
+  const cards = await asUser(owner, 'SELECT submission_id FROM writing.practice_drills');
+  expect(cards.rows).toHaveLength(2);
+  expect(cards.rows).toEqual(
+    expect.arrayContaining(sources.slice(0, 2).map((id) => ({ submission_id: id }))),
+  );
+  expect(
+    (await asUser(bob, `SELECT * FROM writing.practice_drills WHERE user_id='${owner}'`)).rows,
+  ).toEqual([]);
+});
 it('backfills only ten unprocessed legacy sources per read and records empty or unsafe feedback', async () => {
   const owner = '00000000-0000-4000-8000-000000000096';
   await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
