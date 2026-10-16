@@ -56,13 +56,7 @@ They record target precision, run instability, human pass disagreement, and with
 Incomplete outputs, absent reports, mixed versions, inadequate coverage, and missing second-review metadata cannot pass.
 Synthetic unit tests cover the calculations; fixture reviewer labels do not constitute a real study.
 
-**Not completed:** The owner reported a private 60-text Cambridge draft outside the repository: 6 A1, 24 A2, and 30 B1 texts.
-The owner confirmed consent and approved paid provider calls. The separate AI diagnostic below has now run; the human study has not.
-The draft still lacks human uses counts, task scores, and annotator codes; the 25% independent review also remains required.
-Do not substitute AI annotations for the human gate. The planned spreadsheet/finalization tools are owner-side work.
-The human-annotated corpus and Cambridge permission email date remain pending. The diagnostic explicitly selected `deepseek-flash`, a provider alias.
-M3 is not passed. M4 enforcement and dependent milestones remain blocked by this study.
-A1 coverage is thin; Cambridge prompts also make lesson pass disagreement an approximation, not direct app-task validation.
+**Not completed:** Results from an external learner corpus were withdrawn on 2026-10-16: its licence does not permit evaluating a commercial product, so no corpus-derived figures are recorded here and none may be used. M3 needs a licensed, consented corpus, such as writing from the D5 pilot.
 Content publication for M6–M9 still requires product-owner review. D5 pilot recruitment and dates remain undecided.
 See [the existing harness instructions](../../evals/README.md#growth-loop-target-study-m3) for the next action.
 
@@ -70,38 +64,6 @@ Verification: `npm run check` passed (143 tests, 7 skipped; formatting, types, l
 `npm run build` passed. The target-study command without `EVAL_LIVE=true` failed before loading credentials or making calls, as required.
 M3 changes do not alter UI; M1–M2 full browser verification remains 274 passed, 10 skipped.
 Author self-review found no remaining blocker in this slice. Manual reviewer validation remains mandatory.
-
-### Provisional AI diagnostic
-
-The approved diagnostic ran all 60 private texts three times with `deepseek-flash:feedback-targets-3`.
-Its reference uses AI-reviewed correction proposals, estimated uses, and provisional task scores. It is not human gold.
-The runner preserves that provenance, checkpoints private outputs, and cannot pass M3 or noise eligibility.
-
-| Measure | Result |
-| --- | --- |
-| Calls recorded | 180 |
-| Failed grading calls | 15 |
-| Successful calls without a target report | 93 |
-| Usable target reports after location/validation | 58 |
-| Exact-match target correction matches | 19 |
-| Unmatched target correction claims | 119 |
-| Precision against provisional reference | 13.8% |
-| Pass disagreement with provisional reference | 36.2% |
-| Human pass disagreement | Unknown |
-| Human study / noise eligibility | Both false |
-
-Precision is 19 / (19 + 119), on usable reports only. Missing reports make the sample highly selective.
-The matcher accepts unchanged context around a minimal edit; alternative valid fixes or taxonomy disagreements can still appear unmatched.
-Sample inspection found both model over-editing and reference/matching limits. These numbers do not establish human-verified accuracy.
-Only eight texts had three raw target reports, far below the 30-text calibration requirement.
-The partial noise figures are not accepted calibration and must not support learner growth claims.
-Recorded successful-call usage was 229,531 prompt tokens and 173,274 completion tokens; failed-call usage is unknown.
-No reliable monetary total is available. The provider can change the model behind its alias.
-
-A regression test exposed a deterministic evaluator defect: zero uses counted as a passing target.
-The scorer now rejects zero-use passes on both sides. The figures above were recomputed from saved outputs without more paid calls.
-The private ignored report is `evals/results/targets-ai-diagnostic.json`; it contains learner-derived text and must not be committed.
-The corpus and provisional review remain outside the repository. No prompt change or study rerun was made from this weak reference.
 
 ## M4 — advisory mastery and carry-forward
 
@@ -131,7 +93,7 @@ The corpus and provisional review remain outside the repository. No prompt chang
 - Goal: continue the transfer-focused growth loop on branch `feat/growth-loop`.
 - Location: `/home/very_dumb_code/Projects/writing-practice-growth-loop`.
 - Next action: obtain qualified human adjudication of correction disagreements, use counts, and task scores, with 25% independent review.
-- Address demonstrated grader/report failures against that reviewed reference before another paid study. Supply the Cambridge permission email date.
+- Address demonstrated grader/report failures against that reviewed reference before another paid study.
 - Record only summary numbers and permission metadata here. Keep essays, reviewer identities, and model outputs private.
 - Keep M4 enforcement disabled until reviewed precision and calibration evidence pass. Do not apply local migrations to hosted data without release approval.
 
@@ -260,59 +222,14 @@ Checks: `npx vitest run tests/growth-content.test.ts tests/transfer.test.ts` pas
 
 Approval is still pending. `curriculum/growth.review.json` keeps `approved: false`, with the new content hash. All passages are invented teaching texts. A teacher must check facts, span meanings, accepted answers and difficulty before approval.
 
-## Provisional AI diagnostic rerun (`feedback-growth-5`)
-
-On 2026-10-16 the same 60 private texts and AI-reviewed reference ran three times on `deepseek-flash:feedback-growth-5`, after the server began deriving target errors from the grader's own corrections. The reference is still AI-made, not human gold.
-
-| Measure | `feedback-targets-3` | `feedback-growth-5` |
-| --- | --- | --- |
-| Calls / failed | 180 / 15 | 180 / 14 |
-| Successful calls with a usable target report | 58 of 165 | 166 of 166 |
-| Exact target matches / unmatched claims | 19 / 119 | 37 / 306 |
-| Precision against the provisional reference | 13.8% | 10.8% |
-| Pass disagreement with the reference | 36.2% | 43.4% |
-| Pass disagreement between the three runs of one text | 3.4% (8 texts only) | 18.1% |
-
-A local, count-only breakdown of the 365 target claims: 129 overlap a same-tag reference location (37 exact; the rest differ in fix wording, which the exact matcher rejects), 35 match edits the reviewer withheld as optional, 7 overlap a reference error under another tag, and 194 appear in no reference at all.
-
-**Conclusion:** report availability is fixed. Accuracy is not: even generous location matching (about 35–45%) is far below the 0.85 gate, and three runs of the same text disagree on the pass result 18% of the time. `GROWTH_TARGETS` stays off. Next: reduce grader over-editing and have a human adjudicate a sample of the 194 unreferenced claims to separate reference gaps from grader errors. The private report stays in the ignored `evals/results/targets-ai-diagnostic.json`; the earlier report is kept privately outside the repository.
-
-### AI adjudication (provisional; not human gold; does not pass M3)
-
-`feedback-growth-5`: 365 raw claims, 303 unique; 194 unmatched raw claims, 170 unique. Blinded adjudication: 200 items, including 15 matched-error and 15 missed-reference controls. Paid provider calls: 0.
-
-Among the 170 unique unmatched claims: 50 right-tag real errors (29.4%), 47 over-corrections or optional edits (27.6%), 62 real errors with the wrong tag (36.5%), and 11 ambiguous (6.5%). Only 26 (15.3%) also had a valid minimal fix. Run-weighted: 58/194 right-tag errors (29.9%), 53/194 over-edits (27.3%), 71/194 wrong-tag errors (36.6%), 12/194 ambiguous (6.2%); 34/194 valid target fixes (17.5%).
-
-| Unmatched group | Unique claims | Right-tag reference gaps | Over-editing | Wrong-tag real errors | Ambiguous |
-| --- | --- | --- | --- | --- | --- |
-| connectors | 17 | 6 (35.3%) | 4 (23.5%) | 7 | 0 |
-| modal-verbs | 27 | 3 (11.1%) | 9 (33.3%) | 12 | 3 |
-| prepositions | 51 | 12 (23.5%) | 16 (31.4%) | 20 | 3 |
-| punctuation | 44 | 21 (47.7%) | 10 (22.7%) | 12 | 1 |
-| verb-tense | 31 | 8 (25.8%) | 8 (25.8%) | 11 | 4 |
-| A1 | 22 | 8 (36.4%) | 5 (22.7%) | 8 | 1 |
-| A2 | 48 | 6 (12.5%) | 17 (35.4%) | 22 | 3 |
-| B1 | 100 | 36 (36.0%) | 25 (25.0%) | 32 | 7 |
-
-| Conditional revised precision baseline | Unique claims | Run-weighted claims |
-| --- | --- | --- |
-| All location matches assumed valid, including withheld and cross-tag edits | 159–170 / 303 (52.5–56.1%) | 205–217 / 365 (56.2–59.5%) |
-| Same-tag expected-location matches assumed valid; withheld excluded | 125–136 / 303 (41.3–44.9%) | 163–175 / 365 (44.7–47.9%) |
-
-Ranges count ambiguous claims as wrong/right. These assume matched fixes are valid; only 5/15 matched controls had both the correct tag and a valid minimal fix. They are conditional estimates, not measured precision or confidence intervals. The original 37/343 (10.8%) used exact fixes after relocation; this extraction uses saved indexes and original overlap, so the metrics are not directly comparable.
-
-Control real-error accuracy: matched 15/15 (100%); missed reference 14/15 (93.3%); neither below 80%. Same-session repeat: verdict 20/20 (100%); tag and fix each 19/20 (95%); all three 18/20 (90%). Prior verdicts were not redisplayed, but conversation context was not isolated. One clerical tag-boolean inconsistency was corrected after comparison and retained in the repeat audit. Human spot-check queue: 20 items, five per verdict. Human gold: 0; M3 passes: 0.
-
 ## AI-led grader fixes (`feedback-growth-6`)
 
-The zero-budget follow-up uses the provisional AI findings to improve future grading. It does not replace human gold or pass M3.
+These rules tighten the correction contract. They are unvalidated: the corpus findings that motivated them were withdrawn (see M3). They do not replace human gold or pass M3.
 
 - The prompt requires clear level-appropriate errors, permits zero corrections, omits optional style edits, preserves valid usage variants and modal meaning, and separates actual errors from optional rewrites.
 - Tag guidance distinguishes tense, verb form, agreement, modals, articles, spelling, capitalization, prepositions, infinitives, questions, punctuation and connectors. Active targets must not determine an unrelated error's tag.
 - Live response filtering removes style, confidence below 0.7, unchanged suggestions, snippets absent from the exact source or crossing word boundaries, and original/suggestion spans over twelve words. Reports derive errors and indexes after filtering. Filtering adds no provider call. Saved feedback and historical reports remain unchanged.
 - The new prompt version keeps future evidence separate from `feedback-growth-5`. Growth Targets remains opt-in and off by default; validated mastery and growth claims remain gated.
-
-Offline replay applied only the new deterministic filter to saved outputs, without invoking a model: 365 raw target claims became 322; 303 unique claims became 261. Removed claims: 5 unchanged, 4 source mismatches, and 34 over twelve words. Of the 194 raw unmatched claims, 27 were removed. All 34 unmatched raw claims previously judged by AI to have a real error, correct tag and valid minimal fix survived. These are mechanical filter results, not measured precision for the new prompt. Strict source matching and length limits can suppress genuine errors when the model quotes them incorrectly or too broadly.
 
 Verification: failing local regressions first reproduced invalid-claim retention and target-count inflation. Synthetic provider and unit tests verify filtering before target derivation, an empty correction list, unchanged request count, exact source boundaries, capitalization and punctuation-spacing edits, and both word limits. `npm run check` passed: formatting, types, lint, design checks; 190 tests passed, 7 skipped. No paid calls, hosted changes, deployment, or human adjudication occurred. The revised prompt's semantic accuracy remains unevaluated.
 
@@ -320,4 +237,4 @@ Verification: failing local regressions first reproduced invalid-claim retention
 
 `feedback-growth-6` removed every `style` correction from live feedback for all learners, including with `GROWTH_TARGETS` off, which also removed B1+ register, tone and repetition suggestions. `feedback-growth-7` keeps optional style suggestions visible (B1 and above, marked `style`, never as errors) and keeps the other mechanical checks: confidence ≥ 0.7, a real change, an exact quoted snippet and the twelve-word limits. Target counts exclude `style` and now also corrections below 0.7 confidence, matching the study scorer. Practice already excludes `style` corrections.
 
-Verification: failing tests first, then `npm run check` (200 passed, 7 skipped), the learner journey (`npm run test:journey`, 1 passed) and the full Playwright suite (316 passed, 10 skipped; the 4 "unconfigured sign-in" specs need a server without Supabase settings). No paid calls. The new prompt has not been evaluated live; the next diagnostic must use held-out essays.
+Verification: failing tests first, then `npm run check` (200 passed, 7 skipped), the learner journey (`npm run test:journey`, 1 passed) and the full Playwright suite (316 passed, 10 skipped; the 4 "unconfigured sign-in" specs need a server without Supabase settings). No paid calls. The new prompt has not been evaluated. The next evaluation needs a licensed, consented corpus.

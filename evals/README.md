@@ -112,5 +112,4 @@ A target with zero uses cannot pass in either reference or model results.
 AI diagnostic reports always have `gatePassed: false` and `noiseReady: false`, even with perfect synthetic agreement.
 Diagnostic completion means calls were recorded, not that the model or the reference was validated.
 
-The approved 60-text diagnostic completed 180 calls on `deepseek-flash:feedback-targets-3`.
-Only 58 calls had usable target reports. See [results and limits](../docs/verification/growth-loop.md#provisional-ai-diagnostic) before interpreting the metrics.
+Results from an external learner corpus were withdrawn on 2026-10-16: its licence does not permit evaluating a commercial product, so no corpus-derived figures are recorded here and none may be used. M3 needs a licensed, consented corpus, such as writing from the D5 pilot.
