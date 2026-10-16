@@ -37,9 +37,9 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
         <Chip label={task?.targetLevel ?? 'A2'} variant="tonal" color="primary" size="small" />
       </Stack>
       {task ? <IeltsContract taskId={task.id} /> : null}
+      <ReadingPassage reading={task?.reading} />
       <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>
       {task ? <TaskChart taskId={task.id} /> : null}
-      <ReadingPassage reading={task?.reading} />
       <Typography variant="body2" color="text.secondary">
         {task ? t('taskWordRange', { min: task.minWords, max: task.maxWords }) : t('wordRange')}
       </Typography>

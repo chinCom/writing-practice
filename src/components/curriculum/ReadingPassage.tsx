@@ -25,7 +25,8 @@ export default function ReadingPassage({ reading }: { reading: CurriculumTask['r
           {reading.text}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {t(reading.mode === 'summary' ? 'readingSummary' : 'readingContinuation')}
+          {reading.instruction ??
+            t(reading.mode === 'summary' ? 'readingSummary' : 'readingContinuation')}
         </Typography>
       </Stack>
     </Box>

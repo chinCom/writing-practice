@@ -21,3 +21,18 @@ it('accepts authored alternate answers and schedules locally without forgiving p
     suggestion: 'Where is Mai?',
   });
 });
+it('keeps capital letters in capitalization drills while still ignoring extra spaces', () => {
+  const item = {
+    tag: 'capitalization' as const,
+    answers: ['I am Tuan.'],
+    explanation: 'Use a capital I.',
+  };
+  expect(gradeTransfer(item, 'i am tuan.', 1, 0)).toMatchObject({
+    correct: false,
+    complete: false,
+  });
+  expect(gradeTransfer(item, '  I   am Tuan. ', 1, 0)).toMatchObject({
+    correct: true,
+    complete: true,
+  });
+});

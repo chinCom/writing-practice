@@ -67,13 +67,22 @@ export function practiceRetryHint(
     return { kind: 'modal-word', modal, phrase, replacement: expected[start] };
   return { kind: 'phrase', phrase };
 }
+// Case-sensitive matching is for drills where capital letters are the target.
+export function matchesPracticeAnswer(answer: string, expected: string, caseSensitive = false) {
+  if (caseSensitive) {
+    const spaced = (value: string) => value.normalize('NFC').trim().replace(/\s+/g, ' ');
+    return spaced(answer) === spaced(expected);
+  }
+  return normalizePracticeAnswer(answer) === normalizePracticeAnswer(expected);
+}
 export function checkPracticeAnswer(
   answer: string,
   suggestion: string,
   box: number,
   misses: number,
+  { caseSensitive = false }: { caseSensitive?: boolean } = {},
 ): PracticeResult {
-  const correct = normalizePracticeAnswer(answer) === normalizePracticeAnswer(suggestion);
+  const correct = matchesPracticeAnswer(answer, suggestion, caseSensitive);
   const complete = correct || misses >= 1;
   const nextBox = complete ? (correct && misses === 0 ? Math.min(5, box + 1) : 1) : box;
   return {

@@ -58,7 +58,7 @@
           "targetLevel": "PRE_A1"
         },
         "noticing": {
-          "instruction": "Find the first two capital I pronouns.",
+          "instruction": "Find every pronoun I in the model. Notice its capital letter.",
           "spans": [
             {
               "start": 0,
@@ -67,9 +67,13 @@
             {
               "start": 10,
               "end": 11
+            },
+            {
+              "start": 26,
+              "end": 27
             }
           ],
-          "explanation": "The pronoun I always starts with a capital letter."
+          "explanation": "The pronoun I always starts with a capital letter, even in the middle of a sentence."
         }
       },
       {
@@ -175,65 +179,65 @@
       {
         "id": "first-words-capitalization-1",
         "tag": "capitalization",
-        "prompt": "Rewrite with correct capitals: i live in hue.",
-        "answers": ["I live in Hue."],
-        "explanation": "Compare your answer with the model: I live in Hue."
+        "prompt": "Fix the capitals: i am tuan. i am from hue.",
+        "answers": ["I am Tuan. I am from Hue.", "I am Tuan. I am from Hue"],
+        "explanation": "Write the pronoun I with a capital letter, and start names of places with capitals too."
       },
       {
         "id": "first-words-capitalization-2",
         "tag": "capitalization",
-        "prompt": "Rewrite with correct capitals: my friend is mai.",
-        "answers": ["My friend is Mai."],
-        "explanation": "Compare your answer with the model: My friend is Mai."
+        "prompt": "Fix the capitals: my city is hanoi. i like tea.",
+        "answers": ["My city is Hanoi. I like tea.", "My city is Hanoi. I like tea"],
+        "explanation": "Each sentence starts with a capital letter. City names also start with a capital letter."
       },
       {
         "id": "first-words-capitalization-3",
         "tag": "capitalization",
-        "prompt": "Rewrite with correct capitals: we study english.",
-        "answers": ["We study English."],
-        "explanation": "Compare your answer with the model: We study English."
+        "prompt": "Fix the capitals: i study english every day.",
+        "answers": ["I study English every day.", "I study English every day"],
+        "explanation": "Write I as a capital letter. Write language names, like English, with a capital letter."
       },
       {
         "id": "first-words-capitalization-4",
         "tag": "capitalization",
-        "prompt": "Rewrite with correct capitals: on monday, i work.",
-        "answers": ["On Monday, I work."],
-        "explanation": "Compare your answer with the model: On Monday, I work."
+        "prompt": "Fix the capitals: i live near the lake in da nang.",
+        "answers": ["I live near the lake in Da Nang.", "I live near the lake in Da Nang"],
+        "explanation": "Start the sentence with a capital letter. Each word of a city name starts with a capital."
       },
       {
         "id": "first-words-punctuation-1",
         "tag": "punctuation",
-        "prompt": "Add the final mark: Where is the library",
-        "answers": ["Where is the library?"],
-        "explanation": "Compare your answer with the model: Where is the library?"
+        "prompt": "Add the end mark: What is your name",
+        "answers": ["What is your name?"],
+        "explanation": "Use a question mark at the end of a question."
       },
       {
         "id": "first-words-punctuation-2",
         "tag": "punctuation",
-        "prompt": "Add the final mark: Please close the door",
-        "answers": ["Please close the door."],
-        "explanation": "Compare your answer with the model: Please close the door."
+        "prompt": "Add the end mark: I live in Hanoi",
+        "answers": ["I live in Hanoi."],
+        "explanation": "Use a full stop at the end of a statement."
       },
       {
         "id": "first-words-punctuation-3",
         "tag": "punctuation",
-        "prompt": "Join with a comma: Yes I can help.",
-        "answers": ["Yes, I can help."],
-        "explanation": "Compare your answer with the model: Yes, I can help."
+        "prompt": "Add the end mark: Where do you study",
+        "answers": ["Where do you study?"],
+        "explanation": "A question ends with a question mark, not a full stop."
       },
       {
         "id": "first-words-punctuation-4",
         "tag": "punctuation",
-        "prompt": "Add the final mark: I study at home",
-        "answers": ["I study at home."],
-        "explanation": "Compare your answer with the model: I study at home."
+        "prompt": "Add the end mark: This is my friend Lan",
+        "answers": ["This is my friend Lan."],
+        "explanation": "A statement ends with a full stop."
       }
     ],
     "parallelPrompt": {
       "id": "first-words-3-task",
       "title": "A new task: Names and roles",
       "genre": "simple sentences",
-      "prompt": "Write two or three short sentences introducing a new classmate: give their name, role and city. Use a new example; do not revise or copy your unit-start response.",
+      "prompt": "Write two or three short sentences for a club card, stating your name, your role (such as student or worker), and your city. Use a new example; do not revise or copy your unit-start response.",
       "scaffold": "frames",
       "frames": ["I am [Name].", "I am a [role].", "I live in [city]."],
       "wordBank": ["student", "worker", "designer", "teacher", "live", "study"],
@@ -316,7 +320,7 @@
           "targetLevel": "PRE_A1"
         },
         "noticing": {
-          "instruction": "Find the first two forms of be that agree with one person.",
+          "instruction": "Find every form of be that follows one singular subject.",
           "spans": [
             {
               "start": 10,
@@ -325,9 +329,13 @@
             {
               "start": 22,
               "end": 24
+            },
+            {
+              "start": 38,
+              "end": 40
             }
           ],
-          "explanation": "A singular person takes is in these present statements."
+          "explanation": "Use is after he, she, it or one singular noun in present statements."
         }
       },
       {
@@ -451,58 +459,58 @@
       {
         "id": "people-and-places-subject-verb-agreement-1",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: My brother ___ in a bank. (work)",
+        "prompt": "Complete: My sister ___ at a hospital. (work)",
         "answers": ["works"],
-        "explanation": "Compare your answer with the model: works"
+        "explanation": "With he, she, it or one person, add -s to the verb."
       },
       {
         "id": "people-and-places-subject-verb-agreement-2",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: The students ___ ready. (be)",
-        "answers": ["are"],
-        "explanation": "Compare your answer with the model: are"
+        "prompt": "Complete: The children ___ in the park. (play)",
+        "answers": ["play"],
+        "explanation": "With a plural subject, such as children, use the base verb."
       },
       {
         "id": "people-and-places-subject-verb-agreement-3",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: This bus ___ near my house. (stop)",
-        "answers": ["stops"],
-        "explanation": "Compare your answer with the model: stops"
+        "prompt": "Complete: My father ___ a blue car. (have)",
+        "answers": ["has"],
+        "explanation": "Has is the form of have for one person, such as my father."
       },
       {
         "id": "people-and-places-subject-verb-agreement-4",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: My parents ___ tea every morning. (drink)",
-        "answers": ["drink"],
-        "explanation": "Compare your answer with the model: drink"
+        "prompt": "Complete: Her friends ___ very tall. (be)",
+        "answers": ["are"],
+        "explanation": "Use are with plural subjects, such as friends."
       },
       {
         "id": "people-and-places-prepositions-1",
         "tag": "prepositions",
-        "prompt": "Complete: The meeting starts ___ nine o’clock.",
-        "answers": ["at"],
-        "explanation": "Compare your answer with the model: at"
+        "prompt": "Complete: I live ___ Hue. (city)",
+        "answers": ["in"],
+        "explanation": "Use in before the name of a city or a country."
       },
       {
         "id": "people-and-places-prepositions-2",
         "tag": "prepositions",
-        "prompt": "Complete: My birthday is ___ June.",
-        "answers": ["in"],
-        "explanation": "Compare your answer with the model: in"
+        "prompt": "Complete: My office is ___ the first floor.",
+        "answers": ["on"],
+        "explanation": "Use on before a floor of a building."
       },
       {
         "id": "people-and-places-prepositions-3",
         "tag": "prepositions",
-        "prompt": "Complete: We have class ___ Monday.",
-        "answers": ["on"],
-        "explanation": "Compare your answer with the model: on"
+        "prompt": "Complete: She waits for me ___ the station.",
+        "answers": ["at"],
+        "explanation": "Use at before a place such as a station or a school."
       },
       {
         "id": "people-and-places-prepositions-4",
         "tag": "prepositions",
-        "prompt": "Complete: The keys are inside the bag. They are ___ the bag.",
-        "answers": ["in"],
-        "explanation": "Compare your answer with the model: in"
+        "prompt": "Complete: The cat sleeps ___ the table.",
+        "answers": ["under"],
+        "explanation": "Use under for a space below an object, like a table."
       }
     ],
     "parallelPrompt": {
@@ -587,7 +595,7 @@
           "targetLevel": "PRE_A1"
         },
         "noticing": {
-          "instruction": "Find the two verbs that describe regular actions.",
+          "instruction": "Find every present simple verb that describes a daily routine.",
           "spans": [
             {
               "start": 2,
@@ -598,7 +606,7 @@
               "end": 25
             }
           ],
-          "explanation": "Use the present simple for these daily routines."
+          "explanation": "With I, use the base verb. Present simple describes actions that happen regularly."
         }
       },
       {
@@ -728,58 +736,58 @@
       {
         "id": "small-actions-verb-tense-1",
         "tag": "verb-tense",
-        "prompt": "Complete: Yesterday, we ___ a museum. (visit)",
-        "answers": ["visited"],
-        "explanation": "Compare your answer with the model: visited"
+        "prompt": "Complete: I ___ breakfast at seven. (eat)",
+        "answers": ["eat"],
+        "explanation": "Use the base verb with I in the present simple."
       },
       {
         "id": "small-actions-verb-tense-2",
         "tag": "verb-tense",
-        "prompt": "Complete: Last night, she ___ an email. (write)",
-        "answers": ["wrote"],
-        "explanation": "Compare your answer with the model: wrote"
+        "prompt": "Complete: We ___ to school by bus. (go)",
+        "answers": ["go"],
+        "explanation": "Use the base verb with we in the present simple."
       },
       {
         "id": "small-actions-verb-tense-3",
         "tag": "verb-tense",
-        "prompt": "Complete: Every morning, I ___ to work. (walk)",
-        "answers": ["walk"],
-        "explanation": "Compare your answer with the model: walk"
+        "prompt": "Complete: My mother ___ tea every morning. (drink)",
+        "answers": ["drinks"],
+        "explanation": "With he, she or it, add -s in the present simple."
       },
       {
         "id": "small-actions-verb-tense-4",
         "tag": "verb-tense",
-        "prompt": "Complete: He ___ dinner right now. (cook)",
-        "answers": ["is cooking"],
-        "explanation": "Compare your answer with the model: is cooking"
+        "prompt": "Complete: Every evening, they ___ TV. (watch)",
+        "answers": ["watch"],
+        "explanation": "Use the base verb with they in the present simple."
       },
       {
         "id": "small-actions-subject-verb-agreement-1",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: My brother ___ in a bank. (work)",
-        "answers": ["works"],
-        "explanation": "Compare your answer with the model: works"
+        "prompt": "Complete: He ___ early every day. (wake)",
+        "answers": ["wakes"],
+        "explanation": "With he, she or it, the present simple verb ends in -s."
       },
       {
         "id": "small-actions-subject-verb-agreement-2",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: The students ___ ready. (be)",
-        "answers": ["are"],
-        "explanation": "Compare your answer with the model: are"
+        "prompt": "Complete: My brother ___ football on Sundays. (play)",
+        "answers": ["plays"],
+        "explanation": "My brother is one person, so the verb needs -s."
       },
       {
         "id": "small-actions-subject-verb-agreement-3",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: This bus ___ near my house. (stop)",
-        "answers": ["stops"],
-        "explanation": "Compare your answer with the model: stops"
+        "prompt": "Complete: The shop ___ at eight. (open)",
+        "answers": ["opens"],
+        "explanation": "A shop is one thing, so add -s to the verb."
       },
       {
         "id": "small-actions-subject-verb-agreement-4",
         "tag": "subject-verb-agreement",
-        "prompt": "Complete: My parents ___ tea every morning. (drink)",
-        "answers": ["drink"],
-        "explanation": "Compare your answer with the model: drink"
+        "prompt": "Complete: Lan and Mai ___ lunch together. (have)",
+        "answers": ["have"],
+        "explanation": "Two people take the base verb, without -s."
       }
     ],
     "parallelPrompt": {
@@ -890,7 +898,7 @@
           "targetLevel": "A1"
         },
         "noticing": {
-          "instruction": "Find the words that join an extra fact and a reason.",
+          "instruction": "Find the two connectors that join two clauses in the message.",
           "spans": [
             {
               "start": 23,
@@ -901,7 +909,7 @@
               "end": 137
             }
           ],
-          "explanation": "And adds information; because introduces a reason."
+          "explanation": "And joins two facts. Because gives the reason for an action."
         }
       },
       {
@@ -1041,58 +1049,58 @@
       {
         "id": "first-messages-connectors-1",
         "tag": "connectors",
-        "prompt": "Complete with because or but: I stayed home ___ I was ill.",
-        "answers": ["because"],
-        "explanation": "Compare your answer with the model: because"
+        "prompt": "Complete with but or so: I like tea ___ I do not like coffee.",
+        "answers": ["but"],
+        "explanation": "But shows a contrast between two ideas."
       },
       {
         "id": "first-messages-connectors-2",
         "tag": "connectors",
-        "prompt": "Complete with and or but: The room is small ___ comfortable.",
-        "answers": ["but"],
-        "explanation": "Compare your answer with the model: but"
+        "prompt": "Complete with because or so: I was late ___ the bus was full.",
+        "answers": ["because"],
+        "explanation": "Because introduces the reason for being late."
       },
       {
         "id": "first-messages-connectors-3",
         "tag": "connectors",
-        "prompt": "Complete with so or because: It was raining, ___ we took a taxi.",
-        "answers": ["so"],
-        "explanation": "Compare your answer with the model: so"
+        "prompt": "Complete with and or because: I study English ___ I want a better job.",
+        "answers": ["because"],
+        "explanation": "Because introduces the reason for studying."
       },
       {
         "id": "first-messages-connectors-4",
         "tag": "connectors",
-        "prompt": "Complete with although or because: ___ it was late, we finished the work.",
-        "answers": ["Although"],
-        "explanation": "Compare your answer with the model: Although"
+        "prompt": "Complete with so or and: It was raining, ___ I took my umbrella.",
+        "answers": ["so"],
+        "explanation": "So introduces the result of the rain."
       },
       {
         "id": "first-messages-verb-tense-1",
         "tag": "verb-tense",
-        "prompt": "Complete: Yesterday, we ___ a museum. (visit)",
-        "answers": ["visited"],
-        "explanation": "Compare your answer with the model: visited"
+        "prompt": "Complete: Last week, I ___ a new friend at class. (meet)",
+        "answers": ["met"],
+        "explanation": "Use the past simple for an action that finished last week."
       },
       {
         "id": "first-messages-verb-tense-2",
         "tag": "verb-tense",
-        "prompt": "Complete: Last night, she ___ an email. (write)",
-        "answers": ["wrote"],
-        "explanation": "Compare your answer with the model: wrote"
+        "prompt": "Complete: Yesterday, I ___ my homework at home. (finish)",
+        "answers": ["finished"],
+        "explanation": "Add -ed to a regular verb in the past simple."
       },
       {
         "id": "first-messages-verb-tense-3",
         "tag": "verb-tense",
-        "prompt": "Complete: Every morning, I ___ to work. (walk)",
-        "answers": ["walk"],
-        "explanation": "Compare your answer with the model: walk"
+        "prompt": "Complete: Now I ___ in a small company in Da Nang. (work)",
+        "answers": ["work"],
+        "explanation": "Use the present simple for a job you have now."
       },
       {
         "id": "first-messages-verb-tense-4",
         "tag": "verb-tense",
-        "prompt": "Complete: He ___ dinner right now. (cook)",
-        "answers": ["is cooking"],
-        "explanation": "Compare your answer with the model: is cooking"
+        "prompt": "Complete: Last year, we ___ to Nha Trang. (travel)",
+        "answers": ["travelled", "traveled"],
+        "explanation": "Use the past simple for a finished trip. Both spellings are correct."
       }
     ],
     "parallelPrompt": {
@@ -1212,7 +1220,7 @@
           "targetLevel": "A1"
         },
         "noticing": {
-          "instruction": "Find the first two words that tell how often an action happens.",
+          "instruction": "Find every adverb of frequency that tells how often the routine happens.",
           "spans": [
             {
               "start": 15,
@@ -1221,9 +1229,13 @@
             {
               "start": 70,
               "end": 76
+            },
+            {
+              "start": 153,
+              "end": 162
             }
           ],
-          "explanation": "These frequency adverbs come before the main verb."
+          "explanation": "Frequency adverbs such as usually, always and sometimes go before the main verb."
         }
       },
       {
@@ -1363,58 +1375,63 @@
       {
         "id": "daily-routines-word-order-1",
         "tag": "word-order",
-        "prompt": "Put in order: usually / I / walk / to work",
-        "answers": ["I usually walk to work."],
-        "explanation": "Compare your answer with the model: I usually walk to work."
+        "prompt": "Put in order: after dinner / we / watch / TV",
+        "answers": [
+          "We watch TV after dinner.",
+          "We watch TV after dinner",
+          "After dinner, we watch TV.",
+          "After dinner we watch TV."
+        ],
+        "explanation": "A time phrase can go at the start or the end of a sentence."
       },
       {
         "id": "daily-routines-word-order-2",
         "tag": "word-order",
-        "prompt": "Put in order: is / my sister / a teacher",
-        "answers": ["My sister is a teacher."],
-        "explanation": "Compare your answer with the model: My sister is a teacher."
+        "prompt": "Put in order: is / never / late / she",
+        "answers": ["She is never late.", "She is never late"],
+        "explanation": "Put a frequency adverb after am, is or are."
       },
       {
         "id": "daily-routines-word-order-3",
         "tag": "word-order",
-        "prompt": "Put in order: yesterday / we / played / tennis",
-        "answers": ["We played tennis yesterday."],
-        "explanation": "Compare your answer with the model: We played tennis yesterday."
+        "prompt": "Put in order: cooks / my brother / always / dinner",
+        "answers": ["My brother always cooks dinner.", "My brother always cooks dinner"],
+        "explanation": "Put a frequency adverb before the main verb."
       },
       {
         "id": "daily-routines-word-order-4",
         "tag": "word-order",
-        "prompt": "Put in order: does / where / she / live",
-        "answers": ["Where does she live?"],
-        "explanation": "Compare your answer with the model: Where does she live?"
+        "prompt": "Put in order: at seven / I / eat / breakfast",
+        "answers": ["I eat breakfast at seven.", "I eat breakfast at seven"],
+        "explanation": "A time phrase often comes at the end of a simple sentence."
       },
       {
         "id": "daily-routines-verb-tense-1",
         "tag": "verb-tense",
-        "prompt": "Complete: Yesterday, we ___ a museum. (visit)",
-        "answers": ["visited"],
-        "explanation": "Compare your answer with the model: visited"
+        "prompt": "Complete: Every weekday, I ___ the metro. (take)",
+        "answers": ["take"],
+        "explanation": "Use the present simple for a habit that repeats."
       },
       {
         "id": "daily-routines-verb-tense-2",
         "tag": "verb-tense",
-        "prompt": "Complete: Last night, she ___ an email. (write)",
-        "answers": ["wrote"],
-        "explanation": "Compare your answer with the model: wrote"
+        "prompt": "Complete: Yesterday, I ___ the metro late. (take)",
+        "answers": ["took"],
+        "explanation": "Took is the past simple of take."
       },
       {
         "id": "daily-routines-verb-tense-3",
         "tag": "verb-tense",
-        "prompt": "Complete: Every morning, I ___ to work. (walk)",
-        "answers": ["walk"],
-        "explanation": "Compare your answer with the model: walk"
+        "prompt": "Complete: On Sundays, my parents ___ lunch at home. (have)",
+        "answers": ["have"],
+        "explanation": "With two people, use the base verb in the present simple."
       },
       {
         "id": "daily-routines-verb-tense-4",
         "tag": "verb-tense",
-        "prompt": "Complete: He ___ dinner right now. (cook)",
-        "answers": ["is cooking"],
-        "explanation": "Compare your answer with the model: is cooking"
+        "prompt": "Complete: Last Sunday, my parents ___ at a restaurant. (eat)",
+        "answers": ["ate"],
+        "explanation": "Ate is the past simple of eat."
       }
     ],
     "parallelPrompt": {
@@ -1534,7 +1551,7 @@
           "targetLevel": "A1"
         },
         "noticing": {
-          "instruction": "Find the two modal verbs in the request and the promise.",
+          "instruction": "Find the two modal verbs in the message: one for a request and one for a promise.",
           "spans": [
             {
               "start": 69,
@@ -1545,7 +1562,7 @@
               "end": 131
             }
           ],
-          "explanation": "Could softens a request; will expresses the promise."
+          "explanation": "Could makes the request polite. Will shows what the writer promises to do."
         }
       },
       {
@@ -1685,58 +1702,58 @@
       {
         "id": "simple-requests-modal-verbs-1",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: You should ___ a break. (take)",
-        "answers": ["take"],
-        "explanation": "Compare your answer with the model: take"
+        "prompt": "Complete with the base verb: Could you ___ me your notes? (send)",
+        "answers": ["send"],
+        "explanation": "After could, use the base verb, not a form with -s."
       },
       {
         "id": "simple-requests-modal-verbs-2",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: Could you ___ the window? (open)",
-        "answers": ["open"],
-        "explanation": "Compare your answer with the model: open"
+        "prompt": "Complete with the base verb: You must ___ your name here. (write)",
+        "answers": ["write"],
+        "explanation": "After must, use the base verb without to."
       },
       {
         "id": "simple-requests-modal-verbs-3",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: We must ___ on time. (arrive)",
-        "answers": ["arrive"],
-        "explanation": "Compare your answer with the model: arrive"
+        "prompt": "Complete with the base verb: Can you ___ the door, please? (close)",
+        "answers": ["close"],
+        "explanation": "After can, use the base verb."
       },
       {
         "id": "simple-requests-modal-verbs-4",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: They might ___ late. (be)",
-        "answers": ["be"],
-        "explanation": "Compare your answer with the model: be"
+        "prompt": "Complete with the base verb: I should ___ early tomorrow. (leave)",
+        "answers": ["leave"],
+        "explanation": "After should, use the base verb, such as leave."
       },
       {
         "id": "simple-requests-punctuation-1",
         "tag": "punctuation",
-        "prompt": "Add the final mark: Where is the library",
-        "answers": ["Where is the library?"],
-        "explanation": "Compare your answer with the model: Where is the library?"
+        "prompt": "Add the end mark: Could you help me with this form",
+        "answers": ["Could you help me with this form?"],
+        "explanation": "A polite question still ends with a question mark."
       },
       {
         "id": "simple-requests-punctuation-2",
         "tag": "punctuation",
-        "prompt": "Add the final mark: Please close the door",
-        "answers": ["Please close the door."],
-        "explanation": "Compare your answer with the model: Please close the door."
+        "prompt": "Add the end mark: Please send me the notes",
+        "answers": ["Please send me the notes."],
+        "explanation": "A polite instruction ends with a full stop."
       },
       {
         "id": "simple-requests-punctuation-3",
         "tag": "punctuation",
-        "prompt": "Join with a comma: Yes I can help.",
-        "answers": ["Yes, I can help."],
-        "explanation": "Compare your answer with the model: Yes, I can help."
+        "prompt": "Add the end mark: I will bring the book tomorrow",
+        "answers": ["I will bring the book tomorrow."],
+        "explanation": "A statement about the future ends with a full stop."
       },
       {
         "id": "simple-requests-punctuation-4",
         "tag": "punctuation",
-        "prompt": "Add the final mark: I study at home",
-        "answers": ["I study at home."],
-        "explanation": "Compare your answer with the model: I study at home."
+        "prompt": "Add the end mark: What time does the class start",
+        "answers": ["What time does the class start?"],
+        "explanation": "A question ends with a question mark."
       }
     ],
     "parallelPrompt": {
@@ -1856,18 +1873,26 @@
           "targetLevel": "A2"
         },
         "noticing": {
-          "instruction": "Find the two finished actions in the Saturday-morning sentence.",
+          "instruction": "Find every irregular past simple verb in the message.",
           "spans": [
             {
-              "start": 89,
-              "end": 95
+              "start": 2,
+              "end": 5
             },
             {
               "start": 109,
               "end": 113
+            },
+            {
+              "start": 176,
+              "end": 179
+            },
+            {
+              "start": 306,
+              "end": 310
             }
           ],
-          "explanation": "Rented and rode refer to completed past actions."
+          "explanation": "Irregular past verbs change form and do not add -ed, so learn each one."
         }
       },
       {
@@ -2007,58 +2032,58 @@
       {
         "id": "connected-messages-verb-tense-1",
         "tag": "verb-tense",
-        "prompt": "Complete: Yesterday, we ___ a museum. (visit)",
-        "answers": ["visited"],
-        "explanation": "Compare your answer with the model: visited"
+        "prompt": "Complete: Last Saturday, we ___ a boat on the river. (take)",
+        "answers": ["took"],
+        "explanation": "Take is irregular, so its past simple form is took."
       },
       {
         "id": "connected-messages-verb-tense-2",
         "tag": "verb-tense",
-        "prompt": "Complete: Last night, she ___ an email. (write)",
-        "answers": ["wrote"],
-        "explanation": "Compare your answer with the model: wrote"
+        "prompt": "Complete: We ___ the bus to the beach on Sunday. (catch)",
+        "answers": ["caught"],
+        "explanation": "Catch is irregular; its past simple form is caught."
       },
       {
         "id": "connected-messages-verb-tense-3",
         "tag": "verb-tense",
-        "prompt": "Complete: Every morning, I ___ to work. (walk)",
-        "answers": ["walk"],
-        "explanation": "Compare your answer with the model: walk"
+        "prompt": "Complete: Last night, we ___ to bed very late. (go)",
+        "answers": ["went"],
+        "explanation": "Go is irregular; its past simple form is went."
       },
       {
         "id": "connected-messages-verb-tense-4",
         "tag": "verb-tense",
-        "prompt": "Complete: He ___ dinner right now. (cook)",
-        "answers": ["is cooking"],
-        "explanation": "Compare your answer with the model: is cooking"
+        "prompt": "Complete: My cousin ___ me a scarf last week. (give)",
+        "answers": ["gave"],
+        "explanation": "Give is irregular; its past simple form is gave."
       },
       {
         "id": "connected-messages-connectors-1",
         "tag": "connectors",
-        "prompt": "Complete with because or but: I stayed home ___ I was ill.",
+        "prompt": "Complete with because or so: We rested at noon ___ it was very hot.",
         "answers": ["because"],
-        "explanation": "Compare your answer with the model: because"
+        "explanation": "Because gives the reason for resting at noon."
       },
       {
         "id": "connected-messages-connectors-2",
         "tag": "connectors",
-        "prompt": "Complete with and or but: The room is small ___ comfortable.",
-        "answers": ["but"],
-        "explanation": "Compare your answer with the model: but"
+        "prompt": "Complete with although or but: ___ the rain was heavy, we went for a walk.",
+        "answers": ["Although"],
+        "explanation": "Although introduces a fact that does not stop the main action."
       },
       {
         "id": "connected-messages-connectors-3",
         "tag": "connectors",
-        "prompt": "Complete with so or because: It was raining, ___ we took a taxi.",
+        "prompt": "Complete with so or because: We missed the last ferry ___ we stayed the night.",
         "answers": ["so"],
-        "explanation": "Compare your answer with the model: so"
+        "explanation": "So introduces the result of missing the ferry."
       },
       {
         "id": "connected-messages-connectors-4",
         "tag": "connectors",
-        "prompt": "Complete with although or because: ___ it was late, we finished the work.",
+        "prompt": "Complete with although or because: ___ the museum was closed, we took photos outside.",
         "answers": ["Although"],
-        "explanation": "Compare your answer with the model: Although"
+        "explanation": "Although shows a contrast: the museum was closed, but we still took photos."
       }
     ],
     "parallelPrompt": {
@@ -2174,18 +2199,18 @@
           "targetLevel": "A2"
         },
         "noticing": {
-          "instruction": "Find the past action and the word introducing its result.",
+          "instruction": "Find the two words that join two full clauses in the message.",
           "spans": [
             {
-              "start": 102,
-              "end": 109
+              "start": 137,
+              "end": 140
             },
             {
               "start": 282,
               "end": 284
             }
           ],
-          "explanation": "Stopped reports the past event; so introduces a result."
+          "explanation": "And joins two clauses. So introduces the result of the sentence before it."
         }
       },
       {
@@ -2325,58 +2350,58 @@
       {
         "id": "explain-a-problem-verb-tense-1",
         "tag": "verb-tense",
-        "prompt": "Complete: Yesterday, we ___ a museum. (visit)",
-        "answers": ["visited"],
-        "explanation": "Compare your answer with the model: visited"
+        "prompt": "Complete: The shower ___ working on Monday. (stop)",
+        "answers": ["stopped"],
+        "explanation": "Stop doubles the p before -ed in the past simple."
       },
       {
         "id": "explain-a-problem-verb-tense-2",
         "tag": "verb-tense",
-        "prompt": "Complete: Last night, she ___ an email. (write)",
-        "answers": ["wrote"],
-        "explanation": "Compare your answer with the model: wrote"
+        "prompt": "Complete: I ___ the plumber yesterday. (call)",
+        "answers": ["called"],
+        "explanation": "Add -ed to a regular verb for a finished past action."
       },
       {
         "id": "explain-a-problem-verb-tense-3",
         "tag": "verb-tense",
-        "prompt": "Complete: Every morning, I ___ to work. (walk)",
-        "answers": ["walk"],
-        "explanation": "Compare your answer with the model: walk"
+        "prompt": "Complete: The package ___ two days late. (arrive)",
+        "answers": ["arrived"],
+        "explanation": "Verbs ending in e add only -d in the past simple."
       },
       {
         "id": "explain-a-problem-verb-tense-4",
         "tag": "verb-tense",
-        "prompt": "Complete: He ___ dinner right now. (cook)",
-        "answers": ["is cooking"],
-        "explanation": "Compare your answer with the model: is cooking"
+        "prompt": "Complete: The lights ___ off last night. (go)",
+        "answers": ["went"],
+        "explanation": "Go is irregular; its past simple form is went."
       },
       {
         "id": "explain-a-problem-connectors-1",
         "tag": "connectors",
-        "prompt": "Complete with because or but: I stayed home ___ I was ill.",
-        "answers": ["because"],
-        "explanation": "Compare your answer with the model: because"
+        "prompt": "Complete with so or because: The box was damaged, ___ I asked for a refund.",
+        "answers": ["so"],
+        "explanation": "So introduces the result of the damage."
       },
       {
         "id": "explain-a-problem-connectors-2",
         "tag": "connectors",
-        "prompt": "Complete with and or but: The room is small ___ comfortable.",
+        "prompt": "Complete with but or because: The shirt is cheap, ___ it has small holes.",
         "answers": ["but"],
-        "explanation": "Compare your answer with the model: but"
+        "explanation": "But introduces a contrast: cheap, but with holes."
       },
       {
         "id": "explain-a-problem-connectors-3",
         "tag": "connectors",
-        "prompt": "Complete with so or because: It was raining, ___ we took a taxi.",
-        "answers": ["so"],
-        "explanation": "Compare your answer with the model: so"
+        "prompt": "Complete with because or so: The lesson was cancelled ___ the teacher was ill.",
+        "answers": ["because"],
+        "explanation": "Because gives the reason the lesson was cancelled."
       },
       {
         "id": "explain-a-problem-connectors-4",
         "tag": "connectors",
-        "prompt": "Complete with although or because: ___ it was late, we finished the work.",
-        "answers": ["Although"],
-        "explanation": "Compare your answer with the model: Although"
+        "prompt": "Complete with when or although: ___ the sink leaked, we called the manager.",
+        "answers": ["When"],
+        "explanation": "When introduces the time that the problem happened."
       }
     ],
     "parallelPrompt": {
@@ -2492,7 +2517,7 @@
           "targetLevel": "A2"
         },
         "noticing": {
-          "instruction": "Find the two modal verbs that give advice.",
+          "instruction": "Find the two modal verbs that give advice in the model.",
           "spans": [
             {
               "start": 95,
@@ -2503,7 +2528,7 @@
               "end": 203
             }
           ],
-          "explanation": "Should and should not give positive and negative advice."
+          "explanation": "Should gives advice and shouldn’t gives negative advice. Both take the base verb."
         }
       },
       {
@@ -2643,65 +2668,65 @@
       {
         "id": "experience-and-advice-modal-verbs-1",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: You should ___ a break. (take)",
-        "answers": ["take"],
-        "explanation": "Compare your answer with the model: take"
+        "prompt": "Complete with the base verb: You should ___ a map before you walk in the old town. (bring)",
+        "answers": ["bring"],
+        "explanation": "Should is followed by the base verb, such as bring."
       },
       {
         "id": "experience-and-advice-modal-verbs-2",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: Could you ___ the window? (open)",
-        "answers": ["open"],
-        "explanation": "Compare your answer with the model: open"
+        "prompt": "Complete with the base verb: You must ___ your ticket before the train leaves. (buy)",
+        "answers": ["buy"],
+        "explanation": "Must is followed by the base verb, without to or -s."
       },
       {
         "id": "experience-and-advice-modal-verbs-3",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: We must ___ on time. (arrive)",
-        "answers": ["arrive"],
-        "explanation": "Compare your answer with the model: arrive"
+        "prompt": "Complete with the base verb: You shouldn’t ___ food on the bus. (eat)",
+        "answers": ["eat"],
+        "explanation": "Shouldn’t is the negative of should, and the verb stays in base form."
       },
       {
         "id": "experience-and-advice-modal-verbs-4",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: They might ___ late. (be)",
+        "prompt": "Complete with the base verb: The shops might ___ closed on Monday. (be)",
         "answers": ["be"],
-        "explanation": "Compare your answer with the model: be"
+        "explanation": "Might is followed by the base verb be."
       },
       {
         "id": "experience-and-advice-comparatives-superlatives-1",
         "tag": "comparatives-superlatives",
-        "prompt": "Complete: This bag is ___ than that one. (small)",
-        "answers": ["smaller"],
-        "explanation": "Compare your answer with the model: smaller"
+        "prompt": "Complete: Hue is ___ than Hanoi, so it feels calm. (quiet)",
+        "answers": ["quieter"],
+        "explanation": "Add -er to a short adjective to compare two places."
       },
       {
         "id": "experience-and-advice-comparatives-superlatives-2",
         "tag": "comparatives-superlatives",
-        "prompt": "Complete: Of the three rooms, this is the ___. (quiet)",
-        "answers": ["quietest"],
-        "explanation": "Compare your answer with the model: quietest"
+        "prompt": "Complete: This is the ___ beach in the city. (clean)",
+        "answers": ["cleanest"],
+        "explanation": "Use the and -est for the most, with a short adjective."
       },
       {
         "id": "experience-and-advice-comparatives-superlatives-3",
         "tag": "comparatives-superlatives",
-        "prompt": "Complete: The train is ___ than the bus. (fast)",
-        "answers": ["faster"],
-        "explanation": "Compare your answer with the model: faster"
+        "prompt": "Complete: The bus is ___ than the train here. (cheap)",
+        "answers": ["cheaper"],
+        "explanation": "Add -er to a short adjective, and use than for the comparison."
       },
       {
         "id": "experience-and-advice-comparatives-superlatives-4",
         "tag": "comparatives-superlatives",
-        "prompt": "Complete: This is the ___ route of all. (short)",
-        "answers": ["shortest"],
-        "explanation": "Compare your answer with the model: shortest"
+        "prompt": "Complete: Of all the cafes, this one is the ___. (good)",
+        "answers": ["best"],
+        "explanation": "Good is irregular: better, then best."
       }
     ],
     "parallelPrompt": {
       "id": "experience-and-advice-3-task",
       "title": "A new task: Giving travel or city tips with should and shouldn't",
       "genre": "connected message",
-      "prompt": "Write an advice paragraph for someone starting at your school or workplace. Give one you should tip and one you should not tip, each with a clear reason. Use a new example; do not revise or copy your unit-start response.",
+      "prompt": "Write an advice paragraph for someone starting at your school or workplace. Give one 'you should' tip and one 'you shouldn't' tip, each with a clear reason. Use a new example; do not revise or copy your unit-start response.",
       "scaffold": "checklist",
       "frames": [],
       "wordBank": [
@@ -2810,18 +2835,18 @@
           "targetLevel": "B1"
         },
         "noticing": {
-          "instruction": "Find the reason connector and the final summary signal.",
+          "instruction": "Find the two words that introduce a time clause or a reason clause.",
           "spans": [
+            {
+              "start": 279,
+              "end": 284
+            },
             {
               "start": 578,
               "end": 585
-            },
-            {
-              "start": 639,
-              "end": 646
             }
           ],
-          "explanation": "Because introduces a reason; overall signals a conclusion."
+          "explanation": "Since introduces a time clause. Because introduces the reason for the sentence."
         }
       },
       {
@@ -2866,22 +2891,33 @@
           "id": "a-balanced-opinion-task",
           "title": "Weighing both sides in a balanced opinion paragraph",
           "genre": "paragraphs",
-          "prompt": "Continue the account after the public meeting. Explain the decision, give reasons and show a plausible consequence. Keep the people and situation consistent with the reading.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a balanced paragraph (100-180 words) weighing the pros and cons of either working from home, online learning, or cashless payments, and conclude with your personal recommendation.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "flexibility",
+            "on the one hand",
+            "convenience",
+            "on the other hand",
+            "isolating",
+            "accountability",
+            "therefore",
+            "balance"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Introduce the topic and your balanced stance in the first sentence",
+            "Use 'On the one hand' and 'On the other hand' (or 'However') to examine both sides",
+            "End with a clear concluding recommendation (100-180 words)"
           ],
           "minWords": 100,
           "maxWords": 180,
           "isCheckpoint": false,
           "targetLevel": "B1",
           "reading": {
-            "mode": "continuation",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "mode": "summary",
+            "title": "Paying without cash",
+            "instruction": "Use one advantage and one disadvantage from the reading to build your balanced paragraph.",
+            "text": "Many shops in Ho Chi Minh City now accept phone payments, and some small stalls have stopped taking cash altogether. Supporters say that cashless payments are fast, clean and easy to track. A customer can pay for coffee in seconds, and a shop owner can see every sale on a screen. For people who run a business, this record can make tax returns simpler.\n\nHowever, not everyone finds this change helpful. Older customers may not have a smartphone, and some do not trust apps with their bank details. Other people worry about network problems. When the internet is slow, a card reader may not work, and the customer must find another way to pay. Some shop owners also say that they lose a few customers who prefer to pay with notes.\n\nExperts suggest a middle path. Many cities could keep both options for several years, so that shoppers can choose the method they trust. Shops that accept both cash and digital payments may keep more customers, although they must manage two kinds of records."
           }
         }
       },
@@ -2956,30 +2992,30 @@
       {
         "id": "clear-paragraphs-connectors-1",
         "tag": "connectors",
-        "prompt": "Complete with because or but: I stayed home ___ I was ill.",
-        "answers": ["because"],
-        "explanation": "Compare your answer with the model: because"
+        "prompt": "Complete with however or therefore: The new bus lane was popular; ___, traffic on the main road did not improve.",
+        "answers": ["however"],
+        "explanation": "However introduces a contrast with the sentence before it."
       },
       {
         "id": "clear-paragraphs-connectors-2",
         "tag": "connectors",
-        "prompt": "Complete with and or but: The room is small ___ comfortable.",
-        "answers": ["but"],
-        "explanation": "Compare your answer with the model: but"
+        "prompt": "Complete with despite or although: ___ the heavy rain, the market stayed open all week.",
+        "answers": ["Despite"],
+        "explanation": "Despite is followed by a noun phrase, not a full clause."
       },
       {
         "id": "clear-paragraphs-connectors-3",
         "tag": "connectors",
-        "prompt": "Complete with so or because: It was raining, ___ we took a taxi.",
-        "answers": ["so"],
-        "explanation": "Compare your answer with the model: so"
+        "prompt": "Complete with moreover or therefore: The park is clean and safe; ___, it has free Wi-Fi.",
+        "answers": ["Moreover"],
+        "explanation": "Moreover adds another supporting point to the same idea."
       },
       {
         "id": "clear-paragraphs-connectors-4",
         "tag": "connectors",
-        "prompt": "Complete with although or because: ___ it was late, we finished the work.",
-        "answers": ["Although"],
-        "explanation": "Compare your answer with the model: Although"
+        "prompt": "Complete with while or whereas: ___ the old factory closed, the new library opened that year.",
+        "answers": ["While", "Whereas"],
+        "explanation": "While can show two events at the same time, or a contrast."
       }
     ],
     "parallelPrompt": {
@@ -3095,18 +3131,22 @@
           "targetLevel": "B1"
         },
         "noticing": {
-          "instruction": "Find the relative word and the contrasting connector.",
+          "instruction": "Find every word that starts a time clause or a relative clause in the model.",
           "spans": [
+            {
+              "start": 275,
+              "end": 279
+            },
+            {
+              "start": 461,
+              "end": 465
+            },
             {
               "start": 573,
               "end": 578
-            },
-            {
-              "start": 194,
-              "end": 197
             }
           ],
-          "explanation": "Which adds detail; yet introduces a contrast."
+          "explanation": "When and Once start time clauses. Which adds extra information about the previous clause."
         }
       },
       {
@@ -3147,13 +3187,23 @@
           "id": "evidence-and-examples-2-task",
           "title": "Building cause-and-effect chains",
           "genre": "paragraphs",
-          "prompt": "Summarize the problem, response and remaining choice in the reading. Use your own words and do not add unsupported facts.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a cause-and-effect paragraph (100-180 words) explaining why a common modern habit (such as multitasking, skipping breakfast, or scrolling late at night) harms productivity or health, and how a better alternative fixes it.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "because of",
+            "in contrast",
+            "as a result",
+            "consequently",
+            "stimulation",
+            "concentration",
+            "boost",
+            "swap"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Trace a clear step-by-step chain from cause to effect",
+            "Use 'because of + noun phrase' and 'As a result,' accurately",
+            "Contrast the harmful habit with a healthier alternative (100-180 words)"
           ],
           "minWords": 100,
           "maxWords": 180,
@@ -3161,8 +3211,9 @@
           "targetLevel": "B1",
           "reading": {
             "mode": "summary",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Late-night scrolling and morning focus",
+            "instruction": "Use one cause and its effect from the reading as the example in your paragraph.",
+            "text": "Many students tell themselves that scrolling through their phones before bed is harmless. However, a small university study followed 300 first-year students for one semester. Students who used their phones after midnight reported sleeping about forty minutes less each night. As a result, many of them felt tired in morning classes and found it hard to concentrate on reading tasks.\n\nThe researchers noticed a clear pattern. Students who put their phones in another room slept longer and scored higher on short attention tests. Because their sleep improved, they remembered lecture notes more easily the next day. Some students also said that the habit made them feel anxious, because messages arrived at all hours.\n\nThe study does not show that phones are always harmful. It does show, however, that a simple change can help. Students who set a fixed phone-free time, such as half an hour before bed, reported better mornings within two weeks."
           }
         }
       },
@@ -3237,58 +3288,58 @@
       {
         "id": "evidence-and-examples-connectors-1",
         "tag": "connectors",
-        "prompt": "Complete with because or but: I stayed home ___ I was ill.",
-        "answers": ["because"],
-        "explanation": "Compare your answer with the model: because"
+        "prompt": "Complete with for example or however: Many small costs add up. ___, a daily coffee can cost more than a weekly lunch.",
+        "answers": ["For example", "For instance"],
+        "explanation": "For example introduces a concrete case that supports the general point."
       },
       {
         "id": "evidence-and-examples-connectors-2",
         "tag": "connectors",
-        "prompt": "Complete with and or but: The room is small ___ comfortable.",
-        "answers": ["but"],
-        "explanation": "Compare your answer with the model: but"
+        "prompt": "Complete with as a result or in addition: The students practised every day. ___, their writing scores improved.",
+        "answers": ["As a result"],
+        "explanation": "As a result shows the outcome of the earlier action."
       },
       {
         "id": "evidence-and-examples-connectors-3",
         "tag": "connectors",
-        "prompt": "Complete with so or because: It was raining, ___ we took a taxi.",
-        "answers": ["so"],
-        "explanation": "Compare your answer with the model: so"
+        "prompt": "Complete with in addition or as a result: The gym is cheap. ___, it is close to my office.",
+        "answers": ["In addition"],
+        "explanation": "In addition adds one more reason in the same direction."
       },
       {
         "id": "evidence-and-examples-connectors-4",
         "tag": "connectors",
-        "prompt": "Complete with although or because: ___ it was late, we finished the work.",
-        "answers": ["Although"],
-        "explanation": "Compare your answer with the model: Although"
+        "prompt": "Complete with despite or because of: The shop closed early ___ the storm.",
+        "answers": ["because of", "due to"],
+        "explanation": "Because of and due to are followed by a noun phrase, such as the storm."
       },
       {
         "id": "evidence-and-examples-relative-clauses-1",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The nurse ___ helped me was kind.",
+        "prompt": "Complete with who or which: The friend ___ lent me the book lives nearby.",
         "answers": ["who"],
-        "explanation": "Compare your answer with the model: who"
+        "explanation": "Use who for a person in a relative clause."
       },
       {
         "id": "evidence-and-examples-relative-clauses-2",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The book, ___ I borrowed yesterday, is useful.",
-        "answers": ["which"],
-        "explanation": "Compare your answer with the model: which"
+        "prompt": "Complete with where or which: The cafe ___ we met has free Wi-Fi.",
+        "answers": ["where"],
+        "explanation": "Use where for a place in a relative clause."
       },
       {
         "id": "evidence-and-examples-relative-clauses-3",
         "tag": "relative-clauses",
-        "prompt": "Choose whose or which: The student ___ bag was lost called us.",
+        "prompt": "Complete with whose or who: The student ___ notebook I found sits in the library.",
         "answers": ["whose"],
-        "explanation": "Compare your answer with the model: whose"
+        "explanation": "Whose shows that the notebook belongs to the student."
       },
       {
         "id": "evidence-and-examples-relative-clauses-4",
         "tag": "relative-clauses",
-        "prompt": "Choose where or who: This is the school ___ I studied.",
-        "answers": ["where"],
-        "explanation": "Compare your answer with the model: where"
+        "prompt": "Complete with which or who: The budget app, ___ I downloaded last month, shows every purchase.",
+        "answers": ["which"],
+        "explanation": "Which adds extra information about a thing, after a comma."
       }
     ],
     "parallelPrompt": {
@@ -3404,7 +3455,7 @@
           "targetLevel": "B1"
         },
         "noticing": {
-          "instruction": "Find the two modal verbs that soften the requests.",
+          "instruction": "Find every modal verb that makes a request indirect and polite.",
           "spans": [
             {
               "start": 275,
@@ -3413,9 +3464,13 @@
             {
               "start": 398,
               "end": 403
+            },
+            {
+              "start": 425,
+              "end": 430
             }
           ],
-          "explanation": "Could and would make these requests less direct."
+          "explanation": "Could and would make requests less direct, which sounds more polite in formal email."
         }
       },
       {
@@ -3460,13 +3515,23 @@
           "id": "formal-email-2-task",
           "title": "Sending a clear project status update",
           "genre": "paragraphs",
-          "prompt": "Continue the account after the public meeting. Explain the decision, give reasons and show a plausible consequence. Keep the people and situation consistent with the reading.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a clear project or study status update email (100-180 words) to a manager, client, or supervisor. Summarize two completed milestones, explain one decision or input you need from them, and give a specific deadline and next step.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "progress update",
+            "has completed",
+            "finalized",
+            "attached",
+            "confirmation",
+            "whether",
+            "Once we receive",
+            "Kind regards"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Use present perfect verbs to report completed work",
+            "Specify the exact decision or feedback you need from the recipient",
+            "Include a clear deadline and what will happen once they reply (100-180 words)"
           ],
           "minWords": 100,
           "maxWords": 180,
@@ -3474,8 +3539,9 @@
           "targetLevel": "B1",
           "reading": {
             "mode": "continuation",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Project notes: customer portal, week six",
+            "instruction": "Use two completed milestones and the open decision from the reading in your own words. Do not copy sentences.",
+            "text": "The design team finished the new login screens on Monday. Testers checked the screens on phones and laptops, and they found two problems on the password reset page. The developers fixed both problems by Wednesday afternoon. The data team also moved all 4,200 customer records to the new database without losing any entries.\n\nTwo tasks are still open. First, the legal team has not approved the new privacy notice. Second, the support team wants a short guide for customers who cannot find the new menu. The launch date is 14 November, but the launch will move to 21 November if the privacy notice is not approved by Friday.\n\nNext steps: the project manager will send the privacy draft to the legal team on Thursday. The support team will write the guide by next Tuesday. The team needs a decision from the department head about whether the old portal can stay open for one extra week."
           }
         }
       },
@@ -3550,58 +3616,58 @@
       {
         "id": "formal-email-question-formation-1",
         "tag": "question-formation",
-        "prompt": "Put in order: does / the course / when / start",
-        "answers": ["When does the course start?"],
-        "explanation": "Compare your answer with the model: When does the course start?"
+        "prompt": "Put in order: when / the course / does / start",
+        "answers": ["When does the course start?", "When does the course start"],
+        "explanation": "In a question, the auxiliary verb goes before the subject."
       },
       {
         "id": "formal-email-question-formation-2",
         "tag": "question-formation",
-        "prompt": "Put in order: are / included / materials",
-        "answers": ["Are materials included?"],
-        "explanation": "Compare your answer with the model: Are materials included?"
+        "prompt": "Put in order: how much / is / the fee",
+        "answers": ["How much is the fee?", "How much is the fee"],
+        "explanation": "Put the question word first, then the verb, then the subject."
       },
       {
         "id": "formal-email-question-formation-3",
         "tag": "question-formation",
-        "prompt": "Put in order: can / where / I / register",
-        "answers": ["Where can I register?"],
-        "explanation": "Compare your answer with the model: Where can I register?"
+        "prompt": "Put in order: can / where / I / register / online",
+        "answers": ["Where can I register online?", "Where can I register online"],
+        "explanation": "Put the question word first, then the modal verb, then the subject."
       },
       {
         "id": "formal-email-question-formation-4",
         "tag": "question-formation",
-        "prompt": "Put in order: is / the fee / how much",
-        "answers": ["How much is the fee?"],
-        "explanation": "Compare your answer with the model: How much is the fee?"
+        "prompt": "Put in order: are / materials / included / in the fee",
+        "answers": ["Are materials included in the fee?", "Are materials included in the fee"],
+        "explanation": "A yes-or-no question starts with the verb, not the subject."
       },
       {
         "id": "formal-email-modal-verbs-1",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: You should ___ a break. (take)",
-        "answers": ["take"],
-        "explanation": "Compare your answer with the model: take"
+        "prompt": "Complete with the base verb: Would you ___ me the syllabus? (send)",
+        "answers": ["send"],
+        "explanation": "Would you is polite; use the base verb after it."
       },
       {
         "id": "formal-email-modal-verbs-2",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: Could you ___ the window? (open)",
-        "answers": ["open"],
-        "explanation": "Compare your answer with the model: open"
+        "prompt": "Complete with the base verb: Could you ___ whether seats are available? (confirm)",
+        "answers": ["confirm"],
+        "explanation": "Could is followed by the base verb, such as confirm."
       },
       {
         "id": "formal-email-modal-verbs-3",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: We must ___ on time. (arrive)",
-        "answers": ["arrive"],
-        "explanation": "Compare your answer with the model: arrive"
+        "prompt": "Complete with the base verb: I would ___ to receive the price list. (like)",
+        "answers": ["like"],
+        "explanation": "Would like is a polite way to make a request."
       },
       {
         "id": "formal-email-modal-verbs-4",
         "tag": "modal-verbs",
-        "prompt": "Complete with the base verb: They might ___ late. (be)",
-        "answers": ["be"],
-        "explanation": "Compare your answer with the model: be"
+        "prompt": "Complete with the base verb: The organiser might ___ a group discount. (offer)",
+        "answers": ["offer"],
+        "explanation": "Might shows possibility and takes the base verb."
       }
     ],
     "parallelPrompt": {
@@ -3717,18 +3783,26 @@
           "targetLevel": "B2"
         },
         "noticing": {
-          "instruction": "Find the first two occurrences of will.",
+          "instruction": "Find the four sentence openers that show time, reason or purpose.",
           "spans": [
             {
-              "start": 628,
-              "end": 632
+              "start": 192,
+              "end": 198
             },
             {
-              "start": 738,
-              "end": 742
+              "start": 541,
+              "end": 548
+            },
+            {
+              "start": 702,
+              "end": 704
+            },
+            {
+              "start": 899,
+              "end": 901
             }
           ],
-          "explanation": "Will introduces planned commitments in this request."
+          "explanation": "Opening phrases such as During, Because, By and To place a time, reason or purpose before the main clause."
         }
       },
       {
@@ -3773,13 +3847,23 @@
           "id": "formal-requests-2-task",
           "title": "Proposing a process change and mitigating risks",
           "genre": "formal correspondence",
-          "prompt": "Summarize the problem, response and remaining choice in the reading. Use your own words and do not add unsupported facts.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph workplace or campus proposal (180-300 words) recommending a specific process change to save time or improve quality. Diagnose the current bottleneck with concrete numbers, explain how the new workflow operates, and include a safeguard or pilot period to mitigate potential risks.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "bottleneck",
+            "inactive",
+            "eliminate",
+            "propose",
+            "mitigate",
+            "personalized",
+            "pilot",
+            "activation"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Diagnose why the current process no longer scales in paragraph one",
+            "Detail the proposed workflow and expected time or quality savings in paragraph two",
+            "Include a specific risk-mitigation safeguard and a measurable pilot plan in paragraph three (180-300 words)"
           ],
           "minWords": 180,
           "maxWords": 300,
@@ -3787,8 +3871,9 @@
           "targetLevel": "B2",
           "reading": {
             "mode": "summary",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Appointment backlog at the campus health centre",
+            "instruction": "Use the bottleneck and its numbers from the reading to diagnose the problem in your first paragraph.",
+            "text": "The campus health centre handles about 320 appointment requests each week, and nearly all of them arrive by email. Staff copy every request into a shared spreadsheet, check the student's timetable by phone and then send a confirmation message. This process takes about twenty-six minutes per request. Because only two administrators work on requests each morning, the queue regularly stretches to three working days.\n\nThe problem is worst at the start of each semester. During the first two weeks of October, students waited an average of nine days for a first appointment, and some urgent cases were delayed even longer. Staff members report that they spend more time on phone calls than on the medical support they were hired to provide. Several students have also written complaints, saying that they could not tell whether their request had been received.\n\nThe main cause is not a shortage of goodwill but a process that depends on manual checks at every step. Each request waits in line for a person to read it, search for a free slot and reply. When one administrator is absent, the whole queue slows down. The centre therefore needs a system that does not depend on one person being available at the right moment.\n\nOur team has also tested a smaller version of the process. For two weeks, one administrator used a shared request board, and the average confirmation time fell to four working hours. That result was encouraging, but it depended on one person who knew the system well, which is exactly the weakness the centre wants to remove."
           }
         }
       },
@@ -3863,30 +3948,30 @@
       {
         "id": "formal-requests-conditionals-1",
         "tag": "conditionals",
-        "prompt": "Complete: If it rains tomorrow, we ___ inside. (stay)",
-        "answers": ["will stay"],
-        "explanation": "Compare your answer with the model: will stay"
+        "prompt": "Complete: If the budget ___ approved this month, we will start the course in November. (be)",
+        "answers": ["is"],
+        "explanation": "First conditional: if plus present simple, then will for a likely result."
       },
       {
         "id": "formal-requests-conditionals-2",
         "tag": "conditionals",
-        "prompt": "Complete: If I had more time, I ___ more. (read)",
-        "answers": ["would read"],
-        "explanation": "Compare your answer with the model: would read"
+        "prompt": "Complete: If I had studied law, I ___ a lawyer by now. (be)",
+        "answers": ["would be", "'d be"],
+        "explanation": "Mixed conditional: a past condition with a present result uses would plus base verb."
       },
       {
         "id": "formal-requests-conditionals-3",
         "tag": "conditionals",
-        "prompt": "Complete: If the team ___ early, we will begin at nine. (arrive)",
-        "answers": ["arrives"],
-        "explanation": "Compare your answer with the model: arrives"
+        "prompt": "Complete: If our team ___ more training, it would make fewer mistakes. (receive)",
+        "answers": ["received"],
+        "explanation": "Second conditional: if plus past simple, then would plus base verb, for an unreal case."
       },
       {
         "id": "formal-requests-conditionals-4",
         "tag": "conditionals",
-        "prompt": "Complete: If she had checked the file, she ___ the error. (notice)",
-        "answers": ["would have noticed"],
-        "explanation": "Compare your answer with the model: would have noticed"
+        "prompt": "Complete: If we had taken the course last year, our releases ___ faster. (be)",
+        "answers": ["would have been", "'d have been"],
+        "explanation": "Third conditional: if plus past perfect, then would have plus past participle."
       }
     ],
     "parallelPrompt": {
@@ -4002,18 +4087,26 @@
           "targetLevel": "B2"
         },
         "noticing": {
-          "instruction": "Find the opening contrast and the later counterargument signal.",
+          "instruction": "Find every word that concedes a point or sets up a contrast.",
           "spans": [
             {
               "start": 221,
               "end": 226
             },
             {
+              "start": 429,
+              "end": 439
+            },
+            {
               "start": 851,
               "end": 863
+            },
+            {
+              "start": 987,
+              "end": 993
             }
           ],
-          "explanation": "While sets up a contrast; nevertheless turns to a counterargument."
+          "explanation": "These words concede a point or set up a contrast before the writer answers it."
         }
       },
       {
@@ -4058,13 +4151,23 @@
           "id": "balanced-argument-2-task",
           "title": "Cohesion through lexical chains and demonstrative reference",
           "genre": "formal correspondence",
-          "prompt": "Continue the account after the public meeting. Explain the decision, give reasons and show a plausible consequence. Keep the people and situation consistent with the reading.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph analytical essay (180-300 words) discussing whether university courses should be graded mainly through timed exams or practical projects. Use at least two 'This/These + summary noun' phrases to connect sentences smoothly without overusing 'Moreover' or 'Furthermore'.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "accountability",
+            "This safeguard",
+            "undeniably",
+            "relying solely on",
+            "synthesize",
+            "methodology",
+            "iterate",
+            "cultivating"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Organize your essay into three clear paragraphs (Intro + Concession + Rebuttal/Synthesis)",
+            "Use at least two 'This/These + summary noun' phrases for sentence-to-sentence cohesion",
+            "Maintain parallel verb forms in lists and comparisons (180-300 words)"
           ],
           "minWords": 180,
           "maxWords": 300,
@@ -4072,8 +4175,9 @@
           "targetLevel": "B2",
           "reading": {
             "mode": "continuation",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Exams or projects? Two ways of measuring learning",
+            "instruction": "Use the strongest point from the reading as your concession, then answer it in your next paragraph.",
+            "text": "Universities often assess students through final exams, yet many teachers now prefer practical projects. Each method has a clear purpose, and each method has real limits.\n\nTimed exams offer a fair, controlled test of what students know. Every student answers the same questions under the same conditions, which makes results easier to compare across classes. Exams also show whether students can recall key ideas without help, a skill that many professional licences still require. Their supporters argue that projects allow too much outside help, from family members, tutors or online tools, so the final grade may reflect support rather than ability.\n\nProjects, on the other hand, ask students to apply knowledge to a realistic problem over several weeks. They reward research, teamwork and revision, and they often produce work that employers can see. Critics, however, point out that projects can take a great deal of time and may favour students with flexible schedules or access to good equipment. Some students who struggle with exams also feel anxious when a project is their main grade.\n\nA balanced policy may combine both methods. Short exams can check core knowledge, while a larger project can test application. This mixed approach does not remove every concern, but it spreads the risk of any single method failing the students it is meant to serve.\n\nSome faculty members also raise a practical concern. Projects can be marked more consistently when rubrics are clear, but marking several hundred reports each term places a heavy load on staff, and that load may reduce the quality of feedback students receive."
           }
         }
       },
@@ -4148,65 +4252,65 @@
       {
         "id": "balanced-argument-connectors-1",
         "tag": "connectors",
-        "prompt": "Complete with because or but: I stayed home ___ I was ill.",
-        "answers": ["because"],
-        "explanation": "Compare your answer with the model: because"
+        "prompt": "Complete with whereas or while: Public transport is cheap, ___ private cars are costly to run.",
+        "answers": ["whereas", "while"],
+        "explanation": "Whereas contrasts two facts or groups side by side."
       },
       {
         "id": "balanced-argument-connectors-2",
         "tag": "connectors",
-        "prompt": "Complete with and or but: The room is small ___ comfortable.",
-        "answers": ["but"],
-        "explanation": "Compare your answer with the model: but"
+        "prompt": "Complete with nevertheless or therefore: Parking fees are high. ___, many drivers still come downtown.",
+        "answers": ["Nevertheless", "However"],
+        "explanation": "Nevertheless introduces a point that goes against what came before."
       },
       {
         "id": "balanced-argument-connectors-3",
         "tag": "connectors",
-        "prompt": "Complete with so or because: It was raining, ___ we took a taxi.",
-        "answers": ["so"],
-        "explanation": "Compare your answer with the model: so"
+        "prompt": "Complete with even though or because: ___ the bus is slow, it is still the most affordable option.",
+        "answers": ["Even though", "Although"],
+        "explanation": "Even though introduces a concession that does not change the main claim."
       },
       {
         "id": "balanced-argument-connectors-4",
         "tag": "connectors",
-        "prompt": "Complete with although or because: ___ it was late, we finished the work.",
-        "answers": ["Although"],
-        "explanation": "Compare your answer with the model: Although"
+        "prompt": "Complete with in contrast or in addition: Rural roads are quiet and safe. ___, city streets are noisy and crowded.",
+        "answers": ["In contrast"],
+        "explanation": "In contrast introduces an opposite point, not an extra one."
       },
       {
         "id": "balanced-argument-relative-clauses-1",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The nurse ___ helped me was kind.",
-        "answers": ["who"],
-        "explanation": "Compare your answer with the model: who"
+        "prompt": "Complete with which or who: The new line, ___ opened in 2024, carries 40,000 riders daily.",
+        "answers": ["which"],
+        "explanation": "A comma before which adds extra information about the line."
       },
       {
         "id": "balanced-argument-relative-clauses-2",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The book, ___ I borrowed yesterday, is useful.",
-        "answers": ["which"],
-        "explanation": "Compare your answer with the model: which"
+        "prompt": "Complete with who or whose: The engineers ___ designed the metro now teach at the university.",
+        "answers": ["who"],
+        "explanation": "Who refers to people in a defining relative clause."
       },
       {
         "id": "balanced-argument-relative-clauses-3",
         "tag": "relative-clauses",
-        "prompt": "Choose whose or which: The student ___ bag was lost called us.",
-        "answers": ["whose"],
-        "explanation": "Compare your answer with the model: whose"
+        "prompt": "Complete with where or who: A city ___ buses run every five minutes is easy to explore.",
+        "answers": ["where"],
+        "explanation": "Where refers to a place in a relative clause."
       },
       {
         "id": "balanced-argument-relative-clauses-4",
         "tag": "relative-clauses",
-        "prompt": "Choose where or who: This is the school ___ I studied.",
-        "answers": ["where"],
-        "explanation": "Compare your answer with the model: where"
+        "prompt": "Complete with which or that: The policy, ___ was announced in May, affects every commuter.",
+        "answers": ["which"],
+        "explanation": "That cannot follow a comma, so use which for extra information."
       }
     ],
     "parallelPrompt": {
       "id": "balanced-argument-3-task",
       "title": "A new task: Writing a thesis-led introduction and steel-manning the opposing view",
       "genre": "formal correspondence",
-      "prompt": "Write a three-paragraph analytical argument on whether employers should limit office attendance or improve commuting options first. Include a While thesis, a fair concession and your rebuttal. Use a new example; do not revise or copy your unit-start response.",
+      "prompt": "Write a three-paragraph analytical argument on whether employers should limit office attendance or improve commuting options first. Include a 'While..., ...' thesis in paragraph 1, a fair concession in paragraph 2, and your rebuttal in paragraph 3. Use a new example; do not revise or copy your unit-start response.",
       "scaffold": "outline",
       "frames": [],
       "wordBank": [
@@ -4315,7 +4419,7 @@
           "targetLevel": "B2"
         },
         "noticing": {
-          "instruction": "Find the two past actions describing the solution.",
+          "instruction": "Find every past simple verb that shows what the writer did in the second paragraph.",
           "spans": [
             {
               "start": 433,
@@ -4324,9 +4428,17 @@
             {
               "start": 518,
               "end": 523
+            },
+            {
+              "start": 624,
+              "end": 629
+            },
+            {
+              "start": 658,
+              "end": 661
             }
           ],
-          "explanation": "These past verbs connect the claimed skill to completed work."
+          "explanation": "Past simple verbs report completed actions. They give evidence of the writer’s contribution."
         }
       },
       {
@@ -4371,13 +4483,23 @@
           "id": "evidence-of-fit-2-task",
           "title": "Aligning your experience with a specific company or organization",
           "genre": "formal correspondence",
-          "prompt": "Summarize the problem, response and remaining choice in the reading. Use your own words and do not add unsupported facts.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a tailored 3-paragraph cover letter (180-300 words) applying for a specific role at a company or organization. Reference one specific project or goal of the organization in paragraph 1, prove your relevant capability with a concrete project story in paragraph 2, and close with a confident call to discussion.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "Having spent",
+            "apply for",
+            "rollout",
+            "revealed",
+            "working closely with",
+            "activation",
+            "tackling",
+            "welcome the opportunity"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Open by connecting a specific company initiative to your background using 'Having + past participle'",
+            "Include a concrete project story with a measurable outcome in the body paragraph",
+            "Use 'apply for [role]' accurately and close professionally (180-300 words)"
           ],
           "minWords": 180,
           "maxWords": 300,
@@ -4385,8 +4507,9 @@
           "targetLevel": "B2",
           "reading": {
             "mode": "summary",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Micro-fulfilment centre expansion",
+            "instruction": "Use the company initiative in the reading as the goal you connect your experience to in paragraph one.",
+            "text": "Northline Logistics will open its first micro-fulfilment centre in the Mekong Delta in March. The 2,000-square-metre site in Can Tho will hold fast-moving products close to local shoppers, so that orders can reach customers on the same day or the next morning. Company leaders expect the centre to cut average delivery times in the region by almost one day.\n\nThe project is part of a three-year plan to bring regional stock closer to customers in six provinces. Before the opening, the operations team will run a four-week pilot with three partner shops. During the pilot, staff will track order accuracy, damaged goods and the time needed to pack each parcel. Early results will be shared with the wider team, and the final layout will change if the data shows a problem.\n\nThe company is also hiring. It plans to recruit forty warehouse staff, eight shift supervisors and two data analysts. New employees will complete a training course on inventory systems and safety procedures before their first shift. Managers say that the training is designed to help local teams take ownership of daily decisions, not only to follow instructions from head office.\n\n\"We want the Can Tho centre to be a model for the whole network,\" said Head of Operations Duc Nguyen. \"The pilot will tell us what works, and our teams will help us improve it.\"\n\nHiring managers at the company have asked candidates to describe how they would measure success in their first ninety days. Applicants who link their experience to clear, measurable outcomes are likely to stand out in this process."
           }
         }
       },
@@ -4461,30 +4584,30 @@
       {
         "id": "evidence-of-fit-verb-tense-1",
         "tag": "verb-tense",
-        "prompt": "Complete: Yesterday, we ___ a museum. (visit)",
-        "answers": ["visited"],
-        "explanation": "Compare your answer with the model: visited"
+        "prompt": "Complete: Since I joined the team in 2023, I ___ three reports for clients. (write)",
+        "answers": ["have written", "'ve written"],
+        "explanation": "Since with a past start point and a present result uses the present perfect."
       },
       {
         "id": "evidence-of-fit-verb-tense-2",
         "tag": "verb-tense",
-        "prompt": "Complete: Last night, she ___ an email. (write)",
-        "answers": ["wrote"],
-        "explanation": "Compare your answer with the model: wrote"
+        "prompt": "Complete: When the audit started last spring, the team ___ the old system for two years. (use)",
+        "answers": ["had been using", "had used"],
+        "explanation": "The past perfect continuous shows an action that lasted before another past event."
       },
       {
         "id": "evidence-of-fit-verb-tense-3",
         "tag": "verb-tense",
-        "prompt": "Complete: Every morning, I ___ to work. (walk)",
-        "answers": ["walk"],
-        "explanation": "Compare your answer with the model: walk"
+        "prompt": "Complete: I ___ the training programme last year, which improved our reporting. (complete)",
+        "answers": ["completed"],
+        "explanation": "Last year is a finished time, so use the past simple."
       },
       {
         "id": "evidence-of-fit-verb-tense-4",
         "tag": "verb-tense",
-        "prompt": "Complete: He ___ dinner right now. (cook)",
-        "answers": ["is cooking"],
-        "explanation": "Compare your answer with the model: is cooking"
+        "prompt": "Complete: Over the past six months, our team ___ twelve new suppliers. (onboard)",
+        "answers": ["has onboarded"],
+        "explanation": "A period up to now with a present result uses the present perfect."
       }
     ],
     "parallelPrompt": {
@@ -4600,7 +4723,7 @@
           "targetLevel": "C1"
         },
         "noticing": {
-          "instruction": "Find the first two occurrences of that.",
+          "instruction": "Find every that that introduces a clause. Skip the that that points to a noun.",
           "spans": [
             {
               "start": 493,
@@ -4609,9 +4732,17 @@
             {
               "start": 570,
               "end": 574
+            },
+            {
+              "start": 1196,
+              "end": 1200
+            },
+            {
+              "start": 1855,
+              "end": 1859
             }
           ],
-          "explanation": "Check the surrounding clauses to see what each that introduces."
+          "explanation": "That introduces a noun clause after a reporting verb, or a relative clause after a noun."
         }
       },
       {
@@ -4656,13 +4787,23 @@
           "id": "motivation-and-evidence-2-task",
           "title": "Using nominalization to pack dense evidence into crisp prose",
           "genre": "application letter",
-          "prompt": "Continue the account after the public meeting. Explain the decision, give reasons and show a plausible consequence. Keep the people and situation consistent with the reading.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph statement of purpose or technical case narrative (250-400 words) using C1 nominalization (such as 'Implementation of...', 'Reliance on...', or 'The absence of...') and a 'not from X, but from Y' contrast to present your past analytical work and future goals.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "adoption",
+            "fragmentation",
+            "impede",
+            "redundancy",
+            "stemmed not from",
+            "absence of",
+            "implementation",
+            "unsustainable"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Use at least two nominalized noun phrases as clause subjects",
+            "Include a 'not from X, but from Y' (or 'not X, but Y') contrast sentence",
+            "Maintain a total length of 250 to 400 words across three cohesive paragraphs"
           ],
           "minWords": 250,
           "maxWords": 400,
@@ -4670,8 +4811,9 @@
           "targetLevel": "C1",
           "reading": {
             "mode": "continuation",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Technical case: alert design after the 2024 flood season",
+            "instruction": "Use the discrepancy in the reading as the problem you open with. Keep the figures and places consistent.",
+            "text": "Following the 2024 flood season, the provincial disaster office reviewed why three riverside communes with working water-level sensors still recorded late evacuations. The review did not find a failure in the hardware. Sensors recorded rising water on time, and the mobile network reached nearly every household. The delay stemmed not from the absence of data, but from the way that data was translated into messages.\n\nThe automated alerts reported river levels in metres above a reference line, a format that suits engineers but not families. Post-storm interviews showed that many residents did not know whether a reading of 3.8 metres meant that their street would flood within an hour. Elderly households and fishing families, who often judge risk by familiar landmarks, reacted slowly. Ward coordinators confirmed that residents usually waited for a neighbour to confirm the warning before leaving their homes.\n\nA follow-up trial in two districts tested an alternative approach. Messages referred to a local landmark, such as the school gate or the market bridge, and gave a simple instruction, such as move valuables to the second floor. Households receiving these messages left their homes an average of twenty-eight minutes earlier than households in a control group. The result suggests that the bottleneck lies in the interpretation of information rather than in its collection.\n\nNevertheless, the trial raises a difficult question. Landmark-based messages require each commune to maintain an up-to-date map of local references, and that maintenance demands staff time which many commune offices do not have. The provincial team therefore proposes a shared template, reviewed each season by ward coordinators, so that every commune can adapt the same underlying logic to its own geography.\n\nParticipants in the trial also reported that the new messages felt more trustworthy. Several residents said that a familiar landmark made them believe the warning was meant for their own street, not for the district as a whole. This finding suggests that the credibility of a message depends as much on its wording as on its accuracy. Further work is needed to test whether the effect lasts through a full season of floods. The team plans to publish the full methods next spring."
           }
         }
       },
@@ -4746,30 +4888,30 @@
       {
         "id": "motivation-and-evidence-relative-clauses-1",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The nurse ___ helped me was kind.",
-        "answers": ["who"],
-        "explanation": "Compare your answer with the model: who"
+        "prompt": "Complete with whose or which: The project, ___ results were published in 2025, changed local policy.",
+        "answers": ["whose"],
+        "explanation": "Whose connects the project to the results that belong to it."
       },
       {
         "id": "motivation-and-evidence-relative-clauses-2",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The book, ___ I borrowed yesterday, is useful.",
-        "answers": ["which"],
-        "explanation": "Compare your answer with the model: which"
+        "prompt": "Complete with where or which: The district ___ the flood sensors failed first needs better maintenance.",
+        "answers": ["where"],
+        "explanation": "Where introduces a place in a defining relative clause."
       },
       {
         "id": "motivation-and-evidence-relative-clauses-3",
         "tag": "relative-clauses",
-        "prompt": "Choose whose or which: The student ___ bag was lost called us.",
-        "answers": ["whose"],
-        "explanation": "Compare your answer with the model: whose"
+        "prompt": "Complete with whom or who: The residents ___ we interviewed described the alerts as confusing.",
+        "answers": ["whom"],
+        "explanation": "Whom is the object form in formal writing: we interviewed them."
       },
       {
         "id": "motivation-and-evidence-relative-clauses-4",
         "tag": "relative-clauses",
-        "prompt": "Choose where or who: This is the school ___ I studied.",
-        "answers": ["where"],
-        "explanation": "Compare your answer with the model: where"
+        "prompt": "Complete with that or which: The alert system ___ residents trusted most used simple landmarks.",
+        "answers": ["that"],
+        "explanation": "Use that, without a comma, for a defining relative clause."
       }
     ],
     "parallelPrompt": {
@@ -4885,18 +5027,22 @@
           "targetLevel": "C1"
         },
         "noticing": {
-          "instruction": "Find the contrast marker and the first will.",
+          "instruction": "Find every participle phrase that opens a sentence and adds a related action.",
           "spans": [
             {
-              "start": 183,
-              "end": 188
+              "start": 612,
+              "end": 619
             },
             {
-              "start": 463,
-              "end": 467
+              "start": 1074,
+              "end": 1080
+            },
+            {
+              "start": 1500,
+              "end": 1507
             }
           ],
-          "explanation": "While contrasts the background with the planned learning."
+          "explanation": "An opening participle adds a related action without repeating the subject."
         }
       },
       {
@@ -4941,13 +5087,23 @@
           "id": "verified-programme-fit-2-task",
           "title": "Positioning peer-cohort contributions and cross-functional value",
           "genre": "application letter",
-          "prompt": "Summarize the problem, response and remaining choice in the reading. Use your own words and do not add unsupported facts.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph cohort and institutional fit statement (250-400 words) explaining what unique regional, technical, or industry perspective you bring to a peer cohort, illustrated by a concrete cross-functional challenge you solved, and what you hope to learn from your peers.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "defining strength",
+            "originate in",
+            "tension between",
+            "comply with",
+            "convening",
+            "frontline",
+            "trade-offs",
+            "at the same time"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Identify why the cohort or cross-functional structure matters in paragraph one",
+            "Illustrate your perspective with a concrete story of resolving a tension between two priorities",
+            "Balance what you will share with peers and what you will learn from them (250-400 words)"
           ],
           "minWords": 250,
           "maxWords": 400,
@@ -4955,8 +5111,9 @@
           "targetLevel": "C1",
           "reading": {
             "mode": "summary",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Cohort description: Urban Mobility Practice",
+            "instruction": "Use one cross-functional conflict from the reading as the challenge you resolved, then say what you would learn from peers.",
+            "text": "The Urban Mobility Practice cohort brings together twenty professionals from transport agencies, logistics firms, software companies and civil engineering consultancies. Participants meet every second week for ten months, and each meeting mixes sectors on purpose. A data analyst from a port authority may find herself working beside a planner from a city council, and both are expected to explain their constraints in plain language.\n\nThe cohort is built around a shared project rather than a lecture series. Each group receives a real dataset from a partner city and must produce a recommendation that the city could act on within a year. Last year's group examined how bus routes could serve factory workers who start shifts at dawn. The most difficult part was not the technical modelling. It was agreeing on which trade-offs the city could accept, because the transport operator wanted lower costs while the labour federation wanted reliable early buses.\n\nMembers often describe that conflict as the defining experience of the programme. One participant, a logistics manager, proposed a timetable that removed two loss-making routes. A planner objected, arguing that the removed routes were the only way some workers could reach clinics. Instead of choosing one side, the group tested a smaller change: a shuttle that met the first shift and fed into the existing lines. The pilot cut waiting time for the earliest workers by a quarter while keeping the operator's costs within budget.\n\nThe programme also expects members to share their own limits. Experts in statistics are asked to explain their assumptions aloud, and engineers must justify choices that seem obvious to them. Participants leave with a clearer sense of which perspectives they bring to a group and which they must learn from others. Over the ten months, most cohort members report that they listen more carefully before they propose a solution.\n\nThe programme also publishes a short reflection after each sprint, and members read the reflections of the others before the next meeting. This habit turns disagreement into a shared record, so later choices can be traced back to the reasons that shaped them. Several alumni now mentor new cohorts in their own cities."
           }
         }
       },
@@ -5031,30 +5188,30 @@
       {
         "id": "verified-programme-fit-relative-clauses-1",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The nurse ___ helped me was kind.",
-        "answers": ["who"],
-        "explanation": "Compare your answer with the model: who"
+        "prompt": "Complete with where or which: The lab ___ I worked last year has an open dataset.",
+        "answers": ["where"],
+        "explanation": "Where introduces a place in a defining relative clause."
       },
       {
         "id": "verified-programme-fit-relative-clauses-2",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The book, ___ I borrowed yesterday, is useful.",
-        "answers": ["which"],
-        "explanation": "Compare your answer with the model: which"
+        "prompt": "Complete with whose or which: The module ___ syllabus covers causal inference is taught in English.",
+        "answers": ["whose"],
+        "explanation": "Whose shows that the syllabus belongs to the module."
       },
       {
         "id": "verified-programme-fit-relative-clauses-3",
         "tag": "relative-clauses",
-        "prompt": "Choose whose or which: The student ___ bag was lost called us.",
-        "answers": ["whose"],
-        "explanation": "Compare your answer with the model: whose"
+        "prompt": "Complete with who or that: The professor ___ leads the seminar studies transit equity.",
+        "answers": ["who", "that"],
+        "explanation": "Who or that refers to a person in a defining relative clause."
       },
       {
         "id": "verified-programme-fit-relative-clauses-4",
         "tag": "relative-clauses",
-        "prompt": "Choose where or who: This is the school ___ I studied.",
-        "answers": ["where"],
-        "explanation": "Compare your answer with the model: where"
+        "prompt": "Complete with whom or who: The coordinator, ___ you met at the forum, can answer your questions.",
+        "answers": ["whom"],
+        "explanation": "Whom is the object form after a comma in formal writing."
       }
     ],
     "parallelPrompt": {
@@ -5170,7 +5327,7 @@
           "targetLevel": "C1"
         },
         "noticing": {
-          "instruction": "Find the past verbs for the revision and the achievement.",
+          "instruction": "Find every past verb that shows the writer’s own action in the second paragraph.",
           "spans": [
             {
               "start": 414,
@@ -5179,9 +5336,17 @@
             {
               "start": 553,
               "end": 565
+            },
+            {
+              "start": 972,
+              "end": 982
+            },
+            {
+              "start": 1021,
+              "end": 1028
             }
           ],
-          "explanation": "Direct action verbs make the writer’s contribution explicit."
+          "explanation": "Direct past verbs with I name the writer’s own actions, so the reader sees the contribution."
         }
       },
       {
@@ -5226,13 +5391,23 @@
           "id": "edit-an-application-2-task",
           "title": "Repairing broken cohesion with the Known-to-New information flow",
           "genre": "application letter",
-          "prompt": "Continue the account after the public meeting. Explain the decision, give reasons and show a plausible consequence. Keep the people and situation consistent with the reading.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph analytical narrative or post-mortem summary (250-400 words) demonstrating strict Known-to-New sentence flow. In your middle paragraph, chain at least four sentences together where the opening of each sentence echoes the ending of the sentence before it.",
+          "scaffold": "outline",
+          "frames": [],
+          "wordBank": [
+            "architecture",
+            "front-load",
+            "fragmented",
+            "anchoring",
+            "triggered",
+            "To halt",
+            "deploying",
+            "unbroken chain"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Chain sentences in paragraph two using the Known-to-New principle ('That delay...', 'To halt those...')",
+            "Avoid starting consecutive sentences with mechanical linkers ('Moreover', 'Furthermore')",
+            "Show how clear technical synthesis led to a concrete organizational decision (250-400 words)"
           ],
           "minWords": 250,
           "maxWords": 400,
@@ -5240,8 +5415,9 @@
           "targetLevel": "C1",
           "reading": {
             "mode": "continuation",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Post-mortem summary: regional inventory migration",
+            "instruction": "Use one event from the reading to start your chain of linked sentences in paragraph two.",
+            "text": "In March, the regional warehouse network began moving its stock records from three legacy systems to one cloud platform. The migration was planned for eight weeks and was completed in eleven. The delay did not result from software faults. It resulted from unclear ownership of product codes, which varied between depots and had never been standardised.\n\nSeveral events shaped the outcome. In the second week, a receiving team at the northern depot scanned pallets with an old code format, and nearly four hundred units were recorded under incorrect locations. The error went unnoticed for four days because no daily reconciliation existed. When the discrepancy surfaced, the operations team spent two weeks correcting entries by hand. That delay led directly to a revised rule: every depot would reconcile counts at the end of each shift.\n\nThose changes reduced the error rate substantially. By the final phase, the mismatch rate had fallen from six per cent to under one per cent. Staff also reported that the new dashboard made it easier to see which depot needed attention. However, the team identified two lessons. First, a migration plan must assign one owner to each data standard before any records move. Second, pilot depots should represent the most difficult conditions, not the easiest ones. The northern depot, which had the oldest equipment, would have exposed the code problem in the first week.\n\nThe review board concluded that the project succeeded in its final goal but not in its schedule. Future migrations will begin with a standards audit and a reconciliation test, both completed before the first live transfer.\n\nThe most useful part of the review was the list of decisions that did not appear in any system log. Several supervisors had quietly developed their own checklists for receiving and shipping, and those checklists prevented many errors that the dashboard never caught. The board recommended that every depot share its checklist in a common folder, with a named owner who updates it each quarter. Only then could the network treat local practice as shared knowledge. Without that step, the next migration would repeat the same surprises. The board expects these lessons to shape the next two migrations."
           }
         }
       },
@@ -5317,7 +5493,7 @@
       "id": "edit-an-application-3-task",
       "title": "A new task: Eliminating throat-clearing and redundant modifiers",
       "genre": "application letter",
-      "prompt": "Write a three-paragraph professional case narrative about a different achievement. Lead each paragraph with an analytical claim or action, use precise verbs and substantiate contributions with metrics. Use a new example; do not revise or copy your unit-start response.",
+      "prompt": "Write a three-paragraph professional case narrative about a different achievement. Lead each paragraph with a direct analytical claim or action, replace vague phrases with precise verbs, and substantiate claims with metrics. Use a new example; do not revise or copy your unit-start response.",
       "scaffold": "outline",
       "frames": [],
       "wordBank": [
@@ -5426,18 +5602,22 @@
           "targetLevel": "C2"
         },
         "noticing": {
-          "instruction": "Find the first when and the contrast signal conversely.",
+          "instruction": "Find every if or when that opens a clause.",
           "spans": [
+            {
+              "start": 1815,
+              "end": 1817
+            },
             {
               "start": 675,
               "end": 679
             },
             {
-              "start": 1065,
-              "end": 1075
+              "start": 1077,
+              "end": 1081
             }
           ],
-          "explanation": "When sets conditions; conversely contrasts the second case."
+          "explanation": "If sets a condition. When sets the circumstance in which a result happens."
         }
       },
       {
@@ -5482,13 +5662,23 @@
           "id": "synthesis-and-qualification-2-task",
           "title": "Integrating methodological caveats and evidential weight",
           "genre": "critical revision",
-          "prompt": "Summarize the problem, response and remaining choice in the reading. Use your own words and do not add unsupported facts.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph C2 critical synthesis (300-500 words) evaluating conflicting evidence or studies on a major workplace, educational, or economic debate. Use a fronted adjective concession ('Compelling as..., ...'), examine methodological caveats or selection bias, and conclude with a synthesis using 'predicated on'.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [
+            "survivorship bias",
+            "heralding",
+            "attrition",
+            "Compelling as",
+            "extrapolating",
+            "warrants caution",
+            "longitudinal",
+            "predicated on"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Explain why two bodies of evidence appear to conflict by examining how they measure outcomes",
+            "Include a fronted concession ('Compelling as...' or 'Attractive though...')",
+            "Conclude with a synthesis using 'predicated on' across 300 to 500 words"
           ],
           "minWords": 300,
           "maxWords": 500,
@@ -5496,8 +5686,9 @@
           "targetLevel": "C2",
           "reading": {
             "mode": "summary",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Two studies, one debate about remote work",
+            "instruction": "Explain why these two studies seem to conflict, using their measures and their samples.",
+            "text": "A widely cited survey of 1,200 office workers reported that productivity rose after employees gained two remote days each week. Participants rated their own output more highly, and managers reported fewer missed deadlines. Compelling as those figures appear, they rely almost entirely on self-reported measures collected during a single quarter, which makes it hard to separate genuine efficiency from the relief of escaping a long commute.\n\nA smaller study of four engineering teams reached the opposite conclusion. Its authors tracked code review times and the number of informal conversations between colleagues. Teams working mostly remotely took longer to review changes, and junior developers asked fewer questions. However, the sample was drawn from teams that had volunteered for the trial, and the researchers acknowledged that enthusiastic volunteers might have been more collaborative from the outset.\n\nThe two bodies of evidence seem to conflict, yet they measure different things. The first study captures individual output as the worker perceives it. The second captures coordination, which is harder to see and slower to appear. Furthermore, both studies lost participants over time. Roughly one in five workers in the survey left the trial before the final round, and several engineers in the smaller study changed teams, so the remaining samples may not represent the original groups.\n\nA fair synthesis, therefore, must separate short-term output from long-term learning. Remote arrangements may raise individual productivity while quietly weakening the informal mentoring on which new staff depend. Any firm that adopts a hybrid policy should measure mentoring, onboarding time and review quality alongside output, rather than relying on a single headline figure. The debate is predicated on a question that neither study can answer alone: what kind of productivity an organisation actually wants to protect.\n\nA third account, published by a regional industry association, relied on interviews with managers rather than measurements. Its authors described confidence in remote teams, but they noted that managers often judged performance by visible activity, which may favour office workers. Taken together, these accounts show how the choice of measure shapes the conclusion. The association did not test its claims against output data."
           }
         }
       },
@@ -5572,58 +5763,58 @@
       {
         "id": "synthesis-and-qualification-conditionals-1",
         "tag": "conditionals",
-        "prompt": "Complete: If it rains tomorrow, we ___ inside. (stay)",
-        "answers": ["will stay"],
-        "explanation": "Compare your answer with the model: will stay"
+        "prompt": "Complete: Had the team tested the code more carefully, the bug ___ before release. (catch)",
+        "answers": ["would have been caught", "'d have been caught"],
+        "explanation": "Had replaces if in a third conditional, then would have plus past participle."
       },
       {
         "id": "synthesis-and-qualification-conditionals-2",
         "tag": "conditionals",
-        "prompt": "Complete: If I had more time, I ___ more. (read)",
-        "answers": ["would read"],
-        "explanation": "Compare your answer with the model: would read"
+        "prompt": "Complete: Were it not for the outage, the team ___ the deadline. (meet)",
+        "answers": ["would have met", "'d have met"],
+        "explanation": "Were it not for means if it had not been for, so use would have plus past participle."
       },
       {
         "id": "synthesis-and-qualification-conditionals-3",
         "tag": "conditionals",
-        "prompt": "Complete: If the team ___ early, we will begin at nine. (arrive)",
-        "answers": ["arrives"],
-        "explanation": "Compare your answer with the model: arrives"
+        "prompt": "Complete: Unless the reviewers ___ the change soon, the release will slip. (approve)",
+        "answers": ["approve"],
+        "explanation": "Unless means if not, and the verb after it stays in present simple."
       },
       {
         "id": "synthesis-and-qualification-conditionals-4",
         "tag": "conditionals",
-        "prompt": "Complete: If she had checked the file, she ___ the error. (notice)",
-        "answers": ["would have noticed"],
-        "explanation": "Compare your answer with the model: would have noticed"
+        "prompt": "Complete: Had I known the risks, I ___ the proposal. (reject)",
+        "answers": ["would have rejected", "'d have rejected"],
+        "explanation": "Had I known replaces if, so the result uses would have plus past participle."
       },
       {
         "id": "synthesis-and-qualification-relative-clauses-1",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The nurse ___ helped me was kind.",
-        "answers": ["who"],
-        "explanation": "Compare your answer with the model: who"
+        "prompt": "Complete with whose or which: The model, ___ decisions are explained, earns more trust.",
+        "answers": ["whose"],
+        "explanation": "Whose means of which, and it introduces a noun belonging to the model."
       },
       {
         "id": "synthesis-and-qualification-relative-clauses-2",
         "tag": "relative-clauses",
-        "prompt": "Choose who or which: The book, ___ I borrowed yesterday, is useful.",
-        "answers": ["which"],
-        "explanation": "Compare your answer with the model: which"
+        "prompt": "Complete: Three teams, two ___ were new, shipped the feature.",
+        "answers": ["of which"],
+        "explanation": "Of which refers back to a part of a group that was already named."
       },
       {
         "id": "synthesis-and-qualification-relative-clauses-3",
         "tag": "relative-clauses",
-        "prompt": "Choose whose or which: The student ___ bag was lost called us.",
-        "answers": ["whose"],
-        "explanation": "Compare your answer with the model: whose"
+        "prompt": "Complete with whom or which: The reviewers ___ the proposal evaluated were all external.",
+        "answers": ["whom"],
+        "explanation": "Whom is the object form for people in a defining relative clause."
       },
       {
         "id": "synthesis-and-qualification-relative-clauses-4",
         "tag": "relative-clauses",
-        "prompt": "Choose where or who: This is the school ___ I studied.",
-        "answers": ["where"],
-        "explanation": "Compare your answer with the model: where"
+        "prompt": "Complete with whose or which: The strategy, ___ success depends on trust, is hard to measure.",
+        "answers": ["whose"],
+        "explanation": "Whose shows that the success belongs to the strategy."
       }
     ],
     "parallelPrompt": {
@@ -5739,7 +5930,7 @@
           "targetLevel": "C2"
         },
         "noticing": {
-          "instruction": "Find the concession marker and the conditional preposition.",
+          "instruction": "Find the three sentence openers that concede a cost, set a condition or contrast.",
           "spans": [
             {
               "start": 307,
@@ -5748,9 +5939,13 @@
             {
               "start": 1079,
               "end": 1086
+            },
+            {
+              "start": 1720,
+              "end": 1730
             }
           ],
-          "explanation": "While acknowledges a cost; without introduces a missing condition."
+          "explanation": "While concedes a cost. Without means if not. Conversely contrasts the other option."
         }
       },
       {
@@ -5795,13 +5990,23 @@
           "id": "audience-and-register-2-task",
           "title": "Diplomatic candor in post-mortems and institutional critiques",
           "genre": "critical revision",
-          "prompt": "Continue the account after the public meeting. Explain the decision, give reasons and show a plausible consequence. Keep the people and situation consistent with the reading.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph C2 incident post-mortem or institutional process critique (300-500 words). Summarize the incident and its quantified impact in paragraph 1, trace three systemic root causes (without personal blame) in paragraph 2, and specify structural guardrails in paragraph 3.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [
+            "proximate",
+            "vulnerability",
+            "governance gap",
+            "chronological",
+            "ad-hoc",
+            "boundary assertions",
+            "recurrence",
+            "circuit breaker"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "State the exact scope, duration, and quantified impact of the incident in paragraph one",
+            "Analyze three systemic process gaps (rather than personal blame) in paragraph two",
+            "Specify automated or structural safeguards that prevent recurrence in paragraph three (300-500 words)"
           ],
           "minWords": 300,
           "maxWords": 500,
@@ -5809,8 +6014,9 @@
           "targetLevel": "C2",
           "reading": {
             "mode": "continuation",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Post-mortem: checkout outage during the spring promotion",
+            "instruction": "Use the incident facts in the reading to state the scope and impact in your first paragraph.",
+            "text": "Between 19:40 and 20:17 on the first evening of the spring promotion, the checkout service was unavailable for thirty-seven minutes. The proximate cause was a database connection pool that reached its ceiling as order volume tripled within an hour. Approximately 14,000 shoppers saw payment errors, and an estimated 3,100 abandoned their carts. The incident cost roughly $210,000 in lost merchandise value and triggered 418 support tickets within the following day.\n\nThree systemic gaps allowed a traffic spike to become an outage. First, the team had no load test that reflected promotional traffic, so the ceiling was never measured under realistic conditions. Second, alert thresholds were configured for average latency rather than for the percentage of failed payments, meaning that the first warning arrived after customers had already reported problems. Third, the escalation rota did not include the payments provider's on-call contact, which delayed the vendor's confirmation by almost twenty minutes. None of these gaps reflected individual negligence; each reflected a process that had not kept pace with the company's growth.\n\nStructural guardrails should prevent a recurrence rather than rely on vigilance during future campaigns. Automated load tests should run before every promotional launch, using traffic curves drawn from previous campaigns. Alerts should track the payment failure rate directly, with a threshold that triggers before the failure becomes visible to customers. Connection pools should scale automatically within a defined limit, and the escalation rota should list every external provider with a named contact. Once these safeguards exist, the next promotion will test the system in a controlled way, not in front of paying customers.\n\nThe post-mortem also examined what went well. Customer service agents followed the escalation script within minutes of the first complaint, and the engineering team restored a stable connection pool faster than in any previous incident. Those responses limited the outage to thirty-seven minutes, but they depended on individual judgement at a critical moment. Structural guardrails would reduce that dependence. Leaders should therefore treat the response as proof of skill, not as a plan. Without better guardrails, a larger promotion would face the same failure. Each safeguard should have a named owner and a review date."
           }
         }
       },
@@ -5886,7 +6092,7 @@
       "id": "audience-and-register-3-task",
       "title": "A new task: Distilling complex technical trade-offs for non-specialist executives",
       "genre": "critical revision",
-      "prompt": "Write a three-paragraph executive briefing recommending a foundational operational safeguard before an organisation adopts a new service. Lead with your recommendation, translate mechanics into commercial risk and address the roadmap trade-off. Use a new example; do not revise or copy your unit-start response.",
+      "prompt": "Write a three-paragraph executive briefing recommending a foundational operational safeguard before an organisation adopts a new service. Lead with a bottom-line recommendation, translate technical mechanics into commercial risk and address the roadmap trade-off. Use a new example; do not revise or copy your unit-start response.",
       "scaffold": "none",
       "frames": [],
       "wordBank": [
@@ -5995,18 +6201,30 @@
           "targetLevel": "C2"
         },
         "noticing": {
-          "instruction": "Find the contrasting conjunction and the invitation to examine an example.",
+          "instruction": "Find every word that sets up a contrast between two options.",
           "spans": [
+            {
+              "start": 315,
+              "end": 318
+            },
             {
               "start": 362,
               "end": 365
             },
             {
-              "start": 469,
-              "end": 477
+              "start": 824,
+              "end": 832
+            },
+            {
+              "start": 1183,
+              "end": 1189
+            },
+            {
+              "start": 1920,
+              "end": 1927
             }
           ],
-          "explanation": "But qualifies a definition; consider introduces supporting analysis."
+          "explanation": "Not and but reject one option and name the other. Rather than and instead also choose one option over another."
         }
       },
       {
@@ -6051,13 +6269,23 @@
           "id": "critical-capstone-2-task",
           "title": "Sustaining extended analytical metaphors and conceptual framing",
           "genre": "critical revision",
-          "prompt": "Summarize the problem, response and remaining choice in the reading. Use your own words and do not add unsupported facts.",
-          "scaffold": "checklist",
-          "wordBank": [],
+          "prompt": "Write a 3-paragraph C2 essay (300-500 words) using a coherent conceptual metaphor (such as financial compounding, architectural load, or ecological resilience) to illuminate a modern challenge in learning, work, or technology. Map the mechanism cleanly in paragraph 2 and propose a disciplined solution in paragraph 3.",
+          "scaffold": "none",
+          "frames": [],
+          "wordBank": [
+            "coined",
+            "consequential",
+            "indistinguishable",
+            "compounding",
+            "retrieval",
+            "repertoire",
+            "amortisation",
+            "deliberate practice"
+          ],
           "checklist": [
-            "Use your own words",
-            "Keep the main facts consistent with the reading",
-            "Use the unit focus in your response"
+            "Introduce a clear structural metaphor in paragraph one using 'Equally consequential, however, is...'",
+            "Map the cause-and-effect mechanics of the metaphor onto real behavior in paragraph two",
+            "Close with a disciplined resolution and a memorable final contrast sentence (300-500 words)"
           ],
           "minWords": 300,
           "maxWords": 500,
@@ -6065,8 +6293,9 @@
           "targetLevel": "C2",
           "reading": {
             "mode": "summary",
-            "title": "The evening study room",
-            "text": "A neighbourhood library opened a small evening study room after residents said they had no quiet place to work. The first month was busy, but volunteers noticed that some visitors needed help using the booking system. They added a paper sign-up sheet beside the online form and invited regular visitors to explain the rules to newcomers. Attendance became more varied. However, the volunteers still had to decide whether to extend opening hours or spend their limited funds on better lighting. They planned a public meeting to hear from the people who used the room least often."
+            "title": "Compound interest in the mind",
+            "instruction": "Use the compounding metaphor from the reading to map one mechanism in paragraph two, then write your own resolution.",
+            "text": "Few metaphors in education are as persuasive as compound interest. Money left to grow earns returns, and those returns earn returns of their own. Applied to learning, the image suggests that a small daily habit of reading, practice or review can accumulate into a remarkable advantage over several years. The metaphor is useful, but it hides a condition that the financial model takes for granted: the principal must remain intact.\n\nConsider a learner who studies English for twenty minutes each morning. In the first month, the gains feel negligible. Vocabulary returns slowly, and grammar patterns seem to slip away. Yet every retrieval session strengthens a memory trace, and every correction reshapes a habit. After a year, the learner can produce complex sentences with growing ease. The compounding happens because each practice session builds on the previous one, rather than starting from zero. Forgetting, however, works like a fee. A learner who abandons practice for three months does not simply pause the growth; the accumulated retention erodes, and the next session must rebuild what was lost.\n\nThis is why the metaphor should guide the design of practice, not simply encourage persistence. Spaced review functions as a deposit schedule that protects the principal. Short retrieval tasks, scheduled before forgetting becomes severe, return more than a long cramming session that is repeated once a term. Writing adds a second layer: a learner who explains an idea in their own words converts passive recognition into productive use. Such a conversion resembles reinvesting profits rather than spending them.\n\nThe metaphor also carries a warning. Compounding rewards consistency more than intensity, and it punishes the belief that a single heroic effort can replace steady practice. Learners who expect rapid visible progress often abandon the process before the curve steepens. A disciplined response is to measure growth over quarters rather than days, and to accept that the early years look flat. The mind compounds only when it keeps its capital at work.\n\nA useful test is simple. Ask whether a claim could be wrong in a way that matters. If it cannot, the claim is probably a wish rather than a strategy."
           }
         }
       },
