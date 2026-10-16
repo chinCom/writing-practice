@@ -14,6 +14,7 @@ import WritingField from '@/components/ui/WritingField';
 import { trackForId } from '@/lib/curriculum';
 import IeltsContract from './IeltsContract';
 import TaskChart from './TaskChart';
+import TargetRecommendations from './TargetRecommendations';
 import type { LearningPath } from '@/lib/db/curriculum';
 type Lesson = LearningPath['units'][number]['lessons'][number];
 export default function LessonView({
@@ -87,6 +88,7 @@ export default function LessonView({
         <Typography component="h1" variant="h1">
           {lesson.title}
         </Typography>
+        <TargetRecommendations targets={lesson.advisoryTargets} />
         <IeltsContract taskId={lesson.task.id} />
         <TaskChart taskId={lesson.task.id} />
         <Paper variant="outlined" sx={{ p: 3 }}>

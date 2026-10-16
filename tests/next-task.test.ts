@@ -3,6 +3,7 @@ import { expect, it } from 'vitest';
 import { curriculumSchema } from '@/lib/curriculum';
 import { buildCoursePath } from '@/lib/curriculum-path';
 import { nextTask } from '@/lib/next-task';
+import { targetsForUnit } from '@/lib/targets';
 
 const course = curriculumSchema.parse(
   JSON.parse(await readFile('curriculum/course.draft.json', 'utf8')),
@@ -21,6 +22,7 @@ it('offers the current lesson and opens warm-ups first', () => {
     minWords: lesson.task.minWords,
     maxWords: lesson.task.maxWords,
     focus: unit.grammarFocus,
+    advisoryTargets: targetsForUnit(unit).map((tag) => ({ tag, source: 'unit' })),
     href: '/lesson/' + lesson.id,
     warmupsDone: false,
   });

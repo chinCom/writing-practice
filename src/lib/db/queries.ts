@@ -11,6 +11,7 @@ import {
   targetAssistance,
 } from './schema';
 import { targetsForUnit, validateTargetReport } from '@/lib/targets';
+import { assessMastery } from '@/lib/mastery';
 import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
 import { seedSubmissionPractice } from './practice';
@@ -206,6 +207,22 @@ export async function completeSubmission(
         })),
       );
     }
+    if (unit && !unit.id.startsWith('ielts-')) {
+      const original =
+        source.attempt > 1 ? await originalFeedbackInTransaction(database, submissionId) : null;
+      const masteryAdvisory = assessMastery({
+        targets: targetsForUnit(unit),
+        feedback,
+        attempt: source.attempt,
+        isCheckpoint: unit.lessons.find((lesson) => lesson.task.id === source.taskId)!.task
+          .isCheckpoint,
+        baseline: original?.json.target_report,
+      });
+      await database
+        .update(submissions)
+        .set({ masteryAdvisory })
+        .where(eq(submissions.id, submissionId));
+    }
     await seedSubmissionPractice(database, userId, {
       id: submissionId,
       text: source.text,
@@ -243,22 +260,24 @@ export async function loadFeedback(userId: string, submissionId: string) {
   );
 }
 export async function loadOriginalFeedback(userId: string, submissionId: string) {
-  return withUserDatabase(userId, async (database) => {
-    let id = submissionId;
-    for (let depth = 0; depth < 20; depth++) {
-      const [row] = await database.select().from(submissions).where(eq(submissions.id, id));
-      if (!row) return null;
-      if (!row.parentSubmissionId) {
-        return (
-          (
-            await database.select().from(feedbackRows).where(eq(feedbackRows.submissionId, id))
-          )[0] ?? null
-        );
-      }
-      id = row.parentSubmissionId;
+  return withUserDatabase(userId, (database) =>
+    originalFeedbackInTransaction(database, submissionId),
+  );
+}
+async function originalFeedbackInTransaction(database: Transaction, submissionId: string) {
+  let id = submissionId;
+  for (let depth = 0; depth < 20; depth++) {
+    const [row] = await database.select().from(submissions).where(eq(submissions.id, id));
+    if (!row) return null;
+    if (!row.parentSubmissionId) {
+      return (
+        (await database.select().from(feedbackRows).where(eq(feedbackRows.submissionId, id)))[0] ??
+        null
+      );
     }
-    return null;
-  });
+    id = row.parentSubmissionId;
+  }
+  return null;
 }
 export function recentSubmissions(userId: string) {
   return withUserDatabase(userId, recentSubmissionsInTransaction);

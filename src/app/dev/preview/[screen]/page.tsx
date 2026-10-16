@@ -77,6 +77,25 @@ export default async function Page({
         />
       );
   }
+  const carriedTargets = [
+    { tag: 'verb-tense', source: 'unit' },
+    { tag: 'articles', source: 'carried' },
+  ] as const;
+  if (screen === 'today-carried' && todayNextSample.kind === 'lesson')
+    return (
+      <Today
+        preview
+        progress={todayProgressSample}
+        next={{ ...todayNextSample, advisoryTargets: [...carriedTargets] }}
+      />
+    );
+  if (screen === 'lesson-carried')
+    return (
+      <LessonView
+        lesson={{ ...pathSample.units[0].lessons[0], advisoryTargets: [...carriedTargets] }}
+        preview
+      />
+    );
   if (screen === 'path') return <LearningPath path={pathSample} preview />;
   if (screen === 'placement') return <Placement preview />;
   if (screen === 'lesson') return <LessonView lesson={pathSample.units[0].lessons[0]} preview />;

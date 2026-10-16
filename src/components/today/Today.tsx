@@ -16,6 +16,7 @@ import AccountActivity from './AccountActivity';
 import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot';
 import type { ProgressReport } from '@/lib/db/progress';
 import type { NextTask } from '@/lib/next-task';
+import TargetRecommendations from '@/components/curriculum/TargetRecommendations';
 
 function WeekendTaskCard({ preview }: { preview: boolean }) {
   const t = useTranslations('today');
@@ -82,6 +83,7 @@ function LessonTaskCard({
             <Typography variant="body2">{t('taskLabel')}</Typography>
           </Stack>
           <Typography variant="h2">{next.lessonTitle}</Typography>
+          <TargetRecommendations targets={next.advisoryTargets} />
           <Typography variant="subtitle1">{next.unitTitle}</Typography>
           <Typography
             sx={{

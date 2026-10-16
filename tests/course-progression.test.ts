@@ -28,7 +28,12 @@ beforeAll(async () => {
   await database.exec(`CREATE ROLE authenticated; CREATE ROLE anon; CREATE SCHEMA auth; CREATE TABLE auth.users(id uuid PRIMARY KEY);
     CREATE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql STABLE AS 'SELECT nullif(current_setting(''request.jwt.claim.sub'', true), '''')::uuid';
     GRANT USAGE ON SCHEMA auth TO authenticated; INSERT INTO auth.users VALUES ('${alice}'),('${bob}');`);
-  for (const name of ['0000_writing', '0008_curriculum', '0009_writing_course'])
+  for (const name of [
+    '0000_writing',
+    '0008_curriculum',
+    '0009_writing_course',
+    '0012_mastery_advisory',
+  ])
     await database.exec(await readFile('drizzle/' + name + '.sql', 'utf8'));
   for (const unit of [...course, ...ielts])
     await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [

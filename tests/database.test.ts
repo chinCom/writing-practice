@@ -16,7 +16,7 @@ import {
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { sampleDraft } from '@/mocks/draft.sample';
 import { curriculumDraft } from '@/mocks/curriculum-content';
-import { loadTask } from '@/lib/db/curriculum';
+import { loadTask, loadLesson } from '@/lib/db/curriculum';
 import { feedbackPromptVersion } from '@/lib/prompts/version';
 import { POST as checkWriting, GET as getCheck } from '@/app/api/feedback/route';
 import { PUT as saveWritingDraft } from '@/app/api/draft/route';
@@ -89,6 +89,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0009_writing_course.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0010_target_evidence.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0011_self_revision.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0012_mastery_advisory.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -607,6 +608,12 @@ it('stores trusted target evidence atomically, privately and immutably through t
   ]);
   expect((await checkWriting(request(key))).status).toBe(200);
   expect(gradeWriting).toHaveBeenCalledTimes(1);
+  expect(
+    (await database.query('SELECT mastery_advisory FROM writing.submissions WHERE id=$1', [id]))
+      .rows,
+  ).toEqual([{ mastery_advisory: { outcome: 'revise', carried: [] } }]);
+  // Advisory failures cannot relock an otherwise completed lesson.
+  expect((await loadLesson(owner, unit.lessons[1].id)).state).toBe('current');
   expect((await asUser(bob, 'SELECT * FROM writing.target_evidence')).rows).toEqual([]);
   await expect(asUser(owner, 'UPDATE writing.target_evidence SET errors=0')).rejects.toThrow(
     /permission denied/,
@@ -695,6 +702,22 @@ it('stores trusted target evidence atomically, privately and immutably through t
   // Applying after a revision still records assistance. Undo cannot erase that history.
   expect((await saveCorrectionChoice(choiceRequest('applied'))).status).toBe(200);
   expect((await saveCorrectionChoice(choiceRequest('open'))).status).toBe(200);
+  const third = await checkWriting(
+    request('00000000-0000-4000-8000-000000000093', { attempt: 3, parentSubmissionId: revisionId }),
+  );
+  expect(third.status).toBe(200);
+  const thirdId = (await third.json()).data.submissionId;
+  expect(
+    (
+      await database.query('SELECT mastery_advisory FROM writing.submissions WHERE id=$1', [
+        thirdId,
+      ])
+    ).rows,
+  ).toEqual([{ mastery_advisory: { outcome: 'carry-forward', carried: ['articles'] } }]);
+  expect(
+    (await asUser(bob, `SELECT mastery_advisory FROM writing.submissions WHERE id='${thirdId}'`))
+      .rows,
+  ).toEqual([]);
   const assisted = await reserveSubmission(owner, {
     taskId: lesson.task.id,
     text: sampleDraft + ' Again.',
@@ -754,8 +777,12 @@ it('stores trusted target evidence atomically, privately and immutably through t
     ),
   ).rejects.toThrow();
   expect(
-    (await database.query('SELECT status FROM writing.submissions WHERE id=$1', [pending])).rows,
-  ).toEqual([{ status: 'pending' }]);
+    (
+      await database.query('SELECT status, mastery_advisory FROM writing.submissions WHERE id=$1', [
+        pending,
+      ])
+    ).rows,
+  ).toEqual([{ status: 'pending', mastery_advisory: null }]);
   for (const table of ['feedback', 'target_evidence', 'practice_sources', 'ai_usage'])
     expect(
       (await database.query(`SELECT * FROM writing.${table} WHERE submission_id=$1`, [pending]))

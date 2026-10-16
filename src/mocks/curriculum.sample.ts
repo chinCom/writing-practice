@@ -1,5 +1,7 @@
 import { curriculumDraft } from '@/mocks/curriculum-content';
 import { publicLesson } from '@/lib/curriculum';
+import { targetsForUnit } from '@/lib/targets';
+import { advisoryTargets } from '@/lib/mastery';
 import type { LearningPath } from '@/lib/db/curriculum';
 export const pathSample: LearningPath = {
   chosenLevel: 'A1',
@@ -13,6 +15,7 @@ export const pathSample: LearningPath = {
     ...unit,
     lessons: unit.lessons.map((lesson, index) => ({
       ...publicLesson(lesson),
+      advisoryTargets: advisoryTargets(targetsForUnit(unit), []),
       state: unitIndex === 0 && index === 0 ? 'current' : 'locked',
       warmupsDone: false,
       completedAt: null,

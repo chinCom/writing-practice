@@ -7,6 +7,8 @@ import {
   type CurriculumTrack,
   getTrackUnits,
 } from './curriculum';
+import { advisoryTargets, type MasteryAssessment } from './mastery';
+import { targetsForUnit } from './targets';
 export function buildCoursePath(
   content: CurriculumUnit[],
   chosenLevel: CurriculumLevel | null,
@@ -14,6 +16,7 @@ export function buildCoursePath(
   checks: {
     taskId: string;
     at?: Date;
+    masteryAdvisory?: MasteryAssessment | null;
     feedback: {
       safety_flag: boolean;
       scores: { task: number; organization: number; grammar: number; vocabulary: number };
@@ -23,10 +26,16 @@ export function buildCoursePath(
 ) {
   const ranks = Object.fromEntries(curriculumLevel.options.map((level, index) => [level, index]));
   let open = Boolean(chosenLevel);
+  let carried: MasteryAssessment['carried'] = [];
+  let carriedLevel: CurriculumLevel | null = null;
   return getTrackUnits(content, track)
     .sort((a, b) => ranks[a.level] - ranks[b.level] || a.order - b.order)
     .map((unit) => {
       if (track === 'ielts') open = true;
+      if (carriedLevel !== unit.level) {
+        carried = [];
+        carriedLevel = unit.level;
+      }
       const beforeStart =
         track === 'core' && chosenLevel !== null && ranks[unit.level] < ranks[chosenLevel];
       const lessons = unit.lessons.map((lesson) => {
@@ -51,7 +60,20 @@ export function buildCoursePath(
         const completedAt = done && finishedAt ? new Date(finishedAt).toISOString() : null;
         const state = done ? 'done' : beforeStart ? 'available' : open ? 'current' : 'locked';
         if (!beforeStart && !done) open = false;
+        const recommendedTargets =
+          track === 'core' ? advisoryTargets(targetsForUnit(unit), carried) : [];
+        const latest = checks
+          .filter((check) => check.taskId === lesson.task.id)
+          .sort((a, b) => (b.at?.getTime() ?? 0) - (a.at?.getTime() ?? 0))[0];
+        if (
+          track === 'core' &&
+          done &&
+          !latest?.feedback.safety_flag &&
+          latest?.masteryAdvisory?.outcome === 'carry-forward'
+        )
+          carried = [...new Set([...carried, ...latest.masteryAdvisory.carried])].slice(0, 2);
         return {
+          advisoryTargets: recommendedTargets,
           ...publicLesson(lesson),
           state,
           warmupsDone,

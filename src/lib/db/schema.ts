@@ -76,6 +76,7 @@ export const submissions = writing.table('submissions', {
   attempt: integer('attempt').notNull(),
   parentSubmissionId: uuid('parent_submission_id'),
   revisionKind: text('revision_kind').$type<'self' | 'assisted'>(),
+  masteryAdvisory: jsonb('mastery_advisory').$type<import('@/lib/mastery').MasteryAssessment>(),
   status: text('status').notNull().default('pending'),
   requestKey: uuid('request_key'),
   startedAt: timestamp('started_at', { withTimezone: true }),

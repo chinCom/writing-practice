@@ -90,4 +90,17 @@
 - M8: Reviewed parallel prompts, same-version/noise-aware benchmarks, then-vs-now replacement, deterministic word range/sentence length/MTLD context.
 - M9: Reviewed summary/continuation tasks in later units. No separate reading module.
 
-D5 pilot recruitment and dates remain a product-owner decision. Each milestone gets a concrete test-first slice before implementation. M1 and M2 are implemented and verified. M3 tooling is implemented; the human study remains blocked on the reviewed corpus. Later gates are not waived by this plan. See [verification and remaining inputs](../../verification/growth-loop.md).
+### Approved diagnostic and M4 advisory slice
+
+- [x] Add a separate strict AI-reviewed diagnostic contract; preserve provisional provenance and keep both human gates false.
+- [x] Test provenance and gating first, then run the approved private 60-text corpus three times with an explicit model identifier.
+- [x] Inspect report failures and correction disagreements. Reproduce and fix zero-use pass scoring; rescore saved outputs without more calls.
+- [x] Test pure mastery and carry-forward recommendations, including safety, task relevance, partial reports, zero/avoided uses, two revisions, checkpoint floors, and unit priority.
+- [x] Save nullable advisory results atomically; preserve legacy completions, owner isolation, and existing unlocking. No IELTS change.
+- [x] Show recommendations on Today and lesson pages, with explicit advisory wording in English/Vietnamese. Capture and inspect desktop/mobile screenshots.
+- [x] Run full static/unit/integration checks, browser suite, and build; self-review because subagents are prohibited.
+
+D5 pilot recruitment and dates remain a product-owner decision. M1, M2, and M4 advisory are implemented and verified locally.
+M3 tooling and the AI diagnostic are complete, but neither the human study nor noise calibration passed.
+M4 enforcement and M5–M9 remain incomplete. Later gates are not waived by this plan.
+See [verification and remaining inputs](../../verification/growth-loop.md).

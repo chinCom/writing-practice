@@ -33,6 +33,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0000_writing.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0008_curriculum.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0009_writing_course.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0012_mastery_advisory.sql', 'utf8'));
   for (const unit of curriculumDraft)
     await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
       unit.id,

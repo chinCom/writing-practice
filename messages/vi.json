@@ -220,6 +220,10 @@
   },
   "feedback": {
     "targetsTitle": "Mục tiêu của bạn",
+    "recommendationsTitle": "Mục tiêu gợi ý",
+    "unitTarget": "Trọng tâm bài học",
+    "carriedTarget": "Tiếp tục luyện tập",
+    "advisoryOnly": "Đây chỉ là gợi ý. Tiến độ bài học của bạn không thay đổi.",
     "targetCorrect": "Đúng {correct, number} trên {uses, number} lần sử dụng",
     "targetErrors": "{errors, plural, =0 {Không có lỗi mục tiêu cần xem lại} other {# lỗi cần xem lại}}",
     "targetUnused": "Chưa sử dụng trong bài viết này. Hãy thử mục tiêu này trong bản nháp tiếp theo.",

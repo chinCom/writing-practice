@@ -57,10 +57,10 @@ Incomplete outputs, absent reports, mixed versions, inadequate coverage, and mis
 Synthetic unit tests cover the calculations; fixture reviewer labels do not constitute a real study.
 
 **Not completed:** The owner reported a private 60-text Cambridge draft outside the repository: 6 A1, 24 A2, and 30 B1 texts.
-The owner confirmed consent and approved paid provider calls. No paid call was made.
+The owner confirmed consent and approved paid provider calls. The separate AI diagnostic below has now run; the human study has not.
 The draft still lacks human uses counts, task scores, and annotator codes; the 25% independent review also remains required.
 Do not substitute AI annotations for the human gate. The planned spreadsheet/finalization tools are owner-side work.
-The annotated corpus, pinned model identifier, and Cambridge permission email date remain pending.
+The human-annotated corpus and Cambridge permission email date remain pending. The diagnostic explicitly selected `deepseek-flash`, a provider alias.
 M3 is not passed. M4 enforcement and dependent milestones remain blocked by this study.
 A1 coverage is thin; Cambridge prompts also make lesson pass disagreement an approximation, not direct app-task validation.
 Content publication for M6–M9 still requires product-owner review. D5 pilot recruitment and dates remain undecided.
@@ -71,10 +71,66 @@ Verification: `npm run check` passed (143 tests, 7 skipped; formatting, types, l
 M3 changes do not alter UI; M1–M2 full browser verification remains 274 passed, 10 skipped.
 Author self-review found no remaining blocker in this slice. Manual reviewer validation remains mandatory.
 
+### Provisional AI diagnostic
+
+The approved diagnostic ran all 60 private texts three times with `deepseek-flash:feedback-targets-3`.
+Its reference uses AI-reviewed correction proposals, estimated uses, and provisional task scores. It is not human gold.
+The runner preserves that provenance, checkpoints private outputs, and cannot pass M3 or noise eligibility.
+
+| Measure | Result |
+| --- | --- |
+| Calls recorded | 180 |
+| Failed grading calls | 15 |
+| Successful calls without a target report | 93 |
+| Usable target reports after location/validation | 58 |
+| Exact-match target correction matches | 19 |
+| Unmatched target correction claims | 119 |
+| Precision against provisional reference | 13.8% |
+| Pass disagreement with provisional reference | 36.2% |
+| Human pass disagreement | Unknown |
+| Human study / noise eligibility | Both false |
+
+Precision is 19 / (19 + 119), on usable reports only. Missing reports make the sample highly selective.
+The matcher accepts unchanged context around a minimal edit; alternative valid fixes or taxonomy disagreements can still appear unmatched.
+Sample inspection found both model over-editing and reference/matching limits. These numbers do not establish human-verified accuracy.
+Only eight texts had three raw target reports, far below the 30-text calibration requirement.
+The partial noise figures are not accepted calibration and must not support learner growth claims.
+Recorded successful-call usage was 229,531 prompt tokens and 173,274 completion tokens; failed-call usage is unknown.
+No reliable monetary total is available. The provider can change the model behind its alias.
+
+A regression test exposed a deterministic evaluator defect: zero uses counted as a passing target.
+The scorer now rejects zero-use passes on both sides. The figures above were recomputed from saved outputs without more paid calls.
+The private ignored report is `evals/results/targets-ai-diagnostic.json`; it contains learner-derived text and must not be committed.
+The corpus and provisional review remain outside the repository. No prompt change or study rerun was made from this weak reference.
+
+## M4 — advisory mastery and carry-forward
+
+- Local migration `0012_mastery_advisory.sql` adds nullable per-check advisory results. Legacy checks stay null; no old completion is reclassified.
+- Checks save advisory results in the same transaction as feedback, evidence, Practice, and usage. Owner isolation remains enforced.
+- The calculation requires safe writing, task score ≥2, complete target evidence, nonzero uses, and errors ≤max(1, 20% of uses).
+- Uses below half the first attempt do not demonstrate mastery. After two revisions, unsuccessful targets can be carried as recommendations.
+- Checkpoints retain their existing rubric floor. Standalone checks and IELTS remain unchanged.
+- Today and lesson pages show at most two recommendations, with unit targets before carried targets. Carrying resets at level boundaries.
+- Recommendations are not graded active targets. They do not alter completion, lesson unlocking, or the trusted unit targets sent to the grader.
+- The UI explicitly says lesson progress is unchanged. Enforced mastery and pass provenance remain deferred until M3 passes.
+- Derived target states, spacing, authored noticing/transfer items, and reviewed benchmarks remain later work. M5–M9 are not complete.
+
+### Verification
+
+- `npm run check`: 151 passed, 7 skipped; formatting, types, lint, and design checks passed.
+- Full Playwright suite on isolated unconfigured port 3002: 278 passed, 10 skipped.
+- `npm run build`: passed.
+- Real PGlite tests use synthetic provider responses. They verify advisory persistence, carry-forward, owner isolation, atomic rollback, and unchanged unlocking.
+- Browser checks cover Today and lesson recommendations, desktop/mobile overflow, and Vietnamese dark mode.
+- Inspected screenshots: `ux/screenshots/growth-advisory-{desktop,mobile,lesson-mobile}.png`.
+- Author self-review only; project instructions prohibit subagents. No hosted migration, sign-in verification, push, or deployment occurred.
+- Native-speaker Vietnamese review remains pending. The AI diagnostic is live provider evidence, not human-reviewed quality evidence.
+
 ### Handoff
 
 - Goal: continue the transfer-focused growth loop on branch `feat/growth-loop`.
 - Location: `/home/very_dumb_code/Projects/writing-practice-growth-loop`.
-- Next action: finish human annotations and independent review, validate the private corpus, supply a pinned model identifier, then run the approved three-run study.
-- Record only summary numbers and the Cambridge permission email date here. Keep essays, reviewer identities, and model outputs private.
+- Next action: obtain qualified human adjudication of correction disagreements, use counts, and task scores, with 25% independent review.
+- Address demonstrated grader/report failures against that reviewed reference before another paid study. Supply the Cambridge permission email date.
+- Record only summary numbers and permission metadata here. Keep essays, reviewer identities, and model outputs private.
 - Keep M4 enforcement disabled until reviewed precision and calibration evidence pass. Do not apply local migrations to hosted data without release approval.

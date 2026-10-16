@@ -220,6 +220,10 @@
   },
   "feedback": {
     "targetsTitle": "Your targets",
+    "recommendationsTitle": "Target recommendations",
+    "unitTarget": "Unit focus",
+    "carriedTarget": "Carried for practice",
+    "advisoryOnly": "Recommendations only. Your lesson progress is unchanged.",
     "targetCorrect": "{correct, number} of {uses, number} uses correct",
     "targetErrors": "{errors, plural, =0 {No target errors to review} one {# error to review} other {# errors to review}}",
     "targetUnused": "Not used in this writing. Try this target in your next draft.",
