@@ -1,1 +1,1 @@
-export const feedbackPromptVersion = 'feedback-course-2';
+export const feedbackPromptVersion = 'feedback-targets-3';

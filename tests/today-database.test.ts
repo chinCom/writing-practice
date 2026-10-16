@@ -44,6 +44,7 @@ beforeAll(async () => {
     '0007_profiles.sql',
     '0008_curriculum.sql',
     '0009_writing_course.sql',
+    '0012_mastery_advisory.sql',
   ])
     await database.exec(await readFile(`drizzle/${migration}`, 'utf8'));
   for (const [owner, id, goal] of [

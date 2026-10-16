@@ -75,6 +75,8 @@ export const submissions = writing.table('submissions', {
   wordCount: integer('word_count').notNull(),
   attempt: integer('attempt').notNull(),
   parentSubmissionId: uuid('parent_submission_id'),
+  revisionKind: text('revision_kind').$type<'self' | 'assisted'>(),
+  masteryAdvisory: jsonb('mastery_advisory').$type<import('@/lib/mastery').MasteryAssessment>(),
   status: text('status').notNull().default('pending'),
   requestKey: uuid('request_key'),
   startedAt: timestamp('started_at', { withTimezone: true }),
@@ -88,6 +90,25 @@ export const feedbackRows = writing.table('feedback', {
   promptVersion: text('prompt_version').notNull(),
   createdAt: createdAt(),
 });
+export const targetEvidence = writing.table(
+  'target_evidence',
+  {
+    submissionId: uuid('submission_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    tag: text('tag')
+      .$type<import('zod').z.infer<typeof import('@/lib/feedback/schema').ErrorTag>>()
+      .notNull(),
+    level: text('level').$type<import('@/lib/curriculum').CurriculumLevel>().notNull(),
+    uses: integer('uses').notNull(),
+    errors: integer('errors').notNull(),
+    selfFixed: integer('self_fixed'),
+    isFirstAttempt: boolean('is_first_attempt').notNull(),
+    isBenchmark: boolean('is_benchmark').notNull().default(false),
+    graderVersion: text('grader_version').notNull(),
+    createdAt: createdAt(),
+  },
+  (table) => [primaryKey({ columns: [table.submissionId, table.tag] })],
+);
 export const explanationRows = writing.table(
   'correction_explanations',
   {
@@ -146,6 +167,16 @@ export const correctionChoices = writing.table(
     correctionIndex: integer('correction_index').notNull(),
     status: text('status').$type<CorrectionStatus>().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.submissionId, table.correctionIndex] })],
+);
+export const targetAssistance = writing.table(
+  'target_assistance',
+  {
+    submissionId: uuid('submission_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    correctionIndex: integer('correction_index').notNull(),
+    createdAt: createdAt(),
   },
   (table) => [primaryKey({ columns: [table.submissionId, table.correctionIndex] })],
 );

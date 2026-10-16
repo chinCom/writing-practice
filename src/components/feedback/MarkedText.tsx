@@ -15,11 +15,13 @@ export default function MarkedText({
   active,
   applied,
   onSelect,
+  hiddenAnswers = new Set<number>(),
 }: {
   text: string;
   corrections: LocatedCorrection[];
   active: number;
   applied: Set<number>;
+  hiddenAnswers?: Set<number>;
   onSelect: (index: number) => void;
 }) {
   const parts = [];
@@ -40,7 +42,11 @@ export default function MarkedText({
         tabIndex={0}
         key={start}
         data-mark={correction.index}
-        aria-label={correction.original + ': ' + correction.suggestion}
+        aria-label={
+          hiddenAnswers.has(correction.index)
+            ? correction.original
+            : correction.original + ': ' + correction.suggestion
+        }
         aria-pressed={active === correction.index}
         aria-controls="correction-details"
         onClick={() => onSelect(correction.index)}

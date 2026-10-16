@@ -1,7 +1,15 @@
 import 'server-only';
 import { eq, sql } from 'drizzle-orm';
 import { withUserDatabase } from './client';
-import { correctionChoices, correctionReports, feedbackRows } from './schema';
+import {
+  correctionChoices,
+  correctionReports,
+  feedbackRows,
+  submissions,
+  targetAssistance,
+} from './schema';
+import { ApiError } from '@/lib/api';
+import { targetCorrectionIndexes } from '@/lib/revision';
 import type { CorrectionChoice, CorrectionStatus, ReportReason } from '@/lib/feedback/choices';
 
 type Database = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
@@ -24,6 +32,10 @@ export async function loadCorrectionChoices(
       .select()
       .from(correctionChoices)
       .where(eq(correctionChoices.submissionId, submissionId));
+    const assistance = await database
+      .select()
+      .from(targetAssistance)
+      .where(eq(targetAssistance.submissionId, submissionId));
     const reports = await database
       .select()
       .from(correctionReports)
@@ -33,6 +45,9 @@ export async function loadCorrectionChoices(
       status:
         choices.find((choice) => choice.correctionIndex === correctionIndex)?.status ?? 'open',
       reason: reports.find((report) => report.correctionIndex === correctionIndex)?.reason ?? null,
+      ...(assistance.some((item) => item.correctionIndex === correctionIndex)
+        ? { revealed: true }
+        : {}),
     }));
   });
 }
@@ -44,7 +59,14 @@ export async function saveCorrectionChoice(
 ) {
   return withUserDatabase(userId, async (database) => {
     await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 0))`);
-    await savedFeedback(database, submissionId, correctionIndex);
+    const row = await savedFeedback(database, submissionId, correctionIndex);
+    if (status === 'applied' && targetCorrectionIndexes(row.json).has(correctionIndex)) {
+      await assertAnswerAvailable(database, submissionId, correctionIndex);
+      await database
+        .insert(targetAssistance)
+        .values({ userId, submissionId, correctionIndex })
+        .onConflictDoNothing();
+    }
     await database
       .insert(correctionChoices)
       .values({ userId, submissionId, correctionIndex, status })
@@ -69,5 +91,63 @@ export async function reportCorrection(
         target: [correctionReports.submissionId, correctionReports.correctionIndex],
         set: { reason, updatedAt: new Date() },
       });
+  });
+}
+
+async function assertAnswerAvailable(
+  database: Database,
+  submissionId: string,
+  correctionIndex: number,
+) {
+  const [source] = await database
+    .select()
+    .from(submissions)
+    .where(eq(submissions.id, submissionId));
+  if (source?.attempt > 1) return;
+  const children = await database
+    .select()
+    .from(submissions)
+    .where(eq(submissions.parentSubmissionId, submissionId));
+  if (children.some((item) => item.status === 'completed')) return;
+  const assistance = await database
+    .select()
+    .from(targetAssistance)
+    .where(eq(targetAssistance.submissionId, submissionId));
+  if (assistance.some((item) => item.correctionIndex === correctionIndex)) return;
+  throw new ApiError('ANSWER_HIDDEN', 403);
+}
+export async function requireCorrectionAnswer(
+  userId: string,
+  submissionId: string,
+  correctionIndex: number,
+) {
+  return withUserDatabase(userId, async (database) => {
+    const row = await savedFeedback(database, submissionId, correctionIndex);
+    if (targetCorrectionIndexes(row.json).has(correctionIndex))
+      await assertAnswerAvailable(database, submissionId, correctionIndex);
+  });
+}
+export async function revealCorrection(
+  userId: string,
+  submissionId: string,
+  correctionIndex: number,
+) {
+  return withUserDatabase(userId, async (database) => {
+    await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 0))`);
+    const row = await savedFeedback(database, submissionId, correctionIndex);
+    if (!targetCorrectionIndexes(row.json).has(correctionIndex)) throw new Error('NOT_FOUND');
+    await database
+      .insert(targetAssistance)
+      .values({ userId, submissionId, correctionIndex })
+      .onConflictDoNothing();
+  });
+}
+export async function hasSubmittedRevision(userId: string, submissionId: string) {
+  return withUserDatabase(userId, async (database) => {
+    const children = await database
+      .select()
+      .from(submissions)
+      .where(eq(submissions.parentSubmissionId, submissionId));
+    return children.some((item) => item.status === 'completed');
   });
 }

@@ -77,6 +77,25 @@ export default async function Page({
         />
       );
   }
+  const carriedTargets = [
+    { tag: 'verb-tense', source: 'unit' },
+    { tag: 'articles', source: 'carried' },
+  ] as const;
+  if (screen === 'today-carried' && todayNextSample.kind === 'lesson')
+    return (
+      <Today
+        preview
+        progress={todayProgressSample}
+        next={{ ...todayNextSample, advisoryTargets: [...carriedTargets] }}
+      />
+    );
+  if (screen === 'lesson-carried')
+    return (
+      <LessonView
+        lesson={{ ...pathSample.units[0].lessons[0], advisoryTargets: [...carriedTargets] }}
+        preview
+      />
+    );
   if (screen === 'path') return <LearningPath path={pathSample} preview />;
   if (screen === 'placement') return <Placement preview />;
   if (screen === 'lesson') return <LessonView lesson={pathSample.units[0].lessons[0]} preview />;
@@ -124,6 +143,28 @@ export default async function Page({
         preview
       />
     );
+  if (
+    ['feedback-targets', 'feedback-targets-safety', 'feedback-targets-revision'].includes(screen)
+  ) {
+    return (
+      <FeedbackView
+        submissionId="preview"
+        text={sampleDraft}
+        feedback={{
+          ...markedPageSample,
+          corrections: locateCorrections(sampleDraft, markedPageSample.corrections),
+          target_report: [
+            { tag: 'verb-tense', uses: 6, errors: 3, correction_indexes: [0, 1, 2] },
+            { tag: 'articles', uses: 0, errors: 0, correction_indexes: [] },
+          ],
+          safety_flag: screen === 'feedback-targets-safety',
+        }}
+        hasPreviousVersion={screen === 'feedback-targets-revision'}
+        attempt={screen === 'feedback-targets-revision' ? 2 : 1}
+        mock
+      />
+    );
+  }
   if (screen === 'feedback' || screen === 'feedback-many') {
     const feedback = screen === 'feedback-many' ? manyCorrectionsSample : markedPageSample;
     const text = screen === 'feedback-many' ? manyCorrectionsText : sampleDraft;

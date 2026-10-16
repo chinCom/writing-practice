@@ -219,6 +219,14 @@
     "account": "Your writing account"
   },
   "feedback": {
+    "targetsTitle": "Your targets",
+    "recommendationsTitle": "Target recommendations",
+    "unitTarget": "Unit focus",
+    "carriedTarget": "Carried for practice",
+    "advisoryOnly": "Recommendations only. Your lesson progress is unchanged.",
+    "targetCorrect": "{correct, number} of {uses, number} uses correct",
+    "targetErrors": "{errors, plural, =0 {No target errors to review} one {# error to review} other {# errors to review}}",
+    "targetUnused": "Not used in this writing. Try this target in your next draft.",
     "reportError": "Your report could not be saved. Keep the selected reason and try again.",
     "dismiss": "Dismiss suggestion",
     "restore": "Restore suggestion",
@@ -340,7 +348,11 @@
     "ieltsAchievement": "Task Achievement",
     "ieltsorganization": "Coherence & Cohesion",
     "ieltsvocabulary": "Lexical Resource",
-    "ieltsgrammar": "Grammatical Range & Accuracy"
+    "ieltsgrammar": "Grammatical Range & Accuracy",
+    "showMe": "Show me",
+    "targetCue": "Revise this part yourself. Check the rule for {topic}.",
+    "selfRevisionNext": "Revise the underlined target errors yourself, then check your writing again.",
+    "targetAvoided": "{topic}: avoided, not fixed. You used this target less than half as often as in your first draft."
   },
   "liveStudio": {
     "save": "Save draft",
@@ -452,7 +464,7 @@
     "weeklyErrors": "Errors per 100 words, by week",
     "trendSummary": "Average score went from {then} to {now}.",
     "errorTrendSummary": "Errors per 100 words went from {then} to {now}.",
-    "revisionGain": "Your revisions scored {delta} on average ({n, plural, one {# revision} other {# revisions}}).",
+    "revisionGain": "How much you fixed: revision scores changed by {delta} on average ({n, plural, one {# revision} other {# revisions}}). This is revision practice, not evidence of growth in new writing.",
     "checksNeeded": "Write {n, plural, one {# more checked piece} other {# more checked pieces}} to see how you are improving.",
     "improvementDisclaimer": "Scores are 0–5 practice scores from first attempts. They are not CEFR or IELTS results.",
     "courseTitle": "Your course",

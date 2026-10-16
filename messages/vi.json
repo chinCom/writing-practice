@@ -219,6 +219,14 @@
     "account": "Tài khoản viết của bạn"
   },
   "feedback": {
+    "targetsTitle": "Mục tiêu của bạn",
+    "recommendationsTitle": "Mục tiêu gợi ý",
+    "unitTarget": "Trọng tâm bài học",
+    "carriedTarget": "Tiếp tục luyện tập",
+    "advisoryOnly": "Đây chỉ là gợi ý. Tiến độ bài học của bạn không thay đổi.",
+    "targetCorrect": "Đúng {correct, number} trên {uses, number} lần sử dụng",
+    "targetErrors": "{errors, plural, =0 {Không có lỗi mục tiêu cần xem lại} other {# lỗi cần xem lại}}",
+    "targetUnused": "Chưa sử dụng trong bài viết này. Hãy thử mục tiêu này trong bản nháp tiếp theo.",
     "reportError": "Không thể lưu báo cáo. Hãy giữ lý do đã chọn và thử lại.",
     "dismiss": "Bỏ qua gợi ý",
     "restore": "Khôi phục gợi ý",
@@ -340,7 +348,11 @@
     "ieltsAchievement": "Hoàn thành yêu cầu đề bài",
     "ieltsorganization": "Mạch lạc và liên kết",
     "ieltsvocabulary": "Vốn từ vựng",
-    "ieltsgrammar": "Phạm vi và độ chính xác ngữ pháp"
+    "ieltsgrammar": "Phạm vi và độ chính xác ngữ pháp",
+    "showMe": "Cho tôi xem",
+    "targetCue": "Tự sửa phần này. Kiểm tra quy tắc về {topic}.",
+    "selfRevisionNext": "Tự sửa các lỗi mục tiêu được gạch chân, rồi kiểm tra lại bài viết.",
+    "targetAvoided": "{topic}: đã tránh dùng, chưa phải đã sửa. Bạn sử dụng mục tiêu này ít hơn một nửa so với bản đầu tiên."
   },
   "liveStudio": {
     "save": "Lưu bản nháp",
@@ -452,7 +464,7 @@
     "weeklyErrors": "Số lỗi trên 100 từ theo tuần",
     "trendSummary": "Điểm trung bình đã thay đổi từ {then} lên {now}.",
     "errorTrendSummary": "Số lỗi trên 100 từ thay đổi từ {then} thành {now}.",
-    "revisionGain": "Các bản sửa của bạn tăng trung bình {delta} điểm ({n} bản sửa).",
+    "revisionGain": "Bạn đã sửa được bao nhiêu: điểm bản sửa thay đổi trung bình {delta} ({n} bản sửa). Đây là luyện sửa bài, không phải bằng chứng tiến bộ trong bài viết mới.",
     "checksNeeded": "Hãy viết thêm {n} bài được chấm để xem bạn tiến bộ thế nào.",
     "improvementDisclaimer": "Điểm là điểm luyện tập 0–5 từ lần nộp đầu tiên. Đây không phải kết quả CEFR hay IELTS.",
     "courseTitle": "Khóa học của bạn",

@@ -1,7 +1,17 @@
 import 'server-only';
 import { and, desc, eq, gte, sql } from 'drizzle-orm';
 import { withUserDatabase, type Transaction } from './client';
-import { aiUsage, drafts, feedbackRows, submissions } from './schema';
+import {
+  aiUsage,
+  curriculumUnits,
+  drafts,
+  feedbackRows,
+  submissions,
+  targetEvidence,
+  targetAssistance,
+} from './schema';
+import { targetsForUnit, validateTargetReport } from '@/lib/targets';
+import { assessMastery } from '@/lib/mastery';
 import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
 import { seedSubmissionPractice } from './practice';
@@ -112,6 +122,23 @@ export async function reserveSubmission(userId: string, input: FeedbackInput, re
       )
         throw new Error('INVALID_PARENT');
     }
+    const [revisionParent] = input.parentSubmissionId
+      ? await database
+          .select()
+          .from(submissions)
+          .where(eq(submissions.id, input.parentSubmissionId))
+      : [];
+    const assistance = input.parentSubmissionId
+      ? await database
+          .select()
+          .from(targetAssistance)
+          .where(eq(targetAssistance.submissionId, input.parentSubmissionId))
+      : [];
+    const revisionKind = input.parentSubmissionId
+      ? assistance.length > 0 || revisionParent?.revisionKind === 'assisted'
+        ? ('assisted' as const)
+        : ('self' as const)
+      : null;
     const [submission] = await database
       .insert(submissions)
       .values({
@@ -122,6 +149,7 @@ export async function reserveSubmission(userId: string, input: FeedbackInput, re
         wordCount: countWords(input.text),
         attempt: input.attempt,
         parentSubmissionId: input.parentSubmissionId,
+        revisionKind,
       })
       .returning();
     await database
@@ -147,6 +175,15 @@ export async function completeSubmission(
       .where(and(eq(submissions.id, submissionId), eq(submissions.status, 'pending')))
       .returning({ id: submissions.id });
     if (updated.length !== 1) throw new Error('CHECK_EXPIRED');
+    const [source] = await database
+      .select({ text: submissions.text, taskId: submissions.taskId, attempt: submissions.attempt })
+      .from(submissions)
+      .where(eq(submissions.id, submissionId));
+    const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
+    const unit = units.find(({ content }) =>
+      content.lessons.some((lesson) => lesson.task.id === source.taskId),
+    )?.content;
+    feedback = validateTargetReport(feedback, unit ? targetsForUnit(unit) : []);
     await database.insert(feedbackRows).values({
       userId,
       submissionId,
@@ -154,10 +191,38 @@ export async function completeSubmission(
       model: result.model,
       promptVersion: feedbackPromptVersion,
     });
-    const [source] = await database
-      .select({ text: submissions.text })
-      .from(submissions)
-      .where(eq(submissions.id, submissionId));
+    if (unit && feedback.target_report?.length) {
+      await database.insert(targetEvidence).values(
+        feedback.target_report.map((item) => ({
+          userId,
+          submissionId,
+          tag: item.tag,
+          level: unit.level,
+          uses: item.uses,
+          errors: item.errors,
+          isFirstAttempt: source.attempt === 1,
+          // Checkpoints are not benchmarks until reviewed parallel prompts exist.
+          isBenchmark: false,
+          graderVersion: `${result.model}:${feedbackPromptVersion}`,
+        })),
+      );
+    }
+    if (unit && !unit.id.startsWith('ielts-')) {
+      const original =
+        source.attempt > 1 ? await originalFeedbackInTransaction(database, submissionId) : null;
+      const masteryAdvisory = assessMastery({
+        targets: targetsForUnit(unit),
+        feedback,
+        attempt: source.attempt,
+        isCheckpoint: unit.lessons.find((lesson) => lesson.task.id === source.taskId)!.task
+          .isCheckpoint,
+        baseline: original?.json.target_report,
+      });
+      await database
+        .update(submissions)
+        .set({ masteryAdvisory })
+        .where(eq(submissions.id, submissionId));
+    }
     await seedSubmissionPractice(database, userId, {
       id: submissionId,
       text: source.text,
@@ -193,6 +258,26 @@ export async function loadFeedback(userId: string, submissionId: string) {
           .where(eq(submissions.id, submissionId))
       )[0] ?? null,
   );
+}
+export async function loadOriginalFeedback(userId: string, submissionId: string) {
+  return withUserDatabase(userId, (database) =>
+    originalFeedbackInTransaction(database, submissionId),
+  );
+}
+async function originalFeedbackInTransaction(database: Transaction, submissionId: string) {
+  let id = submissionId;
+  for (let depth = 0; depth < 20; depth++) {
+    const [row] = await database.select().from(submissions).where(eq(submissions.id, id));
+    if (!row) return null;
+    if (!row.parentSubmissionId) {
+      return (
+        (await database.select().from(feedbackRows).where(eq(feedbackRows.submissionId, id)))[0] ??
+        null
+      );
+    }
+    id = row.parentSubmissionId;
+  }
+  return null;
 }
 export function recentSubmissions(userId: string) {
   return withUserDatabase(userId, recentSubmissionsInTransaction);

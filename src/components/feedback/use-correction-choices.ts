@@ -3,9 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import type { CorrectionChoice, CorrectionStatus, ReportReason } from '@/lib/feedback/choices';
 
 type Change = { correctionIndex: number } & (
-  { status: CorrectionStatus } | { reason: ReportReason }
+  { status: CorrectionStatus } | { reason: ReportReason } | { reveal: true }
 );
-function updateChoice(current: CorrectionChoice[], change: Change) {
+function updateChoice(
+  current: CorrectionChoice[],
+  change: Change | { correctionIndex: number; revealed: true },
+) {
   const previous = current.find((item) => item.correctionIndex === change.correctionIndex) ?? {
     correctionIndex: change.correctionIndex,
     status: 'open' as const,
@@ -77,6 +80,10 @@ export function useCorrectionChoices(
         const result = await response.json();
         if (!response.ok || !result.ok) throw new Error(result.error?.code ?? 'SAVE_FAILED');
         if ('reason' in change) setChoices((current) => updateChoice(current, change));
+        if ('reveal' in change)
+          setChoices((current) =>
+            updateChoice(current, { correctionIndex: change.correctionIndex, revealed: true }),
+          );
         setErrors((current) => current.filter((item) => !sameField(item.change, change)));
         return true;
       } catch (cause) {
@@ -104,5 +111,7 @@ export function useCorrectionChoices(
   };
 }
 function sameField(left: Change, right: Change) {
-  return left.correctionIndex === right.correctionIndex && 'status' in left === 'status' in right;
+  const field = (change: Change) =>
+    'status' in change ? 'status' : 'reason' in change ? 'reason' : 'reveal';
+  return left.correctionIndex === right.correctionIndex && field(left) === field(right);
 }

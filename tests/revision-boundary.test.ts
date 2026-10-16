@@ -8,8 +8,15 @@ import { markedPageSample } from '@/mocks/markedPage.sample';
 import { sampleDraft } from '@/mocks/draft.sample';
 vi.mock('server-only', () => ({}));
 vi.mock('@/lib/auth/server', () => ({ currentUser: vi.fn() }));
-vi.mock('@/lib/db/queries', () => ({ loadFeedback: vi.fn(), loadDraft: vi.fn() }));
-vi.mock('@/lib/db/corrections', () => ({ loadCorrectionChoices: async () => [] }));
+vi.mock('@/lib/db/queries', () => ({
+  loadFeedback: vi.fn(),
+  loadDraft: vi.fn(),
+  loadOriginalFeedback: async () => null,
+}));
+vi.mock('@/lib/db/corrections', () => ({
+  loadCorrectionChoices: async () => [],
+  hasSubmittedRevision: async () => false,
+}));
 vi.mock('@/lib/db/curriculum', () => ({ loadTask: async () => weekendTask }));
 it('passes a saved mock attempt to real feedback and blocks an unusable twenty-first revision', async () => {
   const id = '00000000-0000-4000-8000-000000000090';

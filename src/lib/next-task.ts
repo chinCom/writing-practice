@@ -1,5 +1,6 @@
 import type { CurriculumLevel, CurriculumUnit } from '@/lib/curriculum';
 import type { CoursePathUnit } from '@/lib/curriculum-path';
+import type { AdvisoryTarget } from '@/lib/mastery';
 
 export type NextTask =
   | {
@@ -11,6 +12,7 @@ export type NextTask =
       minWords: number;
       maxWords: number;
       focus: CurriculumUnit['grammarFocus'];
+      advisoryTargets: AdvisoryTarget[];
       href: string;
       warmupsDone: boolean;
     }
@@ -38,6 +40,7 @@ export function nextTask(path?: {
       minWords: lesson.task.minWords,
       maxWords: lesson.task.maxWords,
       focus: unit.grammarFocus,
+      advisoryTargets: lesson.advisoryTargets,
       href: lesson.warmupsDone ? '/write/' + lesson.task.id : '/lesson/' + lesson.id,
       warmupsDone: lesson.warmupsDone,
     };

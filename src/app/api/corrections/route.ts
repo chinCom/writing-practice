@@ -2,7 +2,11 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { ApiError, apiFailure, readJson, requireApiUser } from '@/lib/api';
 import { choiceInput } from '@/lib/feedback/choices';
-import { loadCorrectionChoices, saveCorrectionChoice } from '@/lib/db/corrections';
+import {
+  loadCorrectionChoices,
+  saveCorrectionChoice,
+  revealCorrection,
+} from '@/lib/db/corrections';
 const headers = { 'Cache-Control': 'private, no-store' };
 function failure(error: unknown) {
   return apiFailure(
@@ -29,9 +33,10 @@ export async function POST(request: Request) {
     const user = await requireApiUser(request);
     const parsed = choiceInput.safeParse(await readJson(request));
     if (!parsed.success) throw new ApiError('INVALID_INPUT', 400);
-    const { submissionId, correctionIndex, status } = parsed.data;
-    await saveCorrectionChoice(user.id, submissionId, correctionIndex, status);
-    return NextResponse.json({ ok: true, status }, { headers });
+    const { submissionId, correctionIndex } = parsed.data;
+    if ('reveal' in parsed.data) await revealCorrection(user.id, submissionId, correctionIndex);
+    else await saveCorrectionChoice(user.id, submissionId, correctionIndex, parsed.data.status);
+    return NextResponse.json({ ok: true }, { headers });
   } catch (error) {
     return failure(error);
   }

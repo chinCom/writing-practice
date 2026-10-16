@@ -36,6 +36,8 @@ export default function CorrectionCard({
   onMove,
   onClose,
   mobile = false,
+  answerHidden = false,
+  onReveal,
 }: {
   correction: LocatedCorrection;
   submissionId: string;
@@ -54,6 +56,8 @@ export default function CorrectionCard({
   onMove: (direction: number) => void;
   onClose?: () => void;
   mobile?: boolean;
+  answerHidden?: boolean;
+  onReveal?: () => void;
 }) {
   const t = useTranslations('feedback');
   const [exercise, setExercise] = useState({ index, trying: false, answer: '', incorrect: false });
@@ -98,24 +102,38 @@ export default function CorrectionCard({
           </IconButton>
         ) : null}
       </Stack>
-      <Stack
-        direction="row"
-        dir="ltr"
-        sx={{ alignItems: 'baseline', flexWrap: 'wrap', gap: 1, marginBlock: 1.5 }}
-      >
-        <Typography component="del">{correction.original}</Typography>
-        <ArrowForward fontSize="small" aria-hidden="true" />
-        <Typography sx={{ color: 'success.dark', fontWeight: 600 }}>
-          {correction.suggestion}
-        </Typography>
-      </Stack>
-      {correction.start === null ? (
-        <Typography variant="caption" color="text.secondary">
-          {t('unmarked')}
-        </Typography>
-      ) : null}
-      <Typography variant="body2">{correction.explanation}</Typography>
-      <ExplanationPanel submissionId={submissionId} index={index} preview={preview} />
+      {answerHidden ? (
+        <Stack sx={{ gap: 1, marginBlock: 2 }}>
+          <Typography>{correction.original}</Typography>
+          <Typography variant="body2">
+            {t('targetCue', { topic: t('tags.' + correction.tag) })}
+          </Typography>
+          <Button variant="outlined" disabled={choiceBusy} onClick={onReveal}>
+            {t('showMe')}
+          </Button>
+        </Stack>
+      ) : (
+        <>
+          <Stack
+            direction="row"
+            dir="ltr"
+            sx={{ alignItems: 'baseline', flexWrap: 'wrap', gap: 1, marginBlock: 1.5 }}
+          >
+            <Typography component="del">{correction.original}</Typography>
+            <ArrowForward fontSize="small" aria-hidden="true" />
+            <Typography sx={{ color: 'success.dark', fontWeight: 600 }}>
+              {correction.suggestion}
+            </Typography>
+          </Stack>
+          {correction.start === null ? (
+            <Typography variant="caption" color="text.secondary">
+              {t('unmarked')}
+            </Typography>
+          ) : null}
+          <Typography variant="body2">{correction.explanation}</Typography>
+          <ExplanationPanel submissionId={submissionId} index={index} preview={preview} />
+        </>
+      )}
       <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
         <Button size="small" disabled={choiceBusy} onClick={onDismiss}>
           {t(dismissed ? 'restore' : 'dismiss')}
@@ -144,7 +162,7 @@ export default function CorrectionCard({
           {t(choiceError === 'UNAUTHENTICATED' ? 'choiceSession' : 'choiceError')}
         </Alert>
       ) : null}
-      <Collapse in={trying && !applied && !dismissed}>
+      <Collapse in={!answerHidden && trying && !applied && !dismissed} unmountOnExit>
         <Box
           component="form"
           onSubmit={(event) => {
@@ -170,26 +188,28 @@ export default function CorrectionCard({
           </Button>
         </Box>
       </Collapse>
-      <Stack direction="row" sx={{ gap: 1, marginBlockStart: 2 }}>
-        {!applied && !dismissed ? (
+      {!answerHidden ? (
+        <Stack direction="row" sx={{ gap: 1, marginBlockStart: 2 }}>
+          {!applied && !dismissed ? (
+            <Button
+              variant="outlined"
+              fullWidth
+              disabled={choiceBusy}
+              onClick={() => setExercise({ ...current, trying: !trying })}
+            >
+              {t('try')}
+            </Button>
+          ) : null}
           <Button
-            variant="outlined"
+            variant={applied ? 'outlined' : 'contained'}
             fullWidth
-            disabled={choiceBusy}
-            onClick={() => setExercise({ ...current, trying: !trying })}
+            disabled={choiceBusy || dismissed}
+            onClick={onApply}
           >
-            {t('try')}
+            {t(applied ? 'undo' : 'apply')}
           </Button>
-        ) : null}
-        <Button
-          variant={applied ? 'outlined' : 'contained'}
-          fullWidth
-          disabled={choiceBusy || dismissed}
-          onClick={onApply}
-        >
-          {t(applied ? 'undo' : 'apply')}
-        </Button>
-      </Stack>
+        </Stack>
+      ) : null}
       {applied ? (
         <Typography role="status" variant="caption" sx={{ display: 'block', marginBlockStart: 1 }}>
           {t('localFix')}

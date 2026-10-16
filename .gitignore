@@ -8,3 +8,6 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 curriculum/supplied/
+# Target-study reports can contain learner-derived model text.
+evals/results/targets-latest.json
+evals/results/targets-ai-diagnostic.json
