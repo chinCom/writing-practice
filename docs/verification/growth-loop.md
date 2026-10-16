@@ -244,3 +244,18 @@ The next action is product-owner review of the separate growth draft, followed b
 ### Remaining
 
 Re-run the paid diagnostic only after the approved budget and human review. Its results will apply to `feedback-growth-5`, not to earlier cohorts.
+
+## Content review fixes (unapproved draft)
+
+The product-owner content review found defects in `curriculum/growth.draft.json`. `scripts/author-growth.py` now holds every drill, noticing span, parallel prompt and reading as data. Regenerate with `python3 scripts/author-growth.py`.
+
+- Transfer drills: 124 items, 124 unique prompts file-wide, four per focus tag. Each explanation is one rule of 20 words or fewer. Answers list valid punctuation and contraction variants, with no more than five per item.
+- Capitalization drills match capital letters exactly (`matchesPracticeAnswer` in `src/lib/practice.ts`, used by `src/lib/transfer.ts`). Other drills still ignore letter case.
+- Noticing: all 21 instructions name a structure from the unit focus and select every instance in the first model text (2 to 6 spans). None uses "first two" or "occurrence" wording. Each explanation states what the structure does.
+- Parallel checkpoints: first-words is first-person again. Four others regained a demand from their first prompt (balanced-argument, experience-and-advice, edit-an-application, audience-and-register).
+- Reading: 12 original task prompts and fields are restored unchanged. Each lesson gets its own passage before the task. Bands: B1 150 to 220 words, B2 250 to 350, C1 and C2 350 to 500. Each passage has a read-to-write instruction (`reading.instruction`, optional), shown in place of the generic mode label.
+- The task brief shows the passage above the prompt.
+
+Checks: `npx vitest run tests/growth-content.test.ts tests/transfer.test.ts` passed. `npm run check` passed: 179 passed, 7 skipped. E2E on an isolated port 3100 (`noticing`, `transfer`, `read-to-write`): 14 passed.
+
+Approval is still pending. `curriculum/growth.review.json` keeps `approved: false`, with the new content hash. All passages are invented teaching texts. A teacher must check facts, span meanings, accepted answers and difficulty before approval.

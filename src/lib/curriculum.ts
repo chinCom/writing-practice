@@ -49,7 +49,8 @@ export const taskSchema = z.strictObject({
     .strictObject({
       mode: z.enum(['summary', 'continuation']),
       title: z.string().min(1).max(150),
-      text: z.string().min(30).max(3000),
+      instruction: z.string().min(1).max(300).optional(),
+      text: z.string().min(30).max(4000),
     })
     .optional(),
 });
