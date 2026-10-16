@@ -675,7 +675,101 @@
         "title": "Revise",
         "body": "Apply fixes, rewrite, and compare your new version with the first one."
       }
-    }
+    },
+    "nav": {
+      "label": "Landing page",
+      "how": "How it works",
+      "features": "Features",
+      "levels": "Levels",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "language": "Interface language",
+      "start": "Start free"
+    },
+    "eyebrow": "Free during the pilot",
+    "heroNote": "No credit card. English and Vietnamese interface.",
+    "how": {
+      "title": "How it works",
+      "intro": "Each lesson ends with your own writing, checked and revised."
+    },
+    "features": {
+      "title": "Built for real writing practice",
+      "path": {
+        "title": "A path from first words to C2",
+        "body": "Short lessons, model texts and warm-ups at your level, then a writing task."
+      },
+      "explain": {
+        "title": "Explanations you can follow",
+        "body": "Each mark comes with a short reason in plain English. Ask for more when you need it."
+      },
+      "revise": {
+        "title": "Revise and compare",
+        "body": "Rewrite your text, check it again and see what changed between versions."
+      },
+      "practice": {
+        "title": "Practice your own mistakes",
+        "body": "Your corrections come back as short exercises, spaced over days and weeks."
+      },
+      "progress": {
+        "title": "See your progress",
+        "body": "Follow your writing days, scores and finished lessons over time."
+      },
+      "ielts": {
+        "title": "IELTS writing practice",
+        "body": "Task 1 and Task 2 practice with a 1–5 practice scale. These are not official band scores."
+      }
+    },
+    "levels": {
+      "title": "Start at your level",
+      "intro": "A short placement suggests where to begin. You can always choose a different level.",
+      "PRE_A1": "Words and one or two simple sentences about yourself",
+      "A1": "Simple sentences about your day, family and places",
+      "A2": "Short connected messages, notes and simple emails",
+      "B1": "Clear paragraphs, stories and opinions with reasons",
+      "B2": "Structured essays, reports and formal letters",
+      "C1": "Precise, flexible writing for study and work",
+      "C2": "Polished long-form writing with control of style"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "plan": "Pilot access",
+      "price": "Free",
+      "note": "Free while we test the app with early learners. Paid plans are not decided yet.",
+      "includes": {
+        "lessons": "All Core lessons from Pre-A1 to C2",
+        "checks": "AI writing checks, up to 20 per day",
+        "practice": "Practice reviews and progress tracking",
+        "ielts": "IELTS writing practice workspace"
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "cost": {
+        "q": "Is it free?",
+        "a": "Yes, during the pilot. If paid plans start later, we will tell you before anything changes."
+      },
+      "privacy": {
+        "q": "What happens to my writing?",
+        "a": "Your writing is checked by a third-party AI provider, DeepSeek, and may be processed outside your country. Read the privacy policy for details."
+      },
+      "official": {
+        "q": "Are the levels and scores official?",
+        "a": "No. Levels and scores are practice estimates to guide you. They are not CEFR or IELTS certificates."
+      },
+      "devices": {
+        "q": "Do I need to install an app?",
+        "a": "No. It works in the browser on your phone or computer."
+      },
+      "level": {
+        "q": "What if I choose the wrong level?",
+        "a": "The placement only suggests a starting level. You can change it at any time."
+      }
+    },
+    "final": {
+      "title": "Write your first lesson today",
+      "body": "Start with a short lesson at your level."
+    },
+    "copyright": "© 2026 Writing coach"
   },
   "legal": {
     "nav": "Legal",

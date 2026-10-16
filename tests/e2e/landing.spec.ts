@@ -26,10 +26,9 @@ test('signed-out visitors can try the live demo without an API request', async (
   await expect(result.getByRole('button', { name: 'buyed: bought' })).toBeVisible();
   expect(requests).toEqual([]);
 
-  await expect(page.getByRole('link', { name: 'Start writing for free' })).toHaveAttribute(
-    'href',
-    '/login',
-  );
+  const starts = page.getByRole('link', { name: 'Start writing for free' });
+  await expect(starts).toHaveCount(3);
+  for (const start of await starts.all()) await expect(start).toHaveAttribute('href', '/login');
 });
 
 for (const [link, heading, section] of [
@@ -51,4 +50,64 @@ test('the privacy policy discloses third-party AI processing', async ({ page }) 
   await expect(page.getByRole('main')).toContainText(
     'Your writing is processed by a third-party AI provider, DeepSeek.',
   );
+});
+
+test('signed-out visitors see a marketing page without the app navigation', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('navigation', { name: 'Main navigation' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Today' })).toHaveCount(0);
+  const banner = page.getByRole('banner');
+  await expect(banner.getByRole('link', { name: 'Start free' })).toHaveAttribute('href', '/login');
+  for (const name of [
+    'How it works',
+    'Built for real writing practice',
+    'Start at your level',
+    'Pricing',
+    'Frequently asked questions',
+  ])
+    await expect(page.getByRole('region', { name })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Pricing' })).toContainText('Free');
+  await expect(
+    page.getByRole('region', { name: 'Start at your level' }).getByRole('listitem'),
+  ).toHaveCount(7);
+
+  const question = page.getByRole('button', { name: 'What happens to my writing?' });
+  await question.click();
+  await expect(question).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('region', { name: 'Frequently asked questions' })).toContainText(
+    'DeepSeek',
+  );
+  await expect(
+    page.getByRole('contentinfo').getByRole('navigation', { name: 'Legal' }),
+  ).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+});
+
+test('section links scroll below the sticky header on desktop', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'Section links are hidden on small screens');
+  await page.goto('/');
+  await page
+    .getByRole('navigation', { name: 'Landing page' })
+    .getByRole('link', { name: 'FAQ' })
+    .click();
+  await expect(page).toHaveURL(/#faq$/);
+  const heading = page.getByRole('heading', { name: 'Frequently asked questions' });
+  const headerBottom =
+    (await page.getByRole('banner').boundingBox())!.y +
+    (await page.getByRole('banner').boundingBox())!.height;
+  await expect.poll(async () => (await heading.boundingBox())!.y).toBeGreaterThan(headerBottom);
+});
+
+test('the language switch shows the landing page in Vietnamese', async ({ page, context }) => {
+  await context.clearCookies();
+  await page.goto('/');
+  await page
+    .getByRole('group', { name: 'Interface language' })
+    .getByRole('button', { name: 'VI' })
+    .click();
+  await expect(page.getByRole('heading', { level: 1 })).not.toHaveText(
+    'Write in English. See what to fix.',
+  );
+  await expect(page.getByRole('heading', { name: 'Câu hỏi thường gặp' })).toBeVisible();
+  await context.clearCookies();
 });

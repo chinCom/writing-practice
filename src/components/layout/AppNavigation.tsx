@@ -73,7 +73,7 @@ function destination(item: (typeof items)[number], pathname: string) {
   return item.href;
 }
 
-function Logo() {
+export function Logo() {
   const t = useTranslations('app');
   return (
     <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>

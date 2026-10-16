@@ -8,6 +8,27 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import AppNavigation from './AppNavigation';
 
+function SkipLink() {
+  const t = useTranslations('app');
+  return (
+    <Link
+      href="#main"
+      sx={{
+        position: 'fixed',
+        insetBlockStart: (theme) => theme.spacing(1),
+        insetInlineStart: (theme) => theme.spacing(1),
+        zIndex: (theme) => theme.zIndex.modal + 1,
+        p: 1.5,
+        bgcolor: 'background.paper',
+        transform: 'translateY(-200%)',
+        '&:focus': { transform: 'none' },
+      }}
+    >
+      {t('skip')}
+    </Link>
+  );
+}
+
 export default function AppShell({
   children,
   signedIn = false,
@@ -19,23 +40,18 @@ export default function AppShell({
   const t = useTranslations('app');
   const preview = pathname.startsWith('/dev/preview');
   const today = pathname === '/today' || pathname.startsWith('/dev/preview/today');
+  // Signed-out visitors on the landing page get the marketing layout; the page renders its own header, main and footer.
+  const marketing = pathname === '/' && !signedIn;
+  if (marketing)
+    return (
+      <>
+        <SkipLink />
+        {children}
+      </>
+    );
   return (
     <Box sx={{ minHeight: '100dvh' }}>
-      <Link
-        href="#main"
-        sx={{
-          position: 'fixed',
-          insetBlockStart: (theme) => theme.spacing(1),
-          insetInlineStart: (theme) => theme.spacing(1),
-          zIndex: (theme) => theme.zIndex.modal + 1,
-          p: 1.5,
-          bgcolor: 'background.paper',
-          transform: 'translateY(-200%)',
-          '&:focus': { transform: 'none' },
-        }}
-      >
-        {t('skip')}
-      </Link>
+      <SkipLink />
       <AppNavigation signedIn={signedIn} />
       <Box
         component="main"
