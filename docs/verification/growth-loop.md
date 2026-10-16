@@ -163,5 +163,63 @@ See the [M5 implementation decisions and acceptance checks](../superpowers/plans
 M3 precision and noise gates remain closed. These provisional rules do not establish validated mastery or measured growth.
 No live signed-in hosted workflow, paid model call, hosted migration, push, or deployment occurred for M5.
 Native-speaker review of Vietnamese copy remains pending.
-The next milestone is M6, reviewed noticing content and its UI. Product-owner content review remains mandatory.
+M6–M9 local implementation is recorded below. Product-owner content review remains mandatory.
 The recommended pilot dates and recruitment remain the owner’s decision (D5).
+
+## M6–M9 — local content and behavior
+
+Implemented on `feat/target-progress` in `/home/very_dumb_code/Projects/writing-practice-target-progress`.
+The [remaining implementation plan](../superpowers/plans/2026-10-15-growth-content.md) links the approved design.
+
+### M6: read and notice
+
+- Optional noticing exercises expose model words, not correct spans or explanations. Authenticated server checks use trusted, unlocked lessons.
+- Learners select words by keyboard or touch. Wrong answers permit retry; correct answers reveal the authored rule. This does not change lesson completion.
+- All 21 Core units have draft noticing exercises. Legacy lessons without an exercise still work.
+
+### M7: transfer drills
+
+- Practice includes a separate new-sentence section for active targets in the current Core unit. The draft contains 124 items, with four items per selected unit target.
+- Grading uses authored answers and existing normalization/spacing. No AI call occurs. Answers stay server-side until completion.
+- Local migration `0013_transfer_practice.sql` adds owner-only progress and immutable answer replays. Content hashes separate changed items. Stale versions and changed retries are rejected.
+- Transfer results never enter new-writing target evidence or benchmark growth. Saved-correction Practice remains separate.
+
+### M8: matched benchmarks
+
+- Local migration `0014_benchmark_context.sql` freezes reviewed unit/hash/role/range on reservation. Legacy writing has no benchmark context.
+- Progress pairs safe first attempts from the same unit, content hash, and grader version. Mock checks, revisions, reversed chronology, and unmatched checks do not establish pairs.
+- The unmatched first/latest-three table is no longer presented as growth. Weekly descriptive charts remain labelled as practice evidence.
+- Benchmark values stay uncalibrated. The pure calculation supports change only beyond twice a verified, same-version human noise estimate; no such estimate is installed.
+- Word count/range, mean sentence length, and bidirectional MTLD are context, not scores. MTLD requires at least 50 words; undefined values are labelled insufficient.
+
+### M9: reading for writing
+
+- Twelve later Core draft tasks include original passages: six summaries and six continuations. These are not a separate reading track.
+- Writing Studio shows the passage and task mode. The grader receives the passage only through trusted task configuration, separately from escaped learner text.
+- The prompt assesses source consistency and own-word summaries, not copying or a separate reading score. `feedback-growth-4` intentionally starts a new grader cohort.
+
+### Content and publication boundary
+
+`curriculum/growth.draft.json` enriches all 21 Core units while preserving identifiers. It is not approved.
+`curriculum/growth.review.json` has `approved: false`, an empty reviewer, and the exact formatted draft hash.
+The existing reviewed Core/IELTS files and approvals are unchanged. The opt-in `GROWTH_CONTENT=true` seed rejects unapproved growth content before connecting.
+See [the existing review and release procedure](../../curriculum/README.md#growth-content-review-m6m9). Human review must check correctness and comparable prompt difficulty, not just schema validity.
+
+### Verification
+
+- `npm run check`: 173 passed, 7 skipped; formatting, types, lint, and design checks passed.
+- Full browser suite: `npx playwright test -c .superpowers/playwright.worktree.ts` — 302 passed, 10 skipped, unconfigured port 3003, two workers.
+- `npm run build`: passed. `git diff --check`: passed.
+- Pure and PGlite tests cover span validation/answer stripping, locked lessons, owner isolation, transfer replay/conflicts, scheduling, frozen benchmark provenance, calibration boundaries, zero uses, and trusted reading prompts. Provider responses in these tests are synthetic.
+- Tests first reproduced each behavior. The first full browser run exposed duplicate Practice controls and duplicate status regions. Distinct transfer labels and a single result status fixed those failures; the full rerun passed.
+- The final check encountered the previously observed recovery-deadline timing flake in `tests/coach-request.test.ts` (`pending` instead of `failed/NOT_FOUND`). The isolated test and full rerun passed without a behavior change.
+- Review found that formatting changed the draft bytes after hashing. A failing regression reproduced the stale hash; the generator now formats before hashing. Regeneration reproduces the committed draft exactly and leaves approval false.
+- Desktop/mobile screenshots were inspected: `ux/screenshots/growth-{noticing,transfer,benchmarks,reading}-{desktop,mobile}.png`.
+- Author self-review checked server trust boundaries, RLS, atomic writes, public payloads, old-content compatibility, and UI. No blocking finding remains in the local slice. Project instructions prohibit subagents.
+
+### Remaining gates and handoff
+
+Local M1–M2 and M5–M9 behavior is implemented. M4 remains advisory, not an enforced pass rule.
+M3 still requires qualified human annotations, 25% independent review, precision/pass-disagreement acceptance, and same-version noise calibration. The old AI diagnostic cannot calibrate `feedback-growth-4`.
+No hosted migrations, content seed, live signed-in verification, additional paid calls, push, merge, or deployment occurred for M6–M9. Native-speaker Vietnamese review remains pending.
+The next action is product-owner review of the separate growth draft, followed by the approved human study and release checks. D5 pilot recruitment/dates and validated product outcomes remain undecided. Keep mastery enforcement and calibrated growth claims disabled.

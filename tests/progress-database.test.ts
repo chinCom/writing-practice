@@ -75,6 +75,7 @@ beforeAll(async () => {
     '0009_writing_course.sql',
     '0010_target_evidence.sql',
     '0012_mastery_advisory.sql',
+    '0014_benchmark_context.sql',
   ])
     await database.exec(await readFile(`drizzle/${migration}`, 'utf8'));
   for (const unit of [...course, ...ielts])
@@ -101,6 +102,31 @@ beforeAll(async () => {
   await addCheck(bob, 2, 1);
 });
 afterAll(() => database.close());
+it('loads only owner safe reviewed benchmark pairs and freezes their content identity', async () => {
+  const context = {
+    unitId: course[0].id,
+    contentHash: 'reviewed-pair',
+    role: 'baseline',
+    minWords: 5,
+    maxWords: 20,
+  };
+  const first = await addCheck(alice, 3, 2, { taskId: course[0].lessons[0].task.id });
+  const last = await addCheck(alice, 1, 4, { taskId: course[0].lessons.at(-1)!.task.id });
+  for (const [id, role] of [
+    [first, 'baseline'],
+    [last, 'checkpoint'],
+  ])
+    await database.query('UPDATE writing.submissions SET benchmark_context=$1 WHERE id=$2', [
+      JSON.stringify({ ...context, role }),
+      id,
+    ]);
+  const result = await loadProgress(alice);
+  expect(result.benchmarks).toMatchObject([
+    { unitId: course[0].id, scoreDelta: 2, scoreChange: 'uncalibrated' },
+  ]);
+  expect((await loadProgress(bob)).benchmarks).toEqual([]);
+  await database.query('DELETE FROM writing.submissions WHERE id=$1 OR id=$2', [first, last]);
+});
 
 it('reports first-attempt improvement, revision gain, and course progress for the owner only', async () => {
   const report = await loadProgress(alice);
@@ -115,4 +141,6 @@ it('reports first-attempt improvement, revision gain, and course progress for th
   const other = await loadProgress(bob);
   expect(other.improvement.firstChecks).toBe(1);
   expect(other.course.core.current).toBeNull();
+  expect(report.benchmarks).toEqual([]);
+  expect(other.benchmarks).toEqual([]);
 });

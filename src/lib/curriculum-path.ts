@@ -38,7 +38,11 @@ export function buildCoursePath(
       }
       const beforeStart =
         track === 'core' && chosenLevel !== null && ranks[unit.level] < ranks[chosenLevel];
-      const lessons = unit.lessons.map((lesson) => {
+      const lessons = unit.lessons.map((storedLesson) => {
+        const lesson =
+          unit.parallelPrompt?.id === storedLesson.task.id
+            ? { ...storedLesson, task: unit.parallelPrompt }
+            : storedLesson;
         const saved = progress.find((item) => item.lessonId === lesson.id);
         const warmupsDone = lesson.warmups.every(
           (_, index) => saved?.warmups[String(index)] === true,
@@ -82,7 +86,11 @@ export function buildCoursePath(
           answers: saved?.warmups ?? {},
         };
       });
-      return { ...unit, lessons };
+      // Authored exercise answer keys are server-only, like warm-up answers.
+      const publicUnit = { ...unit };
+      delete publicUnit.transferDrills;
+      delete publicUnit.parallelPrompt;
+      return { ...publicUnit, lessons };
     });
 }
 

@@ -91,6 +91,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0010_target_evidence.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0011_self_revision.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0012_mastery_advisory.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0014_benchmark_context.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -625,6 +626,113 @@ it('reads only safe owner first-attempt targets and measures due reviews without
   await database.query('DELETE FROM writing.curriculum_units');
 });
 
+it('freezes reviewed benchmark provenance at reservation and marks only real first-attempt checkpoint evidence', async () => {
+  const owner = '00000000-0000-4000-8000-000000000087';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);
+  const unit = structuredClone(curriculumDraft[0]);
+  unit.parallelPrompt = {
+    ...unit.lessons[0].task,
+    id: unit.lessons.at(-1)!.task.id,
+    isCheckpoint: true,
+    prompt: 'A new parallel writing situation.',
+  };
+  await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
+    unit.id,
+    unit.level,
+    unit.order,
+    JSON.stringify(unit),
+    'Synthetic reviewer',
+    'exact-reviewed-hash',
+  ]);
+  const baseline = await reserveSubmission(owner, {
+    taskId: unit.lessons[0].task.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  const checkpoint = await reserveSubmission(owner, {
+    taskId: unit.parallelPrompt.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  expect(await loadFeedback(owner, checkpoint)).toBeNull();
+  expect(
+    (
+      await asUser(
+        owner,
+        'SELECT benchmark_context FROM writing.submissions WHERE id=' + "'" + checkpoint + "'",
+      )
+    ).rows,
+  ).toMatchObject([
+    { benchmark_context: { role: 'checkpoint', contentHash: 'exact-reviewed-hash' } },
+  ]);
+  expect(
+    (await asUser(bob, 'SELECT * FROM writing.submissions WHERE id=' + "'" + checkpoint + "'"))
+      .rows,
+  ).toEqual([]);
+  await database.query('UPDATE writing.curriculum_units SET content_hash=$1 WHERE id=$2', [
+    'edited-after-reservation',
+    unit.id,
+  ]);
+  const output = {
+    ...markedPageSample,
+    corrections: [],
+    target_report: [
+      { tag: 'subject-verb-agreement' as const, uses: 5, errors: 0, correction_indexes: [] },
+      { tag: 'articles' as const, uses: 5, errors: 0, correction_indexes: [] },
+    ],
+  };
+  const result = {
+    data: output,
+    model: 'pinned',
+    mock: false,
+    latencyMs: 1,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+  };
+  await completeSubmission(owner, baseline, output, result);
+  await completeSubmission(owner, checkpoint, output, result);
+  const evidence = await asUser(
+    owner,
+    'SELECT is_benchmark FROM writing.target_evidence WHERE submission_id=' +
+      "'" +
+      checkpoint +
+      "'",
+  );
+  expect(evidence.rows).toEqual([{ is_benchmark: true }, { is_benchmark: true }]);
+  const revision = await reserveSubmission(owner, {
+    taskId: unit.parallelPrompt.id,
+    text: sampleDraft,
+    attempt: 2,
+    parentSubmissionId: checkpoint,
+  });
+  await completeSubmission(owner, revision, output, result);
+  const mock = await reserveSubmission(owner, {
+    taskId: unit.parallelPrompt.id,
+    text: sampleDraft,
+    attempt: 1,
+  });
+  await completeSubmission(owner, mock, output, { ...result, model: 'mock', mock: true });
+  expect(
+    (
+      await asUser(
+        owner,
+        'SELECT is_benchmark FROM writing.target_evidence WHERE submission_id IN (' +
+          "'" +
+          revision +
+          "','" +
+          mock +
+          "')",
+      )
+    ).rows.every(
+      (row) =>
+        typeof row === 'object' &&
+        row !== null &&
+        'is_benchmark' in row &&
+        row.is_benchmark === false,
+    ),
+  ).toBe(true);
+  await database.query('DELETE FROM auth.users WHERE id=$1', [owner]);
+  await database.query('DELETE FROM writing.curriculum_units');
+});
 it('stores trusted target evidence atomically, privately and immutably through the check route', async () => {
   const owner = '00000000-0000-4000-8000-000000000095';
   await database.query('INSERT INTO auth.users VALUES ($1)', [owner]);

@@ -6,6 +6,7 @@ import Placement from '@/components/curriculum/Placement';
 import LessonView from '@/components/curriculum/LessonView';
 import { coursePreview } from '@/mocks/course-preview';
 import { pathSample } from '@/mocks/curriculum.sample';
+import { noticingSample } from '@/mocks/noticing.sample';
 import Onboarding from '@/components/onboarding/Onboarding';
 import GoalPreview from '@/components/today/GoalPreview';
 import Settings from '@/components/layout/Settings';
@@ -96,6 +97,41 @@ export default async function Page({
         preview
       />
     );
+  if (screen === 'read-summary' || screen === 'read-continuation') {
+    const mode = screen === 'read-summary' ? ('summary' as const) : ('continuation' as const);
+    return (
+      <LiveStudio
+        initialText=""
+        task={{
+          ...pathSample.units[0].lessons[0].task,
+          id: 'reading-preview',
+          targetLevel: 'B1',
+          minWords: 100,
+          maxWords: 180,
+          scaffold: 'checklist',
+          frames: [],
+          wordBank: [],
+          checklist: [
+            'Use your own words',
+            'Keep source details consistent',
+            'Write a coherent response',
+          ],
+          title: 'Write from a short reading',
+          prompt:
+            mode === 'summary'
+              ? 'Summarise the passage for a friend.'
+              : 'Continue the story with a plausible next event.',
+          reading: {
+            mode,
+            title: 'A shared garden',
+            text: 'The neighbours opened a shared garden beside their flats. They planted vegetables and agreed to water them each evening. On Saturday, a family arrived with tools and offered to help. Soon, people who had never spoken before were working together.',
+          },
+        }}
+        preview
+      />
+    );
+  }
+  if (screen === 'lesson-noticing') return <LessonView lesson={noticingSample} preview />;
   if (screen === 'path') return <LearningPath path={pathSample} preview />;
   if (screen === 'placement') return <Placement preview />;
   if (screen === 'lesson') return <LessonView lesson={pathSample.units[0].lessons[0]} preview />;
@@ -128,7 +164,7 @@ export default async function Page({
   if (screen === 'settings')
     return <Settings preferences={{ explanation: 'en', daily: '15' }} signedIn preview />;
   if (screen === 'today-account') return <Today signedIn progress={progressSample} due={2} />;
-  if (screen === 'practice-page') return <Practice preview />;
+  if (screen === 'practice-page' || screen === 'practice-transfer') return <Practice preview />;
   if (screen === 'progress') return <Progress preview />;
   if (screen === 'progress-empty') return <Progress preview variant="empty" />;
   if (screen === 'portfolio') return <Portfolio preview />;

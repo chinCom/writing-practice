@@ -13,6 +13,7 @@ import {
 import { validateTargetReport } from '@/lib/targets';
 import { trustedTargetsInTransaction } from './targets';
 import { assessMastery } from '@/lib/mastery';
+import { benchmarkContextForTask } from '@/lib/benchmarks';
 import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
 import { seedSubmissionPractice } from './practice';
@@ -140,6 +141,13 @@ export async function reserveSubmission(userId: string, input: FeedbackInput, re
         ? ('assisted' as const)
         : ('self' as const)
       : null;
+    const units = await database.select().from(curriculumUnits);
+    const reviewed = units.find((unit) =>
+      unit.content.lessons.some((lesson) => lesson.task.id === input.taskId),
+    );
+    const benchmarkContext = reviewed
+      ? benchmarkContextForTask(reviewed.content, reviewed.contentHash, input.taskId)
+      : null;
     const [submission] = await database
       .insert(submissions)
       .values({
@@ -151,6 +159,7 @@ export async function reserveSubmission(userId: string, input: FeedbackInput, re
         attempt: input.attempt,
         parentSubmissionId: input.parentSubmissionId,
         revisionKind,
+        benchmarkContext,
       })
       .returning();
     await database
@@ -177,7 +186,12 @@ export async function completeSubmission(
       .returning({ id: submissions.id });
     if (updated.length !== 1) throw new Error('CHECK_EXPIRED');
     const [source] = await database
-      .select({ text: submissions.text, taskId: submissions.taskId, attempt: submissions.attempt })
+      .select({
+        text: submissions.text,
+        taskId: submissions.taskId,
+        attempt: submissions.attempt,
+        benchmarkContext: submissions.benchmarkContext,
+      })
       .from(submissions)
       .where(eq(submissions.id, submissionId));
     const units = await database.select({ content: curriculumUnits.content }).from(curriculumUnits);
@@ -203,8 +217,8 @@ export async function completeSubmission(
           uses: item.uses,
           errors: item.errors,
           isFirstAttempt: source.attempt === 1,
-          // Checkpoints are not benchmarks until reviewed parallel prompts exist.
-          isBenchmark: false,
+          isBenchmark:
+            source.attempt === 1 && source.benchmarkContext?.role === 'checkpoint' && !result.mock,
           graderVersion: `${result.model}:${feedbackPromptVersion}`,
         })),
       );

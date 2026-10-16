@@ -8,8 +8,12 @@ import { summarizeImprovement, type Improvement } from '@/lib/improvement';
 import { summarizeCourse, type CourseProgress } from '@/lib/course-progress';
 import { targetsInTransaction } from './targets';
 import type { TargetProgress } from '@/lib/target-progress';
+import { summarizeBenchmarks } from '@/lib/benchmarks';
 
-export type ProgressReport = ProgressSummary & { improvement: Improvement };
+export type ProgressReport = ProgressSummary & {
+  improvement: Improvement;
+  benchmarks: ReturnType<typeof summarizeBenchmarks>;
+};
 export type ProgressPageData = ProgressReport & {
   course: { core: CourseProgress; ielts: CourseProgress };
   targets: TargetProgress[];
@@ -38,6 +42,10 @@ export async function progressInTransaction(
   const writing = await database
     .select({
       id: submissions.id,
+      text: submissions.text,
+      context: submissions.benchmarkContext,
+      model: feedbackRows.model,
+      promptVersion: feedbackRows.promptVersion,
       at: submissions.createdAt,
       words: submissions.wordCount,
       attempt: submissions.attempt,
@@ -85,5 +93,20 @@ export async function progressInTransaction(
     })),
     now,
   );
-  return { ...summary, improvement };
+  const benchmarks = summarizeBenchmarks(
+    writing
+      .filter((row) => row.model !== 'mock')
+      .map((row) => ({
+        id: row.id,
+        at: row.at.toISOString(),
+        attempt: row.attempt,
+        safety: row.feedback.safety_flag,
+        version: row.model + ':' + row.promptVersion,
+        context: row.context,
+        text: row.text,
+        scores: row.feedback.scores,
+        targets: row.feedback.target_report,
+      })),
+  );
+  return { ...summary, improvement, benchmarks };
 }

@@ -13,6 +13,8 @@ import Alert from '@mui/material/Alert';
 import WritingField from '@/components/ui/WritingField';
 import { trackForId } from '@/lib/curriculum';
 import IeltsContract from './IeltsContract';
+import Noticing from './Noticing';
+import ReadingPassage from './ReadingPassage';
 import TaskChart from './TaskChart';
 import TargetRecommendations from './TargetRecommendations';
 import type { LearningPath } from '@/lib/db/curriculum';
@@ -91,6 +93,7 @@ export default function LessonView({
         <TargetRecommendations targets={lesson.advisoryTargets} />
         <IeltsContract taskId={lesson.task.id} />
         <TaskChart taskId={lesson.task.id} />
+        <ReadingPassage reading={lesson.task.reading} />
         <Paper variant="outlined" sx={{ p: 3 }}>
           <Stack sx={{ gap: 2 }}>
             <Typography variant="h2">{t('miniLesson')}</Typography>
@@ -101,6 +104,14 @@ export default function LessonView({
             </Typography>
           </Stack>
         </Paper>
+        {lesson.noticing ? (
+          <Noticing
+            lessonId={lesson.id}
+            text={lesson.miniLesson.modelText}
+            instruction={lesson.noticing.instruction}
+            endpoint={preview ? '/dev/preview/noticing-api' : '/api/noticing'}
+          />
+        ) : null}
         <Paper
           component="form"
           variant="outlined"

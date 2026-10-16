@@ -16,6 +16,7 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
 import CalendarMonthOutlined from '@mui/icons-material/CalendarMonthOutlined';
 import WritingField from '@/components/ui/WritingField';
 import HintText from '@/components/ui/HintText';
+import Transfer from './Transfer';
 import { tickPop } from '@/theme/theme';
 import type { PracticeAnswer, PracticeQuestion } from '@/lib/practice';
 
@@ -190,6 +191,7 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
         <Typography component="h1" variant="h1">
           {t('title')}
         </Typography>
+        <Transfer preview={preview} />
         {busy && <LinearProgress aria-label={t('loading')} />}
         {error && (
           <Alert severity="error">

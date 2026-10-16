@@ -21,7 +21,9 @@ async function reviewedTrack(sourcePath: string, reviewPath: string) {
   return { units: curriculumSchema.parse(JSON.parse(source.toString())), hash, review };
 }
 const tracks = await Promise.all([
-  reviewedTrack('curriculum/course.draft.json', 'curriculum/review.json'),
+  process.env.GROWTH_CONTENT === 'true'
+    ? reviewedTrack('curriculum/growth.draft.json', 'curriculum/growth.review.json')
+    : reviewedTrack('curriculum/course.draft.json', 'curriculum/review.json'),
   reviewedTrack('curriculum/ielts.draft.json', 'curriculum/ielts.review.json'),
 ]);
 // Reject cross-track duplicate IDs before opening a database connection.

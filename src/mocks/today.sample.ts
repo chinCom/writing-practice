@@ -16,6 +16,7 @@ export const todayGoalMetSample = {
     new Date('2026-10-14T12:00:00Z'),
   ),
   improvement: progressSample.improvement,
+  benchmarks: [],
 };
 import { summarizeImprovement } from '@/lib/improvement';
 import type { SavedSubmission } from '@/components/today/SavedFeedback';
@@ -23,6 +24,7 @@ import type { LearningSnapshotData } from '@/components/today/LearningSnapshot';
 
 export const todayProgressSample = {
   improvement: summarizeImprovement([], new Date('2026-10-14T12:00:00Z')),
+  benchmarks: [],
   ...summarizeProgress(
     [
       { at: '2026-10-13T09:00:00Z', words: 60, level: 'A2', corrections: [] },

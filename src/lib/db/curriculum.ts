@@ -19,6 +19,7 @@ import {
   trackForId,
 } from '@/lib/curriculum';
 import { ApiError } from '@/lib/api';
+import { gradeNoticing, type TextSpan } from '@/lib/noticing';
 import { buildCoursePath } from '@/lib/curriculum-path';
 import { trustedTargetsInTransaction } from './targets';
 
@@ -109,6 +110,21 @@ export async function answerWarmup(
         },
       });
     return { correct, hint: correct ? null : warmup.hint, warmupsDone: done, answers };
+  });
+}
+export async function answerNoticing(userId: string, lessonId: string, selected: TextSpan[]) {
+  return withUserDatabase(userId, async (database) => {
+    await lessonInTransaction(database, lessonId);
+    const [unit] = await database
+      .select({ content: curriculumUnits.content })
+      .from(curriculumUnits)
+      .where(
+        sql`${curriculumUnits.content}->'lessons' @> ${JSON.stringify([{ id: lessonId }])}::jsonb`,
+      );
+    const exercise = unit?.content.lessons.find((lesson) => lesson.id === lessonId)?.noticing;
+    if (!exercise) throw new ApiError('NOT_FOUND', 404);
+    const correct = gradeNoticing(exercise, selected);
+    return { correct, ...(correct ? { explanation: exercise.explanation } : {}) };
   });
 }
 export async function reservePlacement(userId: string) {

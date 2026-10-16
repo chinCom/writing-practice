@@ -1,3 +1,4 @@
+import { summarizeBenchmarks } from '@/lib/benchmarks';
 import { summarizeProgress } from '@/lib/progress';
 import { summarizeImprovement, type CheckEvent } from '@/lib/improvement';
 import { summarizeCourse } from '@/lib/course-progress';
@@ -61,6 +62,27 @@ const summary = summarizeProgress(
 export const progressSample: ProgressPageData = {
   ...summary,
   improvement: summarizeImprovement(checks, now),
+  benchmarks: summarizeBenchmarks(
+    [2, 4].map((value, index) => ({
+      id: 'benchmark-' + index,
+      at: index ? '2026-10-15' : '2026-10-01',
+      attempt: 1,
+      safety: false,
+      version: 'synthetic:preview',
+      context: {
+        unitId: 'a2-messages',
+        contentHash: 'preview',
+        role: index ? ('checkpoint' as const) : ('baseline' as const),
+        minWords: 5,
+        maxWords: 20,
+      },
+      text: 'One cat sleeps. Two dogs play.',
+      scores: { task: value, grammar: value, organization: value, vocabulary: value },
+      targets: [
+        { tag: 'articles' as const, uses: 10, errors: index ? 0 : 2, correction_indexes: [] },
+      ],
+    })),
+  ),
   targets: summarizeTargets(
     (
       [
@@ -96,4 +118,5 @@ export const progressEmptySample: ProgressPageData = {
   ...progressSample,
   improvement: summarizeImprovement([], now),
   targets: [],
+  benchmarks: [],
 };

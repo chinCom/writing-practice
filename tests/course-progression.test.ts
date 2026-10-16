@@ -34,6 +34,7 @@ beforeAll(async () => {
     '0009_writing_course',
     '0010_target_evidence',
     '0012_mastery_advisory',
+    '0014_benchmark_context',
   ])
     await database.exec(await readFile('drizzle/' + name + '.sql', 'utf8'));
   for (const unit of [...course, ...ielts])
