@@ -8,7 +8,7 @@ import {
   getTrackUnits,
 } from './curriculum';
 import { advisoryTargets, type MasteryAssessment } from './mastery';
-import { targetsForUnit } from './targets';
+import { growthTargetsEnabled, targetsForUnit } from './targets';
 export function buildCoursePath(
   content: CurriculumUnit[],
   chosenLevel: CurriculumLevel | null,
@@ -71,6 +71,7 @@ export function buildCoursePath(
           .sort((a, b) => (b.at?.getTime() ?? 0) - (a.at?.getTime() ?? 0))[0];
         if (
           track === 'core' &&
+          growthTargetsEnabled() &&
           done &&
           !latest?.feedback.safety_flag &&
           latest?.masteryAdvisory?.outcome === 'carry-forward'

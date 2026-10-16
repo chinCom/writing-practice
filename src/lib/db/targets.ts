@@ -3,7 +3,7 @@ import { and, eq, sql } from 'drizzle-orm';
 import type { Transaction } from './client';
 import { submissions, feedbackRows, targetEvidence } from './schema';
 import { summarizeTargets, reviewTargets } from '@/lib/target-progress';
-import { targetsForUnit } from '@/lib/targets';
+import { growthTargetsEnabled, targetsForUnit } from '@/lib/targets';
 import type { CurriculumUnit } from '@/lib/curriculum';
 
 export async function targetsInTransaction(database: Transaction, now = new Date()) {
@@ -40,6 +40,7 @@ export async function trustedTargetsInTransaction(
   database: Transaction,
   unit: Pick<CurriculumUnit, 'id' | 'level' | 'grammarFocus'>,
 ) {
+  if (!growthTargetsEnabled()) return [];
   const focus = targetsForUnit(unit);
   if (unit.id.startsWith('ielts-') || focus.length === 2) return focus;
   return reviewTargets(focus, unit.level, await targetsInTransaction(database));

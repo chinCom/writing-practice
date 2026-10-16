@@ -20,41 +20,50 @@ const feedbackOnly = new Set<Tag>([
   'too-short',
   'tone-formality',
 ]);
+// Growth targets stay off unless the server sets GROWTH_TARGETS=true.
+export function growthTargetsEnabled(): boolean {
+  return process.env.GROWTH_TARGETS === 'true';
+}
+// Saved reports from earlier grading must not drive the UI while the switch is off.
+export function visibleFeedback<T extends { target_report?: unknown }>(feedback: T): T {
+  if (growthTargetsEnabled()) return feedback;
+  const { target_report: hidden, ...ordinary } = feedback;
+  void hidden;
+  return ordinary as T;
+}
 export function targetsForUnit(unit: Pick<CurriculumUnit, 'id' | 'grammarFocus'>): Tag[] {
-  if (trackForId(unit.id) !== 'core') return [];
+  if (!growthTargetsEnabled() || trackForId(unit.id) !== 'core') return [];
   return [...new Set(unit.grammarFocus)].filter((tag) => !feedbackOnly.has(tag)).slice(0, 2);
 }
-export function validateTargetReport<T extends Feedback>(feedback: T, targets: Tag[]): T {
-  const report = feedback.target_report;
-  const valid =
-    !feedback.safety_flag &&
-    targets.length > 0 &&
-    report?.length === targets.length &&
-    new Set(report.map((item) => item.tag)).size === report.length &&
-    report.every((item) => {
-      const indexes = item.correction_indexes;
-      const corrections = feedback.corrections;
-      return (
-        targets.includes(item.tag) &&
-        item.errors <= item.uses &&
-        item.errors === indexes.length &&
-        new Set(indexes).size === indexes.length &&
-        indexes.every(
-          (index) =>
-            corrections[index]?.tag === item.tag && corrections[index].severity !== 'style',
-        ) &&
-        corrections.every(
-          (correction, index) =>
-            correction.tag !== item.tag ||
-            correction.severity === 'style' ||
-            indexes.includes(index),
-        )
-      );
-    });
-  if (valid) return feedback;
-  const { target_report: discarded, ...ordinary } = feedback;
-  void discarded;
-  return ordinary as T;
+type ReportedUse = { tag: Tag; uses: number };
+// The model reports only uses. Errors and indexes come from its own same-tag corrections.
+export function validateTargetReport<T extends Omit<Feedback, 'target_report'>>(
+  feedback: T & { target_report?: ReportedUse[] },
+  targets: Tag[],
+): T & Pick<Feedback, 'target_report'> {
+  const { target_report: submitted, ...ordinary } = feedback;
+  const report = deriveTargetReport(ordinary, submitted, targets);
+  return { ...ordinary, ...(report ? { target_report: report } : {}) } as T &
+    Pick<Feedback, 'target_report'>;
+}
+function deriveTargetReport(
+  feedback: Pick<Feedback, 'safety_flag' | 'corrections'>,
+  submitted: ReportedUse[] | undefined,
+  targets: Tag[],
+): Feedback['target_report'] {
+  if (feedback.safety_flag || !targets.length) return undefined;
+  return targets.map((tag) => {
+    const indexes = feedback.corrections.flatMap((correction, index) =>
+      correction.tag === tag && correction.severity !== 'style' ? [index] : [],
+    );
+    const uses = submitted?.find((item) => item.tag === tag)?.uses ?? 0;
+    return {
+      tag,
+      uses: Math.max(uses, indexes.length),
+      errors: indexes.length,
+      correction_indexes: indexes,
+    };
+  });
 }
 export function locateFeedback(text: string, feedback: Feedback): LocatedFeedback {
   const corrections = locateCorrections(text, feedback.corrections);

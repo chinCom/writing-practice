@@ -7,6 +7,7 @@ import { summarizeProgress, type ProgressSummary } from '@/lib/progress';
 import { summarizeImprovement, type Improvement } from '@/lib/improvement';
 import { summarizeCourse, type CourseProgress } from '@/lib/course-progress';
 import { targetsInTransaction } from './targets';
+import { growthTargetsEnabled, visibleFeedback } from '@/lib/targets';
 import type { TargetProgress } from '@/lib/target-progress';
 import { summarizeBenchmarks } from '@/lib/benchmarks';
 
@@ -27,7 +28,7 @@ export function loadProgress(userId: string): Promise<ProgressPageData> {
     const ielts = await pathInTransaction(database, 'ielts');
     return {
       ...report,
-      targets: await targetsInTransaction(database, now),
+      targets: growthTargetsEnabled() ? await targetsInTransaction(database, now) : [],
       course: {
         core: summarizeCourse(core.units, 'core', now),
         ielts: summarizeCourse(ielts.units, 'ielts', now),
@@ -105,7 +106,7 @@ export async function progressInTransaction(
         context: row.context,
         text: row.text,
         scores: row.feedback.scores,
-        targets: row.feedback.target_report,
+        targets: visibleFeedback(row.feedback).target_report,
       })),
   );
   return { ...summary, improvement, benchmarks };

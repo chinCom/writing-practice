@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { apiFailure, ApiError, readJson, requireApiUser } from '@/lib/api';
 import { parseFeedbackInput } from '@/lib/feedback/input';
-import { locateFeedback, validateTargetReport } from '@/lib/targets';
+import { locateFeedback, validateTargetReport, visibleFeedback } from '@/lib/targets';
 import {
   claimSubmission,
   completeSubmission,
@@ -82,7 +82,14 @@ export async function POST(request: Request) {
       const saved = await loadFeedback(user.id, submissionId);
       if (!saved) throw new ApiError('SERVER_ERROR', 500);
       return NextResponse.json(
-        { ok: true, data: { submissionId, feedback: saved.feedback.json, status: 'completed' } },
+        {
+          ok: true,
+          data: {
+            submissionId,
+            feedback: visibleFeedback(saved.feedback.json),
+            status: 'completed',
+          },
+        },
         { headers: privateHeaders },
       );
     }

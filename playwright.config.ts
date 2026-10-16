@@ -14,6 +14,8 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: 'http://127.0.0.1:3000',
+    // Target UI specs need the growth switch on; a reused server must also start with it.
+    env: { GROWTH_TARGETS: 'true' },
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },
