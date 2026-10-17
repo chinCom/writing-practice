@@ -76,8 +76,8 @@ for (const colorScheme of ['light', 'dark'] as const) {
 
     const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true });
     const appearance = await navigationAppearance(navigation);
-    expect(appearance.width).toBe(244);
-    expect(appearance.label.fontSize).toBe('18px');
+    expect(appearance.width).toBe(228);
+    expect(appearance.label.fontSize).toBe('15px');
     expect(appearance.footer).not.toBeNull();
     const originalNavigation = await navigation.elementHandle();
 
@@ -98,10 +98,10 @@ for (const colorScheme of ['light', 'dark'] as const) {
       );
 
       if (destination.name === 'Settings') {
-        await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('font-size', '32px');
+        await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('font-size', '48px');
       }
       if (destination.name === 'Today') {
-        await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('font-size', '40px');
+        await expect(page.getByRole('heading', { level: 1 })).toHaveCSS('font-size', '48px');
       }
     }
   });

@@ -21,7 +21,7 @@ export default function Benchmarks({ comparisons }: { comparisons: BenchmarkComp
   return (
     <Paper component="section" aria-labelledby="benchmarks-title" sx={{ p: 3, minInlineSize: 0 }}>
       <Stack sx={{ gap: 2 }}>
-        <Typography id="benchmarks-title" variant="h2">
+        <Typography id="benchmarks-title" variant="h3">
           {t('benchmarksTitle')}
         </Typography>
         {!comparisons.length ? <Typography>{t('benchmarkEmpty')}</Typography> : null}

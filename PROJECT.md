@@ -7,6 +7,8 @@
 
 ## 0. Status
 
+- UI/UX refresh: the signed-in workspace now follows the lavender-and-indigo board: white sidebar with lavender selection, serif page openings, soft paper cards, tonal stat tiles, floating paper illustrations, and restyled Today, Studio, Practice, Progress, Portfolio, Settings, Path, Lesson, Feedback, and Login. The signed-out landing page was rebuilt to the **WriteRight** reference: sans-serif navy/violet hero, layered live-feedback card, three dashed steps, horizontal pastel feature cards, audience/illustration level section, free-plan card, divider FAQ, and navy final band. The landing keeps the existing local demo, auth links, i18n, and accordion behavior. Verification: `npm run check` passed (200 tests, 7 skipped; one coach-recovery test was flaky once and passed on rerun), and the full Playwright run passed 321 tests with 11 skipped; the 4 remaining failures are the documented configured-`.env` “unconfigured sign-in” specs (`backend`, `ux`). Screenshots: `docs/verification/ux/landing-final-full.png`, `landing-final-mobile.png`, `landing-final-viewport.png`, `final-today.png`, `final-progress.png`, `portfolio-final.png`, `settings-final.png`, `practice-final.png`, `studio-final.png`.
+
 - Connection feedback: shared English/Vietnamese notifications report browser offline status and waits beyond five seconds without stealing focus or replaying saves/checks. Account routes have loading fallbacks, and page failures show a localized dialog with Next.js `retry()` recovery. Existing drafts, request-key recovery, access rules, and backend deadlines stay in place. Verification: `npm run check` passed (182 tests, 7 skipped); 56 targeted desktop/mobile browser checks passed, including all 12 new connection-feedback cases. Browser checks used synthetic responses and did not exercise a signed-in hosted account. See [connection feedback verification](docs/verification/network-feedback.md).
 
 - Database recovery: the configured database is verified through `0014_benchmark_context.sql` after the user's migration. Today reads now share pipelined queries in one owner transaction, and legacy Practice sources seed in a bounded batch. Disconnected clients are discarded. A version-checked npm postinstall backport fixes `postgres@3.4.9` writing rollback to a null socket and prevents a lost transaction's later statements from reaching a replacement session. Offline ESM/CommonJS disconnect regressions reproduce the original crash and verify recovery. Verification: `npm run check` passed (177 tests, 7 skipped); all four opt-in hosted database checks passed, including connection cancellation and owner isolation. The extended clean-close relay check also passed. The learner's signed-in browser session still needs a server restart and recheck. See [database evidence](docs/verification/database-deadlines.md). Content-review and mastery-enforcement gates remain active.
@@ -29,6 +31,10 @@
 - Code maintenance: Prettier + EditorConfig; run `npm run format` and `npm run check`; no subagents
 - Learner progress screenshots: `docs/verification/ux/screenshots/progress-improvement-{desktop,mobile,dark-mobile}.png`, `docs/verification/ux/screenshots/today-next-task-{desktop,mobile}.png`, and `docs/verification/ux/screenshots/today-goal-met-{desktop,mobile}.png`. Desktop/mobile layouts were inspected. The live signed-in placement → lesson → warm-up → passing check flow remains untested. The new Vietnamese strings have not had native-speaker review. Code review was a self-review because this project forbids subagents
 - Verification limits: live email delivery/PKCE, Google account completion, natural access-JWT expiry, and a new signed-in hosted explanation remain untested. The seven reviewed audit findings are fixed locally; production integrations remain separately gated
+
+- Visual fidelity follow-up: inset sidebar, custom outline icons, single-sheet header art, travel/pen/crown/chart illustrations, handwritten notes, ribbon backgrounds, compact landing layout, and toned Settings/Progress icons. Exact-width Playwright full-page comparisons and three correction passes are recorded in [visual verification](docs/verification/visual-fidelity/README.md). Product data and unavailable controls still differ from the board.
+
+- AI coach model default: `deepseek-v4.1-flash-1017` across feedback, placement, explanations, development help, scripts and opt-in live checks. `DEEPSEEK_MODEL` remains configurable. Previous provider verification records retain their original model IDs.
 
 ### Current feature status
 
@@ -167,7 +173,7 @@ drizzle/
 # DeepSeek
 DEEPSEEK_API_KEY=
 DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-flash
+DEEPSEEK_MODEL=deepseek-v4.1-flash-1017
 DEEPSEEK_MODEL_ADVANCED=deepseek-v4-pro
 USE_MOCK_LLM=false               # true = return canned JSON from /mocks, no network
 GROWTH_TARGETS=false             # true = Growth Loop targets on (grader input, target UI, evidence); other values = off
@@ -315,7 +321,7 @@ Display groups and underline styles (also in §17): grammar = wavy violet, spell
 
 ### 9.1 Configuration (verified against DeepSeek docs, Oct 2026 — re-check before launch)
 
-- SDK: `openai` npm package. `baseURL = process.env.DEEPSEEK_BASE_URL` (`https://api.deepseek.com`), `model = process.env.DEEPSEEK_MODEL` (`deepseek-flash`, which serves DeepSeek-V4.1-Flash). Legacy name `deepseek-v4-flash` is accepted but retired; don't use it.
+- SDK: `openai` npm package. `baseURL = process.env.DEEPSEEK_BASE_URL` (`https://api.deepseek.com`), `model = process.env.DEEPSEEK_MODEL` (`deepseek-v4.1-flash-1017`, which serves DeepSeek-V4.1-Flash). Legacy name `deepseek-v4-flash` is accepted but retired; don't use it.
 - **Thinking mode** is on by default (effort `high`). Toggle per request with `extra_body: { thinking: { type: "enabled" | "disabled" } }` and set `reasoning_effort: "low" | "high" | "max"`. With the Node SDK, pass these as extra body fields (check how the SDK version forwards unknown params).
 - In thinking mode `temperature` / `presence_penalty` / `frequency_penalty` have **no effect**. Don't rely on them.
 - Without a `tools` parameter, `reasoning_content` from previous turns is ignored by the API; we don't use tools, so don't store or resend it.

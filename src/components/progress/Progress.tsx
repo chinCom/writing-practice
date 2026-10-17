@@ -10,6 +10,11 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
+import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
+import EventAvailableOutlined from '@mui/icons-material/EventAvailableOutlined';
+import LocalFireDepartmentOutlined from '@mui/icons-material/LocalFireDepartmentOutlined';
+import BoardIcon from '@/components/ui/icons/BoardIcon';
+import PaperAccent, { type PaperIllustration } from '@/components/ui/icons/PaperAccent';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { LineChart } from '@mui/x-charts/LineChart';
@@ -21,6 +26,9 @@ import Benchmarks from './Benchmarks';
 import Targets from './Targets';
 import { CourseProgressPanel } from './CourseProgress';
 import type { ProgressPageData } from '@/lib/db/progress';
+import type { ReactNode } from 'react';
+import PageHeader from '@/components/ui/PageHeader';
+import StatTile from '@/components/ui/StatTile';
 
 const levels = ['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 function ActivityCalendar({ data }: { data: ProgressSummary }) {
@@ -96,6 +104,52 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
     </Paper>
   );
 }
+function OverviewCard({
+  illustration,
+  title,
+  body,
+  children,
+}: {
+  illustration: PaperIllustration;
+  title: string;
+  body: string;
+  children?: ReactNode;
+}) {
+  return (
+    <Paper
+      sx={{
+        p: { xs: 2.5, md: 3 },
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1.25,
+        position: 'relative',
+        overflow: 'clip',
+        paddingInlineEnd: { md: 14 },
+      }}
+    >
+      <PaperAccent
+        kind={illustration}
+        inlineSize={140}
+        blockSize={140}
+        sx={{ position: 'absolute', insetInlineEnd: -8, insetBlockStart: 16 }}
+      />
+      <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center' }}>
+        <BoardIcon
+          name={illustration === 'targets' ? 'target' : illustration === 'bars' ? 'bars' : 'trend'}
+          sx={{ color: 'secondary.main', fontSize: 24 }}
+        />
+        <Typography component="h2" variant="h3">
+          {title}
+        </Typography>
+      </Stack>
+      <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
+        {body}
+      </Typography>
+      {children}
+    </Paper>
+  );
+}
+
 export function ProgressPanels({
   data,
   preview = false,
@@ -104,26 +158,75 @@ export function ProgressPanels({
   preview?: boolean;
 }) {
   const t = useTranslations('progress');
+  const overview = useTranslations('progress.overview');
   const format = useFormatter();
   const theme = useTheme();
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const maximum = Math.max(1, ...data.errors.map((item) => item.count));
   return (
     <Stack sx={{ gap: 3 }}>
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        sx={{ gap: 3, justifyContent: 'space-between' }}
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(4, minmax(0, 1fr))' },
+          gap: 2,
+        }}
       >
-        {(['words', 'sessions', 'streak', 'xp'] as const).map((key) => (
-          <Box key={key} role="group" aria-label={t(key)} sx={{ flex: 1 }}>
-            <Typography variant="stat">{format.number(data[key])}</Typography>
-            <Typography color="text.secondary">{t(key)}</Typography>
-          </Box>
+        {(
+          [
+            ['words', DescriptionOutlined, 'purple'],
+            ['sessions', EventAvailableOutlined, 'blue'],
+            ['streak', LocalFireDepartmentOutlined, 'amber'],
+            ['xp', null, 'purple'],
+          ] as const
+        ).map(([key, Icon, tone]) => (
+          <StatTile
+            key={key}
+            label={t(key)}
+            value={format.number(data[key])}
+            tone={tone}
+            icon={Icon ? <Icon /> : <BoardIcon name="star" />}
+          />
         ))}
-      </Stack>
-      <Targets targets={data.targets} />
-      <Benchmarks comparisons={data.benchmarks} />
-      <Improvement data={data.improvement} />
+      </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'repeat(3, minmax(0, 1fr))' },
+          gap: 2,
+          alignItems: 'stretch',
+        }}
+      >
+        <OverviewCard
+          illustration="targets"
+          title={t('targets.title')}
+          body={overview('targetsBody')}
+        >
+          <Typography variant="caption" color="text.secondary">
+            {overview('targetsCount', { n: data.targets.length })}
+          </Typography>
+        </OverviewCard>
+        <OverviewCard
+          illustration="bars"
+          title={t('benchmarksTitle')}
+          body={overview('benchmarksBody')}
+        >
+          <Typography variant="caption" color="text.secondary">
+            {overview('comparisonsCount', { n: data.benchmarks.length })}
+          </Typography>
+        </OverviewCard>
+        <OverviewCard
+          illustration="trend"
+          title={t('improvementTitle')}
+          body={overview('improvementBody')}
+        >
+          <Typography variant="caption" color="text.secondary">
+            {data.improvement.weekly.length
+              ? t('weeklyScores') + ' · ' + data.improvement.weekly.length
+              : t('checksNeeded', { n: 3 })}
+          </Typography>
+        </OverviewCard>
+      </Box>
       <CourseProgressPanel course={data.course} preview={preview} />
       <Box
         sx={{
@@ -204,6 +307,21 @@ export function ProgressPanels({
         </Paper>
         <ActivityCalendar data={data} />
       </Box>
+      <Box component="section" aria-label={overview('evidence')}>
+        <Stack sx={{ gap: 2 }}>
+          <Box>
+            <Typography component="h2" variant="h2" sx={{ mb: 0.5 }}>
+              {overview('evidence')}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {overview('evidenceIntro')}
+            </Typography>
+          </Box>
+          <Targets targets={data.targets} />
+          <Benchmarks comparisons={data.benchmarks} />
+          <Improvement data={data.improvement} />
+        </Stack>
+      </Box>
       <ReviewInsights skills={data.skills} />
       <Typography variant="body2" color="text.secondary">
         {t('xpNote')}
@@ -219,6 +337,7 @@ export default function Progress({
   variant?: 'empty';
 }) {
   const t = useTranslations('progress');
+  const app = useTranslations('app');
   const [data, setData] = useState<ProgressPageData | null>(null);
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
@@ -251,8 +370,8 @@ export default function Progress({
     };
   }, [attempt, preview, variant]);
   return (
-    <Stack sx={{ gap: 3 }}>
-      <Typography variant="h1">{t('title')}</Typography>
+    <Stack sx={{ gap: { xs: 2.5, md: 3 } }}>
+      <PageHeader title={t('title')} subtitle={t('subtitle')} note={app('paperNotes.progress')} />
       {data ? (
         <ProgressPanels data={data} preview={preview} />
       ) : error ? (

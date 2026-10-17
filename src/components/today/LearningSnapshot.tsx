@@ -8,10 +8,11 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import MenuBookOutlined from '@mui/icons-material/MenuBookOutlined';
+import BoardIcon from '@/components/ui/icons/BoardIcon';
 import Check from '@mui/icons-material/Check';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import Circle from '@mui/icons-material/Circle';
+import ArrowForward from '@mui/icons-material/ArrowForward';
 
 export type LearningSnapshotData = {
   level: string;
@@ -28,18 +29,48 @@ export default function LearningSnapshot({
   const t = useTranslations('today');
   return (
     <Card>
-      <CardContent sx={{ p: 3 }}>
-        <Stack direction="row" sx={{ gap: 2, alignItems: 'center', mb: 1.25 }}>
-          <MenuBookOutlined />
-          <Typography variant="subtitle1" component="h2">
-            {t('keepBuilding')}
-          </Typography>
+      <CardContent sx={{ p: { xs: 2.5, md: 2.5 } }}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          sx={{ gap: 1, alignItems: { sm: 'center' }, justifyContent: 'space-between', mb: 1.5 }}
+        >
+          <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
+            <Box
+              sx={{
+                inlineSize: 28,
+                blockSize: 28,
+                borderRadius: 1.5,
+                bgcolor: 'transparent',
+                color: 'secondary.main',
+                display: 'grid',
+                placeItems: 'center',
+              }}
+            >
+              <BoardIcon name="book" sx={{ fontSize: 24 }} />
+            </Box>
+            <Typography variant="h3" component="h2">
+              {t('keepBuilding')}
+            </Typography>
+          </Stack>
+          <Button
+            component={NextLink}
+            href={preview ? '/dev/preview/path' : '/path'}
+            endIcon={<ArrowForward />}
+            sx={{
+              fontSize: '0.75rem',
+              whiteSpace: 'nowrap',
+              px: 1.5,
+              alignSelf: { xs: 'flex-start', sm: 'auto' },
+            }}
+          >
+            {t('learningPath')}
+          </Button>
         </Stack>
         {path ? (
           <>
             <Stack direction="row" sx={{ gap: 2, alignItems: 'center' }}>
               <Chip label={path.level} color="primary" variant="tonal" size="small" />
-              <Typography variant="subtitle1" component="p">
+              <Typography variant="subtitle1" component="p" sx={{ minInlineSize: 0 }}>
                 {path.title}
               </Typography>
             </Stack>
@@ -48,7 +79,7 @@ export default function LearningSnapshot({
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
                 mt: 2,
-                mb: 2.5,
+                mb: 0,
               }}
             >
               {path.steps.slice(0, 3).map((step, index) => (
@@ -73,7 +104,12 @@ export default function LearningSnapshot({
                       height: 32,
                       border: 2,
                       borderRadius: '50%',
-                      borderColor: step.state === 'locked' ? 'divider' : 'success.main',
+                      borderColor:
+                        step.state === 'locked'
+                          ? 'divider'
+                          : step.state === 'current'
+                            ? 'success.main'
+                            : 'success.main',
                       bgcolor: step.state === 'done' ? 'success.main' : 'background.paper',
                       display: 'grid',
                       placeItems: 'center',
@@ -84,7 +120,12 @@ export default function LearningSnapshot({
                     ) : step.state === 'locked' ? (
                       <LockOutlined sx={{ fontSize: '1rem' }} />
                     ) : (
-                      <Circle sx={{ color: 'success.main', fontSize: '0.875rem' }} />
+                      <Circle
+                        sx={{
+                          color: step.state === 'current' ? 'success.main' : 'success.main',
+                          fontSize: step.state === 'current' ? '1rem' : '0.875rem',
+                        }}
+                      />
                     )}
                   </Box>
                   <Typography variant="caption" sx={{ display: 'block', mt: 0.75 }}>
@@ -102,14 +143,6 @@ export default function LearningSnapshot({
             {t('pathEmpty')}
           </Typography>
         )}
-        <Button
-          fullWidth
-          variant="outlined"
-          component={NextLink}
-          href={preview ? '/dev/preview/path' : '/path'}
-        >
-          {t('learningPath')}
-        </Button>
       </CardContent>
     </Card>
   );

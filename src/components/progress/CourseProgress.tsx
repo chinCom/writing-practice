@@ -9,6 +9,9 @@ import CardContent from '@mui/material/CardContent';
 import LinearProgress from '@mui/material/LinearProgress';
 import Button from '@mui/material/Button';
 import type { CourseProgress } from '@/lib/course-progress';
+import MenuBookOutlined from '@mui/icons-material/MenuBookOutlined';
+import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
+import ArrowForward from '@mui/icons-material/ArrowForward';
 
 function LevelRows({ levels }: { levels: CourseProgress['levels'] }) {
   const t = useTranslations('progress');
@@ -65,12 +68,35 @@ function TrackCard({ data, preview }: { data: CourseProgress; preview: boolean }
   const count = t('lessonsDone', { done: data.lessonsDone, total: data.lessonsTotal });
   return (
     <Card>
-      <CardContent>
+      <CardContent sx={{ p: { xs: 2.5, md: 3 } }}>
         <Stack sx={{ gap: 2 }}>
-          <Typography component="h3" variant="h3">
-            {t(data.track === 'core' ? 'coreTrack' : 'ieltsTrack')}
-          </Typography>
-          <Typography>{count}</Typography>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
+            <Box
+              sx={{
+                inlineSize: 38,
+                blockSize: 38,
+                borderRadius: 1.5,
+                bgcolor: data.track === 'core' ? 'tonal.primary' : 'tonal.success',
+                color: data.track === 'core' ? 'secondary.main' : 'success.dark',
+                display: 'grid',
+                placeItems: 'center',
+              }}
+            >
+              {data.track === 'core' ? (
+                <MenuBookOutlined sx={{ fontSize: 20 }} />
+              ) : (
+                <SchoolOutlined sx={{ fontSize: 20 }} />
+              )}
+            </Box>
+            <Box>
+              <Typography component="h3" variant="h3">
+                {t(data.track === 'core' ? 'coreTrack' : 'ieltsTrack')}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {count}
+              </Typography>
+            </Box>
+          </Stack>
           <LinearProgress
             variant="determinate"
             value={(100 * data.lessonsDone) / data.lessonsTotal}
@@ -83,7 +109,8 @@ function TrackCard({ data, preview }: { data: CourseProgress; preview: boolean }
               component={NextLink}
               href={preview ? '/dev/preview/path' : href}
               variant="outlined"
-              sx={{ alignSelf: 'start' }}
+              endIcon={<ArrowForward />}
+              sx={{ alignSelf: 'stretch', justifyContent: 'space-between' }}
             >
               {current ? t('continueLesson', { title: current.lessonTitle }) : t('findLevel')}
             </Button>

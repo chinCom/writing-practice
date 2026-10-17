@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
@@ -24,6 +25,7 @@ import NextLink from 'next/link';
 import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
 import { weekendTask, type CurriculumTask } from '@/lib/curriculum';
 import { textLimits } from '@/lib/limits';
+import PageHeader from '@/components/ui/PageHeader';
 
 export default function LiveStudio({
   initialText,
@@ -227,7 +229,7 @@ export default function LiveStudio({
   }
   return (
     <Stack sx={{ gap: 3 }}>
-      <Typography variant="h1">{app('write')}</Typography>
+      <PageHeader title={app('write')} subtitle={t('subtitle')} note={app('paperNotes.studio')} />
       <Box
         sx={(theme) => ({
           display: 'grid',
@@ -235,116 +237,150 @@ export default function LiveStudio({
             xs: 'minmax(0, 1fr)',
             lg: theme.layout.taskRail + 'px minmax(0, 1fr) ' + theme.layout.coachRail + 'px',
           },
-          gap: 3,
+          gap: { xs: 2.5, lg: 3 },
           alignItems: 'start',
         })}
       >
-        <Box sx={{ py: 2 }}>
-          <TaskBrief
-            onInsert={insertPhrase}
-            disabled={busy === 'check'}
-            task={task.id === 'weekend' ? undefined : task}
-          />
-          <DevelopmentHelp help={help} />
-        </Box>
-        <Paper variant="outlined" sx={{ minInlineSize: 0, p: { xs: 2, md: 4 } }}>
-          <Box sx={{ position: 'relative', isolation: 'isolate' }}>
-            <WritingCanvas
-              inputRef={input}
-              maxLength={limit}
-              value={text}
+        <Stack sx={{ gap: 2.5, order: { xs: 2, lg: 1 } }}>
+          <Card sx={{ p: { xs: 2.5, md: 3 } }}>
+            <TaskBrief
+              onInsert={insertPhrase}
               disabled={busy === 'check'}
-              onChange={(event) => updateText(event.target.value)}
+              task={task.id === 'weekend' ? undefined : task}
             />
-            {busy === 'check' || developing ? <ReadSweep inputRef={input} text={text} /> : null}
-            {help.guidance && busy !== 'check' ? (
-              <DevelopmentSuggestion
-                inputRef={input}
-                text={text}
-                guidance={help.guidance}
-                onClose={help.dismiss}
-              />
-            ) : null}
-          </Box>
-          <Stack sx={{ gap: 2, mt: 3 }}>
+          </Card>
+          <Card sx={{ p: { xs: 2.5, md: 3 }, bgcolor: 'highlighter.light', boxShadow: 'none' }}>
+            <DevelopmentHelp help={help} />
+          </Card>
+        </Stack>
+        <Paper
+          variant="outlined"
+          sx={{
+            minInlineSize: 0,
+            overflow: 'clip',
+            boxShadow: (theme) => theme.shadows[1],
+            order: { xs: 1, lg: 2 },
+          }}
+        >
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 2,
+              px: { xs: 2.5, md: 3.5 },
+              py: 1.75,
+              borderBlockEnd: 1,
+              borderColor: 'divider',
+            }}
+          >
+            <Typography variant="subtitle1" component="h2">
+              {t('draft')}
+            </Typography>
             <SaveStatus
               saved={text === savedText}
               label={live(text === savedText ? 'saved' : 'unsaved')}
             />
-            <Stack sx={{ gap: 1 }}>
-              <Stack direction="row" sx={{ gap: 2, justifyContent: 'space-between' }}>
-                <Typography variant="caption">{t('words', { n: words })}</Typography>
-                <Typography variant="caption">{live('characters', { n: text.length })}</Typography>
-              </Stack>
-              <WordMeter words={words} min={task.minWords} max={task.maxWords} />
-            </Stack>
-            <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
-              <Button
-                variant="outlined"
-                disabled={
-                  coursePreview || busy !== null || text === savedText || text.length > limit
-                }
-                onClick={save}
-              >
-                {live(busy === 'save' ? 'saving' : 'save')}
-              </Button>
-              <Button
-                variant="contained"
-                loading={busy === 'check'}
-                loadingPosition="start"
-                disabled={
-                  busy !== null ||
-                  developing ||
-                  words < task.minWords ||
-                  text.length > limit ||
-                  error === 'recoverable'
-                }
-                onClick={() => check()}
-              >
-                {t('check')}
-              </Button>
-            </Stack>
-            {text.length > limit ? (
-              <Alert severity="warning">
-                {task.id === 'weekend'
-                  ? live('revisionTooLong')
-                  : live('taskTooLong', { n: limit })}
-              </Alert>
-            ) : null}
-            {words < task.minWords ? (
-              <Typography variant="caption">
-                {t('remaining', { n: task.minWords - words })}
-              </Typography>
-            ) : null}
-            {busy === 'check' ? <CoachStatus /> : null}
-            {error ? (
-              <Alert severity="error">
-                {live(error)}
-                {error === 'sessionExpired' ? (
-                  <Button component={NextLink} href="/login">
-                    {live('signInAgain')}
-                  </Button>
-                ) : error === 'recoverable' ? (
-                  <Button disabled={busy !== null} onClick={() => check(true)}>
-                    {live('recover')}
-                  </Button>
-                ) : error === 'error' ||
-                  error === 'timeout' ||
-                  error === 'unavailable' ||
-                  error === 'invalidFeedback' ||
-                  error === 'failedCheck' ? (
-                  <Button disabled={busy !== null} onClick={() => check()}>
-                    {live('retry')}
-                  </Button>
-                ) : null}
-              </Alert>
-            ) : null}
-            <Typography variant="caption" color="text.secondary">
-              {live('notice')}
-            </Typography>
           </Stack>
+          <Box sx={{ p: { xs: 2, md: 3.5 } }}>
+            <Box sx={{ position: 'relative', isolation: 'isolate' }}>
+              <WritingCanvas
+                inputRef={input}
+                maxLength={limit}
+                value={text}
+                disabled={busy === 'check'}
+                onChange={(event) => updateText(event.target.value)}
+              />
+              {busy === 'check' || developing ? <ReadSweep inputRef={input} text={text} /> : null}
+              {help.guidance && busy !== 'check' ? (
+                <DevelopmentSuggestion
+                  inputRef={input}
+                  text={text}
+                  guidance={help.guidance}
+                  onClose={help.dismiss}
+                />
+              ) : null}
+            </Box>
+            <Stack sx={{ gap: 2, mt: 2.5 }}>
+              <Stack sx={{ gap: 1 }}>
+                <Stack direction="row" sx={{ gap: 2, justifyContent: 'space-between' }}>
+                  <Typography variant="caption">{t('words', { n: words })}</Typography>
+                  <Typography variant="caption">
+                    {live('characters', { n: text.length })}
+                  </Typography>
+                </Stack>
+                <WordMeter words={words} min={task.minWords} max={task.maxWords} />
+              </Stack>
+              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
+                <Button
+                  variant="outlined"
+                  disabled={
+                    coursePreview || busy !== null || text === savedText || text.length > limit
+                  }
+                  onClick={save}
+                >
+                  {live(busy === 'save' ? 'saving' : 'save')}
+                </Button>
+                <Button
+                  variant="contained"
+                  loading={busy === 'check'}
+                  loadingPosition="start"
+                  disabled={
+                    busy !== null ||
+                    developing ||
+                    words < task.minWords ||
+                    text.length > limit ||
+                    error === 'recoverable'
+                  }
+                  onClick={() => check()}
+                >
+                  {t('check')}
+                </Button>
+              </Stack>
+              {text.length > limit ? (
+                <Alert severity="warning">
+                  {task.id === 'weekend'
+                    ? live('revisionTooLong')
+                    : live('taskTooLong', { n: limit })}
+                </Alert>
+              ) : null}
+              {words < task.minWords ? (
+                <Typography variant="caption">
+                  {t('remaining', { n: task.minWords - words })}
+                </Typography>
+              ) : null}
+              {busy === 'check' ? <CoachStatus /> : null}
+              {error ? (
+                <Alert severity="error">
+                  {live(error)}
+                  {error === 'sessionExpired' ? (
+                    <Button component={NextLink} href="/login">
+                      {live('signInAgain')}
+                    </Button>
+                  ) : error === 'recoverable' ? (
+                    <Button disabled={busy !== null} onClick={() => check(true)}>
+                      {live('recover')}
+                    </Button>
+                  ) : error === 'error' ||
+                    error === 'timeout' ||
+                    error === 'unavailable' ||
+                    error === 'invalidFeedback' ||
+                    error === 'failedCheck' ? (
+                    <Button disabled={busy !== null} onClick={() => check()}>
+                      {live('retry')}
+                    </Button>
+                  ) : null}
+                </Alert>
+              ) : null}
+              <Typography variant="caption" color="text.secondary">
+                {live('notice')}
+              </Typography>
+            </Stack>
+          </Box>
         </Paper>
-        <CoachHint text={text} task={task} />
+        <Card sx={{ p: { xs: 2.5, md: 3 }, order: { xs: 3, lg: 3 } }}>
+          <CoachHint text={text} task={task} quickChecks={task.checklist} />
+        </Card>
       </Box>
     </Stack>
   );

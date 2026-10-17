@@ -75,7 +75,8 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
               <Chip
                 key={phrase}
                 label={phrase}
-                variant="outlined"
+                variant="tonal"
+                color="primary"
                 clickable
                 disabled={disabled}
                 onClick={() => onInsert(phrase)}

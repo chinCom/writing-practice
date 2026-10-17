@@ -1,0 +1,46 @@
+[
+  {
+    "name": "mobile-today",
+    "url": "/dev/preview/today",
+    "scheme": "light",
+    "locale": "en",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "name": "mobile-login",
+    "url": "/login",
+    "scheme": "light",
+    "locale": "en",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "name": "mobile-landing",
+    "url": "/",
+    "scheme": "light",
+    "locale": "en",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "name": "dark-settings",
+    "url": "/dev/preview/settings",
+    "scheme": "dark",
+    "locale": "en",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "name": "vietnamese-practice",
+    "url": "/dev/preview/practice-page",
+    "scheme": "light",
+    "locale": "vi",
+    "width": 390,
+    "overflow": false
+  },
+  {
+    "name": "landing-demo",
+    "editorCenterUnobscured": true
+  }
+]

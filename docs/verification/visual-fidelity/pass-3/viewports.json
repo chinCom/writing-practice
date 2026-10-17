@@ -1,0 +1,58 @@
+[
+  {
+    "name": "today",
+    "url": "/dev/preview/today",
+    "width": 1448,
+    "height": 1086,
+    "overflow": false
+  },
+  {
+    "name": "login",
+    "url": "/login",
+    "width": 1448,
+    "height": 1086,
+    "overflow": false
+  },
+  {
+    "name": "studio",
+    "url": "/dev/preview/live-write",
+    "width": 1448,
+    "height": 1086,
+    "overflow": false
+  },
+  {
+    "name": "progress",
+    "url": "/dev/preview/progress",
+    "width": 1448,
+    "height": 1086,
+    "overflow": false
+  },
+  {
+    "name": "portfolio",
+    "url": "/dev/preview/portfolio",
+    "width": 1586,
+    "height": 992,
+    "overflow": false
+  },
+  {
+    "name": "settings",
+    "url": "/dev/preview/settings",
+    "width": 1586,
+    "height": 992,
+    "overflow": false
+  },
+  {
+    "name": "practice",
+    "url": "/dev/preview/practice-page",
+    "width": 1586,
+    "height": 992,
+    "overflow": false
+  },
+  {
+    "name": "landing",
+    "url": "/",
+    "width": 873,
+    "height": 1801,
+    "overflow": false
+  }
+]

@@ -46,7 +46,31 @@
     "openPrevious": "Mở phản hồi trước",
     "openCurrent": "Mở phản hồi hiện tại",
     "showMore": "Xem toàn bộ văn bản",
-    "showLess": "Thu gọn"
+    "showLess": "Thu gọn",
+    "subtitle": "Mở lại bài đã lưu, tìm theo cụm từ và so sánh từng bản sửa với bản trước.",
+    "search": "Tìm bài đã lưu",
+    "filter": "Lọc bài đã lưu",
+    "all": "Tất cả",
+    "revisions": "Bản sửa",
+    "firstDrafts": "Bản đầu",
+    "sort": "Sắp xếp bài đã lưu",
+    "newest": "Mới nhất",
+    "oldest": "Cũ nhất",
+    "longest": "Dài nhất",
+    "savedPieces": "Bài đã lưu",
+    "totalWords": "Tổng số từ",
+    "withFeedback": "Bài có nhận xét",
+    "revisionCount": "Bản sửa",
+    "featured": "Mới nhất",
+    "noResults": "Không có bài nào khớp với tìm kiếm này.",
+    "clear": "Xóa tìm kiếm",
+    "firstDraft": "Bản đầu",
+    "revision": "Bản sửa",
+    "message": "Tin nhắn",
+    "essay": "Bài luận",
+    "note": "Ghi chú",
+    "latestVersion": "Bản mới nhất",
+    "latestDraft": "Bản nháp mới nhất"
   },
   "app": {
     "portfolio": "Hồ sơ bài viết",
@@ -66,7 +90,18 @@
     "account": "Tài khoản của bạn",
     "signOut": "Đăng xuất",
     "signIn": "Đăng nhập",
-    "signOutError": "Không thể xác nhận đăng xuất. Hãy thử lại."
+    "signOutError": "Không thể xác nhận đăng xuất. Hãy thử lại.",
+    "paperNotes": {
+      "default": "từng bước nhỏ,\nbản viết tốt hơn.",
+      "today": "bắt đầu nhỏ,\nviết hôm nay.",
+      "path": "từng bước,\nrồi bước tiếp.",
+      "studio": "viết,\nnháp,\nsửa,\ntiến bộ.",
+      "practice": "luyện hôm nay\nđể viết\nvững hơn.",
+      "progress": "bước nhỏ,\ntiến bộ lớn.",
+      "portfolio": "ý tưởng của bạn\nlớn lên ở đây.",
+      "settings": "hành trình viết\ncủa riêng bạn.",
+      "login": "mở bài viết\nmọi lúc,\nmọi nơi."
+    }
   },
   "today": {
     "title": "Dành chút thời gian để viết",
@@ -128,7 +163,9 @@
     "locked": "Chưa mở",
     "available": "Có thể học",
     "ieltsTitle": "Không gian Luyện viết IELTS",
-    "ieltsIntro": "Luyện Academic Task 1, thư General Training hoặc bài luận Task 2."
+    "ieltsIntro": "Luyện Academic Task 1, thư General Training hoặc bài luận Task 2.",
+    "tagline": "Một bước nhỏ hôm nay xây dựng ngày mai tự tin và sáng tạo hơn.",
+    "focusTitle": "Trọng tâm: bài học này"
   },
   "settings": {
     "title": "Tùy chỉnh không gian của bạn",
@@ -163,7 +200,19 @@
     "goalRetry": "Thử lại",
     "goalSignInAgain": "Đăng nhập lại",
     "deferred": "Ngôn ngữ giải thích và mục tiêu viết hằng ngày chưa hoạt động. Bạn có thể lưu mục tiêu hằng tuần khi đã đăng nhập.",
-    "learningProfile": "Chỉnh sửa hồ sơ học tập"
+    "learningProfile": "Chỉnh sửa hồ sơ học tập",
+    "languageBody": "Chọn ngôn ngữ giao diện và sau này là ngôn ngữ giải thích.",
+    "goalsBody": "Đặt mục tiêu tuần nhỏ và giữ thói quen viết thực tế.",
+    "appearanceBody": "Chọn giao diện thoải mái cho mắt bạn.",
+    "planBody": "Gói thử nghiệm của bạn gồm toàn bộ bài luyện Core và IELTS.",
+    "accountTitle": "Tổng quan tài khoản",
+    "accountNote": "Các tùy chọn học tập của bạn trong một cái nhìn.",
+    "profileTitle": "Giữ lộ trình cá nhân",
+    "profileBody": "Trình độ và mục tiêu của bạn định hình bài học và nhận xét.",
+    "themeNote": "Bạn có thể đổi giao diện bất cứ lúc nào.",
+    "free": "Miễn phí",
+    "pilotAccount": "Tài khoản thử nghiệm",
+    "signInStart": "Đăng nhập để bắt đầu"
   },
   "studio": {
     "title": "Tin nhắn gửi một người bạn",
@@ -204,7 +253,10 @@
     },
     "reveal": "Xem gợi ý viết",
     "taskWordRange": "{min}–{max} từ",
-    "privacy": "Bài viết được giữ riêng tư. Chúng tôi chỉ gửi bài viết đến trợ lý AI khi bạn yêu cầu kiểm tra hoặc gợi ý phát triển."
+    "privacy": "Bài viết được giữ riêng tư. Chúng tôi chỉ gửi bài viết đến trợ lý AI khi bạn yêu cầu kiểm tra hoặc gợi ý phát triển.",
+    "subtitle": "Lấy ý tưởng, viết bản nháp và nhờ AI kiểm tra bài viết.",
+    "draft": "Bản nháp của bạn",
+    "quickChecks": "Kiểm tra nhanh"
   },
   "unavailable": {
     "title": "Phần này sẽ có sau",
@@ -223,7 +275,11 @@
     "error": "Không thể hoàn tất đăng nhập. Hãy thử một liên kết mới.",
     "privacy": "Bài viết được giữ riêng tư. Chúng tôi chỉ gửi bài viết đến trợ lý AI khi bạn yêu cầu kiểm tra hoặc gợi ý phát triển.",
     "signOut": "Đăng xuất",
-    "googleUnavailable": "Đăng nhập bằng Google chưa khả dụng. Hãy dùng liên kết qua email."
+    "googleUnavailable": "Đăng nhập bằng Google chưa khả dụng. Hãy dùng liên kết qua email.",
+    "or": "hoặc",
+    "drawingNote": "Viết tiếp\nbất cứ lúc nào.",
+    "emailPlaceholder": "you@example.com",
+    "saveProgressNote": "Lưu tiến độ\ncủa bạn."
   },
   "learning": {
     "recent": "Nhận xét đã lưu",
@@ -435,7 +491,14 @@
     "transferCheck": "Kiểm tra câu mới",
     "transferTitle": "Thử một câu mới",
     "transferBody": "Dùng mục tiêu trong ngữ cảnh mới. Bài luyện này không tính là tiến bộ qua bài viết mới.",
-    "transferEmpty": "Không có bài chuyển giao đến hạn trong học phần hiện tại."
+    "transferEmpty": "Không có bài chuyển giao đến hạn trong học phần hiện tại.",
+    "subtitle": "Dùng lại các lỗi đã lưu trong một câu mới. Kiểm tra câu trả lời mà không gọi AI.",
+    "helpTitle": "Trợ giúp nhỏ",
+    "helpIntro": "Đọc cả câu trước khi sửa cụm từ được tô sáng. Cách diễn đạt đã lưu là gợi ý cho bạn.",
+    "quickChecks": "Kiểm tra nhanh",
+    "checkForm": "Hình thức từ đã đúng chưa?",
+    "checkFit": "Cụm từ có tự nhiên trong câu không?",
+    "checkMeaning": "Nghĩa của câu có giữ nguyên không?"
   },
   "progress": {
     "title": "Xem bài viết của bạn tiến bộ",
@@ -537,7 +600,19 @@
         "learning": "Đang học",
         "secure": "Vững",
         "review-due": "Đến hạn ôn"
-      }
+      },
+      "firstLabel": "Bài mới đầu tiên",
+      "latestLabel": "Bài mới gần nhất"
+    },
+    "subtitle": "Một góc nhìn rõ ràng về thói quen viết, mục tiêu và tiến độ khóa học của bạn.",
+    "overview": {
+      "targetsBody": "Những kỹ năng nhận xét của bạn nhắc lại, kèm bằng chứng từ lần thử đầu.",
+      "benchmarksBody": "Các đề mở đầu và điểm kiểm tra khớp nhau cho thấy một bài đã tiến bộ chưa.",
+      "improvementBody": "Điểm và tỷ lệ lỗi theo từng tuần. Chỉ mang tính mô tả, không phải chứng chỉ.",
+      "targetsCount": "Theo dõi {n} mục tiêu",
+      "comparisonsCount": "{n} so sánh bài học",
+      "evidence": "Thêm bằng chứng",
+      "evidenceIntro": "Tỷ lệ lần thử đầu chi tiết, so sánh khớp và xu hướng theo tuần."
     }
   },
   "onboarding": {
@@ -664,16 +739,16 @@
     "demoLocal": "Bản thử này chỉ chạy trong trình duyệt của bạn. Nó kiểm tra một vài lỗi thường gặp và không gửi gì đến máy chủ. Sau khi đăng nhập, công cụ đầy đủ sẽ dùng AI.",
     "steps": {
       "write": {
-        "title": "Viết",
-        "body": "Làm một bài viết ngắn đúng trình độ, từ vài từ đến một bài luận hoàn chỉnh."
+        "title": "Viết hoặc dán",
+        "body": "Nhập văn bản hoặc tải tài liệu lên."
       },
       "mark": {
-        "title": "Xem các đánh dấu",
-        "body": "Công cụ gạch chân từng lỗi và giải thích khi bạn yêu cầu."
+        "title": "Nhận gợi ý",
+        "body": "Xem nhận xét tức thì về ngữ pháp, độ rõ ràng, giọng điệu và hơn thế."
       },
       "revise": {
-        "title": "Sửa bài",
-        "body": "Áp dụng gợi ý, viết lại và so sánh bản mới với bản đầu tiên."
+        "title": "Áp dụng và cải thiện",
+        "body": "Chấp nhận gợi ý và làm bài viết tốt hơn."
       }
     },
     "nav": {
@@ -684,16 +759,16 @@
       "pricing": "Chi phí",
       "faq": "Câu hỏi",
       "language": "Ngôn ngữ giao diện",
-      "start": "Bắt đầu miễn phí"
+      "start": "Bắt đầu"
     },
     "eyebrow": "Miễn phí trong giai đoạn thử nghiệm",
-    "heroNote": "Không cần thẻ thanh toán. Giao diện tiếng Anh và tiếng Việt.",
+    "heroNote": "Không cần thẻ tín dụng · Chạy ngay trên trình duyệt",
     "how": {
-      "title": "Cách hoạt động",
-      "intro": "Mỗi bài học kết thúc bằng bài viết của bạn, được chấm và sửa lại."
+      "title": "Viết tốt hơn với 3 bước đơn giản",
+      "intro": "Nhận gợi ý hữu ích trong vài giây để bài viết rõ ràng, tự nhiên và chuyên nghiệp hơn."
     },
     "features": {
-      "title": "Được tạo ra để luyện viết thật",
+      "title": "Dành cho những tình huống viết thực tế",
       "path": {
         "title": "Lộ trình từ những từ đầu tiên đến C2",
         "body": "Bài học ngắn, văn mẫu và bài khởi động theo trình độ của bạn, sau đó là bài viết."
@@ -717,59 +792,142 @@
       "ielts": {
         "title": "Luyện viết IELTS",
         "body": "Luyện Task 1 và Task 2 với thang điểm luyện tập 1–5. Đây không phải điểm band chính thức."
+      },
+      "intro": "Dù là email, bài luận, báo cáo hay bài đăng mạng xã hội, hãy nhận gợi ý phù hợp với nhu cầu của bạn.",
+      "grammar": {
+        "title": "Ngữ pháp và chính tả",
+        "body": "Phát hiện lỗi và sửa bằng giải thích rõ ràng."
+      },
+      "clarity": {
+        "title": "Rõ ràng và súc tích",
+        "body": "Đơn giản hóa câu phức tạp và loại bỏ từ thừa."
+      },
+      "tone": {
+        "title": "Gợi ý giọng điệu",
+        "body": "Điều chỉnh giọng điệu trang trọng, chuyên nghiệp hoặc thân mật hơn."
+      },
+      "vocabulary": {
+        "title": "Nâng cao từ vựng",
+        "body": "Chọn từ hay hơn để diễn đạt tự nhiên và chính xác hơn."
+      },
+      "usecases": {
+        "title": "Nhiều mục đích sử dụng",
+        "body": "Dùng cho email, bài luận, báo cáo, thư xin việc và hơn thế."
+      },
+      "everyone": {
+        "title": "Tiếng Anh cho mọi người",
+        "body": "Dành cho người học, học sinh và người đi làm."
       }
     },
     "levels": {
       "title": "Bắt đầu đúng trình độ",
-      "intro": "Một bài xếp lớp ngắn gợi ý điểm bắt đầu. Bạn luôn có thể chọn trình độ khác.",
+      "intro": "Nhận gợi ý cá nhân hóa dựa trên mục tiêu viết và trình độ của bạn.",
       "PRE_A1": "Các từ và một hai câu đơn giản về bản thân",
       "A1": "Câu đơn giản về một ngày, gia đình và nơi chốn",
       "A2": "Tin nhắn ngắn có liên kết, ghi chú và email đơn giản",
       "B1": "Đoạn văn rõ ràng, câu chuyện và ý kiến có lý do",
       "B2": "Bài luận có cấu trúc, báo cáo và thư trang trọng",
       "C1": "Viết chính xác, linh hoạt cho học tập và công việc",
-      "C2": "Bài viết dài trau chuốt, kiểm soát tốt văn phong"
+      "C2": "Bài viết dài trau chuốt, kiểm soát tốt văn phong",
+      "checks": ["Viết rõ ràng hơn", "Ít lỗi hơn", "Tự tin hơn", "Sẵn sàng cho thực tế"]
     },
     "pricing": {
-      "title": "Chi phí",
-      "plan": "Truy cập thử nghiệm",
-      "price": "Miễn phí",
+      "title": "Học phí đơn giản, minh bạch",
+      "plan": "Gói miễn phí",
+      "price": "$0",
       "note": "Miễn phí trong thời gian chúng tôi thử nghiệm với những người học đầu tiên. Gói trả phí chưa được quyết định.",
-      "includes": {
-        "lessons": "Tất cả bài học Core từ Pre-A1 đến C2",
-        "checks": "Chấm bài viết bằng AI, tối đa 20 lần mỗi ngày",
-        "practice": "Ôn luyện và theo dõi tiến bộ",
-        "ielts": "Khu luyện viết IELTS"
-      }
+      "includes": [
+        "Kiểm tra ngữ pháp và chính tả cơ bản",
+        "Gợi ý giọng điệu và độ rõ ràng có giới hạn",
+        "Chạy ngay trên trình duyệt"
+      ],
+      "taglineTitle": "Chọn gói phù hợp với nhu cầu. Nâng cấp bất cứ lúc nào.",
+      "taglineBody": "Bắt đầu miễn phí, nâng cấp khi cần thêm nhận xét và luyện tập.",
+      "duringPilot": "trong giai đoạn thử nghiệm",
+      "planNote": "Phù hợp để bắt đầu",
+      "forever": "mãi mãi",
+      "cta": "Bắt đầu miễn phí"
     },
     "faq": {
       "title": "Câu hỏi thường gặp",
+      "viewAll": "Xem tất cả câu hỏi",
       "cost": {
-        "q": "Ứng dụng có miễn phí không?",
+        "q": "Có thật sự miễn phí không?",
         "a": "Có, trong giai đoạn thử nghiệm. Nếu sau này có gói trả phí, chúng tôi sẽ báo trước khi có thay đổi."
       },
-      "privacy": {
-        "q": "Bài viết của tôi được xử lý thế nào?",
-        "a": "Bài viết được một nhà cung cấp AI bên thứ ba, DeepSeek, kiểm tra và có thể được xử lý ở ngoài quốc gia của bạn. Xem chính sách quyền riêng tư để biết chi tiết."
+      "types": {
+        "q": "Tôi có thể dùng cho những loại bài viết nào?",
+        "a": "Email, bài luận, báo cáo, thư xin việc, bài đăng mạng xã hội và tin nhắn hằng ngày. Huấn luyện viên thích ứng với đề bài và trình độ của bạn."
       },
-      "official": {
-        "q": "Trình độ và điểm số có chính thức không?",
-        "a": "Không. Trình độ và điểm số là ước tính để luyện tập. Đây không phải chứng chỉ CEFR hay IELTS."
+      "account": {
+        "q": "Tôi có cần tạo tài khoản không?",
+        "a": "Bạn có thể thử bản demo ngắn mà không cần tài khoản. Đăng nhập để lưu bản nháp, nhận nhận xét AI và xem lại bài viết trên mọi thiết bị."
+      },
+      "privacy": {
+        "q": "Dữ liệu của tôi được xử lý thế nào?",
+        "a": "Bài viết được kiểm tra bởi nhà cung cấp AI bên thứ ba, DeepSeek, và có thể được xử lý ngoài quốc gia của bạn. Đọc chính sách quyền riêng tư để biết chi tiết."
       },
       "devices": {
-        "q": "Tôi có cần cài ứng dụng không?",
-        "a": "Không. Ứng dụng chạy trên trình duyệt của điện thoại hoặc máy tính."
-      },
-      "level": {
-        "q": "Nếu tôi chọn sai trình độ thì sao?",
-        "a": "Bài xếp lớp chỉ gợi ý trình độ bắt đầu. Bạn có thể thay đổi bất cứ lúc nào."
+        "q": "Tôi có thể dùng trên điện thoại không?",
+        "a": "Có. Ứng dụng chạy trên trình duyệt điện thoại, máy tính bảng hoặc máy tính."
       }
     },
     "final": {
-      "title": "Viết bài học đầu tiên ngay hôm nay",
-      "body": "Bắt đầu với một bài học ngắn theo trình độ của bạn."
+      "title": "Viết bản nháp đầu tiên tốt hơn ngay hôm nay",
+      "body": "Cùng hàng nghìn người viết tự tin hơn."
     },
-    "copyright": "© 2026 Writing coach"
+    "copyright": "© 2026 Writing coach",
+    "heroPrivate": "Riêng tư mặc định",
+    "heroLanguage": "Giao diện tiếng Anh và tiếng Việt",
+    "eyebrows": {
+      "how": "Cách hoạt động",
+      "features": "Tính năng chính",
+      "levels": "Dành cho mọi trình độ",
+      "pricing": "Học phí",
+      "faq": "Câu hỏi thường gặp"
+    },
+    "growthTitle": "Điều gì thay đổi khi bạn tiến bộ",
+    "growthLines": [
+      "Câu rõ ràng hơn, mỗi lần một mục tiêu",
+      "Nhận xét có thể hành động, không phải một bức tường lỗi đỏ",
+      "Lỗi của chính bạn quay lại thành bài tập ngắn"
+    ],
+    "demoLive": "Trực tiếp",
+    "brand": "WriteRight",
+    "titleLead": "Viết bằng tiếng Anh.",
+    "titleAccent": "Thấy điều cần sửa.",
+    "heroBody": "Nhận gợi ý tức thì, rõ ràng để cải thiện ngữ pháp, sự rõ ràng và phong cách — để bạn tự tin viết hơn.",
+    "tryFree": "Dùng thử miễn phí",
+    "howItWorks": "Cách hoạt động",
+    "audience": {
+      "students": {
+        "title": "Học sinh, sinh viên",
+        "body": "Cải thiện bài luận, bài tập và việc học"
+      },
+      "professionals": {
+        "title": "Người đi làm",
+        "body": "Viết email, báo cáo và thuyết trình rõ ràng hơn"
+      },
+      "learners": {
+        "title": "Người học tiếng Anh",
+        "body": "Nhận giải thích đơn giản, dễ hiểu"
+      },
+      "anyone": {
+        "title": "Bất kỳ ai",
+        "body": "Tự tin hơn và giao tiếp tốt hơn"
+      }
+    },
+    "demoTabs": {
+      "grammar": "Ngữ pháp",
+      "clarity": "Rõ ràng",
+      "tone": "Giọng điệu",
+      "vocabulary": "Từ vựng"
+    },
+    "acceptAll": "Chấp nhận tất cả",
+    "ignore": "Bỏ qua",
+    "prevSuggestion": "Gợi ý trước",
+    "nextSuggestion": "Gợi ý tiếp theo",
+    "demoPlaceholder": "Nhập câu để kiểm tra"
   },
   "legal": {
     "nav": "Pháp lý",

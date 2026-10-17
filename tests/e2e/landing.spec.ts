@@ -26,7 +26,7 @@ test('signed-out visitors can try the live demo without an API request', async (
   await expect(result.getByRole('button', { name: 'buyed: bought' })).toBeVisible();
   expect(requests).toEqual([]);
 
-  const starts = page.getByRole('link', { name: 'Start writing for free' });
+  const starts = page.getByRole('link', { name: /Try it free|Get started free/ });
   await expect(starts).toHaveCount(3);
   for (const start of await starts.all()) await expect(start).toHaveAttribute('href', '/login');
 });
@@ -57,21 +57,23 @@ test('signed-out visitors see a marketing page without the app navigation', asyn
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Today' })).toHaveCount(0);
   const banner = page.getByRole('banner');
-  await expect(banner.getByRole('link', { name: 'Start free' })).toHaveAttribute('href', '/login');
+  await expect(banner.getByRole('link', { name: 'Get started' })).toHaveAttribute('href', '/login');
   for (const name of [
-    'How it works',
-    'Built for real writing practice',
+    'Better writing in 3 simple steps',
+    'Built for real writing situations',
     'Start at your level',
-    'Pricing',
+    'Simple, transparent pricing',
     'Frequently asked questions',
   ])
     await expect(page.getByRole('region', { name })).toBeVisible();
-  await expect(page.getByRole('region', { name: 'Pricing' })).toContainText('Free');
+  await expect(page.getByRole('region', { name: 'Simple, transparent pricing' })).toContainText(
+    'Free',
+  );
   await expect(
     page.getByRole('region', { name: 'Start at your level' }).getByRole('listitem'),
-  ).toHaveCount(7);
+  ).toHaveCount(4);
 
-  const question = page.getByRole('button', { name: 'What happens to my writing?' });
+  const question = page.getByRole('button', { name: 'How is my data handled?' });
   await question.click();
   await expect(question).toHaveAttribute('aria-expanded', 'true');
   await expect(page.getByRole('region', { name: 'Frequently asked questions' })).toContainText(

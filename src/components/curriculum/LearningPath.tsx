@@ -15,6 +15,7 @@ import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import type { LearningPath as Path } from '@/lib/db/curriculum';
 import PathNode from './PathNode';
+import PageHeader from '@/components/ui/PageHeader';
 export default function LearningPath({
   path,
   preview = false,
@@ -27,36 +28,47 @@ export default function LearningPath({
   track?: CurriculumTrack;
 }) {
   const t = useTranslations('curriculum');
+  const app = useTranslations('app');
   const tags = useTranslations('feedback.tags');
   const base = preview ? '/dev/preview/path?course=full&' : '/path?';
   const groups =
     track === 'ielts' ? (['academic', 'general', 'essay'] as const) : (['core'] as const);
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Stack sx={{ gap: 3 }}>
-        <Typography component="h1" variant="h1">
-          {t('pathTitle')}
-        </Typography>
-        <Tabs value={track} variant="fullWidth" aria-label={t('tracks')}>
-          <Tab
-            value="core"
-            wrapped
-            sx={{ minWidth: 0 }}
-            label={t('coreTrack')}
-            component={NextLink}
-            href={base + 'track=core'}
-          />
-          <Tab
-            value="ielts"
-            wrapped
-            sx={{ minWidth: 0 }}
-            label={t('ieltsTrack')}
-            component={NextLink}
-            href={base + 'track=ielts'}
-          />
-        </Tabs>
-        <Typography>{t(track === 'ielts' ? 'ieltsIntro' : 'pathIntro')}</Typography>
-        {track === 'core' ? <Alert severity="info">{t('courseScope')}</Alert> : null}
+    <Container maxWidth="lg" disableGutters>
+      <Stack sx={{ gap: { xs: 2.5, md: 3 } }}>
+        <PageHeader
+          title={t('pathTitle')}
+          note={app('paperNotes.path')}
+          subtitle={t(track === 'ielts' ? 'ieltsIntro' : 'pathIntro')}
+        />
+        <Paper sx={{ p: 0.75, bgcolor: 'background.paper' }}>
+          <Tabs value={track} variant="fullWidth" aria-label={t('tracks')}>
+            <Tab
+              value="core"
+              wrapped
+              sx={{ minWidth: 0 }}
+              label={t('coreTrack')}
+              component={NextLink}
+              href={base + 'track=core'}
+            />
+            <Tab
+              value="ielts"
+              wrapped
+              sx={{ minWidth: 0 }}
+              label={t('ieltsTrack')}
+              component={NextLink}
+              href={base + 'track=ielts'}
+            />
+          </Tabs>
+        </Paper>
+        {track === 'core' ? (
+          <Alert
+            severity="info"
+            sx={{ bgcolor: 'background.paper', border: 1, borderColor: 'divider' }}
+          >
+            {t('courseScope')}
+          </Alert>
+        ) : null}
         {track === 'core' && !path.chosenLevel ? (
           <Button
             component={NextLink}
@@ -87,11 +99,16 @@ export default function LearningPath({
             {path.units
               .filter((unit) => group === 'core' || ieltsModule(unit.id) === group)
               .map((unit) => (
-                <Paper variant="outlined" key={unit.id} sx={{ p: 3 }}>
+                <Paper variant="outlined" key={unit.id} sx={{ p: { xs: 2.5, md: 3.5 } }}>
                   <Stack sx={{ gap: 2 }}>
-                    <Stack direction="row" sx={{ alignItems: 'center', gap: 2 }}>
-                      <Chip label={unit.level} />
-                      <Typography component={track === 'ielts' ? 'h3' : 'h2'} variant="h2">
+                    <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
+                      <Chip
+                        label={unit.level}
+                        variant="tonal"
+                        color="primary"
+                        sx={{ fontWeight: 700 }}
+                      />
+                      <Typography component={track === 'ielts' ? 'h2' : 'h2'} variant="h2">
                         {unit.title}
                       </Typography>
                     </Stack>

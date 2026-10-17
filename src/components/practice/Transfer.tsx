@@ -102,7 +102,7 @@ export default function Transfer({ preview = false }: { preview?: boolean }) {
             <Button onClick={() => window.location.reload()}>{t('reload')}</Button>
           </Alert>
         )}
-        {busy && !question && <Typography role="status">{t('loading')}</Typography>}
+        {busy && !question && <Typography aria-live="polite">{t('loading')}</Typography>}
         {!busy && !error && !question && (
           <Typography>
             {at

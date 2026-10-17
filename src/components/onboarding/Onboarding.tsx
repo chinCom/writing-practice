@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { profileResult, type LearningProfile } from '@/lib/profile';
+import PageHeader from '@/components/ui/PageHeader';
 
 const defaultProfile: LearningProfile = {
   nativeLanguage: 'en',
@@ -66,6 +67,7 @@ export default function Onboarding({
   preview?: boolean;
 }) {
   const t = useTranslations('onboarding');
+  const app = useTranslations('app');
   const [profile, setProfile] = useState<LearningProfile>(initialProfile ?? defaultProfile);
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'saving' | 'saved' | 'error' | 'expired'
@@ -124,9 +126,8 @@ export default function Onboarding({
   return (
     <Container maxWidth="md" disableGutters sx={{ marginInlineStart: 0 }}>
       <Stack sx={{ gap: 3 }}>
-        <Typography variant="h1">{t('title')}</Typography>
-        <Typography>{t('intro')}</Typography>
-        <Paper variant="outlined" sx={{ p: { xs: 2, sm: 4 } }}>
+        <PageHeader title={t('title')} subtitle={t('intro')} note={app('paperNotes.default')} />
+        <Paper variant="outlined" sx={{ p: { xs: 2.5, sm: 4 }, maxInlineSize: 760 }}>
           <Stack sx={{ gap: 3 }}>
             <ProfileField
               name="nativeLanguage"

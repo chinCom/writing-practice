@@ -4,6 +4,7 @@
 > Reference mockups (save the approved images here): `docs/design/reference-studio-feedback.png` (Writing Studio, Feedback, Mobile feedback) and `docs/design/reference-board.png` (Today, Learning path, Practice, Progress, Settings).
 > Authority: where this file differs from the design summary in PROJECT.md §17, **DESIGN.md wins**.
 > Hex values and sizes below were read from the mockups by eye. Verify with an eyedropper and adjust in `src/theme/tokens.ts` only (§4, §5).
+> **2026-10 visual refresh:** the workspace follows the lavender-and-indigo board in `design/`. The serif page openings, white paper cards, violet selected-nav pill, pastel tonal tiles, and floating paper illustrations are the current direction. The signed-out landing page follows the separate **WriteRight** reference: modern sans headings, navy/violet split hero, layered live-feedback card, horizontal feature cards, audience rows, free-plan card, divider FAQ, and a navy final band. §4–§8 below were updated for that pass; `src/theme/` is the executable source of truth.
 
 ---
 
@@ -39,7 +40,7 @@
 | Connector lines between marks and cards | `Box component="svg"` containing `<path>` / `<circle>`; `style` for computed geometry | `src/components/feedback/ConnectorLayer.tsx` |
 | Highlighter sweep (per-line bands from measured text rects) | `Box` bands; `style` for computed geometry | `src/components/studio/ReadSweep.tsx` |
 | Learning-path connecting line (soft curve between nodes) | `Box component="svg"` containing `<path>` | `src/components/path/PathLine.tsx` |
-| Custom icons (wavy underline swatches, logo mark) | `SvgIcon` with `<path>` children | `src/components/ui/icons/` |
+| Custom icons (wavy underline swatches, feather logo, floating paper illustration) | `SvgIcon` / `Box component="svg"` with `<path>` children | `src/components/ui/icons/` |
 | Level-up confetti | `canvas-confetti` (decorative, non-UI library; skipped under reduced motion) | `src/components/ui/Celebrate.tsx` |
 
 ---
@@ -163,14 +164,14 @@ console.log("Design rules: OK");
 
 ## 3. Design concept
 
-**"The marked page."** A calm, paper-like writing surface with an editor's markup layer. The product is quiet and focused; the one memorable thing is the **feedback view**: the learner's own text with colored marks, and correction cards in a margin connected to each mark by thin lines.
+**"The marked page, in a lavender study."** The signed-in app is a calm writing desk: an editorial serif heading, a sheet of white paper, a few soft cards, and one violet quill. The learner's text and its marks remain the hero; the chrome around them is quiet, pale, and generous. The public landing page is the bolder, sans-serif shop window: same navy/violet family, much larger type, and a layered product demonstration.
 
 Principles:
-1. **The text is the hero.** Serif canvas, generous leading, nothing competing with it.
-2. **Markup, not alarm.** Corrections are underlines and small cards, never red walls or modal interruptions.
-3. **Color never works alone.** Every mark type has its own underline *style*; scores always show numbers.
-4. **One signature moment** (the highlighter read, §9). Everything else is quiet.
-5. **Calm density.** Whitespace around the canvas; compact, scannable cards in the margin.
+1. **Editorial calm.** Literata carries page titles, card titles, writing, and big numbers. Noto Sans carries interface text. Generous leading and short line lengths.
+2. **Paper on lavender.** White surfaces sit on a soft lilac wash (`background.default`) with broad, translucent ribbon curves. Cards have a 1px hairline and a very soft, low-contrast shadow.
+3. **One accent family.** Deep indigo for primary actions, violet for icons, links, focus, and the selected nav pill. Mint is for progress and completion; amber is a warm callout for reviews and idea prompts.
+4. **A little drawn warmth.** The single-sheet header illustration, blue and green ink strokes, and the feather mark carry personality without competing with writing.
+5. **One signature moment** remains the highlighter read on feedback (§9). Every other motion answers an action.
 
 ---
 
@@ -182,29 +183,29 @@ All values live in `src/theme/tokens.ts` and are consumed through the MUI theme.
 
 | Role | MUI path | Light | Dark |
 |---|---|---|---|
-| Ink (text, primary actions) | `primary.main` / `text.primary` | `#23214F` | `#E4E1FF` (primary), `#ECEBFF` (text) |
-| On primary | `primary.contrastText` | `#FFFFFF` | `#23214F` |
-| Violet (focus ring, active card border, grammar marks) | `secondary.main` | `#6D4AFF` | `#9B85FF` |
-| Paper (app background) | `background.default` | `#F5F6FB` | `#14132E` |
-| Surface (canvas, cards) | `background.paper` | `#FFFFFF` | `#1D1B40` |
-| Muted text | `text.secondary` | `#5B5B7A` | `#A9A8CC` |
-| Hairline border | `divider` | `#E4E5F0` | `#34325F` |
-| Mint (strengths, success, high score) | `success.main` | `#0F8F6B` | `#3DD6A8` |
-| Mint, text-safe (text, and fills behind white numerals) | `success.dark` | `#0B7A5C` | `#3DD6A8` |
-| Blue (vocabulary marks, mid score) | `info.main` | `#1F7AE0` | `#5AA2FF` |
-| Amber (punctuation marks, priority icon) | `warning.main` | `#C77700` | `#F0A63A` |
-| Rose (spelling marks, low score) | `error.main` | `#E0356B` | `#FF6E9A` |
-| Highlighter (active nav, sweep, key moments) | `highlighter.main` (custom) | `#FFD23F` | `#FFD23F` |
-| On highlighter | `highlighter.contrastText` | `#23214F` | `#23214F` |
-| Soft highlight (strength sentence, priority chip bg) | `highlighter.light` (custom) | `#FFF0B3` | `#4A3F12` |
-| Lavender tonal (level chip bg) | `tonal.primary` (custom) | `#ECEAFB` | `#2B2860` |
-| Mint tonal (strength chip bg) | `tonal.success` (custom) | `#DDF3EA` | `#164A3D` |
-| Teal (style/discourse marks) | `marks.style` (custom) | `#0E8C99` | `#3CC4D1` |
+| Ink (text, primary actions) | `primary.main` / `text.primary` | `#1D1A4F` / `#2A2850` | `#E9E7FF` / `#EDEBFF` |
+| On primary | `primary.contrastText` | `#FFFFFF` | `#1D1A4F` |
+| Violet (focus, links, icon accent, selected nav icon) | `secondary.main` | `#5B4BFF` | `#9B85FF` |
+| Paper (app wash) | `background.default` | `#F6F7FD` | `#13132B` |
+| Surface (cards, canvas) | `background.paper` | `#FFFFFF` | `#1C1B3B` |
+| Muted text | `text.secondary` | `#5D5E7E` | `#A9A8CC` |
+| Hairline border | `divider` | `#E7E8F3` | `#33325C` |
+| Mint (success, progress, completion) | `success.main` | `#0E9F6E` | `#3DD6A8` |
+| Mint, text-safe | `success.dark` | `#077A55` | `#3DD6A8` |
+| Blue (information, vocabulary) | `info.main` | `#3D6FD8` | `#7AA5FF` |
+| Amber (review callout, punctuation) | `warning.main` | `#B87408` | `#F0B45A` |
+| Rose (errors, spelling) | `error.main` | `#D84A72` | `#FF7EA3` |
+| Warm highlighter (review banner, idea card, focus glow) | `highlighter.main` | `#F5C451` | `#F5C451` |
+| Soft highlighter | `highlighter.light` | `#FFF6DF` | `#4A3F12` |
+| Lavender tonal (selected nav, level chips, icon tiles) | `tonal.primary` | `#EDEBFF` | `#2C2A5C` |
+| Mint tonal | `tonal.success` | `#E2F6ED` | `#164A3D` |
+| Teal (style/discourse marks) | `marks.style` | `#0D8E9A` | `#45C8D4` |
 
 Rules:
-- **Highlighter yellow is always paired with ink text.** It marks attention, not judgment: *where you are* (active nav, level switcher, current path node), the *sweep*, a *strength sentence* in feedback, and the *target word* in a drill (which also keeps its mark underline). It never replaces an underline as the signal for an error.
-- **Mint as text** (for example the suggested fix "I went") and mint fills behind white numerals use `success.dark`. `success.main` on white is only about 4:1, which fails AA for small text; use `success.main` for icons, rings, and bars.
-- **Tonal chips** use `text.primary` for the label; only the icon carries the hue. This keeps AA contrast on the pale backgrounds.
+- **The selected nav item is a lavender pill**, not a yellow block. The icon takes `secondary.main` and the label stays ink.
+- **Highlighter yellow is a warm callout**, used for the review prompt, "Develop your ideas", and the practice help ring. It is not the selected-nav color and never replaces an error underline.
+- **Mint as text** (suggested fixes) uses `success.dark`. `success.main` is for icons, rings, and bars.
+- **Tonal chips** keep the label readable: pale lavender/mint backgrounds with ink or the matching dark hue.
 
 ### 4.2 Mark styles (the underline system)
 
@@ -222,16 +223,19 @@ CSS: `textDecorationLine: underline; textDecorationStyle: <style>; textDecoratio
 
 | Variant | Family | Size / line height | Weight | Use |
 |---|---|---|---|---|
-| `h1` | **Literata** | 2rem / 1.2 (1.625rem on `xs`) | 600 | Page titles ("Make room for a little writing", "See your writing grow") |
-| `h2` | **Literata** | 1.625rem / 1.25 | 600 | Hero titles inside a page (the task title on the Today card) |
-| `h3` | Noto Sans | 1.125rem / 1.3 | 600 | Section and card titles ("Your week", "Errors by category", "A message to a friend") |
-| `subtitle2` | Noto Sans | 0.8125rem / 1.3 | 600 | Correction card tag ("Verb tense") |
-| `body1` | Noto Sans | 0.9375rem / 1.5 | 400 | UI text |
-| `body2` | Noto Sans | 0.8125rem / 1.45 | 400 | Secondary text, explanations |
-| `caption` | Noto Sans | 0.75rem / 1.4 | 400 | "Saved just now", "61 words" |
-| `button` | Noto Sans | 0.9375rem / 1 | 600, no uppercase | Buttons |
-| **`stat`** (custom) | **Literata** | 1.75rem / 1.1 | 600 | Big numbers ("1,240", "8", "5 days") with a `body2` label beneath. Format with `Intl.NumberFormat`. |
-| **`canvas`** (custom) | **Literata** | 1.375rem / 1.65 (1.1875rem / 1.6 on `xs`) | 400 | Learner text, model text, rewrites. Max width 70ch. |
+| `h1` | **Literata** | 3rem / 1.05 (2.25rem on `xs`) | 600 | Page openings ("Make room for a little writing", "See your writing grow") |
+| `h2` | **Literata** | 2rem / 1.16 (1.625rem on `xs`) | 600 | Task titles and major sub-sections |
+| `h3` | **Literata** | 1.25rem / 1.3 | 600 | Card titles ("Your week", "Saved feedback", "A little help") |
+| `h4` | Noto Sans | 1.0625rem / 1.35 | 650 | Compact headings where serif would be heavy |
+| `subtitle1` / `subtitle2` | Noto Sans | 1rem / 0.8125rem | 650 | Labels and card headers |
+| `body1` / `body2` | Noto Sans | 0.9375rem / 0.8125rem | 400 | Interface copy; `body2` for secondary text |
+| `caption` | Noto Sans | 0.75rem / 1.45 | 400 | Metadata, helper notes |
+| `button` | Noto Sans | 0.9375rem | 650, no uppercase | Buttons |
+| `eyebrow` (custom) | Noto Sans | 0.6875rem, tracked +0.14em, uppercase | 700 | Landing section labels only |
+| **`stat`** (custom) | **Literata** | 2.5rem / 1 | 600 | Big numbers in progress and portfolio |
+| **`canvas`** (custom) | **Literata** | 1.375rem / 1.65 (1.1875rem on `xs`) | 400 | Learner text, model text, marked page |
+
+The landing page uses dedicated sans-serif variants: `landingTitle` (4.25rem / 800, 2.5rem on `xs`), `landingSection` (2.5rem / 800), and `landingCard` (1.0625rem / 700). Workspace page openings stay on Literata at 3rem.
 
 Fonts load locally with `next/font` and are referenced from the theme. The current interface uses Noto Sans for English and Vietnamese. Literata remains the serif heading and English writing font. Local Vietnamese subsets provide accented characters for both font stacks. Arabic fonts and the Arabic catalog were removed.
 
@@ -242,19 +246,20 @@ The first mockup (Studio, Feedback) uses a sans bold page title; the newer board
 | Token | Value | Applies to |
 |---|---|---|
 | `shape.borderRadius` | 12 | default |
-| Radius sm | 8 | nav items, small buttons, tags |
-| Radius md | 10 | buttons, inputs |
-| Radius lg | 14 | cards, paper canvas, panels |
+| Radius sm | 8 | icon tiles, small buttons |
+| Radius md | 12 | buttons, inputs, nav items |
+| Radius lg | 20 | cards, paper canvases, panels |
 | Radius sheet | 24 top corners | bottom sheet |
-| Radius pill | 999 | chips, progress bars, switches |
+| Radius pill | 999 | chips, progress bars, toggles |
 | Spacing unit | 8px (`theme.spacing`) | everything |
-| Panel padding | 2 (card) / 4 (canvas) | |
-| Page gutter | 3 (`md+`), 2 (`xs`) | |
-| Touch target | ≥ 44px | buttons, nav items, checkboxes, switch rows |
-| Static surfaces | 1px `divider` border, **no shadow** | cards, canvas, panels |
-| Floating layers | shadow allowed | bottom sheet, menus, dialogs |
+| Card padding | 2.5–3.5 (`theme.spacing`) | |
+| Page gutter | 5 (`md+`), 3 (`sm`), 2 (`xs`) | |
+| Touch target | ≥ 44px | buttons, nav items, checkboxes |
+| Static surfaces | 1px `divider` + `0 18px 40px -32px rgba(29,26,79,.38)` | cards and paper panels |
+| Floating layers | raised shadow | menus, dialogs, sheets |
+| Illustration | single sheet + blue and green ink strokes | page headers, hero, empty states |
 
-The mockup's radii are rounder than the first spec in PROJECT.md (canvas 4px, cards 20px). The mockup wins.
+The 2026 board is rounder and softer than the first spec: 10–12px cards, 8–10px controls, a whisper of shadow. Decorations live in `src/components/ui/icons/PaperAccent.tsx` and `LogoMark.tsx`.
 
 ### 4.5 Breakpoints
 
@@ -263,6 +268,8 @@ Use MUI defaults: `xs` 0, `sm` 600, `md` 900, `lg` 1200, `xl` 1536. Structural s
 ---
 
 ## 5. Theme implementation (skeleton)
+
+> The snippet below is the original starting point, not a mirror of the current file. For exact values read `src/theme/tokens.ts` and `src/theme/theme.ts`; those files are the executable spec for the 2026 refresh.
 
 Illustrative; check the installed MUI version's docs for exact option names.
 
@@ -365,12 +372,12 @@ Use exactly these. Props are starting points.
 
 | Design element | MUI | Notes |
 |---|---|---|
-| Desktop sidebar | `Drawer variant="permanent"` + `List` | `md+`. Width ≈ 200px. |
-| Nav item | `ListItemButton` + `ListItemIcon` + `ListItemText` | Active (`selected`): `highlighter.main` bg, `highlighter.contrastText`, weight 600, radius 8. Inactive: outlined icon, `text.primary` at reduced emphasis. |
-| Logo | `Stack` + `SvgIcon` (doc glyph with a short highlighter underline) + `Typography` | Working name "Writing coach" in the mockup |
-| Mobile top bar | `AppBar elevation={0}` + `Toolbar` + `IconButton` (menu) | Transparent on `background.default` |
+| Desktop sidebar | `Drawer variant="permanent"` + `List` | `md+`. Width 244px, white paper, hairline end border. |
+| Nav item | `ListItemButton` + `ListItemIcon` + `ListItemText` | 48px row, radius 12. Active (`selected`): `tonal.primary` bg, ink label, `secondary` icon. Inactive: ink at 90%, outlined icon. |
+| Logo | `Stack` + `LogoMark` (violet feather) + `Typography` | "Writing coach", 18px, 700, never wraps. |
+| Mobile top bar | `AppBar elevation={0}` + `Toolbar` + `IconButton` (menu) | White paper, hairline bottom, 72px. Language switch is hidden below `sm`; the landing keeps only the primary CTA. |
 | Mobile menu | `Drawer` (temporary) | Holds Learning path, Settings, language |
-| Mobile bottom nav | `BottomNavigation` + `BottomNavigationAction` | 4 items: Today, Write, Practice, Progress. Selected item shows a short highlighter bar. |
+| Mobile bottom nav | `BottomNavigation` + `BottomNavigationAction` | 4 items: Today, Write, Practice, Progress. Selected item turns ink with a violet icon; no yellow bar. |
 | Page container | `Container`, `Box component="main"` | |
 
 ### Writing Studio
@@ -421,13 +428,13 @@ Use exactly these. Props are starting points.
 | Design element | MUI | Notes |
 |---|---|---|
 | Page title and date | `Typography variant="h1"` + muted `Typography` | Date from `Intl.DateTimeFormat` ("Tuesday, October 13") |
-| Next-task card (the one bordered card on the page) | `NextTaskCard` (§7): `Card` + `CardContent` | Level chip, title (`h2`), description, word range |
+| Next-task card | `Card` + `CardContent` | Level chip + "Today's task" + word range, serif title, prompt, contained CTA, hairline, focus chips. A small paper illustration sits at the inline end on `sm+`. |
 | Start writing | `Button variant="contained"` | Opens the Writing Studio |
 | Focus line | `Typography variant="caption"` under a `Divider` | "Your focus: past-tense verbs" |
 | Your week | `WeekTicks` (§7) | Mon–Sun |
 | Weekly goal | `GoalRing` (§7) | "3 of 5 sessions" |
-| Review prompt | `Stack` + `Typography` + `Button variant="outlined"` | "Past tense needs another look", "Review now" opens Practice |
-| Section separators | `Divider` | The other blocks are open sections, not cards |
+| Review prompt | warm tonal `Stack` + amber icon tile + `Button variant="outlined"` | Soft amber banner with a dark outline action. |
+| Below the fold | `SavedFeedback` table + `LearningSnapshot` + IELTS card | Two-column on `lg`, stacked on smaller screens. |
 
 ### Learning path
 
@@ -486,9 +493,13 @@ Other drill types (PROJECT.md §7.2) reuse the same card: gap-fill (`WritingFiel
 | Plan | `Typography` ("Free", weight 700) + muted `body2` + `Button variant="outlined"` "View plans" | |
 | Saved confirmation | `Alert` (tonal success) inside `Collapse`, `role="status"` | Appears after any change autosaves |
 
-### Not yet designed
+### Landing, Login, Portfolio, Settings
 
-Landing, Login, Onboarding, Pricing, Portfolio, Unit page, empty and error states. Build them from §4 tokens and the patterns above, and show a screenshot for review before moving on.
+- **Landing (WriteRight):** compact 48px white header with wordmark and navy Get started; two-line sans hero (ink + violet) with a layered live-feedback visual; three centered steps with dashed arcs; six horizontal pastel feature cards on lavender; four audience rows plus a floating browser/checklist illustration; free-plan split card on lavender; divider-only FAQ with View all; navy-to-indigo final band. The live feedback visual keeps a compact edit field because the demo is functional; the reference shows only the marked sentence.
+- **Login:** centered white card on the lavender wash, floating paper accents, Google first, email link second, privacy note, legal links.
+- **Portfolio:** four stat tiles, search + filter chips + sort, featured draft with illustration and a latest-version action panel, compact version rows.
+- **Settings:** two columns. Section cards on the left (icon tile + title/description + controls); account overview and a warm profile card on the right.
+
 
 Icons (closest MUI match; swap freely): Today `HomeOutlined`, Learning path `MapOutlined`, Writing Studio `EditOutlined`, Practice `FitnessCenterOutlined`, Progress `BarChartOutlined`, Settings `SettingsOutlined`, review date `CalendarMonthOutlined`.
 
@@ -523,7 +534,13 @@ All live in `src/components/`, are Client Components, and consist only of MUI pa
 
 **`LevelChip`, `StrengthChip`, `PriorityChip`**: wrappers over `Chip variant="tonal"` (§6).
 
-**`AppShell`**: `SideNav` (≥ `md`) or `TopBar` + `BottomNav` (< `md`), plus a `main` region.
+**`AppShell`**: white `SideNav` (≥ `md`) or `TopBar` + `BottomNav` (< `md`), plus a `main` region on a lavender wash. Pages are wrapped at `layout.contentMax` (1460px).
+
+**`PageHeader`**: serif `h1`, optional eyebrow, subtitle node, and the floating `PaperAccent`. Every workspace page opens with it; the accent is decorative and hides below `md`.
+
+**`StatTile`**: icon tile + `h3` value + `body2` label + optional hint. Used by Progress and Portfolio.
+
+**`PaperAccent` / `LogoMark`**: the approved custom SVG illustrations in `src/components/ui/icons/`. `PaperAccent` has separate paper, travel, stack, pen, crown, checklist, bars, and trend variants. The optional `note` uses the locally bundled Caveat font (OFL license in `public/fonts/`); pass it through `PageHeader` so each screen gets its own line from `app.paperNotes`.
 
 **`FeedbackSheet`**: `SwipeableDrawer` (bottom) hosting one `CorrectionCard`; opens when a mark is tapped on < `md`.
 
@@ -678,11 +695,14 @@ Explanation style (example): for `swimmed → swam`, write "Swim is an irregular
 - [ ] Hex values and radii: confirm against the source design file (they were read from a screenshot).
 - [ ] The pale yellow highlight appears on a strength sentence (Feedback) and on the target word (Practice). I generalized it to "attention, not judgment" (§4.1). Confirm.
 - [ ] Dark mode is not in the mockup; the dark tokens are proposals. Review once built.
-- [ ] Final nav icons and the logo glyph.
+- [x] Navigation uses consistent custom outline glyphs with a solid three-bar Progress icon; the feather mark uses the violet palette.
 - [ ] **Mock data on the board is inconsistent.** Today says Tuesday, October 13 but shows Mon–Fri as done; the calendar marks the 14th and 15th as writing days; the weekly goal says 3 of 5 sessions while 5 days are ticked. Real data must drive these; future days are never done.
 - [ ] **Titles:** the first board used a bold sans page title; this board uses a serif. I standardized on Literata for `h1` (§4.3). Say if the Feedback and Studio titles should stay sans.
 - [ ] **Settings is missing rows** that PROJECT.md requires: account (email, sign out) and data export and deletion. Add a "Data and privacy" row.
 - [ ] Copy "Preferences saved on this device" is only true if settings are stored locally. If they save to the account, use "Preferences saved."
 - Resolved: removed the developer RTL preview when Vietnamese replaced Arabic.
 - [ ] The path line is a soft curve in the board (needs the `PathLine` SVG exception). A straight line would avoid the exception; pick one.
-- [ ] Landing, Login, Onboarding, Pricing, Portfolio, Unit page, and empty/error states still need designs.
+- [x] Landing, Login, Onboarding, Portfolio, Settings, Practice, Progress, Studio, and Feedback now have implemented layouts built from the 2026 board.
+- [ ] Verify the final board against `docs/verification/ux/redesign-after/` at 1448px and 390px after any further visual changes.
+
+Visual correction evidence: [exact-width Playwright captures and pass notes](docs/verification/visual-fidelity/README.md). The new `BoardIcon`, `BackdropRibbons`, `CalloutRibbon`, and `HandDrawnArrow` use the existing custom-icon exception.

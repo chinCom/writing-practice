@@ -46,7 +46,31 @@
     "openPrevious": "Open previous feedback",
     "openCurrent": "Open current feedback",
     "showMore": "Show full text",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "subtitle": "Reopen saved writing, search by phrase, and compare each revision with the one before it.",
+    "search": "Search your writing",
+    "filter": "Filter saved writing",
+    "all": "All",
+    "revisions": "Revisions",
+    "firstDrafts": "First drafts",
+    "sort": "Sort saved writing",
+    "newest": "Newest first",
+    "oldest": "Oldest first",
+    "longest": "Longest first",
+    "savedPieces": "Saved pieces",
+    "totalWords": "Total words",
+    "withFeedback": "Items with feedback",
+    "revisionCount": "Revisions",
+    "featured": "Latest",
+    "noResults": "No saved writing matches this search.",
+    "clear": "Clear search",
+    "firstDraft": "First draft",
+    "revision": "Revision",
+    "message": "Message",
+    "essay": "Essay",
+    "note": "Note",
+    "latestVersion": "Latest version",
+    "latestDraft": "Latest draft"
   },
   "app": {
     "portfolio": "Portfolio",
@@ -66,7 +90,18 @@
     "account": "Your account",
     "signOut": "Sign out",
     "signIn": "Sign in",
-    "signOutError": "Sign out could not be confirmed. Please try again."
+    "signOutError": "Sign out could not be confirmed. Please try again.",
+    "paperNotes": {
+      "default": "small steps,\nbetter drafts.",
+      "today": "start small,\nwrite today.",
+      "path": "one step,\nthen the next.",
+      "studio": "write,\ndraft,\nimprove,\ngrow.",
+      "practice": "practice today\nfor stronger\nwriting.",
+      "progress": "small steps,\nbig progress.",
+      "portfolio": "your ideas\ngrow here.",
+      "settings": "your writing\njourney,\nyour way.",
+      "login": "pick up\nyour writing\nanytime."
+    }
   },
   "today": {
     "title": "Make room for a little writing",
@@ -128,7 +163,9 @@
     "locked": "Locked",
     "available": "Available",
     "ieltsTitle": "IELTS Writing Workspace",
-    "ieltsIntro": "Practice Academic Task 1, General Training letters, or Task 2 essays."
+    "ieltsIntro": "Practice Academic Task 1, General Training letters, or Task 2 essays.",
+    "tagline": "A small step today builds your confident, creative tomorrow.",
+    "focusTitle": "Your focus: this lesson"
   },
   "settings": {
     "title": "Make this space yours",
@@ -163,7 +200,19 @@
     "goalRetry": "Try again",
     "goalSignInAgain": "Sign in again",
     "deferred": "Explanation language and the daily writing target are not active yet. You can save a weekly goal when signed in.",
-    "learningProfile": "Edit learning profile"
+    "learningProfile": "Edit learning profile",
+    "languageBody": "Choose the language of the interface and, later, the language of explanations.",
+    "goalsBody": "Set a small weekly target and keep your writing routine realistic.",
+    "appearanceBody": "Pick the theme that feels comfortable for your eyes.",
+    "planBody": "Your pilot access includes all Core and IELTS writing practice.",
+    "accountTitle": "Account overview",
+    "accountNote": "Your learning preferences at a glance.",
+    "profileTitle": "Keep your path personal",
+    "profileBody": "Your level and goals shape the lessons and feedback you see.",
+    "themeNote": "You can change the theme at any time.",
+    "free": "Free",
+    "pilotAccount": "Pilot account",
+    "signInStart": "Sign in to start"
   },
   "studio": {
     "title": "A message to a friend",
@@ -204,7 +253,10 @@
     },
     "reveal": "View a writing tip",
     "taskWordRange": "{min}–{max} words",
-    "privacy": "Your writing stays private. We send writing to the AI coach only when you request a check or development help."
+    "privacy": "Your writing stays private. We send writing to the AI coach only when you request a check or development help.",
+    "subtitle": "Get ideas, write a draft, and check your writing with AI.",
+    "draft": "Your draft",
+    "quickChecks": "Quick checks"
   },
   "unavailable": {
     "title": "This part comes next",
@@ -223,7 +275,11 @@
     "error": "Sign-in could not be completed. Try a new link.",
     "privacy": "Your writing stays private. We send writing to the AI coach only when you request a check or development help.",
     "signOut": "Sign out",
-    "googleUnavailable": "Google sign-in is not available yet. Use an email link."
+    "googleUnavailable": "Google sign-in is not available yet. Use an email link.",
+    "or": "or",
+    "drawingNote": "Pick up your writing\nanytime, anywhere.",
+    "emailPlaceholder": "you@example.com",
+    "saveProgressNote": "Save your\nprogress."
   },
   "learning": {
     "recent": "Your saved feedback",
@@ -435,7 +491,14 @@
     "transferCheck": "Check new sentence",
     "transferTitle": "Try a new sentence",
     "transferBody": "Use your target in fresh context. These drills do not count as new-writing progress.",
-    "transferEmpty": "No transfer exercises are due for your current unit."
+    "transferEmpty": "No transfer exercises are due for your current unit.",
+    "subtitle": "Use your saved corrections in a fresh sentence. Check your answer without an AI call.",
+    "helpTitle": "A little help",
+    "helpIntro": "Read the whole sentence before you change the highlighted phrase. The saved wording is your guide.",
+    "quickChecks": "Quick checks",
+    "checkForm": "Is the word form correct?",
+    "checkFit": "Does it fit naturally in the sentence?",
+    "checkMeaning": "Does the meaning stay the same?"
   },
   "progress": {
     "title": "See your writing grow",
@@ -537,7 +600,19 @@
         "learning": "Learning",
         "secure": "Secure",
         "review-due": "Review due"
-      }
+      },
+      "firstLabel": "First new task",
+      "latestLabel": "Latest new task"
+    },
+    "subtitle": "A clear view of your writing habits, targets, and course progress.",
+    "overview": {
+      "targetsBody": "The skills your feedback keeps returning to, with first-attempt evidence.",
+      "benchmarksBody": "Matched start and checkpoint prompts show whether a reviewed unit moved.",
+      "improvementBody": "Scores and error rates across weeks. Descriptive, not a certificate.",
+      "targetsCount": "{n, plural, one {# target} other {# targets}} tracked",
+      "comparisonsCount": "{n, plural, one {# unit comparison} other {# unit comparisons}}",
+      "evidence": "More evidence",
+      "evidenceIntro": "Detailed first-attempt rates, matched benchmarks, and weekly trends."
     }
   },
   "onboarding": {
@@ -664,16 +739,16 @@
     "demoLocal": "This demo runs only in your browser. It checks a few common mistakes and sends nothing to a server. The full coach uses AI after you sign in.",
     "steps": {
       "write": {
-        "title": "Write",
-        "body": "Answer a short task at your level, from a few words to a full essay."
+        "title": "Write or paste",
+        "body": "Type your text or upload a document."
       },
       "mark": {
-        "title": "See your marks",
-        "body": "The coach underlines each mistake and explains it when you ask."
+        "title": "Get suggestions",
+        "body": "See instant feedback on grammar, clarity, tone and more."
       },
       "revise": {
-        "title": "Revise",
-        "body": "Apply fixes, rewrite, and compare your new version with the first one."
+        "title": "Apply and improve",
+        "body": "Accept suggestions and make your writing better."
       }
     },
     "nav": {
@@ -684,16 +759,16 @@
       "pricing": "Pricing",
       "faq": "FAQ",
       "language": "Interface language",
-      "start": "Start free"
+      "start": "Get started"
     },
     "eyebrow": "Free during the pilot",
-    "heroNote": "No credit card. English and Vietnamese interface.",
+    "heroNote": "No credit card required · Works in your browser",
     "how": {
-      "title": "How it works",
-      "intro": "Each lesson ends with your own writing, checked and revised."
+      "title": "Better writing in 3 simple steps",
+      "intro": "Get helpful suggestions in seconds and make your writing clearer, more natural and more professional."
     },
     "features": {
-      "title": "Built for real writing practice",
+      "title": "Built for real writing situations",
       "path": {
         "title": "A path from first words to C2",
         "body": "Short lessons, model texts and warm-ups at your level, then a writing task."
@@ -717,59 +792,142 @@
       "ielts": {
         "title": "IELTS writing practice",
         "body": "Task 1 and Task 2 practice with a 1–5 practice scale. These are not official band scores."
+      },
+      "intro": "Whether it's an email, essay, report or social post, get tailored suggestions that fit your needs.",
+      "grammar": {
+        "title": "Grammar & spelling",
+        "body": "Catch mistakes and fix them with clear explanations."
+      },
+      "clarity": {
+        "title": "Clarity & conciseness",
+        "body": "Simplify complex sentences and eliminate wordiness."
+      },
+      "tone": {
+        "title": "Tone suggestions",
+        "body": "Adjust your tone to be more formal, professional or casual."
+      },
+      "vocabulary": {
+        "title": "Vocabulary enhancement",
+        "body": "Get better word choices to sound more natural and precise."
+      },
+      "usecases": {
+        "title": "Multiple use cases",
+        "body": "Works for emails, essays, reports, cover letters and more."
+      },
+      "everyone": {
+        "title": "English for everyone",
+        "body": "Designed for learners, students and working professionals."
       }
     },
     "levels": {
       "title": "Start at your level",
-      "intro": "A short placement suggests where to begin. You can always choose a different level.",
+      "intro": "Get personalised suggestions based on your writing goals and proficiency level.",
       "PRE_A1": "Words and one or two simple sentences about yourself",
       "A1": "Simple sentences about your day, family and places",
       "A2": "Short connected messages, notes and simple emails",
       "B1": "Clear paragraphs, stories and opinions with reasons",
       "B2": "Structured essays, reports and formal letters",
       "C1": "Precise, flexible writing for study and work",
-      "C2": "Polished long-form writing with control of style"
+      "C2": "Polished long-form writing with control of style",
+      "checks": ["Clearer writing", "Fewer mistakes", "More confidence", "Ready for real life"]
     },
     "pricing": {
-      "title": "Pricing",
-      "plan": "Pilot access",
-      "price": "Free",
+      "title": "Simple, transparent pricing",
+      "plan": "Free Plan",
+      "price": "$0",
       "note": "Free while we test the app with early learners. Paid plans are not decided yet.",
-      "includes": {
-        "lessons": "All Core lessons from Pre-A1 to C2",
-        "checks": "AI writing checks, up to 20 per day",
-        "practice": "Practice reviews and progress tracking",
-        "ielts": "IELTS writing practice workspace"
-      }
+      "includes": [
+        "Basic grammar and spelling checks",
+        "Limited tone and clarity suggestions",
+        "Works in your browser"
+      ],
+      "taglineTitle": "Choose a plan that fits your needs. Upgrade anytime.",
+      "taglineBody": "Start free, then upgrade when you need more feedback and practice.",
+      "duringPilot": "during the pilot",
+      "planNote": "Great for getting started",
+      "forever": "forever",
+      "cta": "Get started free"
     },
     "faq": {
       "title": "Frequently asked questions",
+      "viewAll": "View all FAQs",
       "cost": {
-        "q": "Is it free?",
+        "q": "Is it really free?",
         "a": "Yes, during the pilot. If paid plans start later, we will tell you before anything changes."
       },
+      "types": {
+        "q": "What types of writing can I use it for?",
+        "a": "Emails, essays, reports, cover letters, social posts and everyday messages. The coach adapts to the task and your level."
+      },
+      "account": {
+        "q": "Do I need to create an account?",
+        "a": "You can try the short demo without an account. Sign in to save drafts, get AI feedback and return to your writing on any device."
+      },
       "privacy": {
-        "q": "What happens to my writing?",
+        "q": "How is my data handled?",
         "a": "Your writing is checked by a third-party AI provider, DeepSeek, and may be processed outside your country. Read the privacy policy for details."
       },
-      "official": {
-        "q": "Are the levels and scores official?",
-        "a": "No. Levels and scores are practice estimates to guide you. They are not CEFR or IELTS certificates."
-      },
       "devices": {
-        "q": "Do I need to install an app?",
-        "a": "No. It works in the browser on your phone or computer."
-      },
-      "level": {
-        "q": "What if I choose the wrong level?",
-        "a": "The placement only suggests a starting level. You can change it at any time."
+        "q": "Can I use it on my mobile device?",
+        "a": "Yes. The app works in the browser on your phone, tablet or computer."
       }
     },
     "final": {
-      "title": "Write your first lesson today",
-      "body": "Start with a short lesson at your level."
+      "title": "Write your first, better draft today",
+      "body": "Join thousands who write with more confidence."
     },
-    "copyright": "© 2026 Writing coach"
+    "copyright": "© 2026 Writing coach",
+    "heroPrivate": "Private by default",
+    "heroLanguage": "English and Vietnamese interface",
+    "eyebrows": {
+      "how": "How it works",
+      "features": "Key features",
+      "levels": "For every learner",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    },
+    "growthTitle": "What changes as you grow",
+    "growthLines": [
+      "Clearer sentences, one target at a time",
+      "Feedback you can act on, not a wall of red",
+      "Your own mistakes return as short practice"
+    ],
+    "demoLive": "Live",
+    "brand": "WriteRight",
+    "titleLead": "Write in English.",
+    "titleAccent": "See what to fix.",
+    "heroBody": "Get instant, clear suggestions to improve your grammar, clarity and style — so you can write with confidence.",
+    "tryFree": "Try it free",
+    "howItWorks": "How it works",
+    "audience": {
+      "students": {
+        "title": "Students",
+        "body": "Improve essays, assignments and school work"
+      },
+      "professionals": {
+        "title": "Professionals",
+        "body": "Write clearer emails, reports and presentations"
+      },
+      "learners": {
+        "title": "English learners",
+        "body": "Get simple, easy-to-understand explanations"
+      },
+      "anyone": {
+        "title": "Anyone",
+        "body": "Build confidence and communicate better"
+      }
+    },
+    "demoTabs": {
+      "grammar": "Grammar",
+      "clarity": "Clarity",
+      "tone": "Tone",
+      "vocabulary": "Vocabulary"
+    },
+    "acceptAll": "Accept all",
+    "ignore": "Ignore",
+    "prevSuggestion": "Previous suggestion",
+    "nextSuggestion": "Next suggestion",
+    "demoPlaceholder": "Type a sentence to check"
   },
   "legal": {
     "nav": "Legal",

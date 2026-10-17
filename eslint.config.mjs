@@ -90,6 +90,10 @@ const config = [
   },
   { files: ['src/theme/**'], rules: { 'no-restricted-syntax': ['error', raw, style, classes] } },
   {
+    files: ['src/components/ui/icons/**'],
+    rules: { 'no-restricted-syntax': ['error', style, colors, muiSelectors] },
+  },
+  {
     files: ['src/app/layout.tsx'],
     rules: { 'no-restricted-syntax': ['error', style, hex, colors, muiSelectors] },
   },

@@ -20,6 +20,7 @@ import ReadingPassage from './ReadingPassage';
 import TaskChart from './TaskChart';
 import TargetRecommendations from './TargetRecommendations';
 import type { LearningPath } from '@/lib/db/curriculum';
+import PageHeader from '@/components/ui/PageHeader';
 type Lesson = LearningPath['units'][number]['lessons'][number];
 export default function LessonView({
   lesson,
@@ -31,6 +32,7 @@ export default function LessonView({
   fullCourse?: boolean;
 }) {
   const t = useTranslations('curriculum');
+  const app = useTranslations('app');
   const [answers, setAnswers] = useState(lesson.answers);
   const [index, setIndex] = useState(
     Math.max(
@@ -76,8 +78,8 @@ export default function LessonView({
     }
   }
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Stack sx={{ gap: 3 }}>
+    <Container maxWidth="lg" disableGutters>
+      <Stack sx={{ gap: { xs: 2.5, md: 3 } }}>
         <Button
           component={NextLink}
           href={
@@ -85,20 +87,20 @@ export default function LessonView({
             'track=' +
             trackForId(lesson.id)
           }
-          sx={{ alignSelf: 'flex-start' }}
+          sx={{ alignSelf: 'flex-start', px: 0 }}
         >
           {t('backToPath')}
         </Button>
-        <Typography component="h1" variant="h1">
-          {lesson.title}
-        </Typography>
+        <PageHeader title={lesson.title} note={app('paperNotes.path')} />
         <TargetRecommendations targets={lesson.advisoryTargets} />
         <IeltsContract taskId={lesson.task.id} />
         <TaskChart taskId={lesson.task.id} />
         <ReadingPassage reading={lesson.task.reading} />
         <Paper variant="outlined" sx={{ p: 3 }}>
           <Stack sx={{ gap: 2 }}>
-            <Typography variant="h2">{t('miniLesson')}</Typography>
+            <Typography variant="h3" component="h2">
+              {t('miniLesson')}
+            </Typography>
             <Box
               sx={{
                 overflowWrap: 'break-word',
@@ -139,7 +141,9 @@ export default function LessonView({
           }}
         >
           <Stack sx={{ gap: 2 }}>
-            <Typography variant="h2">{t('warmups')}</Typography>
+            <Typography variant="h3" component="h2">
+              {t('warmups')}
+            </Typography>
             {error ? <Alert severity="error">{t(error)}</Alert> : null}
             {done ? (
               <>

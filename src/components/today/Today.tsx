@@ -1,4 +1,6 @@
 'use client';
+
+import type { ReactNode } from 'react';
 import NextLink from 'next/link';
 import { useTranslations, useFormatter } from 'next-intl';
 import Container from '@mui/material/Container';
@@ -11,40 +13,72 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import ShowChart from '@mui/icons-material/ShowChart';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+import AccessTimeOutlined from '@mui/icons-material/AccessTimeOutlined';
+import ChatBubbleOutlineOutlined from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import LayersOutlined from '@mui/icons-material/LayersOutlined';
+import LinkOutlined from '@mui/icons-material/LinkOutlined';
+import AutoAwesomeOutlined from '@mui/icons-material/AutoAwesomeOutlined';
 import SavedFeedback, { type SavedSubmission } from './SavedFeedback';
 import AccountActivity from './AccountActivity';
 import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot';
 import type { ProgressReport } from '@/lib/db/progress';
 import type { NextTask } from '@/lib/next-task';
 import TargetRecommendations from '@/components/curriculum/TargetRecommendations';
+import PageHeader from '@/components/ui/PageHeader';
+import PaperAccent from '@/components/ui/icons/PaperAccent';
+import CalloutRibbon from '@/components/ui/icons/CalloutRibbon';
+import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
+import BoardIcon from '@/components/ui/icons/BoardIcon';
+
+const focusIcons: Record<string, typeof AccessTimeOutlined> = {
+  'verb-tense': AccessTimeOutlined,
+  connectors: LinkOutlined,
+  prepositions: LayersOutlined,
+  'topic-sentence': ChatBubbleOutlineOutlined,
+  'subject-verb': LayersOutlined,
+  articles: ChatBubbleOutlineOutlined,
+};
 
 function WeekendTaskCard({ preview }: { preview: boolean }) {
   const t = useTranslations('today');
   return (
-    <Card data-testid="today-task">
-      <CardContent sx={{ p: 2.75, '&:last-child': { pb: 1.75 } }}>
-        <Stack direction="row" sx={{ alignItems: 'center', gap: 1.625, mb: 1.75 }}>
+    <Card data-testid="today-task" sx={{ height: '100%' }}>
+      <CardContent
+        sx={{
+          p: { xs: 2.5, md: 3.5 },
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          '&:last-child': { pb: { xs: 2.5, md: 3.5 } },
+        }}
+      >
+        <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25, mb: 2 }}>
           <Chip label="A2" color="primary" variant="tonal" size="small" />
-          <Typography variant="body2">{t('taskLabel')}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {t('taskLabel')}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ marginInlineStart: 'auto' }}>
+            {t('wordRange')}
+          </Typography>
         </Stack>
-        <Typography variant="h2" sx={{ mb: 0.75 }}>
+        <Typography variant="h2" sx={{ mb: 1 }}>
           {t('taskTitle')}
         </Typography>
         <Typography sx={{ mb: 0.5 }}>{t('description')}</Typography>
-        <Typography variant="body2" sx={{ mb: 2.125 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5 }}>
           {t('wordRange')}
         </Typography>
-        <Divider />
         <Box
           sx={{
             bgcolor: 'background.default',
-            borderRadius: 1,
-            minHeight: 130,
+            borderRadius: 3,
+            minHeight: 116,
             display: 'flex',
             alignItems: 'center',
-            py: 4.75,
+            py: 3,
             px: 3,
-            mb: 2.75,
+            mb: 2.5,
           }}
         >
           <Typography variant="canvas" sx={{ fontStyle: 'italic', lineHeight: 1.5 }}>
@@ -55,15 +89,50 @@ function WeekendTaskCard({ preview }: { preview: boolean }) {
           component={NextLink}
           href={preview ? '/dev/preview/write' : '/write/weekend'}
           variant="contained"
+          endIcon={<ArrowForward />}
+          sx={{ alignSelf: 'flex-start' }}
         >
           {t('start')}
         </Button>
-        <Divider sx={{ mt: 2.5, mb: 1.75 }} />
-        <Typography variant="body2">{t('focus')}</Typography>
+        <Divider sx={{ mt: 3, mb: 2 }} />
+        <Typography variant="body2" color="text.secondary">
+          {t('focus')}
+        </Typography>
       </CardContent>
     </Card>
   );
 }
+
+function FocusChips({ focus }: { focus: string[] }) {
+  const t = useTranslations('today');
+  const tags = useTranslations('feedback.tags');
+  return (
+    <Stack sx={{ gap: 1.25 }}>
+      <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
+        <BoardIcon name="target" sx={{ color: 'primary.main', fontSize: 22 }} />
+        <Typography variant="body2" color="text.secondary">
+          {t('focusTitle')}
+        </Typography>
+      </Stack>
+      <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1 }}>
+        {focus.map((tag) => {
+          const Icon = focusIcons[tag] ?? AutoAwesomeOutlined;
+          return (
+            <Chip
+              key={tag}
+              icon={<Icon />}
+              label={tags(tag)}
+              variant="tonal"
+              color="primary"
+              sx={{ height: 34 }}
+            />
+          );
+        })}
+      </Stack>
+    </Stack>
+  );
+}
+
 function LessonTaskCard({
   next,
   preview,
@@ -72,45 +141,72 @@ function LessonTaskCard({
   preview: boolean;
 }) {
   const t = useTranslations('today');
-  const tags = useTranslations('feedback.tags');
-  const format = useFormatter();
   return (
-    <Card data-testid="today-task">
-      <CardContent>
-        <Stack sx={{ gap: 2 }}>
-          <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
-            <Chip label={next.level} color="primary" variant="tonal" size="small" />
-            <Typography variant="body2">{t('taskLabel')}</Typography>
+    <Card data-testid="today-task" sx={{ height: '100%' }}>
+      <CardContent
+        sx={{
+          p: { xs: 2.5, md: 3.5 },
+          height: '100%',
+          '&:last-child': { pb: { xs: 2.5, md: 3.5 } },
+        }}
+      >
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'minmax(0, 1fr) 168px' },
+            gap: 2,
+            alignItems: 'start',
+          }}
+        >
+          <Stack sx={{ gap: 1.5, minInlineSize: 0 }}>
+            <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
+              <Chip label={next.level} color="primary" variant="tonal" size="small" />
+              <Typography variant="body2" color="text.secondary">
+                {t('taskLabel')}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ marginInlineStart: 'auto', whiteSpace: 'nowrap' }}
+              >
+                {t('lessonWordRange', { min: next.minWords, max: next.maxWords })}
+              </Typography>
+            </Stack>
+            <Typography variant="h2" sx={{ textWrap: 'balance' }}>
+              {next.lessonTitle}
+            </Typography>
+            <Typography variant="subtitle1" color="secondary.main">
+              {next.unitTitle}
+            </Typography>
+            <Typography
+              sx={{
+                display: '-webkit-box',
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                maxInlineSize: '54ch',
+              }}
+            >
+              {next.prompt}
+            </Typography>
+            <Box>
+              <Button
+                component={NextLink}
+                href={preview ? '/dev/preview/write' : next.href}
+                variant="contained"
+                endIcon={<ArrowForward />}
+              >
+                {t(next.warmupsDone ? 'continueWriting' : 'startLesson')}
+              </Button>
+            </Box>
           </Stack>
-          <Typography variant="h2">{next.lessonTitle}</Typography>
-          <TargetRecommendations targets={next.advisoryTargets} />
-          <Typography variant="subtitle1">{next.unitTitle}</Typography>
-          <Typography
-            sx={{
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-          >
-            {next.prompt}
-          </Typography>
-          <Typography variant="body2">
-            {t('lessonWordRange', { min: next.minWords, max: next.maxWords })}
-          </Typography>
-          <Button
-            component={NextLink}
-            href={preview ? '/dev/preview/write' : next.href}
-            variant="contained"
-            sx={{ alignSelf: 'start' }}
-          >
-            {t(next.warmupsDone ? 'continueWriting' : 'startLesson')}
-          </Button>
-          <Divider />
-          <Typography variant="body2">
-            {t('lessonFocus', { tags: format.list(next.focus.map((tag) => tags(tag))) })}
-          </Typography>
-        </Stack>
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'center' }}>
+            <PaperAccent inlineSize={168} blockSize={150} kind="travel" sx={{ display: 'block' }} />
+          </Box>
+        </Box>
+        <Divider sx={{ my: 2.5 }} />
+        <FocusChips focus={next.focus} />
+        <TargetRecommendations targets={next.advisoryTargets} />
       </CardContent>
     </Card>
   );
@@ -119,16 +215,17 @@ function LessonTaskCard({
 function PlacementTaskCard({ preview }: { preview: boolean }) {
   const t = useTranslations('today');
   return (
-    <Card data-testid="today-task">
-      <CardContent>
+    <Card data-testid="today-task" sx={{ height: '100%' }}>
+      <CardContent sx={{ p: { xs: 2.5, md: 3.5 } }}>
         <Stack sx={{ gap: 2 }}>
           <Typography variant="h2">{t('placementTitle')}</Typography>
-          <Typography>{t('placementBody')}</Typography>
+          <Typography color="text.secondary">{t('placementBody')}</Typography>
           <Button
             component={NextLink}
             href={preview ? '/dev/preview/placement' : '/placement'}
             variant="contained"
-            sx={{ alignSelf: 'start' }}
+            endIcon={<ArrowForward />}
+            sx={{ alignSelf: 'flex-start' }}
           >
             {t('startPlacement')}
           </Button>
@@ -155,6 +252,46 @@ function ReviewPrompt({
 }) {
   const t = useTranslations('today');
   return (
+    <PaperLikeReview>
+      <Stack direction="row" sx={{ gap: 2, alignItems: 'center' }}>
+        <Box
+          sx={{
+            inlineSize: 48,
+            blockSize: 48,
+            borderRadius: '50%',
+            bgcolor: 'highlighter.main',
+            color: 'primary.main',
+            display: 'grid',
+            placeItems: 'center',
+            flexShrink: 0,
+          }}
+        >
+          <ShowChart />
+        </Box>
+        <Box>
+          <Typography variant="subtitle1" component="h2">
+            {t(pastTense ? 'reviewTitle' : 'reviewGeneral')}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {t('reviewReady', { n: due })}
+          </Typography>
+        </Box>
+      </Stack>
+      <Button
+        component={NextLink}
+        href={preview ? '/dev/preview/practice-page' : '/practice'}
+        variant="outlined"
+        endIcon={<ArrowForward />}
+        sx={{ flexShrink: 0, bgcolor: 'background.paper' }}
+      >
+        {t('due', { n: due })}
+      </Button>
+    </PaperLikeReview>
+  );
+}
+
+function PaperLikeReview({ children }: { children: ReactNode }) {
+  return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
       sx={{
@@ -164,31 +301,19 @@ function ReviewPrompt({
         bgcolor: 'highlighter.light',
         border: 1,
         borderColor: 'highlighter.main',
-        borderRadius: 1.25,
-        py: 1.5,
-        px: 3,
+        position: 'relative',
+        overflow: 'clip',
+        borderRadius: 3,
+        py: 1.75,
+        px: { xs: 2, sm: 3 },
       }}
     >
-      <Stack direction="row" sx={{ gap: 3.75, alignItems: 'center' }}>
-        <ShowChart sx={{ fontSize: '3rem' }} />
-        <Box>
-          <Typography variant="subtitle1" component="h2">
-            {t(pastTense ? 'reviewTitle' : 'reviewGeneral')}
-          </Typography>
-          <Typography variant="body2">{t('reviewReady', { n: due })}</Typography>
-        </Box>
-      </Stack>
-      <Button
-        component={NextLink}
-        href={preview ? '/dev/preview/practice-page' : '/practice'}
-        variant="outlined"
-        sx={{ flexShrink: 0, borderColor: 'primary.main' }}
-      >
-        {t('due', { n: due })}
-      </Button>
+      <CalloutRibbon />
+      {children}
     </Stack>
   );
 }
+
 export default function Today({
   preview = false,
   signedIn = false,
@@ -213,22 +338,37 @@ export default function Today({
   now?: string;
 }) {
   const t = useTranslations('today');
+  const app = useTranslations('app');
   const format = useFormatter();
   const date = new Date(now ?? progress?.asOf ?? new Date().toISOString());
   const account = preview || signedIn;
   return (
     <Container data-testid="today-layout" maxWidth={false} disableGutters>
-      <Typography variant="h1" sx={{ mb: 1 }}>
-        {t('title')}
-      </Typography>
-      <Typography sx={{ mb: 3, fontWeight: 550, lineHeight: 1.2 }}>
-        {format.dateTime(date, { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' })}
-      </Typography>
+      <PageHeader
+        title={t('title')}
+        note={app('paperNotes.today')}
+        subtitle={
+          <Stack sx={{ gap: 0.75 }}>
+            <Typography
+              component="p"
+              sx={{ color: 'text.primary', fontWeight: 650, fontSize: '0.9375rem' }}
+            >
+              {format.dateTime(date, {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                timeZone: 'UTC',
+              })}
+            </Typography>
+            <Typography component="p">{t('tagline')}</Typography>
+          </Stack>
+        }
+      />
       <Box
         sx={{
           display: 'grid',
           gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1.45fr) minmax(0, 1fr)' },
-          gap: 2,
+          gap: { xs: 2, md: 2.5 },
           alignItems: 'stretch',
         }}
       >
@@ -258,7 +398,7 @@ export default function Today({
       </Box>
       {account ? (
         <>
-          <Box sx={{ my: 2.25 }}>
+          <Box sx={{ my: { xs: 2, md: 2.5 } }}>
             {due > 0 ? (
               <ReviewPrompt due={due} preview={preview} pastTense={pastTense} />
             ) : (
@@ -270,26 +410,42 @@ export default function Today({
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1.46fr) minmax(0, 1fr)' },
-              gap: 2,
+              gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1.18fr) minmax(0, 1fr)' },
+              gap: { xs: 2, md: 2.5 },
+              alignItems: 'start',
             }}
           >
             <SavedFeedback submissions={submissions} preview={preview} />
-            <Stack sx={{ gap: 2 }}>
+            <Stack sx={{ gap: { xs: 2, md: 2.5 } }}>
               <LearningSnapshot path={path} preview={preview} />
-              <Card>
-                <CardContent>
-                  <Stack sx={{ gap: 1.5 }}>
-                    <Typography component="h2" variant="h3">
-                      {t('ieltsTitle')}
+              <Card sx={{ position: 'relative', overflow: 'clip' }}>
+                <PaperAccent
+                  inlineSize={160}
+                  blockSize={130}
+                  sx={{ position: 'absolute', insetInlineEnd: -30, insetBlockEnd: -45 }}
+                />
+                <CardContent sx={{ p: 2.5 }}>
+                  <Stack sx={{ gap: 1 }}>
+                    <Stack
+                      direction="row"
+                      sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between' }}
+                    >
+                      <SchoolOutlined sx={{ color: 'primary.main' }} />
+                      <Typography component="h2" variant="h3" sx={{ flex: 1 }}>
+                        {t('ieltsTitle')}
+                      </Typography>
+                    </Stack>
+                    <Typography variant="body2" color="text.secondary">
+                      {t('ieltsIntro')}
                     </Typography>
-                    <Typography variant="body2">{t('ieltsIntro')}</Typography>
                     <Button
                       component={NextLink}
                       variant="outlined"
+                      endIcon={<ArrowForward />}
                       href={
                         preview ? '/dev/preview/path?course=full&track=ielts' : '/path?track=ielts'
                       }
+                      sx={{ alignSelf: 'flex-start' }}
                     >
                       {t('ieltsTitle')}
                     </Button>

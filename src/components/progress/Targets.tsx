@@ -4,7 +4,8 @@ import { useFormatter, useTranslations } from 'next-intl';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import type { TargetProgress } from '@/lib/target-progress';
 
 function TargetRow({ target }: { target: TargetProgress }) {
@@ -23,29 +24,74 @@ function TargetRow({ target }: { target: TargetProgress }) {
         })
       : t('unused');
   }
+  const tone =
+    target.state === 'secure'
+      ? 'success'
+      : target.state === 'review-due'
+        ? 'error'
+        : target.state === 'learning'
+          ? 'warning'
+          : 'primary';
   return (
-    <Stack component="li" sx={{ gap: 1, minWidth: 0 }}>
-      <Typography component="h3" variant="subtitle1">
-        {tags(target.tag)} · {target.level} — {t('states.' + target.state)}
-      </Typography>
-      <Typography variant="body2">{t('first', { rate: rate(target.first) })}</Typography>
-      <Typography variant="body2">{t('latest', { rate: rate(target.latest) })}</Typography>
-      <Typography variant="body2" color="text.secondary">
-        {t('total', { tasks: target.tasks, errors: target.errors, uses: target.uses })}
-      </Typography>
-      <Typography variant="body2">
-        {target.nextReviewAt
-          ? t(target.state === 'review-due' ? 'overdue' : 'scheduled', {
-              date: format.dateTime(new Date(target.nextReviewAt), {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                timeZone: 'UTC',
-              }),
-            })
-          : t('unscheduled')}
-      </Typography>
-    </Stack>
+    <Paper
+      component="li"
+      variant="outlined"
+      sx={{ p: 2, bgcolor: 'background.default', boxShadow: 'none', minWidth: 0 }}
+    >
+      <Stack sx={{ gap: 1.25 }}>
+        <Stack direction="row" sx={{ justifyContent: 'space-between', gap: 1 }}>
+          <Typography component="h3" variant="subtitle1" sx={{ minInlineSize: 0 }}>
+            {tags(target.tag)} · {target.level}
+          </Typography>
+          <Chip
+            label={t('states.' + target.state)}
+            size="small"
+            variant="tonal"
+            color={tone as 'success' | 'error' | 'warning' | 'primary'}
+            sx={{ flexShrink: 0 }}
+          />
+        </Stack>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+            gap: 1,
+          }}
+        >
+          <Box sx={{ p: 1.25, bgcolor: 'background.paper', borderRadius: 1.5 }}>
+            <Typography variant="caption" color="text.secondary">
+              {t('firstLabel')}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+              {rate(target.first)}
+            </Typography>
+          </Box>
+          <Box sx={{ p: 1.25, bgcolor: 'background.paper', borderRadius: 1.5 }}>
+            <Typography variant="caption" color="text.secondary">
+              {t('latestLabel')}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+              {rate(target.latest)}
+            </Typography>
+          </Box>
+        </Box>
+        <Typography variant="caption" color="text.secondary">
+          {t('total', { tasks: target.tasks, errors: target.errors, uses: target.uses })}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          {target.nextReviewAt
+            ? t(target.state === 'review-due' ? 'overdue' : 'scheduled', {
+                date: format.dateTime(new Date(target.nextReviewAt), {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone: 'UTC',
+                }),
+              })
+            : t('unscheduled')}
+        </Typography>
+      </Stack>
+    </Paper>
   );
 }
 
@@ -53,7 +99,7 @@ export default function Targets({ targets }: { targets: TargetProgress[] }) {
   const id = useId();
   const t = useTranslations('progress.targets');
   return (
-    <Paper component="section" aria-labelledby={id} sx={{ p: 3 }}>
+    <Paper component="section" aria-labelledby={id} sx={{ p: { xs: 2.5, md: 3.5 } }}>
       <Stack sx={{ gap: 2 }}>
         <Typography id={id} component="h2" variant="h3">
           {t('title')}
@@ -62,15 +108,21 @@ export default function Targets({ targets }: { targets: TargetProgress[] }) {
           {t('provisional')}
         </Typography>
         {targets.length ? (
-          <Stack
+          <Box
             component="ul"
-            divider={<Divider component="li" role="presentation" />}
-            sx={{ listStyle: 'none', p: 0, m: 0, gap: 2 }}
+            sx={{
+              listStyle: 'none',
+              p: 0,
+              m: 0,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 19rem), 1fr))',
+              gap: 1.5,
+            }}
           >
             {targets.map((target) => (
               <TargetRow key={`${target.level}:${target.tag}`} target={target} />
             ))}
-          </Stack>
+          </Box>
         ) : (
           <Typography>{t('empty')}</Typography>
         )}

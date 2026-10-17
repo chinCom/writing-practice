@@ -7,6 +7,13 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Providers from '@/components/layout/Providers';
 import AppShell from '@/components/layout/AppShell';
 import { currentUser } from '@/lib/auth/server';
+const handwriting = localFont({
+  src: '../../public/fonts/caveat-variable.ttf',
+  variable: '--font-handwriting',
+  weight: '400 700',
+  display: 'swap',
+  preload: false,
+});
 const ui = localFont({
   src: '../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-latin-wght-normal.woff2',
   variable: '--font-ui',
@@ -55,6 +62,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         canvas.variable,
         vietnameseUi.variable,
         vietnameseCanvas.variable,
+        handwriting.variable,
       ].join(' ')}
     >
       <body>

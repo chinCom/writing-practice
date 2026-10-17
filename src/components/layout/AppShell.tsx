@@ -7,6 +7,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import AppNavigation from './AppNavigation';
+import BackdropRibbons from '@/components/ui/icons/BackdropRibbons';
 
 function SkipLink() {
   const t = useTranslations('app');
@@ -20,6 +21,8 @@ function SkipLink() {
         zIndex: (theme) => theme.zIndex.modal + 1,
         p: 1.5,
         bgcolor: 'background.paper',
+        borderRadius: 1,
+        boxShadow: 2,
         transform: 'translateY(-200%)',
         '&:focus': { transform: 'none' },
       }}
@@ -39,7 +42,6 @@ export default function AppShell({
   const pathname = usePathname();
   const t = useTranslations('app');
   const preview = pathname.startsWith('/dev/preview');
-  const today = pathname === '/today' || pathname.startsWith('/dev/preview/today');
   // Signed-out visitors on the landing page get the marketing layout; the page renders its own header, main and footer.
   const marketing = pathname === '/' && !signedIn;
   if (marketing)
@@ -50,7 +52,15 @@ export default function AppShell({
       </>
     );
   return (
-    <Box sx={{ minHeight: '100dvh' }}>
+    <Box
+      sx={{
+        minHeight: '100dvh',
+        backgroundColor: 'background.default',
+        position: 'relative',
+        isolation: 'isolate',
+      }}
+    >
+      <BackdropRibbons expansive={pathname === '/login'} />
       <SkipLink />
       <AppNavigation signedIn={signedIn} />
       <Box
@@ -61,28 +71,42 @@ export default function AppShell({
           marginInlineStart: { md: theme.layout.navWidth + 'px' },
           paddingBlockStart: {
             xs: 'calc(' + theme.layout.topBarHeight + 'px + ' + theme.spacing(3) + ')',
-            md: theme.spacing(today ? 2.5 : 4),
+            md: theme.spacing(6.5),
           },
           paddingBlockEnd: {
-            xs: 'calc(' + theme.layout.bottomNavHeight + 'px + ' + theme.spacing(3) + ')',
-            md: theme.spacing(4),
+            xs: 'calc(' + theme.layout.bottomNavHeight + 'px + ' + theme.spacing(4) + ')',
+            md: theme.spacing(6),
           },
-          paddingInlineStart: { xs: 2, md: today ? 4.25 : 3 },
-          paddingInlineEnd: { xs: 2, md: today ? 2.75 : 3 },
+          paddingInline: { xs: 2, sm: 3, md: 5 },
           minHeight: '100dvh',
         })}
       >
-        {preview && !today ? (
-          <Alert severity="info" sx={{ mb: 3 }}>
-            {t('preview')}
-          </Alert>
-        ) : null}
-        {children}
-        {preview && today ? (
-          <Alert severity="info" sx={{ mt: 3 }}>
-            {t('preview')}
-          </Alert>
-        ) : null}
+        <Box
+          sx={{
+            maxInlineSize: (theme) => theme.layout.contentMax + 'px',
+            marginInline: 'auto',
+            position: 'relative',
+          }}
+        >
+          {children}
+          {preview ? (
+            <Alert
+              severity="info"
+              icon={false}
+              sx={{
+                mt: 3,
+                py: 0.75,
+                bgcolor: 'background.paper',
+                border: 1,
+                borderColor: 'divider',
+                color: 'text.secondary',
+                typography: 'caption',
+              }}
+            >
+              {t('preview')}
+            </Alert>
+          ) : null}
+        </Box>
       </Box>
     </Box>
   );

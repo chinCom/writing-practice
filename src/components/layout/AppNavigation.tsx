@@ -21,28 +21,25 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import BarChartOutlined from '@mui/icons-material/BarChartOutlined';
 import CloseOutlined from '@mui/icons-material/CloseOutlined';
-import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
-import EditOutlined from '@mui/icons-material/EditOutlined';
-import FitnessCenterOutlined from '@mui/icons-material/FitnessCenterOutlined';
-import HomeOutlined from '@mui/icons-material/HomeOutlined';
-import MapOutlined from '@mui/icons-material/MapOutlined';
+import LoginOutlined from '@mui/icons-material/LoginOutlined';
+import LogoutOutlined from '@mui/icons-material/LogoutOutlined';
 import MenuOutlined from '@mui/icons-material/MenuOutlined';
-import SettingsOutlined from '@mui/icons-material/SettingsOutlined';
 import { signOut } from '@/app/login/actions';
 import { makeTheme } from '@/theme/theme';
+import LogoMark from '@/components/ui/icons/LogoMark';
+import BoardIcon from '@/components/ui/icons/BoardIcon';
 
 // A separate CSS variable prefix keeps page themes from changing navigation styles.
-const navigationTheme = makeTheme(true, 'navigation');
+const navigationTheme = makeTheme('navigation');
 const items = [
-  { id: 'today', href: '/today', icon: HomeOutlined },
-  { id: 'path', href: '/path', icon: MapOutlined },
-  { id: 'write', href: '/write/weekend', icon: EditOutlined },
-  { id: 'practice', href: '/practice', icon: FitnessCenterOutlined },
-  { id: 'progress', href: '/progress', icon: BarChartOutlined },
-  { id: 'portfolio', href: '/portfolio', icon: DescriptionOutlined },
-  { id: 'settings', href: '/settings', icon: SettingsOutlined },
+  { id: 'today', href: '/today', icon: 'home' },
+  { id: 'path', href: '/path', icon: 'map' },
+  { id: 'write', href: '/write/weekend', icon: 'pencil' },
+  { id: 'practice', href: '/practice', icon: 'practice' },
+  { id: 'progress', href: '/progress', icon: 'bars' },
+  { id: 'portfolio', href: '/portfolio', icon: 'document' },
+  { id: 'settings', href: '/settings', icon: 'settings' },
 ] as const;
 
 function activeItem(pathname: string) {
@@ -73,15 +70,22 @@ function destination(item: (typeof items)[number], pathname: string) {
   return item.href;
 }
 
-export function Logo() {
+export function Logo({ label }: { label?: string }) {
   const t = useTranslations('app');
   return (
-    <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
-      <Box sx={{ borderBottom: 3, borderColor: 'highlighter.main', display: 'flex', pb: 0.25 }}>
-        <DescriptionOutlined />
-      </Box>
-      <Typography variant="subtitle1" component="p" sx={{ fontWeight: 700 }}>
-        {t('name')}
+    <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
+      <LogoMark sx={{ fontSize: 34 }} />
+      <Typography
+        variant="subtitle1"
+        component="p"
+        sx={{
+          fontWeight: 700,
+          fontSize: '1.125rem',
+          letterSpacing: '-0.01em',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {label ?? t('name')}
       </Typography>
     </Stack>
   );
@@ -93,6 +97,7 @@ function AccountFooter({ signedIn }: { signedIn: boolean }) {
 
   const [signingOut, setSigningOut] = useState(false);
   const [signOutFailed, setSignOutFailed] = useState(false);
+
   async function handleSignOut() {
     if (signingOut) return;
     setSigningOut(true);
@@ -113,16 +118,34 @@ function AccountFooter({ signedIn }: { signedIn: boolean }) {
   }
 
   return (
-    <Box component="footer" sx={{ mt: 'auto', px: 1, pb: 0.25 }}>
-      <Divider sx={{ mb: 2.5 }} />
-      {signOutFailed ? <Alert severity="error">{t('signOutError')}</Alert> : null}
+    <Box component="footer" sx={{ mt: 'auto', px: 0.5, pb: 0.5 }}>
+      <Divider sx={{ mb: 2 }} />
+      {signOutFailed ? (
+        <Alert severity="error" sx={{ mb: 1.5 }}>
+          {t('signOutError')}
+        </Alert>
+      ) : null}
       {/* Account identity is temporarily hidden; keep sign-in and sign-out available. */}
       {signedIn ? (
-        <Button fullWidth variant="outlined" disabled={signingOut} onClick={handleSignOut}>
+        <Button
+          fullWidth
+          variant="outlined"
+          startIcon={<LogoutOutlined />}
+          disabled={signingOut}
+          onClick={handleSignOut}
+          sx={{ justifyContent: 'center' }}
+        >
           {t('signOut')}
         </Button>
       ) : (
-        <Button fullWidth variant="outlined" component={NextLink} href="/login">
+        <Button
+          fullWidth
+          variant="outlined"
+          startIcon={<LoginOutlined />}
+          component={NextLink}
+          href="/login"
+          sx={{ justifyContent: 'center' }}
+        >
           {t('signIn')}
         </Button>
       )}
@@ -135,7 +158,7 @@ function NavigationLinks({ pathname, onNavigate }: { pathname: string; onNavigat
   const active = activeItem(pathname);
 
   return (
-    <List component="nav" aria-label={t('nav')}>
+    <List component="nav" aria-label={t('nav')} sx={{ py: 0.5 }}>
       {items.map((item) => (
         <ListItemButton
           key={item.id}
@@ -144,9 +167,10 @@ function NavigationLinks({ pathname, onNavigate }: { pathname: string; onNavigat
           selected={active === item.id}
           aria-current={active === item.id ? 'page' : undefined}
           onClick={onNavigate}
+          sx={{ px: 1.75, mb: 1.5 }}
         >
           <ListItemIcon>
-            <item.icon />
+            <BoardIcon name={item.icon} sx={{ fontSize: 23 }} />
           </ListItemIcon>
           <ListItemText primary={t(item.id)} />
         </ListItemButton>
@@ -175,15 +199,24 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
             component: 'aside',
             'aria-label': t('nav'),
             sx: {
-              width: (theme) => theme.layout.navWidth,
+              width: (theme) => theme.layout.navWidth - 16,
               boxSizing: 'border-box',
-              bgcolor: 'background.default',
-              p: 2,
+              bgcolor: 'background.paper',
+              insetBlock: '20px',
+              insetInlineStart: '20px',
+              height: 'auto',
+              border: 1,
+              borderRadius: 3,
+              backgroundImage:
+                'linear-gradient(135deg, var(--navigation-palette-background-paper), color-mix(in srgb, var(--navigation-palette-background-paper) 92%, var(--navigation-palette-tonal-primary)))',
+              borderInlineEnd: 1,
+              borderColor: 'divider',
+              p: 1.5,
             },
           },
         }}
       >
-        <Box component="header" sx={{ pt: 1, pb: 3.5, px: 1 }}>
+        <Box component="header" sx={{ pt: 0.75, pb: 3.5, px: 0.75 }}>
           <Logo />
         </Box>
         <NavigationLinks pathname={pathname} onNavigate={closeMenu} />
@@ -213,7 +246,7 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
         anchor="left"
         open={menuOpen}
         onClose={closeMenu}
-        slotProps={{ paper: { sx: { width: (theme) => theme.layout.navWidth, p: 2 } } }}
+        slotProps={{ paper: { sx: { width: (theme) => theme.layout.navWidth, p: 2.5 } } }}
       >
         <IconButton aria-label={t('close')} onClick={closeMenu} sx={{ alignSelf: 'flex-end' }}>
           <CloseOutlined />
@@ -235,6 +268,7 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
           zIndex: (theme) => theme.zIndex.appBar,
           borderTop: 1,
           borderColor: 'divider',
+          bgcolor: 'background.paper',
           height: (theme) => theme.layout.bottomNavHeight,
           pb: 'env(safe-area-inset-bottom)',
         }}
@@ -246,7 +280,7 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
               key={item.id}
               value={item.id}
               label={t(item.id === 'write' ? 'writeShort' : item.id)}
-              icon={<item.icon />}
+              icon={<BoardIcon name={item.icon} />}
               component={NextLink}
               href={destination(item, pathname)}
               aria-current={active === item.id ? 'page' : undefined}

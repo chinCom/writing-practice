@@ -119,7 +119,7 @@ export default function Improvement({ data }: { data: ImprovementData }) {
   return (
     <Paper component="section" aria-labelledby="improvement-title" sx={{ p: 3, minInlineSize: 0 }}>
       <Stack sx={{ gap: 3 }}>
-        <Typography id="improvement-title" variant="h2">
+        <Typography id="improvement-title" variant="h3">
           {t('improvementTitle')}
         </Typography>
         <Typography variant="body2">{t('unmatchedTrends')}</Typography>

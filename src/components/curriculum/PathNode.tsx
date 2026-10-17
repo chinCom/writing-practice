@@ -38,7 +38,7 @@ function NodeIcon({ state, checkpoint }: { state: LessonState; checkpoint: boole
     <Box
       aria-hidden="true"
       sx={(theme) => ({
-        '--ring-color': theme.vars.palette.highlighter.main,
+        '--ring-color': theme.vars.palette.secondary.main,
         inlineSize: nodeSize,
         blockSize: nodeSize,
         borderRadius: '50%',
@@ -46,7 +46,7 @@ function NodeIcon({ state, checkpoint }: { state: LessonState; checkpoint: boole
         placeItems: 'center',
         bgcolor: current ? 'primary.main' : checkpoint ? 'tonal.primary' : 'action.hover',
         color: current ? 'primary.contrastText' : 'text.secondary',
-        outline: current ? '3px solid ' + theme.vars.palette.highlighter.main : 'none',
+        outline: current ? '3px solid ' + theme.vars.palette.secondary.main : 'none',
         '@media (prefers-reduced-motion: no-preference)': current
           ? { animation: `${pulseRing} 1.4s ease-out 2 0.6s` }
           : {},
@@ -90,7 +90,7 @@ export default function PathNode({
         paddingBlock: 1.5,
         paddingInline: 1,
         borderRadius: 2,
-        bgcolor: state === 'current' ? 'highlighter.light' : 'transparent',
+        bgcolor: state === 'current' ? 'tonal.primary' : 'transparent',
       }}
     >
       <Box sx={{ display: 'grid', placeItems: 'start center' }}>

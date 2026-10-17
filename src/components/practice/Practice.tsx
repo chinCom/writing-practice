@@ -6,15 +6,23 @@ import NextLink from 'next/link';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import LinearProgress from '@mui/material/LinearProgress';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import CalendarMonthOutlined from '@mui/icons-material/CalendarMonthOutlined';
+import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined';
+import TaskAltOutlined from '@mui/icons-material/TaskAltOutlined';
+import PageHeader from '@/components/ui/PageHeader';
+import BoardIcon from '@/components/ui/icons/BoardIcon';
+import PaperAccent from '@/components/ui/icons/PaperAccent';
+import CalloutRibbon from '@/components/ui/icons/CalloutRibbon';
 import WritingField from '@/components/ui/WritingField';
 import HintText from '@/components/ui/HintText';
 import Transfer from './Transfer';
@@ -74,6 +82,7 @@ function PracticeSteps({ index, total, label }: { index: number; total: number; 
 
 export default function Practice({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('practice');
+  const app = useTranslations('app');
   const tags = useTranslations('feedback.tags');
   const format = useFormatter();
   const endpoint = preview ? '/dev/preview/practice' : '/api/practice';
@@ -187,12 +196,9 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
   }
 
   return (
-    <Container maxWidth="md" sx={{ py: { xs: 3, md: 4 } }}>
+    <Container maxWidth={false} disableGutters>
       <Stack sx={{ gap: 3 }}>
-        <Typography component="h1" variant="h1">
-          {t('title')}
-        </Typography>
-        <Transfer preview={preview} />
+        <PageHeader title={t('title')} subtitle={t('subtitle')} note={app('paperNotes.practice')} />
         {busy && <LinearProgress aria-label={t('loading')} />}
         {error && (
           <Alert severity="error">
@@ -248,99 +254,210 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
         )}
         {question && (
           <>
-            <Stack direction="row" sx={{ alignItems: 'center', gap: 3 }}>
-              <Typography variant="body2">
-                {t('question', { n: index + 1, total: questions.length })}
-              </Typography>
-              <PracticeSteps index={index} total={questions.length} label={t('progress')} />
-            </Stack>
-            <Paper ref={card} variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
-              <Stack sx={{ gap: 3 }}>
-                <Typography variant="subtitle2" sx={{ color: 'secondary.main' }}>
-                  {tags(question.tag)}
-                </Typography>
-                <Typography variant="body2">{t('instruction')}</Typography>
-                <Typography component="p" variant="canvas" dir="ltr">
-                  {question.text.slice(0, question.start)}
-                  <Box
-                    component="mark"
-                    sx={{
-                      bgcolor: 'highlighter.light',
-                      color: 'ink.main',
-                      textDecoration: 'underline wavy',
-                      textDecorationColor: 'secondary.main',
-                    }}
-                  >
-                    {question.original}
-                  </Box>
-                  {question.text.slice(question.end)}
-                </Typography>
-                <Box
-                  component="form"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    void check();
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'minmax(0, 1fr) 320px' },
+                gap: 3,
+                alignItems: 'start',
+              }}
+            >
+              <Stack ref={card} sx={{ gap: 2.5, minInlineSize: 0 }}>
+                <Paper variant="outlined" sx={{ p: { xs: 2.5, md: 3 } }}>
+                  <Stack direction="row" sx={{ alignItems: 'center', gap: 3 }}>
+                    <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
+                      {t('question', { n: index + 1, total: questions.length })}
+                    </Typography>
+                    <PracticeSteps index={index} total={questions.length} label={t('progress')} />
+                  </Stack>
+                </Paper>
+                <Paper variant="outlined" sx={{ p: { xs: 2.5, md: 3.5 } }}>
+                  <Stack sx={{ gap: 3 }}>
+                    <Chip
+                      label={tags(question.tag)}
+                      icon={<TaskAltOutlined />}
+                      variant="tonal"
+                      color="primary"
+                      sx={{ alignSelf: 'flex-start', height: 34 }}
+                    />
+                    <Typography variant="body2">{t('instruction')}</Typography>
+                    <Typography component="p" variant="canvas" dir="ltr">
+                      {question.text.slice(0, question.start)}
+                      <Box
+                        component="mark"
+                        sx={{
+                          bgcolor: 'highlighter.light',
+                          color: 'ink.main',
+                          textDecoration: 'underline wavy',
+                          textDecorationColor: 'secondary.main',
+                        }}
+                      >
+                        {question.original}
+                      </Box>
+                      {question.text.slice(question.end)}
+                    </Typography>
+                    <Box
+                      component="form"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        void check();
+                      }}
+                    >
+                      <Stack sx={{ gap: 2 }}>
+                        <WritingField
+                          fullWidth
+                          label={t('answer')}
+                          value={answer}
+                          inputRef={answerInput}
+                          disabled={busy || Boolean(pending) || Boolean(result?.complete)}
+                          slotProps={{ htmlInput: { maxLength: 300 } }}
+                          onChange={(event) => setAnswer(event.target.value)}
+                        />
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          disabled={busy || !answer.trim() || Boolean(result?.complete)}
+                          sx={{ alignSelf: 'flex-start' }}
+                        >
+                          {t(busy ? 'saving' : pending ? 'retry' : 'check')}
+                        </Button>
+                      </Stack>
+                    </Box>
+                    {result && !pending && (
+                      <Collapse in appear timeout={reducedMotion ? 0 : 200}>
+                        <Alert role="status" severity={result.correct ? 'success' : 'warning'}>
+                          <Typography variant="subtitle1">
+                            {t(
+                              result.correct
+                                ? 'correct'
+                                : result.complete
+                                  ? 'revealed'
+                                  : 'tryAgain',
+                            )}
+                          </Typography>
+                          <Typography variant="body2">
+                            <PracticeHint result={result} />
+                          </Typography>
+                          {result.suggestion && (
+                            <Typography variant="body1" dir="ltr" sx={{ mt: 1, fontWeight: 700 }}>
+                              <HintText text={result.suggestion} terms={[result.suggestion]} />
+                            </Typography>
+                          )}
+                        </Alert>
+                      </Collapse>
+                    )}
+                    {result?.complete && (
+                      <Stack sx={{ gap: 2, alignItems: 'flex-end' }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                        >
+                          <CalendarMonthOutlined fontSize="small" />
+                          {t('reviewDays', { n: result.days })}
+                        </Typography>
+                        <Button variant="outlined" onClick={next}>
+                          {t(index + 1 === questions.length ? 'finish' : 'next')}
+                        </Button>
+                      </Stack>
+                    )}
+                  </Stack>
+                </Paper>
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 2.5,
+                    bgcolor: 'highlighter.light',
+                    borderColor: 'highlighter.main',
+                    position: 'relative',
+                    overflow: 'clip',
+                    paddingInlineEnd: { md: 19 },
                   }}
                 >
-                  <Stack sx={{ gap: 2 }}>
-                    <WritingField
-                      fullWidth
-                      label={t('answer')}
-                      value={answer}
-                      inputRef={answerInput}
-                      disabled={busy || Boolean(pending) || Boolean(result?.complete)}
-                      slotProps={{ htmlInput: { maxLength: 300 } }}
-                      onChange={(event) => setAnswer(event.target.value)}
-                    />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      disabled={busy || !answer.trim() || Boolean(result?.complete)}
-                      sx={{ alignSelf: 'flex-start' }}
+                  <CalloutRibbon />
+                  <PaperAccent
+                    kind="stack"
+                    inlineSize={140}
+                    blockSize={125}
+                    sx={{ position: 'absolute', insetInlineEnd: 0, insetBlockEnd: -15 }}
+                  />
+                  <Stack direction="row" sx={{ gap: 2, alignItems: 'center' }}>
+                    <Box
+                      sx={{
+                        inlineSize: 44,
+                        blockSize: 44,
+                        borderRadius: '50%',
+                        bgcolor: 'highlighter.main',
+                        color: 'primary.main',
+                        display: 'grid',
+                        placeItems: 'center',
+                        flexShrink: 0,
+                      }}
                     >
-                      {t(busy ? 'saving' : pending ? 'retry' : 'check')}
-                    </Button>
-                  </Stack>
-                </Box>
-                {result && !pending && (
-                  <Collapse in appear timeout={reducedMotion ? 0 : 200}>
-                    <Alert role="status" severity={result.correct ? 'success' : 'warning'}>
-                      <Typography variant="subtitle1">
-                        {t(result.correct ? 'correct' : result.complete ? 'revealed' : 'tryAgain')}
+                      <CalendarMonthOutlined />
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle1">{t('why')}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {t('whyBody')}
                       </Typography>
-                      <Typography variant="body2">
-                        <PracticeHint result={result} />
-                      </Typography>
-                      {result.suggestion && (
-                        <Typography variant="body1" dir="ltr" sx={{ mt: 1, fontWeight: 700 }}>
-                          <HintText text={result.suggestion} terms={[result.suggestion]} />
-                        </Typography>
-                      )}
-                    </Alert>
-                  </Collapse>
-                )}
-                {result?.complete && (
-                  <Stack sx={{ gap: 2, alignItems: 'flex-end' }}>
-                    <Typography
-                      variant="body2"
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                    >
-                      <CalendarMonthOutlined fontSize="small" />
-                      {t('reviewDays', { n: result.days })}
-                    </Typography>
-                    <Button variant="outlined" onClick={next}>
-                      {t(index + 1 === questions.length ? 'finish' : 'next')}
-                    </Button>
+                    </Box>
                   </Stack>
-                )}
+                </Paper>
               </Stack>
-            </Paper>
-            <Paper variant="outlined" sx={{ p: 3 }}>
-              <Typography variant="subtitle1">{t('why')}</Typography>
-              <Typography variant="body2">{t('whyBody')}</Typography>
-            </Paper>
+              <Stack sx={{ gap: 2 }}>
+                <Card sx={{ p: { xs: 2.5, md: 3 } }}>
+                  <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25, mb: 2 }}>
+                    <Box
+                      sx={{
+                        inlineSize: 36,
+                        blockSize: 36,
+                        borderRadius: '50%',
+                        bgcolor: 'highlighter.main',
+                        color: 'primary.main',
+                        display: 'grid',
+                        placeItems: 'center',
+                      }}
+                    >
+                      <LightbulbOutlined sx={{ fontSize: 19 }} />
+                    </Box>
+                    <Typography variant="h3" component="h2">
+                      {t('helpTitle')}
+                    </Typography>
+                  </Stack>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('helpIntro')}
+                  </Typography>
+                </Card>
+                <Card
+                  sx={{
+                    p: { xs: 2.5, md: 3 },
+                    gridColumn: { lg: 2 },
+                    marginBlockStart: { lg: -2 },
+                  }}
+                >
+                  <Stack direction="row" sx={{ gap: 1.5, alignItems: 'center', mb: 2 }}>
+                    <BoardIcon name="list" sx={{ color: 'secondary.main' }} />
+                    <Typography variant="h3" component="h2">
+                      {t('quickChecks')}
+                    </Typography>
+                  </Stack>
+                  <Stack component="ul" sx={{ m: 0, p: 0, listStyle: 'none', gap: 2 }}>
+                    {[t('checkForm'), t('checkFit'), t('checkMeaning')].map((check, index) => (
+                      <Stack component="li" key={check} direction="row" sx={{ gap: 1.25 }}>
+                        <BoardIcon
+                          name={(['checkCircle', 'list', 'people'] as const)[index]}
+                          sx={{ fontSize: 22, color: 'secondary.main', mt: 0.25 }}
+                        />
+                        <Typography variant="body2">{check}</Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
+                </Card>
+              </Stack>
+            </Box>
           </>
         )}
+        <Transfer preview={preview} />
       </Stack>
     </Container>
   );

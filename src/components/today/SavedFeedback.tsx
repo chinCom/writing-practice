@@ -1,4 +1,5 @@
 'use client';
+
 import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
@@ -12,7 +13,9 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
+import Box from '@mui/material/Box';
 import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
+import ArrowForward from '@mui/icons-material/ArrowForward';
 
 export interface SavedSubmission {
   id: string;
@@ -21,6 +24,7 @@ export interface SavedSubmission {
   attempt: number;
   title?: string | null;
 }
+
 export default function SavedFeedback({
   submissions,
   preview = false,
@@ -33,18 +37,34 @@ export default function SavedFeedback({
   const format = useFormatter();
   return (
     <Card>
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ p: { xs: 2.5, md: 3.5 }, '&:last-child': { pb: { xs: 2, md: 2.5 } } }}>
         <Stack
           direction="row"
           sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 1.5 }}
         >
-          <Typography variant="h3" component="h2">
-            {t('saved')}
-          </Typography>
+          <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
+            <Box
+              sx={{
+                inlineSize: 38,
+                blockSize: 38,
+                borderRadius: 1.5,
+                bgcolor: 'tonal.primary',
+                color: 'secondary.main',
+                display: 'grid',
+                placeItems: 'center',
+              }}
+            >
+              <DescriptionOutlined sx={{ fontSize: 20 }} />
+            </Box>
+            <Typography variant="h3" component="h2">
+              {t('saved')}
+            </Typography>
+          </Stack>
           <Button
             component={NextLink}
             href={preview ? '/dev/preview/portfolio' : '/portfolio'}
-            sx={{ paddingInline: 1.5, minHeight: 32, fontSize: '1rem' }}
+            endIcon={<ArrowForward sx={{ fontSize: '1rem !important' }} />}
+            sx={{ paddingInline: 1.5, minHeight: 36, fontSize: '0.8125rem' }}
           >
             {t('portfolio')}
           </Button>
@@ -61,24 +81,45 @@ export default function SavedFeedback({
                   <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
                     {t('words')}
                   </TableCell>
-                  <TableCell>{t('action')}</TableCell>
+                  <TableCell align="right">{t('action')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {submissions.slice(0, 3).map((submission) => (
-                  <TableRow key={submission.id}>
+                  <TableRow
+                    key={submission.id}
+                    sx={{
+                      '&:last-child td, &:last-child th': { borderBottom: 0 },
+                      '&:hover': { bgcolor: 'background.default' },
+                    }}
+                  >
                     <TableCell component="th" scope="row">
-                      <Stack direction="row" sx={{ alignItems: 'center', gap: 2.75 }}>
-                        <DescriptionOutlined
-                          sx={{ fontSize: '1.5rem', display: { xs: 'none', sm: 'block' } }}
-                        />
-                        <Typography variant="body2" sx={{ fontWeight: 550 }}>
+                      <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
+                        <Box
+                          sx={{
+                            inlineSize: 32,
+                            blockSize: 32,
+                            borderRadius: 1,
+                            bgcolor: 'background.default',
+                            color: 'secondary.main',
+                            display: { xs: 'none', sm: 'grid' },
+                            placeItems: 'center',
+                            flexShrink: 0,
+                          }}
+                        >
+                          <DescriptionOutlined sx={{ fontSize: 17 }} />
+                        </Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {submission.title ?? learning('attempt', { n: submission.attempt })}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell
-                      sx={{ whiteSpace: 'nowrap', display: { xs: 'none', sm: 'table-cell' } }}
+                      sx={{
+                        whiteSpace: 'nowrap',
+                        color: 'text.secondary',
+                        display: { xs: 'none', sm: 'table-cell' },
+                      }}
                     >
                       {format.dateTime(new Date(submission.createdAt), {
                         month: 'short',
@@ -87,14 +128,22 @@ export default function SavedFeedback({
                         timeZone: 'UTC',
                       })}
                     </TableCell>
-                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                    <TableCell
+                      sx={{ color: 'text.secondary', display: { xs: 'none', sm: 'table-cell' } }}
+                    >
                       {format.number(submission.wordCount)}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       <Button
                         component={NextLink}
                         href={preview ? '/dev/preview/feedback' : '/feedback/' + submission.id}
-                        sx={{ paddingInline: 1.5, fontSize: '1rem', whiteSpace: 'nowrap' }}
+                        endIcon={<ArrowForward sx={{ fontSize: '0.875rem !important' }} />}
+                        sx={{
+                          paddingInline: 1.5,
+                          minHeight: 36,
+                          fontSize: '0.8125rem',
+                          whiteSpace: 'nowrap',
+                        }}
                       >
                         {learning('open')}
                       </Button>
