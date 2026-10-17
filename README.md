@@ -79,7 +79,7 @@ See `scripts/patch-postgres.mjs` and the disconnect regressions in `tests/postgr
 Set `DEEPSEEK_API_KEY` in `.env`. Keep this key on the server.
 Do not use a `NEXT_PUBLIC_` prefix for private keys or `DATABASE_URL`.
 
-The default model is `deepseek-flash`. Use `DEEPSEEK_MODEL` to change the model.
+The default model is `deepseek-v4.1-flash-1017`. Use `DEEPSEEK_MODEL` to change the model.
 Use `DEEPSEEK_BASE_URL` to change the provider URL.
 
 Set `USE_MOCK_LLM=true` to use sample feedback without a provider call.

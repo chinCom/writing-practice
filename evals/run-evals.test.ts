@@ -46,7 +46,7 @@ it.skipIf(Boolean(process.env.EVAL_TARGET_CORPUS))(
         const result = await gradeWriting(sample.text, {
           apiKey: process.env.DEEPSEEK_API_KEY,
           baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
-          model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
+          model: process.env.DEEPSEEK_MODEL ?? 'deepseek-v4.1-flash-1017',
           mock: false,
         });
         results.push({
@@ -77,7 +77,7 @@ it.skipIf(Boolean(process.env.EVAL_TARGET_CORPUS))(
     const report = {
       scope: '12 synthetic A2 cases; not a broad or human-reviewed benchmark',
       createdAt: new Date().toISOString(),
-      model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
+      model: process.env.DEEPSEEK_MODEL ?? 'deepseek-v4.1-flash-1017',
       promptVersion: feedbackPromptVersion,
       summary: summarizeEvaluations(results),
       results,

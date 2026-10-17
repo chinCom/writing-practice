@@ -11,7 +11,7 @@ if (!process.env.DEEPSEEK_API_KEY) throw new Error('DEEPSEEK_API_KEY is required
 const options = {
   apiKey: process.env.DEEPSEEK_API_KEY,
   baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
-  model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
+  model: process.env.DEEPSEEK_MODEL ?? 'deepseek-v4.1-flash-1017',
   mock: false,
 };
 const base = new URL(options.baseURL);
