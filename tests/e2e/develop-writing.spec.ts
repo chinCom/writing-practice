@@ -38,7 +38,7 @@ test('short drafts get development help only on click without grading or changin
   await expect(writing).toHaveValue('I went to a restaurant. It was good.');
   await writing.fill('I liked the noodles.');
   await expect(suggestion).toHaveCount(0);
-  await expect(panel).not.toContainText(guidance.next_step);
+  await expect(panel).toHaveCount(0);
   expect(calls).toBe(1);
 });
 
@@ -59,7 +59,7 @@ test('development guidance highlights the exact passage and asks its question th
   if (testInfo.project.name === 'desktop') {
     const box = await panel.boundingBox();
     const editor = await writing.boundingBox();
-    expect(box!.x + box!.width).toBeLessThan(editor!.x);
+    expect(box!.y).toBeGreaterThan(editor!.y + editor!.height);
   }
   // The highlight covers the passage: it starts after "restaurant." and ends at the text end.
   const band = page.locator('[data-focus-band]');

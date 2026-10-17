@@ -391,7 +391,8 @@ Use exactly these. Props are starting points.
 | Word bank | `Stack direction="row" flexWrap="wrap" useFlexGap` of `Chip variant="outlined" clickable` | Click inserts at the cursor |
 | Writing canvas | `Paper variant="outlined"` (radius 14) + `TextField multiline` (`variant="standard"`, no underline, `slotProps` for input) using `Typography variant="canvas"` styles | **Must carry the §10 field attributes** |
 | Canvas footer | `Stack direction="row"` with `Typography variant="caption"` ×2 + `Button variant="contained"` | "Saved just now", "61 words", "Check my writing" |
-| Development suggestion | Inline callout inside the editor canvas; flips above the passage and reserves space before the footer | Triggered by "Help me develop this"; the side help rail is intentionally absent. |
+| Development action | Compact `Button` + info `Tooltip` in the editor action row, beside Save/Check | The long quota/privacy copy lives in the tooltip. The side help rail is intentionally absent. |
+| Development suggestion | Inline callout inside the editor canvas; flips above the passage and reserves space before the footer | Triggered by the editor action. |
 | Timer (optional) | `Chip` with `TimerOutlined` icon | |
 | Autosave state | `Typography caption` | "Saving..." / "Saved just now" |
 

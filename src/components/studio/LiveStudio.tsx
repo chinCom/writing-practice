@@ -11,7 +11,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
-import DevelopmentHelp from './DevelopmentHelp';
+import { DevelopmentAction, DevelopmentFeedback } from './DevelopmentHelp';
 import DevelopmentSuggestion from './DevelopmentSuggestion';
 import { useDevelopmentHelp } from './useDevelopmentHelp';
 import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
@@ -248,9 +248,6 @@ export default function LiveStudio({
               task={task.id === 'weekend' ? undefined : task}
             />
           </Card>
-          <Card sx={{ p: { xs: 2.5, md: 3 }, bgcolor: 'highlighter.light', boxShadow: 'none' }}>
-            <DevelopmentHelp help={help} />
-          </Card>
         </Stack>
         <Paper
           variant="outlined"
@@ -316,7 +313,10 @@ export default function LiveStudio({
                 </Stack>
                 <WordMeter words={words} min={task.minWords} max={task.maxWords} />
               </Stack>
-              <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                sx={{ gap: 2, flexWrap: 'wrap', alignItems: { sm: 'center' } }}
+              >
                 <Button
                   variant="outlined"
                   disabled={
@@ -341,7 +341,11 @@ export default function LiveStudio({
                 >
                   {t('check')}
                 </Button>
+                <Box sx={{ marginInlineStart: { sm: 'auto' } }}>
+                  <DevelopmentAction help={help} />
+                </Box>
               </Stack>
+              <DevelopmentFeedback help={help} />
               {text.length > limit ? (
                 <Alert severity="warning">
                   {task.id === 'weekend'

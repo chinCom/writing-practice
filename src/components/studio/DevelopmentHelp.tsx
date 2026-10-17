@@ -1,60 +1,72 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined';
 import type { DevelopmentHelpState } from './useDevelopmentHelp';
 
-// The request control. The question itself appears in the writing, next to the passage.
-export default function DevelopmentHelp({ help }: { help: DevelopmentHelpState }) {
+/** The footer action: one request button and the long explanation in a tooltip. */
+export function DevelopmentAction({ help }: { help: DevelopmentHelpState }) {
   const t = useTranslations('development');
-  const { pending, shown, guidance, canRequest, request } = help;
+  const { pending, canRequest, request } = help;
   return (
-    <Stack component="section" aria-label={t('title')} sx={{ gap: 1.5, marginBlockStart: 3 }}>
-      <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
-        <Box
-          sx={{
-            inlineSize: 36,
-            blockSize: 36,
-            borderRadius: '50%',
-            bgcolor: 'highlighter.main',
-            color: 'primary.main',
-            display: 'grid',
-            placeItems: 'center',
-          }}
-        >
-          <LightbulbOutlined sx={{ fontSize: 19 }} />
-        </Box>
-        <Typography variant="h3" component="h2">
-          {t('title')}
-        </Typography>
-      </Stack>
-      <Typography variant="body2">{t('intro')}</Typography>
-      <Button variant="outlined" disabled={!canRequest} onClick={request} fullWidth>
+    <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center' }}>
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<LightbulbOutlined />}
+        disabled={!canRequest}
+        onClick={request}
+      >
         {t(pending ? 'pending' : 'button')}
       </Button>
-      <Typography variant="caption" color="text.secondary">
-        {t('notice')}
-      </Typography>
-      {pending ? (
-        <Typography role="status" variant="body2">
-          {t('pending')}
-        </Typography>
-      ) : null}
+      <Tooltip
+        arrow
+        title={
+          <Stack sx={{ gap: 0.75, py: 0.5 }}>
+            <Typography variant="body2">{t('intro')}</Typography>
+            <Typography variant="caption">{t('notice')}</Typography>
+          </Stack>
+        }
+      >
+        <IconButton size="small" aria-label={t('title')}>
+          <InfoOutlined fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    </Stack>
+  );
+}
+
+/** Errors, safety guidance and the coach's next step stay under the editor actions. */
+export function DevelopmentFeedback({ help }: { help: DevelopmentHelpState }) {
+  const t = useTranslations('development');
+  const { shown, guidance } = help;
+  if (!shown?.error && !shown?.data?.safety_flag && !guidance) return null;
+  return (
+    <Box
+      component="section"
+      aria-label={t('title')}
+      aria-live="polite"
+      sx={{ display: 'grid', gap: 1 }}
+    >
       {shown?.error ? <Alert severity="warning">{t(shown.error)}</Alert> : null}
       {shown?.data?.safety_flag ? <Alert severity="info">{t('safety')}</Alert> : null}
       {guidance ? (
-        <Stack sx={{ gap: 1 }} aria-live="polite">
-          <Typography>{guidance.encouragement}</Typography>
-          <Typography>{guidance.next_step}</Typography>
-          <Typography variant="body2" color="text.secondary">
+        <Stack sx={{ gap: 0.5 }}>
+          <Typography variant="body2">{guidance.encouragement}</Typography>
+          <Typography variant="body2">{guidance.next_step}</Typography>
+          <Typography variant="caption" color="text.secondary">
             {t('inWriting')}
           </Typography>
         </Stack>
       ) : null}
-    </Stack>
+    </Box>
   );
 }

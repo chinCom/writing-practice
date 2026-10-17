@@ -16,7 +16,7 @@ import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import WritingCanvas from './WritingCanvas';
 import TaskBrief from './TaskBrief';
-import DevelopmentHelp from './DevelopmentHelp';
+import { DevelopmentAction, DevelopmentFeedback } from './DevelopmentHelp';
 import DevelopmentSuggestion from './DevelopmentSuggestion';
 import ReadSweep from './ReadSweep';
 import { useDevelopmentHelp } from './useDevelopmentHelp';
@@ -114,9 +114,6 @@ export default function Studio() {
               </AccordionDetails>
             </Accordion>
           </Box>
-          <Card sx={{ p: 3, bgcolor: 'highlighter.light', boxShadow: 'none' }}>
-            <DevelopmentHelp help={help} />
-          </Card>
         </Stack>
         <Paper
           variant="outlined"
@@ -177,7 +174,7 @@ export default function Studio() {
             <Divider sx={{ marginBlockStart: 2.5, marginBlockEnd: 2 }} />
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
-              sx={{ alignItems: { xs: 'stretch', sm: 'center' }, gap: 2 }}
+              sx={{ alignItems: { xs: 'stretch', sm: 'center' }, gap: 2, flexWrap: 'wrap' }}
             >
               <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
                 {t('words', { n: words })}
@@ -185,7 +182,9 @@ export default function Studio() {
               <Button variant="contained" disabled={words < 40} onClick={() => setTip(true)}>
                 {t('check')}
               </Button>
+              <DevelopmentAction help={help} />
             </Stack>
+            <DevelopmentFeedback help={help} />
             {words < 40 ? (
               <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
                 {t('remaining', { n: 40 - words })}
