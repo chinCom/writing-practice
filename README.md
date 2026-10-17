@@ -159,9 +159,14 @@ Development previews are available under `/dev/preview/`. These routes return 40
 ```sh
 npm run format:check
 npm run check
-npm run test:e2e
+npx playwright test tests/e2e/<related-file>.spec.ts
 npm run build
 ```
+
+Run only the Playwright specs related to your change while iterating. Use the full suite
+(`npm run test:e2e`) only before a release, for changes shared across shell/auth/routing/theme
+boundaries, or when explicitly requested. Run `npm run test:journey` only for end-to-end learner
+journey changes.
 
 Install the test browser before the first browser test.
 
