@@ -11,7 +11,6 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
-import CoachHint from './CoachHint';
 import DevelopmentHelp from './DevelopmentHelp';
 import DevelopmentSuggestion from './DevelopmentSuggestion';
 import { useDevelopmentHelp } from './useDevelopmentHelp';
@@ -235,7 +234,7 @@ export default function LiveStudio({
           display: 'grid',
           gridTemplateColumns: {
             xs: 'minmax(0, 1fr)',
-            lg: theme.layout.taskRail + 'px minmax(0, 1fr) ' + theme.layout.coachRail + 'px',
+            lg: theme.layout.taskRail + 'px minmax(0, 1fr)',
           },
           gap: { xs: 2.5, lg: 3 },
           alignItems: 'start',
@@ -283,7 +282,13 @@ export default function LiveStudio({
             />
           </Stack>
           <Box sx={{ p: { xs: 2, md: 3.5 } }}>
-            <Box sx={{ position: 'relative', isolation: 'isolate' }}>
+            <Box
+              sx={{
+                position: 'relative',
+                isolation: 'isolate',
+                paddingBlockEnd: help.guidance && busy !== 'check' ? { xs: 18, md: 20 } : 0,
+              }}
+            >
               <WritingCanvas
                 inputRef={input}
                 maxLength={limit}
@@ -378,9 +383,6 @@ export default function LiveStudio({
             </Stack>
           </Box>
         </Paper>
-        <Card sx={{ p: { xs: 2.5, md: 3 }, order: { xs: 3, lg: 3 } }}>
-          <CoachHint text={text} task={task} quickChecks={task.checklist} />
-        </Card>
       </Box>
     </Stack>
   );

@@ -17,6 +17,7 @@ export default function PageHeader({
   eyebrow,
   action,
   accent = true,
+  accentOffset = -22,
   note,
 }: {
   title: ReactNode;
@@ -24,6 +25,7 @@ export default function PageHeader({
   eyebrow?: ReactNode;
   action?: ReactNode;
   accent?: boolean;
+  accentOffset?: number;
   note?: ReactNode;
 }) {
   const app = useTranslations('app');
@@ -67,7 +69,7 @@ export default function PageHeader({
           sx={{
             display: { xs: 'none', md: 'block' },
             position: 'absolute',
-            insetBlockStart: -22,
+            insetBlockStart: accentOffset,
             insetInlineEnd: 0,
             zIndex: -1,
           }}

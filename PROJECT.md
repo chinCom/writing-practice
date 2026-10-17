@@ -34,7 +34,7 @@
 
 - Visual fidelity follow-up: inset sidebar, custom outline icons, single-sheet header art, travel/pen/crown/chart illustrations, handwritten notes, ribbon backgrounds, compact landing layout, and toned Settings/Progress icons. Exact-width Playwright full-page comparisons and three correction passes are recorded in [visual verification](docs/verification/visual-fidelity/README.md). Product data and unavailable controls still differ from the board.
 
-- AI coach model default: `deepseek-v4.1-flash-1017` across feedback, placement, explanations, development help, scripts and opt-in live checks. `DEEPSEEK_MODEL` remains configurable. Previous provider verification records retain their original model IDs.
+- AI coach model default: `deepseek-flash` (currently DeepSeek-V4.1-Flash-1017; the release name is not an API ID) across feedback, placement, explanations, development help, scripts and opt-in live checks. `DEEPSEEK_MODEL` remains configurable. Previous provider verification records retain their original model IDs.
 
 ### Current feature status
 
@@ -43,7 +43,7 @@
 | App shell and Settings | Responsive MUI, light/dark/system appearance, English/Vietnamese UI, left-to-right layout | Explanation language and daily target are disabled; export/delete and plans are absent |
 | Authentication and onboarding | Supabase email-link and Google routes, verified sessions, protected-page refresh, private profile, and A1–B1 practice placement estimate with learner override | Live email delivery, Google account completion, and broad placement accuracy evaluation |
 | Today | Core-path next task (placement → lesson → writing), saved feedback, UTC streak, weekly activity with goal-met status, strongest score improvement, and due Practice | Live signed-in progression verification; native-speaker review of new Vietnamese strings |
-| Writing Studio | Seven-level task contracts, optional frames/word banks, account drafts, task limits, checking sweep, and local background writing hints | Teacher review/publication, broader hint coverage, and larger curriculum coverage |
+| Writing Studio | Seven-level task contracts, optional frames/word banks, account drafts, task limits, checking sweep and focused AI development help | Teacher review/publication, broader hint coverage, and larger curriculum coverage |
 | AI checking | Live DeepSeek, strict JSON validation, exact/normalized/fuzzy correction location, safety state, 20 checks per UTC day | Broad quality evaluation, higher-level model routing, production-wide abuse controls |
 | Check recovery | Saved writing before grading, request-key reuse, single active claim, lost-response and same-tab reload recovery, bounded database queue and operation deadlines | Durable background worker and sustained-load verification |
 | Feedback and revision | Marked text, immediate Apply/Undo with ordered saves and error retry, automatic next correction, mobile sheet, reporting, and revision/compare with a 20-attempt boundary | New hosted signed-in correction workflow verification and report review tools |
@@ -173,7 +173,7 @@ drizzle/
 # DeepSeek
 DEEPSEEK_API_KEY=
 DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-v4.1-flash-1017
+DEEPSEEK_MODEL=deepseek-flash
 DEEPSEEK_MODEL_ADVANCED=deepseek-v4-pro
 USE_MOCK_LLM=false               # true = return canned JSON from /mocks, no network
 GROWTH_TARGETS=false             # true = Growth Loop targets on (grader input, target UI, evidence); other values = off
@@ -321,7 +321,7 @@ Display groups and underline styles (also in §17): grammar = wavy violet, spell
 
 ### 9.1 Configuration (verified against DeepSeek docs, Oct 2026 — re-check before launch)
 
-- SDK: `openai` npm package. `baseURL = process.env.DEEPSEEK_BASE_URL` (`https://api.deepseek.com`), `model = process.env.DEEPSEEK_MODEL` (`deepseek-v4.1-flash-1017`, which serves DeepSeek-V4.1-Flash). Legacy name `deepseek-v4-flash` is accepted but retired; don't use it.
+- SDK: `openai` npm package. `baseURL = process.env.DEEPSEEK_BASE_URL` (`https://api.deepseek.com`), `model = process.env.DEEPSEEK_MODEL` (`deepseek-flash`, which currently serves DeepSeek-V4.1-Flash-1017; see https://api-docs.deepseek.com/updates/). Legacy name `deepseek-v4-flash` is accepted but retired; don't use it.
 - **Thinking mode** is on by default (effort `high`). Toggle per request with `extra_body: { thinking: { type: "enabled" | "disabled" } }` and set `reasoning_effort: "low" | "high" | "max"`. With the Node SDK, pass these as extra body fields (check how the SDK version forwards unknown params).
 - In thinking mode `temperature` / `presence_penalty` / `frequency_penalty` have **no effect**. Don't rely on them.
 - Without a `tools` parameter, `reasoning_content` from previous turns is ignored by the API; we don't use tools, so don't store or resend it.
@@ -593,7 +593,7 @@ This table describes target pages. See §0 for current route behavior and placeh
 | `/today` | Next task, streak, weekly goal ring, due drills |
 | `/path` | Vertical level map: units, lock states, checkpoint markers |
 | `/unit/[unitId]` | Lessons in a unit |
-| `/write/[taskId]` | **Writing Studio**: task rail / paper canvas / coach panel (bottom sheet on mobile) |
+| `/write/[taskId]` | **Writing Studio**: task rail / full-width paper canvas |
 | `/feedback/[submissionId]` | **Feedback view**: marked page + margin cards + revise flow + v1/v2 diff |
 | `/progress` | CEFR trajectory, errors by category over time, words written, streak |
 | `/practice` | Drills from the error bank |

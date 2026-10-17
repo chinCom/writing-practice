@@ -1,5 +1,7 @@
 # Background writing help and Enter submission
 
+> **Removed 2026-10-17:** the side “A little help” rail and its browser worker were removed so the Writing Studio can give the full width to the draft. Development guidance now appears inline at the highlighted passage. The notes below record the former feature; `tests/e2e/live-hints.spec.ts` no longer runs.
+
 ## Implemented behavior
 
 - **A little help** reads the current draft in both Writing Studio variants.
@@ -22,7 +24,7 @@ The preview checks known warm-ups and rejects cross-origin requests. It saves no
 
 ```sh
 npm run check
-npx playwright test tests/e2e/live-hints.spec.ts tests/e2e/lesson-submit.spec.ts --workers=1
+npx playwright test tests/e2e/lesson-submit.spec.ts --workers=1
 node scripts/audit-writing-help.mjs
 npm run build
 ```

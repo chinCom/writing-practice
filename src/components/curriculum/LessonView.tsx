@@ -91,7 +91,7 @@ export default function LessonView({
         >
           {t('backToPath')}
         </Button>
-        <PageHeader title={lesson.title} note={app('paperNotes.path')} />
+        <PageHeader title={lesson.title} note={app('paperNotes.path')} accentOffset={-82} />
         <TargetRecommendations targets={lesson.advisoryTargets} />
         <IeltsContract taskId={lesson.task.id} />
         <TaskChart taskId={lesson.task.id} />

@@ -16,7 +16,6 @@ import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import WritingCanvas from './WritingCanvas';
 import TaskBrief from './TaskBrief';
-import CoachHint from './CoachHint';
 import DevelopmentHelp from './DevelopmentHelp';
 import DevelopmentSuggestion from './DevelopmentSuggestion';
 import ReadSweep from './ReadSweep';
@@ -91,7 +90,7 @@ export default function Studio() {
           display: 'grid',
           gridTemplateColumns: {
             xs: 'minmax(0,1fr)',
-            lg: theme.layout.taskRail + 'px minmax(0,1fr) ' + theme.layout.coachRail + 'px',
+            lg: theme.layout.taskRail + 'px minmax(0,1fr)',
           },
           gap: { xs: 2.5, lg: 3 },
           alignItems: 'start',
@@ -152,7 +151,13 @@ export default function Studio() {
             </Typography>
           </Stack>
           <Box sx={{ p: { xs: 2, md: 3.5 }, display: 'flex', flexDirection: 'column' }}>
-            <Box sx={{ position: 'relative', isolation: 'isolate' }}>
+            <Box
+              sx={{
+                position: 'relative',
+                isolation: 'isolate',
+                paddingBlockEnd: help.guidance ? { xs: 18, md: 20 } : 0,
+              }}
+            >
               <WritingCanvas
                 inputRef={input}
                 value={text}
@@ -193,9 +198,6 @@ export default function Studio() {
             </Collapse>
           </Box>
         </Paper>
-        <Card sx={{ p: 3, order: { xs: 3, lg: 3 } }}>
-          <CoachHint text={text} task={weekendTask} />
-        </Card>
       </Box>
     </Stack>
   );

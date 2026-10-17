@@ -79,7 +79,9 @@ See `scripts/patch-postgres.mjs` and the disconnect regressions in `tests/postgr
 Set `DEEPSEEK_API_KEY` in `.env`. Keep this key on the server.
 Do not use a `NEXT_PUBLIC_` prefix for private keys or `DATABASE_URL`.
 
-The default model is `deepseek-v4.1-flash-1017`. Use `DEEPSEEK_MODEL` to change the model.
+The default API model ID is `deepseek-flash`, which currently serves DeepSeek-V4.1-Flash-1017.
+Use `DEEPSEEK_MODEL` to change the model. The release name is not a separate API model ID.
+See the [DeepSeek changelog](https://api-docs.deepseek.com/updates/).
 Use `DEEPSEEK_BASE_URL` to change the provider URL.
 
 Set `USE_MOCK_LLM=true` to use sample feedback without a provider call.
@@ -139,9 +141,7 @@ Dismissed suggestions leave Practice until you restore them.
 Select **Report correction** to save a reason for later quality review. Reports do not change the saved AI feedback.
 A decorative highlighter sweep runs during checking. Reduced-motion users see the status without the sweep.
 
-**A little help** checks the current draft after a 500 ms typing pause. A browser Web Worker runs narrow grammar, task-length, invitation, and paragraph checks.
-The panel ignores stale results and never changes the writing. These local checks do not call DeepSeek or count toward daily AI limits.
-Select **Check my writing** for a full AI review. Local hints are not a complete grammar assessment.
+Select **Check my writing** for a full AI review. The editor uses the full writing column; the former side help panel was removed so drafts have more room.
 
 Select **Help me develop this** under the task word bank for on-demand AI guidance, even before the task minimum. The coach offers one question, an optional incomplete sentence starter, and one small next step. You write the answer yourself. Select **Show in my writing** to highlight the quoted passage without changing your draft.
 The app sends writing only when you press the button. It uses your chosen learning-path level, then your saved profile level, or the task level as a fallback. Guidance stays in English.

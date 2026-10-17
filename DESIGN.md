@@ -225,7 +225,7 @@ CSS: `textDecorationLine: underline; textDecorationStyle: <style>; textDecoratio
 |---|---|---|---|---|
 | `h1` | **Literata** | 3rem / 1.05 (2.25rem on `xs`) | 600 | Page openings ("Make room for a little writing", "See your writing grow") |
 | `h2` | **Literata** | 2rem / 1.16 (1.625rem on `xs`) | 600 | Task titles and major sub-sections |
-| `h3` | **Literata** | 1.25rem / 1.3 | 600 | Card titles ("Your week", "Saved feedback", "A little help") |
+| `h3` | **Literata** | 1.25rem / 1.3 | 600 | Card titles ("Your week", "Saved feedback", "Develop your ideas") |
 | `h4` | Noto Sans | 1.0625rem / 1.35 | 650 | Compact headings where serif would be heavy |
 | `subtitle1` / `subtitle2` | Noto Sans | 1rem / 0.8125rem | 650 | Labels and card headers |
 | `body1` / `body2` | Noto Sans | 0.9375rem / 0.8125rem | 400 | Interface copy; `body2` for secondary text |
@@ -391,8 +391,7 @@ Use exactly these. Props are starting points.
 | Word bank | `Stack direction="row" flexWrap="wrap" useFlexGap` of `Chip variant="outlined" clickable` | Click inserts at the cursor |
 | Writing canvas | `Paper variant="outlined"` (radius 14) + `TextField multiline` (`variant="standard"`, no underline, `slotProps` for input) using `Typography variant="canvas"` styles | **Must carry the §10 field attributes** |
 | Canvas footer | `Stack direction="row"` with `Typography variant="caption"` ×2 + `Button variant="contained"` | "Saved just now", "61 words", "Check my writing" |
-| Coach panel ("A little help") | `Paper variant="outlined"` + `Typography` + `Button variant="outlined" fullWidth` | "Ask for a hint". Hint replies stream into `Typography`. |
-| Hint on mobile | `SwipeableDrawer anchor="bottom"` | |
+| Development suggestion | Inline callout inside the editor canvas; flips above the passage and reserves space before the footer | Triggered by "Help me develop this"; the side help rail is intentionally absent. |
 | Timer (optional) | `Chip` with `TimerOutlined` icon | |
 | Autosave state | `Typography caption` | "Saving..." / "Saved just now" |
 
@@ -441,7 +440,7 @@ Use exactly these. Props are starting points.
 | Design element | MUI | Notes |
 |---|---|---|
 | Page title and subtitle | `Typography variant="h1"` + muted `Typography` | |
-| Level switcher | `LevelSwitcher` (§7): `Tabs variant="scrollable"` inside `Paper variant="outlined"` | Zero, A1–C2. Selected = highlighter pill. |
+| Level switcher | `LevelSwitcher` (§7): `Tabs variant="scrollable"` inside a lavender `Paper` with the indicator hidden | Selected = white rounded pill with a soft shadow. |
 | Level and unit heading | `Typography` (level label weight 700) + `Typography` (unit title) | "A2  Messages that connect" |
 | Path | `List component="ol"` of `PathNode`s (§7) | Semantic ordered list |
 | Done node | `CheckCircle` icon (`success.main`) | |
@@ -557,7 +556,9 @@ All live in `src/components/`, are Client Components, and consist only of MUI pa
 - Props: `done`, `goal`. Two `CircularProgress` stacked (a faint full track and the value), about 96px, thickness 4, `success`.
 - Centered label: "3 of 5" (`subtitle1`, 700) over "sessions" (`caption`). Container has `role="img"` and `aria-label="3 of 5 sessions this week"`.
 
-**`LevelSwitcher`**: `Tabs` styled as a pill row; selected tab = `highlighter.main` with ink text. Starts on the learner's current level; selecting one scrolls the path to that level (smooth, or instant under reduced motion). Locked levels can be previewed, not started.
+**`SegmentedControl`**: reusable `Tabs` wrapper with a lavender track, a white pill indicator, and a fast-out/slow-settle slide (`left` and `width`, 380 ms, `cubic-bezier(0.16, 1, 0.3, 1)`). Options can navigate with `href` or report through `onChange`; reduced motion removes the transition. `LevelSwitcher` and the path track tabs use it.
+
+**`LevelSwitcher`**: the shared `SegmentedControl`; the selected pill is white with ink text and a soft shadow, with no heavy underline. Starts on the learner's current level; selecting one scrolls the path to that level (smooth, or instant under reduced motion). Locked levels can be previewed, not started.
 
 **`PathNode`**
 - States: `done | current | locked | checkpoint`. Renders the node icon, title, description, and (for `current`) the "Continue" button.
@@ -588,9 +589,9 @@ All live in `src/components/`, are Client Components, and consist only of MUI pa
 
 | Breakpoint | Layout |
 |---|---|
-| `lg+` | `[SideNav ~200] [Task rail ~280] [Canvas, flexible, text ≤ 70ch] [Coach panel ~280]` |
-| `md` to `lg` | SideNav + canvas. Task rail becomes a collapsible `Accordion` above the canvas. Coach panel opens as a bottom sheet. |
-| `< md` | Top bar + bottom nav. Task `Accordion`, canvas full width, coach in a bottom sheet. |
+| `lg+` | `[SideNav 244] [Task rail ~290] [Canvas, flexible, text ≤ 70ch]` |
+| `md` to `lg` | SideNav + canvas. Task rail becomes a collapsible `Accordion` above the canvas. |
+| `< md` | Top bar + bottom nav. Canvas first, task `Accordion` below it. The former side help rail is removed; development guidance appears inline at the passage. |
 
 - "Check my writing" is disabled until the minimum word count is met; the helper text says how many words remain.
 - The canvas fills the available height; the footer (autosave, count, button) stays pinned inside the paper.
@@ -665,7 +666,7 @@ Pass them through the MUI `TextField` `slotProps.htmlInput` (check the installed
 - No ALL-CAPS labels, no "A · B · C" meta strings, no arrows added to button text, no single-word accents in headlines.
 - All strings live in `messages/*.json` (next-intl).
 
-Canonical strings from the mockup: "Check my writing", "Saved just now", "{n} words", "A little help", "Ask for a hint", "Include these points:", "Useful phrases (word bank)", "Your message, marked", "Estimated {level}", "Rewrite", "See it one level up", "Try it yourself", "Apply fix", "Dismiss", "Report", "Explain in Español", "Focus on {topic}".
+Canonical strings from the mockup: "Check my writing", "Saved just now", "{n} words", "Include these points:", "Useful phrases (word bank)", "Your message, marked", "Estimated {level}", "Rewrite", "See it one level up", "Try it yourself", "Apply fix", "Dismiss", "Report", "Explain in Español", "Focus on {topic}".
 
 Canonical strings (board): "Make room for a little writing", "Start writing", "Your focus: {topic}", "Your week", "Weekly goal", "{n} of {m} sessions", "{Topic} needs another look", "{n} questions", "Based on your last message", "Review now", "Your writing path", "From first words to confident writing", "Continue", "Give {topic} another try", "Question {n} of {m}", "Fix the highlighted word.", "Check answer", "That's right.", "Next question", "Why this is back", "Review again in {n} days", "See your writing grow", "Words written", "Writing sessions", "Current streak", "Writing level over time", "Errors by category", "Practice estimates, not a certified assessment.", "Writing day", "No writing", "Make this space yours", "UI language", "Explanation language", "Daily writing target", "Weekly goal", "View plans", "Developer options", "Text direction".
 

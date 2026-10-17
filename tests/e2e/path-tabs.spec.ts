@@ -1,31 +1,29 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-for (const reducedMotion of ['no-preference', 'reduce'] as const) {
-  test(`track underline follows selection with ${reducedMotion} motion`, async ({ page }) => {
-    await page.emulateMedia({ reducedMotion });
-    await page.goto('/dev/preview/path?course=full&track=core');
-    const indicator = page.locator('.MuiTabs-indicator');
-    for (const tab of await page.getByRole('tab').all()) {
-      await expect(tab).toHaveCSS('border-bottom-width', '1px');
-      await expect(tab).toHaveCSS('border-bottom-style', 'solid');
-    }
-    await expect(indicator).toHaveCSS('height', '4px');
-    await expect(indicator).toHaveCSS(
-      'transition-duration',
-      reducedMotion === 'reduce' ? '0s' : '0.25s, 0.25s',
-    );
-    for (const name of ['IELTS Writing Workspace', 'Core Writing Path']) {
-      const tab = page.getByRole('tab', { name: new RegExp(name) });
-      await tab.click();
-      await expect(tab).toHaveAttribute('aria-selected', 'true');
-      await expect
-        .poll(async () => {
-          const selected = await tab.boundingBox();
-          const underline = await indicator.boundingBox();
-          return selected && underline ? Math.abs(selected.x - underline.x) : Infinity;
-        })
-        .toBeLessThan(2);
-    }
-    await page.screenshot({ path: test.info().outputPath('path-tabs.png') });
-  });
-}
+test('the track pill slides between selections in both directions', async ({ page }) => {
+  await page.goto('/dev/preview/path?course=full&track=core');
+  const indicator = page.locator('.MuiTabs-indicator');
+  const core = page.getByRole('tab', { name: /Core Writing Path/ });
+  const ielts = page.getByRole('tab', { name: /IELTS Writing Workspace/ });
+
+  await expect(core).toHaveAttribute('aria-selected', 'true');
+  await expect(indicator).toBeVisible();
+  await expect(indicator).toHaveCSS('border-radius', '999px');
+  await expect(indicator).toHaveCSS('transition-duration', '0.38s, 0.38s');
+  await expect(indicator).toHaveCSS('transition-property', 'left, width');
+
+  const x = async () => (await indicator.boundingBox())?.x ?? 0;
+  const start = (await core.boundingBox())!.x;
+  const end = (await ielts.boundingBox())!.x;
+  await expect.poll(async () => Math.abs((await x()) - start)).toBeLessThan(2);
+
+  await ielts.click();
+  await expect(ielts).toHaveAttribute('aria-selected', 'true');
+  await expect(page).toHaveURL(/track=ielts/);
+  await expect.poll(async () => Math.abs((await x()) - end)).toBeLessThan(2);
+
+  await core.click();
+  await expect(core).toHaveAttribute('aria-selected', 'true');
+  await expect.poll(async () => Math.abs((await x()) - start)).toBeLessThan(2);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});

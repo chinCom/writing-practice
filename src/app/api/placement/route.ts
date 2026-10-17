@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     const result = await estimatePlacement(input.data, {
       apiKey: process.env.DEEPSEEK_API_KEY,
       baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
-      model: process.env.DEEPSEEK_MODEL ?? 'deepseek-v4.1-flash-1017',
+      model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
       mock: process.env.USE_MOCK_LLM === 'true',
     });
     await completePlacement(user.id, result);

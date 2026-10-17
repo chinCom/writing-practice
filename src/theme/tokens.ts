@@ -69,7 +69,6 @@ export const tokens = {
     topBarHeight: 72,
     bottomNavHeight: 72,
     taskRail: 290,
-    coachRail: 268,
     contentMax: 1460,
     writingCanvasHeight: 'clamp(9rem, calc(100dvh - 32rem), 30rem)',
     writingCanvasMobileHeight: 'clamp(10rem, 35dvh, 20rem)',

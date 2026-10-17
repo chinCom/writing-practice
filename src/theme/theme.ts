@@ -304,27 +304,18 @@ export function makeTheme(cssVarPrefix = 'mui') {
       },
       MuiTab: {
         styleOverrides: {
-          root: {
-            borderBlockEnd: '1px solid',
-            borderColor: 'var(--mui-palette-divider)',
+          root: ({ theme }) => ({
+            borderBlockEnd: 0,
+            borderRadius: 999,
             textTransform: 'none',
-            minHeight: 44,
+            minHeight: 46,
             fontWeight: 600,
             paddingInline: 18,
-          },
-        },
-      },
-      MuiTabs: {
-        styleOverrides: {
-          indicator: {
-            height: 4,
-            borderRadius: tokens.radius.pill,
-            backgroundColor: 'var(--mui-palette-secondary-main)',
-            '@media (prefers-reduced-motion: no-preference)': {
-              transition: `left 250ms ${easeOut}, width 250ms ${easeOut}`,
+            zIndex: 1,
+            '&.Mui-selected': {
+              color: theme.vars.palette.primary.main,
             },
-            '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-          },
+          }),
         },
       },
       MuiTableCell: {

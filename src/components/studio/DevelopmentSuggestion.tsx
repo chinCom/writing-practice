@@ -33,7 +33,6 @@ const rise = keyframes`
 `;
 const motion = '@media (prefers-reduced-motion: no-preference)';
 const calloutGap = 12;
-const comfortableRoom = 160;
 
 // The coach's question appears at the passage it is about, so the learner answers it in place.
 export default function DevelopmentSuggestion({
@@ -127,6 +126,7 @@ function Callout({
   const first = bands[0];
   const last = bands[bands.length - 1];
   const shown = useRef(false);
+  const calloutRef = useRef<HTMLDivElement>(null);
 
   // Bring the passage into view once. The bubble may leave the box, so prefer below and only
   // flip when the space above is clearly enough and the space below is not.
@@ -135,10 +135,21 @@ function Callout({
     if (!input || shown.current) return;
     shown.current = true;
     input.scrollTop = Math.max(0, first.top - viewHeight * 0.3);
+  }, [inputRef, first, viewHeight]);
+
+  // Measure the real bubble before choosing a side. This keeps it out of the editor footer
+  // instead of relying on a fixed guess for how tall the question is.
+  useLayoutEffect(() => {
+    const input = inputRef.current;
+    const callout = calloutRef.current;
+    if (!input || !callout) return;
     const below = viewHeight - (last.top + last.height - input.scrollTop);
     const above = first.top - input.scrollTop;
-    setPlacement(below < comfortableRoom && above >= comfortableRoom ? 'above' : 'below');
-  }, [inputRef, first, last, viewHeight]);
+    const height = callout.offsetHeight;
+    const next: Placement =
+      below < height + calloutGap && above >= height + calloutGap ? 'above' : 'below';
+    if (next !== placement) setPlacement(next);
+  }, [inputRef, first, last, viewHeight, placement]);
 
   // The bubble is not clipped, so hide it while its passage is scrolled out of the box.
   useEffect(() => {
@@ -168,6 +179,7 @@ function Callout({
       : { insetBlockEnd: `calc(100% - ${first.top - calloutGap}px)` };
   return (
     <Box
+      ref={calloutRef}
       component="section"
       aria-label={t('suggestion')}
       aria-live="polite"

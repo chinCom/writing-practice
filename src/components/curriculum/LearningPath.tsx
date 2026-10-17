@@ -1,6 +1,4 @@
 'use client';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ieltsModule, type CurriculumTrack } from '@/lib/curriculum';
@@ -16,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import type { LearningPath as Path } from '@/lib/db/curriculum';
 import PathNode from './PathNode';
 import PageHeader from '@/components/ui/PageHeader';
+import SegmentedControl from '@/components/ui/SegmentedControl';
 export default function LearningPath({
   path,
   preview = false,
@@ -41,26 +40,14 @@ export default function LearningPath({
           note={app('paperNotes.path')}
           subtitle={t(track === 'ielts' ? 'ieltsIntro' : 'pathIntro')}
         />
-        <Paper sx={{ p: 0.75, bgcolor: 'background.paper' }}>
-          <Tabs value={track} variant="fullWidth" aria-label={t('tracks')}>
-            <Tab
-              value="core"
-              wrapped
-              sx={{ minWidth: 0 }}
-              label={t('coreTrack')}
-              component={NextLink}
-              href={base + 'track=core'}
-            />
-            <Tab
-              value="ielts"
-              wrapped
-              sx={{ minWidth: 0 }}
-              label={t('ieltsTrack')}
-              component={NextLink}
-              href={base + 'track=ielts'}
-            />
-          </Tabs>
-        </Paper>
+        <SegmentedControl
+          value={track}
+          ariaLabel={t('tracks')}
+          options={[
+            { value: 'core', label: t('coreTrack'), href: base + 'track=core' },
+            { value: 'ielts', label: t('ieltsTrack'), href: base + 'track=ielts' },
+          ]}
+        />
         {track === 'core' ? (
           <Alert
             severity="info"
