@@ -1,6 +1,6 @@
 ## Code readability
 
-- Keep code formatted with `npm run format` and verify with `npm run format:check`.
+- Keep code formatted with `pnpm run format` and verify with `pnpm run format:check`.
 - Use descriptive names and small, named components. Avoid dense one-line functions and nested UI expressions.
 - Keep formatting changes separate from behavior changes when practical.
 - Do not run subagents for this project.
@@ -8,10 +8,10 @@
 ## Testing
 
 - Run only the Playwright spec files related to the change. Name them explicitly, for example:
-  `npx playwright test tests/e2e/path-tabs.spec.ts --project=desktop --project=mobile`.
-- Do not run the full `npx playwright test` suite by default. Run it only before a release, when a change crosses shared shell/auth/routing/theme boundaries, or when the user explicitly asks for it.
-- Run `npm run test:journey` only for changes that touch the end-to-end learner journey.
-- `npm run check` is the default static and unit gate. Run the relevant parts while iterating, and the whole command before finishing.
+  `pnpm exec playwright test tests/e2e/path-tabs.spec.ts --project=desktop --project=mobile`.
+- Do not run the full `pnpm exec playwright test` suite by default. Run it only before a release, when a change crosses shared shell/auth/routing/theme boundaries, or when the user explicitly asks for it.
+- Run `pnpm run test:journey` only for changes that touch the end-to-end learner journey.
+- `pnpm run check` is the default static and unit gate. Run the relevant parts while iterating, and the whole command before finishing.
 - When a test is flaky, fix the test or the code it exercises; do not rerun the full suite to hide it.
 
 <!-- BEGIN:nextjs-agent-rules -->

@@ -1,10 +1,9 @@
-import { ESLint } from 'eslint';
+import { lintSource } from './helpers/lint-source';
 import { expect, it } from 'vitest';
 
-const eslint = new ESLint();
 async function restrictedImports(source: string) {
-  const [result] = await eslint.lintText(source, { filePath: 'src/lib/db/boundary-fixture.ts' });
-  return result.messages.filter((message) => message.ruleId === 'no-restricted-imports');
+  const messages = await lintSource(source, 'src/lib/db');
+  return messages.filter((message) => message.code?.endsWith('(no-restricted-imports)'));
 }
 it.each(['@/lib/api', '../api', '@/lib/llm/grade', '../llm/explain', 'next/server'])(
   'prevents database operations importing adapter %s',

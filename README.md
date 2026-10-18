@@ -7,16 +7,20 @@ The app uses Next.js, TypeScript, MUI, Supabase, and DeepSeek. The interface sup
 ## Requirements
 
 - Node.js 22 or later.
-- npm.
+- pnpm 12.14.0 (the version pinned in `package.json`).
 - A Supabase project for authentication and data storage.
 - A DeepSeek API key for live AI feedback.
+
+Use pnpm for all project commands. `packageManager` pins the version, and npm's
+`devEngines` check rejects npm installs and scripts. A preinstall guard also
+rejects other package managers when lifecycle scripts are enabled.
 
 ## Run locally
 
 1. Install the dependencies.
 
    ```sh
-   npm ci
+   pnpm install --frozen-lockfile
    ```
 
 2. Copy the example environment file.
@@ -29,7 +33,7 @@ The app uses Next.js, TypeScript, MUI, Supabase, and DeepSeek. The interface sup
 4. Start the development server.
 
    ```sh
-   npm run dev
+   pnpm run dev
    ```
 
 5. Open `http://127.0.0.1:3000`.
@@ -45,7 +49,7 @@ The app uses Next.js, TypeScript, MUI, Supabase, and DeepSeek. The interface sup
 5. Apply the database migrations.
 
    ```sh
-   npm run db:migrate
+   pnpm run db:migrate
    ```
 
 6. Keep the `writing` schema outside the Data API exposed schemas.
@@ -69,9 +73,9 @@ See `docs/verification/database-deadlines.md` for network fault checks and deplo
 
 The migration runner skips migrations that it has already applied. Do not edit an applied migration.
 
-`npm ci` also applies a checked-in patch to the pinned `postgres@3.4.9` driver.
+`pnpm install --frozen-lockfile` also applies a checked-in patch to the pinned `postgres@3.4.9` driver.
 It prevents a disconnected transaction from writing to a closed socket or a replacement session.
-If install scripts were disabled, run `npm run postinstall` before starting the server.
+If install scripts were disabled, run `pnpm run postinstall` before starting the server.
 See `scripts/patch-postgres.mjs` and the disconnect regressions in `tests/postgres-disconnect.test.ts`.
 
 ## Set up the AI coach
@@ -156,22 +160,27 @@ Development previews are available under `/dev/preview/`. These routes return 40
 
 ## Check the code
 
+Oxlint replaces ESLint. The configuration retains supported Next.js, React,
+TypeScript and accessibility rules. A local plugin preserves the project's UI
+syntax restrictions. Oxlint does not support every former ESLint rule.
+The two Today files retain scoped `react/purity` exceptions for existing clock reads.
+
 ```sh
-npm run format:check
-npm run check
-npx playwright test tests/e2e/<related-file>.spec.ts
-npm run build
+pnpm run format:check
+pnpm run check
+pnpm exec playwright test tests/e2e/<related-file>.spec.ts
+pnpm run build
 ```
 
 Run only the Playwright specs related to your change while iterating. Use the full suite
-(`npm run test:e2e`) only before a release, for changes shared across shell/auth/routing/theme
-boundaries, or when explicitly requested. Run `npm run test:journey` only for end-to-end learner
+(`pnpm run test:e2e`) only before a release, for changes shared across shell/auth/routing/theme
+boundaries, or when explicitly requested. Run `pnpm run test:journey` only for end-to-end learner
 journey changes.
 
 Install the test browser before the first browser test.
 
 ```sh
-npx playwright install chromium
+pnpm exec playwright install chromium
 ```
 
 The default tests do not call a live AI provider. Database tests use local PostgreSQL through PGlite.
@@ -180,7 +189,7 @@ Browser tests use simulated API responses. These tests do not prove live sign-in
 For tests that require an unconfigured app, stop the development server first. Then run:
 
 ```sh
-NEXT_PUBLIC_SUPABASE_URL='' NEXT_PUBLIC_SUPABASE_ANON_KEY='' DATABASE_URL='' GOOGLE_AUTH_ENABLED=false npm run test:e2e
+NEXT_PUBLIC_SUPABASE_URL='' NEXT_PUBLIC_SUPABASE_ANON_KEY='' DATABASE_URL='' GOOGLE_AUTH_ENABLED=false pnpm run test:e2e
 ```
 
 Restart the development server after the tests.
@@ -196,13 +205,13 @@ This optional check briefly uses four database connections. It makes no AI or em
 **Cost risk:** This optional test calls the live AI provider with sample writing.
 
 ```sh
-npm run test:live-coach
+pnpm run test:live-coach
 ```
 
 To record the 12-case synthetic A2 evaluation pilot, run this paid command:
 
 ```sh
-EVAL_LIVE=true npm run evals
+EVAL_LIVE=true pnpm run evals
 ```
 
 See `evals/README.md` for scoring rules and limits. The pilot does not establish broad AI quality.
@@ -210,7 +219,7 @@ See `evals/README.md` for scoring rules and limits. The pilot does not establish
 To check live explanations with three synthetic corrections, run this paid test:
 
 ```sh
-RUN_LIVE_EXPLANATION=true npx vitest run tests/live-explanation.test.ts
+RUN_LIVE_EXPLANATION=true pnpm exec vitest run tests/live-explanation.test.ts
 ```
 
 ## Code layout

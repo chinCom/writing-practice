@@ -1,0 +1,5 @@
+engineStrict: true
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true

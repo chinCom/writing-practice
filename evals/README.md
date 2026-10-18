@@ -8,7 +8,7 @@ It is not the 100–200-text, cross-level, human-reviewed benchmark required by 
 **Cost risk:** This command makes paid AI calls. The coach can retry each case once.
 
 ```sh
-EVAL_LIVE=true npm run evals
+EVAL_LIVE=true pnpm run evals
 ```
 
 Set `DEEPSEEK_API_KEY` in private environment variables or `.env`.
@@ -62,7 +62,7 @@ Keep the corpus and generated `evals/results/targets-latest.json` private. The r
 Do not commit real learner writing or identifying reviewer names.
 
 ```sh
-EVAL_LIVE=true EVAL_TARGET_CORPUS=/private/reviewed-targets.jsonl DEEPSEEK_MODEL=<pinned-model-id> npm run evals
+EVAL_LIVE=true EVAL_TARGET_CORPUS=/private/reviewed-targets.jsonl DEEPSEEK_MODEL=<pinned-model-id> pnpm run evals
 ```
 
 Each JSONL object has these fields:
@@ -102,7 +102,7 @@ Each target also contains `withheldCorrections` and `reviewNote`; each case cont
 The runner preserves AI provenance. It never relabels these cases as human annotations.
 
 ```sh
-EVAL_LIVE=true EVAL_TARGET_MODE=ai-diagnostic EVAL_TARGET_CORPUS=/private/ai-review.jsonl DEEPSEEK_MODEL=<pinned-model-id> npm run evals
+EVAL_LIVE=true EVAL_TARGET_MODE=ai-diagnostic EVAL_TARGET_CORPUS=/private/ai-review.jsonl DEEPSEEK_MODEL=<pinned-model-id> pnpm run evals
 ```
 
 The same privacy and cost requirements apply. Reports checkpoint after each text; interrupted runs are not automatically resumed.

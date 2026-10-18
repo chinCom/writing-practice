@@ -1,24 +1,24 @@
 export const tokens = {
   light: {
-    ink: '#111318',            // Carbon black-blue
-    text: '#1A1D24',           // Heavy graphite
+    ink: '#111318', // Carbon black-blue
+    text: '#1A1D24', // Heavy graphite
     onPrimary: '#FFFFFF',
-    paper: '#F3F3EE',          // Raw gallery concrete / warm grey
+    paper: '#F3F3EE', // Raw gallery concrete / warm grey
     surface: '#FFFFFF',
-    border: '#DFDFD8',         // Crisp architectural border
-    muted: '#686B73',          // Neutral industrial grey
-    violet: '#0047FF',         // Primary brand -> International Klein Cobalt
-    mint: '#009E60',           // Signal green
+    border: '#DFDFD8', // Crisp architectural border
+    muted: '#686B73', // Neutral industrial grey
+    violet: '#0047FF', // Primary brand -> International Klein Cobalt
+    mint: '#009E60', // Signal green
     mintText: '#007A4A',
     blue: '#0066CC',
     amber: '#E07A00',
-    rose: '#FF3B1D',           // Vermilion red-orange accent
+    rose: '#FF3B1D', // Vermilion red-orange accent
     teal: '#008B94',
-    highlighter: '#FFE600',    // Pure signal yellow
+    highlighter: '#FFE600', // Pure signal yellow
     highlightSoft: '#FFFCE0',
-    tonalPrimary: '#E5EDFF',   // Crisp cobalt tint
+    tonalPrimary: '#E5EDFF', // Crisp cobalt tint
     tonalSuccess: '#E3F7EE',
-    lavender: '#EBEBE4',       // Secondary concrete surface
+    lavender: '#EBEBE4', // Secondary concrete surface
     lavenderDeep: '#DCDCD2',
     decorGreen: '#00B86B',
     pastelLilac: '#EDEBF9',
@@ -39,16 +39,16 @@ export const tokens = {
     ink: '#F2F2EE',
     text: '#E6E6E1',
     onPrimary: '#0A0B0E',
-    paper: '#0D0E11',          // Matte anodized black
-    surface: '#16181D',        // Dark machined aluminum
-    border: '#2A2D36',         // Steel border
+    paper: '#0D0E11', // Matte anodized black
+    surface: '#16181D', // Dark machined aluminum
+    border: '#2A2D36', // Steel border
     muted: '#9498A3',
-    violet: '#4D88FF',         // Electric cobalt
-    mint: '#2EE59D',           // Neon mint
+    violet: '#4D88FF', // Electric cobalt
+    mint: '#2EE59D', // Neon mint
     mintText: '#2EE59D',
     blue: '#5CA8FF',
     amber: '#FFB020',
-    rose: '#FF6B52',           // Luminous vermilion
+    rose: '#FF6B52', // Luminous vermilion
     teal: '#33D6E0',
     highlighter: '#FFE600',
     highlightSoft: '#3D380A',

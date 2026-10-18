@@ -49,67 +49,16 @@
 
 Rules that aren't enforced get broken by coding agents. Add both of these in Phase 1, and run them in CI and pre-commit.
 
-### 2.1 ESLint (flat config excerpt, `eslint.config.mjs`)
+### 2.1 Oxlint (`.oxlintrc.json`)
 
-```js
-const rawElements = {
-  selector: "JSXOpeningElement[name.name=/^[a-z]/]",
-  message: "Raw HTML element. Use a MUI component (Box, Stack, Typography, Button...). Use <Box component=\"section\"> for semantic tags.",
-};
-const noStyleProp = {
-  selector: "JSXAttribute[name.name='style']",
-  message: "No inline style. Use sx / styled / theme overrides.",
-};
-const noClassName = {
-  selector: "JSXAttribute[name.name='className']",
-  message: "No className styling. Use sx / styled / theme overrides.",
-};
-const noHex = {
-  selector: "Literal[value=/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/]",
-  message: "No hex colors outside src/theme. Use theme palette tokens.",
-};
-const noRgb = {
-  selector: "Literal[value=/^(rgb|rgba|hsl|hsla)\\(/]",
-  message: "No raw color functions outside src/theme. Use theme palette tokens.",
-};
-const base = [noClassName, noHex, noRgb];
+Run `ppnpm run lint`. The [Oxlint configuration](.oxlintrc.json) is the authoritative
+rule set, including file-specific design exceptions and database import boundaries.
 
-export default [
-  // ...next + typescript configs...
-  {
-    files: ["src/**/*.{ts,tsx}"],
-    rules: {
-      "no-restricted-syntax": ["error", rawElements, noStyleProp, ...base],
-      "no-restricted-imports": ["error", {
-        paths: [
-          { name: "@mui/icons-material", message: "Import icons by path: @mui/icons-material/Name" },
-          { name: "@emotion/react", message: "Use keyframes from @mui/material/styles." },
-          { name: "@emotion/styled", message: "Use styled from @mui/material/styles." },
-        ],
-        patterns: [{
-          group: [
-            "tailwindcss*", "@radix-ui/*", "@headlessui/*", "@chakra-ui/*", "@mantine/*",
-            "antd", "@ant-design/*", "react-bootstrap", "bootstrap", "styled-components",
-            "lucide-react", "react-icons*", "@heroicons/*", "@fortawesome/*",
-            "recharts", "chart.js", "react-chartjs-2", "class-variance-authority",
-            "tailwind-merge", "sonner", "react-hot-toast",
-          ],
-          message: "UI must be MUI-only (DESIGN.md §1).",
-        }],
-      }],
-    },
-  },
-  // Approved exceptions (DESIGN.md §1.3)
-  { files: ["src/theme/**", "src/app/layout.tsx"], rules: { "no-restricted-syntax": "off" } },
-  { files: ["src/components/feedback/ConnectorLayer.tsx", "src/components/studio/ReadSweep.tsx",
-            "src/components/path/PathLine.tsx"],
-    rules: { "no-restricted-syntax": ["error", ...base] } },
-  { files: ["src/components/ui/icons/**"],
-    rules: { "no-restricted-syntax": ["error", noStyleProp, ...base] } },
-];
-```
-
-Tune the selectors after the first run; if one produces false positives, fix the selector, don't delete the rule.
+Oxlint's native Next.js, React, TypeScript, import and accessibility rules replace
+ESLint. The small [project plugin](scripts/oxlint-project-rules.mjs) preserves the
+existing syntax selectors because Oxlint has no native `no-restricted-syntax` rule.
+It rejects raw HTML, `style`, `className`, raw colors and internal MUI selectors
+outside the approved exceptions. Regression tests exercise the actual Oxlint CLI.
 
 ### 2.2 Dependency and stylesheet check (`scripts/check-design.mjs`)
 
@@ -152,7 +101,7 @@ console.log("Design rules: OK");
 
 ### 2.3 PR checklist (also for agent self-review)
 
-- [ ] `npm run lint` and `npm run check:design` pass
+- [ ] `pnpm run lint` and `pnpm run check:design` pass
 - [ ] Every new UI element maps to a row in §6 (or a new, approved row)
 - [ ] No hex/px literals outside `src/theme/`; no `style`/`className`
 - [ ] Works in light and dark, at `xs`, `md`, `lg`, and in English and Vietnamese

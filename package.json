@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "typecheck": "next typegen && tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "oxlint .",
     "check:design": "node scripts/check-design.mjs",
     "test": "vitest run",
     "test:e2e": "playwright test",
@@ -17,10 +17,11 @@
     "evals": "vitest run --config evals/vitest.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run format:check && npm run typecheck && npm run lint && npm run check:design && npm test",
+    "check": "pnpm run format:check && pnpm run typecheck && pnpm run lint && pnpm run check:design && pnpm test",
     "curriculum:seed": "node --env-file=.env --import tsx scripts/seed-curriculum.ts",
     "curriculum:generate": "GENERATE_CURRICULUM_LIVE=true node --env-file=.env --import tsx scripts/generate-curriculum.ts",
-    "test:journey": "playwright test --config playwright.journey.config.ts"
+    "test:journey": "playwright test --config playwright.journey.config.ts",
+    "preinstall": "node scripts/require-pnpm.mjs"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -52,12 +53,23 @@
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "eslint": "^10.12.0",
-    "eslint-config-next": "^16.4.0",
+    "oxlint": "^1.88.0",
     "prettier": "^3.9.10",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "vitest": "^5.0.4"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@12.14.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": "12.14.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.14.0",
+      "onFail": "error"
+    }
+  }
 }

@@ -17,7 +17,7 @@ See [track verification](../docs/verification/curriculum-tracks.md) for the curr
 
 ```sh
 python3 scripts/author-course.py
-npx tsx scripts/generate-curriculum.ts --validate
+pnpm exec tsx scripts/generate-curriculum.ts --validate
 ```
 
 The Python command regenerates both draft files and checks their Python constraints. The second command applies the application's actual Zod schema to both files and their combined identifiers. Neither command calls a provider or publishes content.
@@ -47,7 +47,7 @@ Open `/dev/preview/path?course=full&track=core` or `/dev/preview/path?course=ful
 ```
 
 7. Confirm the intended database and its backup. Existing databases need migrations through `0009_writing_course.sql` before seeding. No additional migration is required for track support.
-8. Run `npm run curriculum:seed` with the intended `DATABASE_URL`.
+8. Run `pnpm run curriculum:seed` with the intended `DATABASE_URL`.
 
 The seeder validates both approvals and combined content before opening a database connection. It upserts all 29 units in one transaction without deleting learner writing or progress. Missing or stale approval blocks the entire seed. On 2026-10-15, both tracks were approved by chinhCom and seeded to the hosted database: 29 units, 87 lessons.
 
@@ -57,11 +57,11 @@ Hosted migration `0009` was applied previously with user approval. See [hosted s
 
 `growth.draft.json` is a separate enrichment of the 21 Core units, approved by chinhCom on 2026-10-16. It preserves existing IDs. It contains 21 noticing exercises, 124 transfer items, 21 parallel checkpoint prompts, and 12 source-based tasks. Existing Core and IELTS sources and approvals are unchanged.
 
-Run `python3 scripts/author-growth.py` only when intentionally regenerating this draft. The command overwrites growth edits and resets approval. It formats the draft before computing the review hash. Run `npx vitest run tests/growth-content.test.ts` to validate the content contract.
+Run `python3 scripts/author-growth.py` only when intentionally regenerating this draft. The command overwrites growth edits and resets approval. It formats the draft before computing the review hash. Run `pnpm exec vitest run tests/growth-content.test.ts` to validate the content contract.
 
 The product owner must review span meanings, target/level fit, accepted answers, prompt difficulty, and source-based tasks. Record approval in `growth.review.json` with the same human-review fields shown above. Keep `approved: false` until that review is complete. Any regeneration resets approval and needs a new review.
 
-After release approval, database backup, and migrations through `0014_benchmark_context.sql`, use `GROWTH_CONTENT=true npm run curriculum:seed` with the intended database. This replaces Core content, not IELTS. The seed validates the exact growth hash and existing IELTS approval before opening a connection. The normal seed still selects the existing Core source. No growth-content publication or hosted migration occurred during implementation.
+After release approval, database backup, and migrations through `0014_benchmark_context.sql`, use `GROWTH_CONTENT=true pnpm run curriculum:seed` with the intended database. This replaces Core content, not IELTS. The seed validates the exact growth hash and existing IELTS approval before opening a connection. The normal seed still selects the existing Core source. No growth-content publication or hosted migration occurred during implementation.
 
 See [growth verification](../docs/verification/growth-loop.md#m6m9--local-content-and-behavior). Development samples: `/dev/preview/lesson-noticing`, `/dev/preview/practice-transfer`, `/dev/preview/progress`, and `/dev/preview/read-summary`.
 

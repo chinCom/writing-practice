@@ -12,7 +12,7 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: 'pnpm run dev',
     url: 'http://127.0.0.1:3000',
     // Target UI specs need the growth switch on; a reused server must also start with it.
     env: { GROWTH_TARGETS: 'true' },

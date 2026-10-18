@@ -20,7 +20,7 @@ the next starts. All changes remain local and uncommitted.
 
 ## Architectural guardrails
 
-- The [existing lint gate](../eslint.config.mjs) rejects database imports from HTTP,
+- The [existing lint gate](../.oxlintrc.json) rejects database imports from HTTP,
   Next.js and provider adapters while retaining the existing UI restrictions.
 - Shared result contracts contain types, not provider or database implementations.
 - Application operations receive verified ownership and validated input from their
