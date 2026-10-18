@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -179,11 +179,28 @@ function NavigationLinks({ pathname, onNavigate }: { pathname: string; onNavigat
   );
 }
 
-export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
+export default function AppNavigation({
+  signedIn,
+  collapsed,
+  onCollapsedChange,
+}: {
+  signedIn: boolean;
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+}) {
   const pathname = usePathname();
   const t = useTranslations('app');
   const [menuOpen, setMenuOpen] = useState(false);
   const active = activeItem(pathname);
+  const reopenButton = useRef<HTMLButtonElement>(null);
+  const collapseButton = useRef<HTMLButtonElement>(null);
+
+  function toggleSidebar() {
+    onCollapsedChange(!collapsed);
+    requestAnimationFrame(() => {
+      (collapsed ? collapseButton : reopenButton).current?.focus();
+    });
+  }
 
   function closeMenu() {
     setMenuOpen(false);
@@ -193,10 +210,14 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
     <ThemeProvider theme={navigationTheme}>
       <Drawer
         variant="permanent"
-        sx={{ display: { xs: 'none', md: 'block' }, width: (theme) => theme.layout.navWidth }}
+        sx={{
+          display: { xs: 'none', md: collapsed ? 'none' : 'block' },
+          width: (theme) => theme.layout.navWidth,
+        }}
         slotProps={{
           paper: {
             component: 'aside',
+            id: 'desktop-navigation',
             'aria-label': t('nav'),
             sx: {
               width: (theme) => theme.layout.navWidth - 16,
@@ -218,10 +239,41 @@ export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
       >
         <Box component="header" sx={{ pt: 0.75, pb: 3.5, px: 0.75 }}>
           <Logo />
+          <IconButton
+            ref={collapseButton}
+            aria-label={t('close')}
+            aria-expanded={!collapsed}
+            aria-controls="desktop-navigation"
+            onClick={toggleSidebar}
+            sx={{ mt: 1 }}
+          >
+            <CloseOutlined />
+          </IconButton>
         </Box>
         <NavigationLinks pathname={pathname} onNavigate={closeMenu} />
         <AccountFooter signedIn={signedIn} />
       </Drawer>
+      {collapsed ? (
+        <IconButton
+          ref={reopenButton}
+          aria-label={t('menu')}
+          aria-expanded={false}
+          aria-controls="desktop-navigation"
+          onClick={toggleSidebar}
+          sx={{
+            display: { xs: 'none', md: 'inline-flex' },
+            position: 'fixed',
+            insetBlockStart: 8,
+            insetInlineStart: 8,
+            zIndex: (theme) => theme.zIndex.appBar,
+            bgcolor: 'background.paper',
+            border: 1,
+            borderColor: 'divider',
+          }}
+        >
+          <MenuOutlined />
+        </IconButton>
+      ) : null}
       <AppBar
         position="fixed"
         elevation={0}

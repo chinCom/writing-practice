@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Alert from '@mui/material/Alert';
@@ -39,6 +39,7 @@ export default function AppShell({
   children: ReactNode;
   signedIn?: boolean;
 }) {
+  const [navigationCollapsed, setNavigationCollapsed] = useState(false);
   const pathname = usePathname();
   const t = useTranslations('app');
   const preview = pathname.startsWith('/dev/preview');
@@ -62,13 +63,17 @@ export default function AppShell({
     >
       <BackdropRibbons expansive={pathname === '/login'} />
       <SkipLink />
-      <AppNavigation signedIn={signedIn} />
+      <AppNavigation
+        signedIn={signedIn}
+        collapsed={navigationCollapsed}
+        onCollapsedChange={setNavigationCollapsed}
+      />
       <Box
         component="main"
         id="main"
         tabIndex={-1}
         sx={(theme) => ({
-          marginInlineStart: { md: theme.layout.navWidth + 'px' },
+          marginInlineStart: { md: navigationCollapsed ? 0 : theme.layout.navWidth + 'px' },
           paddingBlockStart: {
             xs: 'calc(' + theme.layout.topBarHeight + 'px + ' + theme.spacing(3) + ')',
             md: theme.spacing(6.5),

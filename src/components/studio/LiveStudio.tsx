@@ -142,18 +142,8 @@ export default function LiveStudio({
   return (
     <Stack sx={{ gap: 3 }}>
       <PageHeader title={app('write')} subtitle={t('subtitle')} note={app('paperNotes.studio')} />
-      <Box
-        sx={(theme) => ({
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: 'minmax(0, 1fr)',
-            lg: theme.layout.taskRail + 'px minmax(0, 1fr)',
-          },
-          gap: { xs: 2.5, lg: 3 },
-          alignItems: 'start',
-        })}
-      >
-        <Stack sx={{ gap: 2.5, order: { xs: 2, lg: 1 } }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 3 }}>
+        <Stack sx={{ gap: 2.5, minInlineSize: 0 }}>
           <Card sx={{ p: { xs: 2.5, md: 3 } }}>
             <TaskBrief
               onInsert={insertPhrase}
@@ -168,7 +158,6 @@ export default function LiveStudio({
             minInlineSize: 0,
             overflow: 'clip',
             boxShadow: (theme) => theme.shadows[1],
-            order: { xs: 1, lg: 2 },
           }}
         >
           <Stack

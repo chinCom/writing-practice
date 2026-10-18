@@ -7,10 +7,6 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import WritingCanvas from './WritingCanvas';
@@ -85,43 +81,16 @@ export default function Studio() {
   return (
     <Stack sx={{ gap: 3 }}>
       <PageHeader title={app('write')} subtitle={t('subtitle')} note={app('paperNotes.studio')} />
-      <Box
-        sx={(theme) => ({
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: 'minmax(0,1fr)',
-            lg: theme.layout.taskRail + 'px minmax(0,1fr)',
-          },
-          gap: { xs: 2.5, lg: 3 },
-          alignItems: 'start',
-        })}
-      >
-        <Stack sx={{ gap: 2.5, order: { xs: 2, lg: 1 } }}>
-          <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <Card sx={{ p: 3 }}>
-              <TaskBrief onInsert={insertPhrase} />
-            </Card>
-          </Box>
-          <Box sx={{ display: { lg: 'none' } }}>
-            <Accordion disableGutters elevation={0} defaultExpanded slots={{ heading: 'h2' }}>
-              <AccordionSummary expandIcon={<ExpandMore />}>
-                <Typography component="span" variant="h3">
-                  {t('title')}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <TaskBrief onInsert={insertPhrase} />
-              </AccordionDetails>
-            </Accordion>
-          </Box>
-        </Stack>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 3 }}>
+        <Card sx={{ p: { xs: 2.5, md: 3 }, minInlineSize: 0 }}>
+          <TaskBrief onInsert={insertPhrase} />
+        </Card>
         <Paper
           variant="outlined"
           sx={{
             display: 'flex',
             flexDirection: 'column',
             overflow: 'clip',
-            order: { xs: 1, lg: 2 },
           }}
         >
           <Stack

@@ -22,8 +22,8 @@
         "id": "ielts-task1-dynamic-charts-1",
         "title": "Paraphrasing the prompt and writing a Band 7+ Overview",
         "miniLesson": {
-          "markdown": "### The Golden Rule of IELTS Academic Task 1: Never Skip the Overview\nTo score **Band 7+ in Task Achievement**, your report needs a dedicated **Overview paragraph** (placed immediately after your 1-sentence introduction) that summarizes 2–3 macro trends across the entire period **without quoting specific numbers**.\n\n- **Paragraph 1 (Introduction)**: Paraphrase the chart title (`The line graph illustrates the proportion of households... between 2005 and 2025.`).\n- **Paragraph 2 (Overview)**: `Overall, it is clear that [Category A and B] followed an upward trend, whereas [Category C] declined steadily over the twenty-year period. Additionally, [Category A] became the most popular option by the end of the timeframe.`",
-          "modelText": "The line graph compares the percentage of commuters in a European city who used four different modes of transport—cars, buses, bicycles, and the metro—between 2000 and 2020.\n\nOverall, it is clear that metro and bicycle usage experienced significant growth over the twenty-year period, whereas reliance on private cars and buses declined. Notably, although cars were by far the most common transport choice in 2000, the metro overtook them to become the primary commuter mode by 2020.\n\nIn 2000, just over half of all commuters (52%) drove to work, while bus passengers accounted for 28% of the total. Over the next two decades, car usage fell steadily to 31% in 2020, and bus ridership dropped by half to 14%. Conversely, the share of metro commuters more than doubled from 15% in 2000 to a peak of 37% in 2020, surpassing cars in 2015. Similarly, cycling rose threefold from 5% to 18% over the same timeframe."
+          "markdown": "### The Golden Rule of IELTS Academic Task 1: Never Skip the Overview\nTo score **Band 7+ in Task Achievement**, your report needs a dedicated **Overview paragraph** (placed immediately after your 1-sentence introduction) that summarizes 2–3 macro trends across the entire period **without quoting specific numbers**.\n\n- **Paragraph 1 (Introduction)**: Paraphrase the chart title (`The line graph illustrates the proportion of households... between 2010 and 2020.`).\n- **Paragraph 2 (Overview)**: `Overall, it is clear that [Category A and B] followed an upward trend, whereas [Category C] declined steadily over the ten-year period. Additionally, [Category A] became the most popular option by the end of the timeframe.`",
+          "modelText": "The line graph compares the percentage of households in Country X with access to Fiber Broadband, Mobile 4G/5G Data, and Fixed Dial-Up/ADSL between 2010 and 2020.\n\nOverall, mobile data and fiber broadband access increased substantially, whereas access to fixed dial-up and ADSL declined. Mobile data overtook fixed dial-up and ADSL by 2015 and finished as the most widely available technology, while fixed connections became the least common.\n\nIn 2010, mobile data access stood at 20%, compared with just 12% for fiber broadband. These figures rose to 55% and 38%, respectively, in 2015. By 2020, mobile data had reached 88%, and fiber broadband had climbed to 74%, representing increases of 68 and 62 percentage points over the decade.\n\nBy contrast, fixed dial-up and ADSL access fell from 65% in 2010 to 40% in 2015, before dropping further to only 9% in 2020. Both growing technologies therefore finished the period well above fixed dial-up and ADSL."
         },
         "warmups": [
           {
@@ -32,27 +32,27 @@
             "options": [
               "The main overall trends and highest/lowest transitions without specific percentages or dates.",
               "Every single number from every year in the chart.",
-              "Your personal opinion on why people should ride bicycles."
+              "Your personal opinion on why households should use mobile data."
             ],
             "answer": "The main overall trends and highest/lowest transitions without specific percentages or dates.",
             "hint": "Save specific figures for Body Paragraphs 3 and 4; keep the Overview focused on macro trends."
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the verb meaning 'passed another line to become higher': 'The metro ___ private cars in 2015 to become the leading mode.'",
+            "prompt": "Select the verb meaning 'passed another line to become higher': 'Mobile data ___ fixed dial-up/ADSL by 2015.'",
             "options": ["overtook", "undertook", "mistook"],
             "answer": "overtook",
             "hint": "'overtook' (past of overtake) or 'surpassed' is ideal when two lines cross on a graph."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the preposition for the total change: 'Bus ridership dropped of 14% between 2000 and 2020.'",
+            "prompt": "Fix the preposition for the total change: 'Fixed dial-up/ADSL access dropped of 56 percentage points between 2010 and 2020.'",
             "options": [
-              "Bus ridership dropped by 14% between 2000 and 2020.",
-              "Bus ridership dropped of 14% between 2000 and 2020.",
-              "Bus ridership dropped at 14% between 2000 and 2020."
+              "Fixed dial-up/ADSL access dropped by 56 percentage points between 2010 and 2020.",
+              "Fixed dial-up/ADSL access dropped of 56 percentage points between 2010 and 2020.",
+              "Fixed dial-up/ADSL access dropped at 56 percentage points between 2010 and 2020."
             ],
-            "answer": "Bus ridership dropped by 14% between 2000 and 2020.",
+            "answer": "Fixed dial-up/ADSL access dropped by 56 percentage points between 2010 and 2020.",
             "hint": "With verbs of rise/fall, use 'by' for the size of the difference and 'to' for the final level."
           }
         ],
@@ -88,37 +88,37 @@
         "id": "ielts-task1-dynamic-charts-2",
         "title": "Varying trend structures: Verb+Adverb vs. Adjective+Noun",
         "miniLesson": {
-          "markdown": "### Boosting Grammatical Range in Trend Descriptions\nTo move from Band 6.0 to Band 7.5 in **Grammatical Range and Accuracy**, alternate between two core trend structures:\n\n1. **`Subject + Verb + Adverb`**: `Solar generation rose sharply from 10% to 35%.`\n2. **`There was a + Adjective + Noun + in...` / `Subject + experienced a + Adjective + Noun`**: `Solar generation experienced a sharp rise over the decade.`",
-          "modelText": "The bar chart illustrates annual electricity generation by source—coal, natural gas, and renewables—in terawatt-hours (TWh) in a Southeast Asian nation from 2012 to 2022.\n\nOverall, total renewable electricity output expanded dramatically over the decade, while coal-fired generation followed a downward trajectory after 2017. Natural gas remained a stable contributor throughout the ten-year period.\n\nIn 2012, coal generated 120 TWh of electricity, making it the dominant power source. After reaching a peak of 135 TWh in 2017, coal output experienced a noticeable decline, falling to 90 TWh by 2022. Meanwhile, natural gas saw minor fluctuations between 75 TWh and 82 TWh across the entire decade. In contrast, renewable energy—comprising solar and wind—started at a modest 15 TWh in 2012 and grew gradually to 30 TWh in 2017. Over the final five years, there was a dramatic surge in renewable output, which climbed more than threefold to finish at 105 TWh in 2022, overtaking coal for the first time."
+          "markdown": "### Boosting Grammatical Range in Trend Descriptions\nTo move from Band 6.0 to Band 7.5 in **Grammatical Range and Accuracy**, alternate between two core trend structures:\n\n1. **`Subject + Verb + Adverb`**: `Audiobook sales rose sharply from 12 million to 74 million copies.`\n2. **`There was a + Adjective + Noun + in...` / `Subject + experienced a + Adjective + Noun`**: `Audiobook sales experienced a sharp rise over the decade.`",
+          "modelText": "The bar chart illustrates annual book sales in the UK across three formats—Hardcover Print, E-books, and Audiobooks—in millions of copies between 2014 and 2024.\n\nOverall, audiobook sales rose sharply over the decade, while e-book sales followed a downward trajectory. Hardcover print sales remained relatively stable and were the highest of the three formats at every recorded point.\n\nIn 2014, hardcover sales stood at 80 million copies, compared with 65 million for e-books and just 12 million for audiobooks. Hardcover sales experienced a slight decline to 78 million in 2019 before recovering to 82 million in 2024. Meanwhile, e-book sales fell steadily to 50 million in 2019 and then to 38 million by the end of the period.\n\nIn contrast, there was a dramatic surge in audiobook sales, which climbed to 35 million in 2019 and reached 74 million in 2024. Audiobooks thus overtook e-books by the final year, although they remained below hardcover print."
         },
         "warmups": [
           {
             "type": "gap-fill",
-            "prompt": "Convert 'rose sharply' into an adjective+noun phrase: 'Over the final five years, there was a ___ in renewable output.'",
+            "prompt": "Convert 'rose sharply' into an adjective+noun phrase: 'Over the decade, there was a ___ in audiobook sales.'",
             "options": ["sharp rise", "sharply rise", "rose sharp"],
             "answer": "sharp rise",
             "hint": "After 'there was a...', use an adjective ('sharp') + singular noun ('rise' / 'surge')."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the preposition after the noun 'decline': 'Coal output experienced a noticeable decline of 90 TWh in 2022 (from 135 TWh).'",
+            "prompt": "Fix the preposition after the noun 'decline': 'E-book sales experienced a noticeable decline of 38 million copies in 2024 (from 65 million).'",
             "options": [
-              "Coal output experienced a noticeable decline to 90 TWh in 2022.",
-              "Coal output experienced a noticeable decline at 90 TWh in 2022.",
-              "Coal output experienced a noticeable decline on 90 TWh in 2022."
+              "E-book sales experienced a noticeable decline to 38 million copies in 2024.",
+              "E-book sales experienced a noticeable decline at 38 million copies in 2024.",
+              "E-book sales experienced a noticeable decline on 38 million copies in 2024."
             ],
-            "answer": "Coal output experienced a noticeable decline to 90 TWh in 2022.",
-            "hint": "Use 'a decline to [final number]' or 'a decline of [difference: 45 TWh]'."
+            "answer": "E-book sales experienced a noticeable decline to 38 million copies in 2024.",
+            "hint": "Use 'a decline to [final number]' or 'a decline of [difference: 27 million copies]'."
           },
           {
             "type": "choose",
             "prompt": "Which participle phrase cleanly attaches a final milestone to the end of a sentence?",
             "options": [
-              "...climbed to 105 TWh in 2022, overtaking coal for the first time.",
-              "...climbed to 105 TWh in 2022, overtake coal for the first time.",
-              "...climbed to 105 TWh in 2022, and overtook is coal."
+              "...climbed to 74 million copies in 2024, overtaking e-books for the first time.",
+              "...climbed to 74 million copies in 2024, overtake e-books for the first time.",
+              "...climbed to 74 million copies in 2024, and overtook is e-books."
             ],
-            "answer": "...climbed to 105 TWh in 2022, overtaking coal for the first time.",
+            "answer": "...climbed to 74 million copies in 2024, overtaking e-books for the first time.",
             "hint": "Adding ', overtaking...' or ', reaching a peak of...' boosts grammatical range naturally."
           }
         ],
@@ -155,12 +155,12 @@
         "title": "Checkpoint: Full 20-year dynamic line graph report",
         "miniLesson": {
           "markdown": "### IELTS Unit 1 Checkpoint: Unassisted Dynamic Graph Report\nGroup your detailed figures into two logical body paragraphs (e.g., **Paragraph 3: Rising Categories** and **Paragraph 4: Falling/Stable Categories**) so the examiner sees clear **Coherence and Cohesion**.",
-          "modelText": "The line graph illustrates the average monthly household expenditure (in US dollars) on three communication categories—landline telephone calls, mobile phone plans, and home broadband internet—in an Asian country between 2004 and 2024.\n\nOverall, household spending on mobile plans and home broadband increased substantially over the twenty-year period, whereas expenditure on traditional landline calls plummeted. Although landline services represented the largest monthly expense in 2004, mobile plans became the highest-spending category from 2012 onward.\n\nIn 2004, families spent an average of $45 per month on landline calls, compared with $22 on mobile plans and just $10 on home internet. Over the following decade, landline spending experienced a steep drop to $18 in 2014 before falling further to a negligible $4 per month by 2024. In contrast, monthly expenditure on mobile plans surged past landlines in 2010 and reached $68 in 2024, more than tripling its initial figure. Similarly, broadband spending grew steadily throughout the period, rising fivefold from $10 in 2004 to $52 in 2024."
+          "modelText": "The line graph illustrates the percentage of total retail sales made through Large Supermarkets, Independent Local Shops, and Online E-Commerce in Country Y between 2005 and 2025.\n\nOverall, the share of online sales increased substantially over the twenty-year period, whereas both physical retail channels lost market share. Large supermarkets remained the leading channel throughout, although online e-commerce had become the second-largest channel by the final year.\n\nIn 2005, online e-commerce accounted for only 6% of total sales. Its share rose to 22% in 2015 before climbing further to 38% in 2025, an increase of 32 percentage points over the period. Online sales therefore finished well above independent local shops.\n\nBy contrast, large supermarkets saw a gradual decline from 58% in 2005 to 54% in 2015 and 49% in 2025. Independent local shops experienced a steeper fall, dropping from 36% to 24% and then to 13% at the same three points. Their final share was less than half their initial figure."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "Why is grouping rising categories in one body section and falling categories in another better than describing 2004, then 2008, then 2012 year by year?",
+            "prompt": "Why is grouping rising categories in one body section and falling categories in another better than describing 2005, then 2015, then 2025 year by year?",
             "options": [
               "Grouping by trend pattern highlights analytical comparisons instead of producing a mechanical list.",
               "It lets you skip half the lines on the graph.",
@@ -171,21 +171,21 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the precise adverbial multiplier: 'Broadband spending rose ___ from $10 in 2004 to $50 in 2024.'",
+            "prompt": "Select the precise adverbial multiplier: 'Online retail share rose from 6% to 38%, increasing more than ___ over the period.'",
             "options": ["fivefold", "five-times-ly", "fifth"],
             "answer": "fivefold",
             "hint": "Use 'twofold / threefold / fivefold' right after the verb to express exact multiplication."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the verb tense for a finished historical range (2004–2024): 'In 2004, families spend $45 on landline calls.'",
+            "prompt": "Fix the verb tense for a finished historical range (2005–2025): 'In 2005, supermarkets account for 58% of retail sales.'",
             "options": [
-              "In 2004, families spent $45 on landline calls.",
-              "In 2004, families spend $45 on landline calls.",
-              "In 2004, families have spent $45 on landline calls."
+              "In 2005, supermarkets accounted for 58% of retail sales.",
+              "In 2005, supermarkets account for 58% of retail sales.",
+              "In 2005, supermarkets have accounted for 58% of retail sales."
             ],
-            "answer": "In 2004, families spent $45 on landline calls.",
-            "hint": "Always use the past simple ('spent') for completed past years."
+            "answer": "In 2005, supermarkets accounted for 58% of retail sales.",
+            "hint": "Always use the past simple ('accounted') for completed past years."
           }
         ],
         "task": {
@@ -242,15 +242,15 @@
         "title": "Describing proportions and fractions in pie charts and tables",
         "miniLesson": {
           "markdown": "### Translating Raw Percentages into Varied Proportion Phrases\nWhen a static chart has no time movement, avoid using *rose* or *fell*! Instead, vary how you express **shares and proportions** by alternating exact percentages with clean fraction phrases:\n\n- `49%` → *just under half of the total (49%)*\n- `33%` → *roughly one-third (33%)*\n- `26%` → *slightly more than a quarter (26%)*\n- `76%` → *just over three-quarters (76%)*",
-          "modelText": "The two pie charts compare the proportion of household water consumption across five domestic activities in Sydney and Tokyo in 2023.\n\nOverall, outdoor garden watering accounted for the largest share of residential water use in Sydney, whereas indoor bathroom activities—specifically showers and baths—dominated consumption in Tokyo. Kitchen water use represented the smallest category in both cities.\n\nIn Sydney, garden irrigation consumed just over two-fifths (42%) of total household water, which was more than four times the figure recorded in Tokyo (9%). Showers and baths ranked second in Sydney at roughly one-quarter (24%), followed by laundry at 18% and toilet flushing at 10%. By contrast, households in Tokyo used nearly half of their water (46%) for showers and baths, nearly double Sydney's share. Laundry and toilet flushing in Tokyo accounted for 22% and 16% respectively, while kitchen dishwashing and cooking made up a mere 6% in Sydney and 7% in Tokyo."
+          "modelText": "The pie charts compare how university students in Domestic Dormitories and Off-Campus Apartments allocated their monthly living budget across four categories in 2024.\n\nOverall, housing and utilities took the largest share in both settings, particularly for apartment residents. Dormitory students devoted larger proportions to food and groceries and to leisure and books, while transport represented the smallest share of their budget.\n\nHousing and utilities accounted for 38% of spending in dormitories, compared with just over half, or 52%, in apartments. Food and groceries represented roughly one-third of the dormitory budget at 32%, whereas the corresponding apartment figure was approximately one-fifth, at 21%.\n\nLeisure and books made up 24% and 12% of expenditure in dormitories and apartments respectively, meaning that the dormitory share was exactly twice the apartment figure. By contrast, transport absorbed only 6% of dormitory spending but 15% of apartment spending. Together, housing and transport therefore accounted for 44% of the dormitory budget, substantially below the 67% recorded for apartment residents."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "Why must you NEVER write 'Garden watering rose to 42%' when describing a single-year 2023 pie chart?",
+            "prompt": "Why must you NEVER write 'Housing rose to 38%' when describing a single-year 2024 pie chart?",
             "options": [
               "Because a static single-year chart shows fixed shares at one point in time, not trends.",
-              "Because 42% is smaller than 9%.",
+              "Because 38% is smaller than 6%.",
               "Because pie charts never contain numbers."
             ],
             "answer": "Because a static single-year chart shows fixed shares at one point in time, not trends.",
@@ -258,20 +258,20 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the accurate fraction approximation for 24%: 'Showers ranked second in Sydney at ___ (24%).'",
+            "prompt": "Select the accurate fraction approximation for 24%: 'Leisure and books accounted for ___ of dormitory spending (24%).'",
             "options": ["roughly one-quarter", "nearly three-quarters", "just over half"],
             "answer": "roughly one-quarter",
             "hint": "25% is one-quarter, so 24% is 'roughly one-quarter' or 'just under a quarter'."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the placement of 'respectively': 'Laundry and toilet flushing accounted for respectively 22% and 16%.'",
+            "prompt": "Fix the placement of 'respectively': 'Housing and transport accounted for respectively 52% and 15%.'",
             "options": [
-              "Laundry and toilet flushing accounted for 22% and 16% respectively.",
-              "Respective laundry and toilet flushing accounted for 22% and 16%.",
-              "Laundry and toilet flushing accounted for respectively 22% and 16%."
+              "Housing and transport accounted for 52% and 15% respectively.",
+              "Respective housing and transport accounted for 52% and 15%.",
+              "Housing and transport accounted for respectively 52% and 15%."
             ],
-            "answer": "Laundry and toilet flushing accounted for 22% and 16% respectively.",
+            "answer": "Housing and transport accounted for 52% and 15% respectively.",
             "hint": "Place 'respectively' at the end of the clause after the two paired numbers."
           }
         ],
@@ -307,38 +307,38 @@
         "id": "ielts-task1-static-comparisons-2",
         "title": "Grouping multi-row tables by highs, lows, and outliers",
         "miniLesson": {
-          "markdown": "### Conquering Complex Tables: Group by Pattern, Not Row by Row\nWhen given a 5-row by 4-column table, describing every cell in order creates a confusing wall of numbers. Instead, divide your body paragraphs into **Group 1 (Top-Ranking Rows / Outliers)** and **Group 2 (Lower-Ranking Rows / Narrow Gaps)**.",
-          "modelText": "The table compares five countries—Norway, South Korea, Germany, Brazil, and Vietnam—in terms of electric vehicle (EV) market share, public charging stations per 100,000 residents, and average government purchase subsidies in 2024.\n\nOverall, Norway led by a wide margin in both EV adoption and charging density despite offering tax exemptions rather than direct cash subsidies, whereas South Korea maintained the highest density of public chargers relative to its moderate EV share. Brazil recorded the lowest figures across all three indicators.\n\nNorway stood out as a clear outlier in adoption, with electric models accounting for 82% of new car sales and 490 public chargers per 100,000 residents. Germany and South Korea occupied the middle tier of vehicle sales at 24% and 16% respectively, matched by substantial buyer subsidies of $4,800 and $5,200. Remarkably, however, South Korea boasted 510 public chargers per 100,000 people—slightly higher than Norway's network. By contrast, Vietnam (14% EV share) outpaced Brazil (4% EV share) more than threefold in adoption, even though both emerging markets had fewer than 45 public chargers per 100,000 residents."
+          "markdown": "### Conquering Complex Tables: Group by Pattern, Not Row by Row\nWhen given a 4-city by 3-metric table, describing every cell in order creates a confusing wall of numbers. Instead, divide your body paragraphs into **Group 1 (Top-Ranking Rows / Outliers)** and **Group 2 (Lower-Ranking Rows / Narrow Gaps)**.",
+          "modelText": "The table compares Singapore, Zurich, Taipei, and Bangkok in 2024 in terms of public transport use, the average monthly pass price, and the average duration of a one-way commute.\n\nOverall, Singapore and Zurich had the highest public transit shares, while Bangkok combined the lowest share with the longest commute. Zurich had by far the most expensive pass but the shortest journey time, whereas Taipei offered the cheapest pass.\n\nPublic transport accounted for 67% of commutes in Singapore, slightly higher than Zurich's 64%. Their average journey times were 38 and 31 minutes respectively. However, a monthly pass cost $185 in Zurich, compared with $95 in Singapore, making the Swiss city's pass almost twice as expensive.\n\nTaipei recorded a transit share of 58%, exactly double Bangkok's 29%. Its monthly pass also cost less, at $42 rather than $48. Despite these relatively similar pass prices, average commute times differed considerably: Taipei's figure was 36 minutes, while Bangkok's was 54 minutes, the longest among the four cities."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "What makes South Korea 'remarkable' in the model table report?",
+            "prompt": "What makes Zurich stand out in the model table report?",
             "options": [
-              "It had the highest charger density (510) despite having a moderate 16% EV sales share.",
-              "It had 0% electric vehicles.",
-              "It is located in Europe."
+              "It had the most expensive pass ($185) but the shortest commute (31 minutes).",
+              "It had no public transport.",
+              "It had the cheapest pass."
             ],
-            "answer": "It had the highest charger density (510) despite having a moderate 16% EV sales share.",
-            "hint": "Spotting where a country breaks the expected ranking pattern ('Remarkably, however,...') is a Band 8 analytical skill."
+            "answer": "It had the most expensive pass ($185) but the shortest commute (31 minutes).",
+            "hint": "Spotting where a city breaks the expected ranking pattern ('Remarkably, however,...') is a Band 8 analytical skill."
           },
           {
             "type": "gap-fill",
-            "prompt": "Complete the precision modifier before a comparative adjective: 'South Korea's charger density was ___ higher than Norway's network.'",
+            "prompt": "Complete the precision modifier before a comparative adjective: 'Singapore's public transit share was ___ higher than Zurich's.'",
             "options": ["slightly", "very", "more"],
             "answer": "slightly",
             "hint": "Use 'slightly / marginally / substantially / far' before a comparative adjective ('higher')."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the comparative structure: 'Norway's EV share was over three times higher as Germany's.'",
+            "prompt": "Fix the comparative structure: 'Taipei's transit share was twice higher as Bangkok's.'",
             "options": [
-              "Norway's EV share was over three times as high as Germany's.",
-              "Norway's EV share was over three times higher as Germany's.",
-              "Norway's EV share was over three times high than Germany's."
+              "Taipei's transit share was twice as high as Bangkok's.",
+              "Taipei's transit share was twice higher as Bangkok's.",
+              "Taipei's transit share was twice high than Bangkok's."
             ],
-            "answer": "Norway's EV share was over three times as high as Germany's.",
-            "hint": "Use 'three times as [adjective] as' (or 'three times higher than')."
+            "answer": "Taipei's transit share was twice as high as Bangkok's.",
+            "hint": "Use 'twice as high as' to compare a value with another value half its size."
           }
         ],
         "task": {
@@ -374,36 +374,36 @@
         "title": "Checkpoint: Clustered bar chart across age groups or genders",
         "miniLesson": {
           "markdown": "### IELTS Unit 2 Checkpoint: Comparing Demographic Patterns\nIn clustered bar charts comparing age brackets or genders, organize your report around **where the groups diverge sharply** versus **where they behave similarly**.",
-          "modelText": "The clustered bar chart compares the percentage of people in three age brackets (18–29, 30–49, and 50+) who participated in five leisure activities—jogging, team sports, gym workouts, cycling, and gardening—in Australia in 2024.\n\nOverall, physical participation preferences shifted markedly with age: younger adults strongly favored gym workouts and team sports, whereas gardening was overwhelmingly dominated by the 50+ age group. In contrast, cycling attracted a relatively similar share of participants across all three generations.\n\nAmong 18-to-29-year-olds, gym workouts were the most popular activity at 44%, followed closely by team sports at 36%. Participation in both categories declined progressively in older brackets, with only 14% of people aged 50 and over using a gym and just 7% playing team sports. Conversely, gardening showed the opposite pattern, engaging 48% of the 50+ cohort compared with 22% of 30–49-year-olds and a mere 6% of young adults. Meanwhile, jogging peaked in the 30–49 bracket at 34%, while cycling remained steady across all ages between 19% and 23%."
+          "modelText": "The clustered bar chart compares the primary news sources of three age groups, 18–29, 30–49, and 50+, in 2024 across four categories: Social Media Apps, Online News Websites, Television News, and Print/Radio.\n\nOverall, social media was the leading source among the youngest adults, whereas television dominated in the oldest group. Those aged 30–49 preferred online news websites, while print and radio attracted the smallest share in every age bracket.\n\nAmong 18-to-29-year-olds, social media apps accounted for 54%, compared with 31% among people aged 30–49 and only 12% among those aged 50 and over. Television showed the opposite pattern across the age groups, representing 11%, 20%, and 49% respectively.\n\nOnline news websites were the primary source for 28% of the youngest group. Their share peaked in the 30–49 bracket at 42%, before standing at 30% in the oldest group. Print and radio remained relatively similar across all three groups, at 7% for each of the two younger brackets and 9% for people aged 50+."
         },
         "warmups": [
           {
             "type": "choose",
             "prompt": "What are the three structural patterns identified in the model's body paragraphs?",
             "options": [
-              "Activities that fall with age, activities that rise with age, and age-neutral activities.",
-              "Activities done on Monday, Tuesday, and Wednesday.",
+              "Sources that decline with age, sources that rise, and sources with similar shares.",
+              "Sources used on Monday, Tuesday, and Wednesday.",
               "Only the numbers for 18-29-year-olds."
             ],
-            "answer": "Activities that fall with age, activities that rise with age, and age-neutral activities.",
-            "hint": "Grouping categories by their demographic direction makes a 15-bar chart effortless to read."
+            "answer": "Sources that decline with age, sources that rise, and sources with similar shares.",
+            "hint": "Grouping categories by their demographic direction makes a 12-bar chart effortless to read."
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the verb that shows a category reaching its highest level in the middle group: 'Jogging ___ in the 30–49 bracket at 34%.'",
+            "prompt": "Select the verb that shows a category reaching its highest level in the middle group: 'Online news website use ___ in the 30–49 bracket at 42%.'",
             "options": ["peaked", "plummeted", "vanished"],
             "answer": "peaked",
             "hint": "'peaked in [group] at [X]%' works for both time peaks and demographic peaks."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the hyphenation in the plural age noun: 'Among 18-to-29-years-old, gym workouts were the top choice.'",
+            "prompt": "Fix the hyphenation in the plural age noun: 'Among 18-to-29-years-old, social media apps were the top choice.'",
             "options": [
-              "Among 18-to-29-year-olds, gym workouts were the top choice.",
-              "Among 18-to-29-years-old, gym workouts were the top choice.",
-              "Among 18-to-29-year-old, gym workouts were the top choice."
+              "Among 18-to-29-year-olds, social media apps were the top choice.",
+              "Among 18-to-29-years-old, social media apps were the top choice.",
+              "Among 18-to-29-year-old, social media apps were the top choice."
             ],
-            "answer": "Among 18-to-29-year-olds, gym workouts were the top choice.",
+            "answer": "Among 18-to-29-year-olds, social media apps were the top choice.",
             "hint": "The plural noun form puts '-s' at the very end: '18-to-29-year-olds'."
           }
         ],
@@ -461,7 +461,7 @@
         "title": "Calibrating salutations, contractions, and sign-offs across letter types",
         "miniLesson": {
           "markdown": "### The 3 Registers of IELTS General Training Task 1\nExaminers grade **Tone consistency** under Task Achievement. Match your opening, grammar, and sign-off strictly:\n\n1. **Formal** (*Dear Sir or Madam,* → no contractions → *Yours faithfully,*)\n2. **Semi-Formal** (*Dear Mr. / Ms. [Surname],* → polite modals, no slang → *Yours sincerely,* or *Best regards,*)\n3. **Informal** (*Dear [First Name],* / *Hi [First Name],* → natural contractions like *I'm*, *you'll* → *Best wishes,* or *Warmly,*)",
-          "modelText": "Dear Mr. Harrison,\n\nI am writing to inform you that I will be away from my apartment in Unit 12B for three weeks next month, from November 4 to November 25, as I am traveling to Singapore for a company training program.\n\nWhile I am abroad, my younger brother, Minh, will be staying in my flat to water my balcony plants and collect my mail. I have already given him a spare key and explained the building's recycling and quiet-hour rules, so there will be no disruption to the neighbors. In case you need to reach him urgently, his mobile number is 0912-345-678.\n\nAdditionally, I noticed yesterday that the rubber seal around the bathroom window is loose, allowing rainwater to drip onto the sill during heavy storms. Since Minh works remotely from the apartment on weekdays, I would be very grateful if your maintenance technician could replace the window seal during the second week of November. Please let me know which morning suits your schedule.\n\nYours sincerely,\nLan Anh"
+          "modelText": "Dear Mr. Davis,\n\nI am writing to inform you that I will be away from my apartment in Unit 12B for three weeks next month, from November 4 to November 25, as I am traveling to Singapore for a company training program.\n\nWhile I am abroad, my younger brother, Minh, will be staying in my flat to water my balcony plants and collect my mail. I have already given him a spare key and explained the building's recycling and quiet-hour rules, so there will be no disruption to the neighbors. In case you need to reach him urgently, his mobile number is 0912-345-678.\n\nAdditionally, I noticed yesterday that the rubber seal around the bathroom window is loose, allowing rainwater to drip onto the sill during heavy storms. Since Minh works remotely from the apartment on weekdays, I would be very grateful if your maintenance technician could replace the window seal during the second week of November. Please let me know which morning suits your schedule.\n\nYours sincerely,\nLan Anh"
         },
         "warmups": [
           {
@@ -680,37 +680,37 @@
         "title": "Describing man-made processes with present simple passive and sequencers",
         "miniLesson": {
           "markdown": "### Mastering Process Diagrams: Present Simple Passive + Stage Grouping\nIn a manufacturing or recycling diagram, the focus is on **what happens to the material**, not who operates the machine. Use the **present simple passive** (`is harvested`, `are crushed`, `is subsequently heated`) and divide the Overview into **total stages + where the cycle begins and ends**.",
-          "modelText": "The diagram illustrates how used glass bottles are recycled into new containers. Overall, this is a repeating cycle with three broad phases: collection and preparation, crushing and melting, and production of replacement bottles. Finished containers return to beverage companies for reuse.\n\nFirst, consumers place empty bottles in local collection bins. Trucks then carry them to a sorting plant, where water jets remove labels and other residue. The clean bottles are separated into clear, green, and brown glass before entering a crusher.\n\nNext, the resulting fragments, known as cullet, are mixed with a small amount of silica sand. The mixture is heated in a furnace until it becomes liquid. This molten glass is poured into molds to form new bottles, which gradually cool on a conveyor belt. Finally, workers inspect the containers for defects before sending them to beverage producers. Collection starts the cycle again once consumers have emptied the new bottles."
+          "modelText": "The diagram illustrates the seven stages used to manufacture freeze-dried instant coffee from raw coffee beans, beginning with harvesting and ending with the packaging of dry granules.\n\nOverall, the process moves from preparing the beans to extracting liquid coffee and then removing water through freezing and sublimation. The final product is sealed in airtight jars after the frozen concentrate has been processed into dry granules.\n\nFirst, the beans are harvested and dried in the sun. They are then roasted at 200°C before being ground into a coarse powder. Next, this powder is dissolved in hot water so that liquid coffee concentrate can be extracted.\n\nThe concentrate is subsequently frozen to -45°C on a belt, producing a frozen slab. This slab is milled into granules, which are then placed in a vacuum chamber. During this stage, the ice is removed by sublimation, leaving dry coffee granules. Finally, the resulting granules are sealed in airtight jars, completing the production process."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "Why do process reports primarily use the present simple passive ('are washed', 'is heated') rather than active past tense?",
+            "prompt": "Why do process reports primarily use the present simple passive ('are harvested', 'is frozen') rather than active past tense?",
             "options": [
               "Because a process diagram shows a repeatable procedure focused on the material itself.",
               "Because industrial machines took place in the 19th century.",
               "Because active verbs are banned in English."
             ],
             "answer": "Because a process diagram shows a repeatable procedure focused on the material itself.",
-            "hint": "Present simple passive keeps the material ('the glass', 'the mixture') as the grammatical topic across stages."
+            "hint": "Present simple passive keeps the material ('the beans', 'the concentrate') as the grammatical topic across stages."
           },
           {
             "type": "gap-fill",
-            "prompt": "Combine two stages with a preposition + passive gerund: 'The bottles are washed with water jets ___ sorted by color.'",
+            "prompt": "Combine two stages with a preposition + passive gerund: 'The beans are roasted ___ ground into a coarse powder.'",
             "options": ["before being", "before be", "after been"],
             "answer": "before being",
-            "hint": "'before being + past participle' ('before being sorted') links two passive stages smoothly."
+            "hint": "'before being + past participle' ('before being ground') links two passive stages smoothly."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the passive verb agreement: 'The crushed glass fragments is heated in a furnace.'",
+            "prompt": "Fix the passive verb agreement: 'The raw coffee beans is dried in the sun.'",
             "options": [
-              "The crushed glass fragments are heated in a furnace.",
-              "The crushed glass fragments is heated in a furnace.",
-              "The crushed glass fragments been heated in a furnace."
+              "The raw coffee beans are dried in the sun.",
+              "The raw coffee beans is dried in the sun.",
+              "The raw coffee beans been dried in the sun."
             ],
-            "answer": "The crushed glass fragments are heated in a furnace.",
-            "hint": "Plural 'fragments' requires 'are heated'."
+            "answer": "The raw coffee beans are dried in the sun.",
+            "hint": "Plural 'beans' requires 'are dried'."
           }
         ],
         "task": {
@@ -722,13 +722,13 @@
           "frames": [],
           "wordBank": [
             "illustrates",
-            "divided into",
             "subsequently",
             "before being",
-            "where it is",
-            "molten",
-            "conveyor belt",
-            "dispatched"
+            "concentrate",
+            "frozen",
+            "granules",
+            "vacuum chamber",
+            "sublimation"
           ],
           "checklist": [
             "State the total number of stages and group them into 2-3 macro phases in the Overview",
@@ -745,38 +745,38 @@
         "id": "ielts-task1-processes-maps-2",
         "title": "Describing before-and-after maps with compass directions and transformation verbs",
         "miniLesson": {
-          "markdown": "### Map Reports: Spatial Anchoring & Transformation Verbs\nWhen comparing a town or campus map across two years (e.g., 1995 vs. Today), anchor every location using **cardinal directions** (*in the northwest corner*, *along the southern bank*, *adjacent to*) and precise **transformation verbs**:\n\n- **Buildings**: *demolished, knocked down, replaced by, converted into, expanded*\n- **Trees/Green space**: *cleared, felled, chopped down to make way for*\n- **Roads/Zones**: *pedestrianized, extended, relocated*",
-          "modelText": "The maps compare Seaview in 1995 with its present layout. Overall, the town has changed from a fishing and agricultural settlement into a residential and tourist destination. The central street is now pedestrianized, while the historic cafe remains in place.\n\nIn the north, farmland has been replaced by a golf course. Part of the woodland to the northeast has also been cleared for holiday apartments and tennis courts. On the western seafront, a seafood restaurant now occupies the former fish market site, opposite the unchanged cafe. These developments have substantially reduced the area used for agriculture.\n\nAlong the southern coast, the fishing docks have become a yacht marina with a landscaped boardwalk. The former main road through the town center has been closed to vehicles and converted into a pedestrian shopping area. A new bus terminal on the eastern edge provides access to the town without requiring vehicles to enter this central zone."
+          "markdown": "### Map Reports: Spatial Anchoring & Transformation Verbs\nWhen comparing a town or campus map across two years (e.g., 2005 vs. Today), anchor every location using **cardinal directions** (*in the northwest corner*, *along the southern bank*, *adjacent to*) and precise **transformation verbs**:\n\n- **Buildings**: *demolished, knocked down, replaced by, converted into, expanded*\n- **Trees/Green space**: *cleared, felled, chopped down to make way for*\n- **Roads/Zones**: *pedestrianized, extended, relocated*",
+          "modelText": "The maps compare the layout of Riverside University Library in 2005 with its present arrangement.\n\nOverall, the library has shifted from printed resources and manual borrowing services toward digital media and collaborative study. Most areas have changed their function, although the silent individual desks in the southwest have remained unchanged.\n\nIn 2005, printed book shelves occupied the northwestern section, while newspapers and magazines were located in the northeast. Today, the printed shelves have been reduced by half to accommodate an Audio/Podcast Studio. The newspaper and magazine area has been replaced by a Digital Archive Room.\n\nAt the center, the large manual borrowing and return desk has been removed, creating space for an Open Collaborative Lounge. In the southeast, the former bookshop has been converted into a Cafe, with self-service checkout machines positioned adjacent to the entrance. By contrast, the silent individual desks still occupy the southwestern section. The current layout therefore retains space for quiet individual work while adding facilities for group study and digital production."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "Which verb phrase is specifically appropriate for removing trees or forest on a map?",
+            "prompt": "Which phrase correctly describes the change in the southeastern library area?",
             "options": [
-              "The trees in the northeast were felled / cleared to make way for apartments.",
-              "The trees in the northeast were demolished and renovated.",
-              "The trees were pedestrianized into apartments."
+              "The bookshop was converted into a cafe.",
+              "The bookshop was felled into a cafe.",
+              "The bookshop was pedestrianized into a cafe."
             ],
-            "answer": "The trees in the northeast were felled / cleared to make way for apartments.",
-            "hint": "Buildings are 'demolished/knocked down', whereas trees and forests are 'felled/cleared/cut down'."
+            "answer": "The bookshop was converted into a cafe.",
+            "hint": "Use 'converted into' when an existing space changes its function."
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the precise spatial phrase: 'The historic cafe ___ across the road remained unchanged.'",
-            "options": ["directly opposite", "in the middle of", "on top"],
-            "answer": "directly opposite",
-            "hint": "'directly opposite' or 'adjacent to' gives the reader exact spatial orientation."
+            "prompt": "Select the precise spatial phrase: 'The checkout machines are ___ the entrance.'",
+            "options": ["adjacent to", "inside of", "on top"],
+            "answer": "adjacent to",
+            "hint": "'Adjacent to' means next to a feature shown on the map."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the compass preposition: 'A new bus terminal was built in the eastern outskirts of the town.'",
+            "prompt": "Fix the location preposition: 'An Audio/Podcast Studio was added on the northwest corner of the library.'",
             "options": [
-              "A new bus terminal was built on the eastern outskirts of the town.",
-              "A new bus terminal was built in the eastern outskirts of the town.",
-              "A new bus terminal was built at the eastern outskirts of the town."
+              "An Audio/Podcast Studio was added in the northwest corner of the library.",
+              "An Audio/Podcast Studio was added on the northwest corner of the library.",
+              "An Audio/Podcast Studio was added above the northwest corner of the library."
             ],
-            "answer": "A new bus terminal was built on the eastern outskirts of the town.",
-            "hint": "Standard collocation: 'on the outskirts of a town/city', 'in the northwest corner', 'along the southern coast'."
+            "answer": "An Audio/Podcast Studio was added in the northwest corner of the library.",
+            "hint": "Use 'in the northwest corner' for a room or area within a building."
           }
         ],
         "task": {
@@ -809,39 +809,39 @@
       },
       {
         "id": "ielts-task1-processes-maps-3",
-        "title": "Checkpoint: Hybrid urban-waterfront redevelopment map report",
+        "title": "Checkpoint: Town-center redevelopment map report",
         "miniLesson": {
-          "markdown": "### IELTS Unit 3 Checkpoint: Complete Map & Infrastructure Report\nNotice how the model text below uses **past simple passive** for changes between two past years (e.g., 2000 and 2020) and **present perfect passive** (`has been transformed`) when the second map is labeled **Today / Present**.",
-          "modelText": "The maps show changes to the Harbor Industrial Precinct since 2000. Overall, industrial land has become a mixed residential and cultural district. The clock tower and northern canal basin remain, but most warehouses and storage areas have changed use.\n\nPreviously, three timber warehouses and a fenced loading bay occupied the western riverfront. The northern warehouse is now an art gallery, while the other two have been replaced by apartments with underground parking. A promenade and cycle lane occupy the former loading area, allowing public access along the river.\n\nTo the east of the clock tower, a coal yard and unused railway siding have been removed. A wetland park, outdoor cafes, and an amphitheater now occupy this land. Transport links have also improved: a pedestrian bridge crosses the southern channel, and a light-rail station stands on the northeastern boundary. Together, these changes have opened the waterfront to residents and visitors rather than restricting it to industrial users."
+          "markdown": "### IELTS Unit 3 Checkpoint: Complete Map & Infrastructure Report\nNotice how the model text below uses **past simple passive** for changes between two past years (e.g., 2005 and 2020) and **present perfect passive** (`has been transformed`) when the second map is labeled **Today / Present**.",
+          "modelText": "The maps illustrate how Greenvale Town Center has changed between 2005 and today.\n\nOverall, the center has become more pedestrian-friendly, with through traffic diverted to the northern perimeter. Transport, recreation, and market facilities have been redeveloped, while the Historic Town Hall has been preserved and expanded.\n\nIn 2005, a two-lane Highway ran directly from west to east through the center. It has since been diverted into a Ring Road around the northern boundary, and the former central stretch has been pedestrianized and planted with trees. North of this route, the Old Bus Depot in the west has been demolished to make way for a Multi-Modal Metro & Bus Hub.\n\nTo the east, the Historic Town Hall—which remains on its original site—has been expanded with a Glass Annex. South of the former highway, the Surface Car Park in the west has been replaced by a Public Park & Playground. Meanwhile, the eastern Open Vegetable Market has been converted into a Two-Story Covered Food Hall."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "Which verb tense is most accurate when comparing a map from '2000' with a map labeled 'Today'?",
+            "prompt": "Which verb tense is most accurate when comparing a map from '2005' with a map labeled 'Today'?",
             "options": [
-              "Past simple passive for 2000 ('was dominated') and present perfect passive for Today.",
+              "Past simple passive for 2005 ('was located') and present perfect passive for Today.",
               "Future simple ('will be demolished') for everything.",
-              "Present continuous for 2000."
+              "Present continuous for 2005."
             ],
-            "answer": "Past simple passive for 2000 ('was dominated') and present perfect passive for Today.",
+            "answer": "Past simple passive for 2005 ('was located') and present perfect passive for Today.",
             "hint": "Present perfect passive connects past redevelopment to the 'Today' map visible now."
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the precise noun for turning an old building into a modern facility without knocking it down: 'The northernmost warehouse has been ___ and converted into an art gallery.'",
-            "options": ["renovated", "erased", "evaporated"],
-            "answer": "renovated",
-            "hint": "When a structure's shell is kept and upgraded, it is 'renovated / refurbished and converted into...'."
+            "prompt": "Select the verb for adding space to an existing building: 'The Historic Town Hall has been ___ with a Glass Annex.'",
+            "options": ["expanded", "erased", "evaporated"],
+            "answer": "expanded",
+            "hint": "Use 'expanded with' when a new annex adds space to a retained building."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the non-defining relative clause for an unchanged feature: 'East of the clock tower—that remains in its original position—the coal yard was cleared.'",
+            "prompt": "Fix the non-defining relative clause for an unchanged feature: 'The Historic Town Hall—that remains on its original site—has been expanded.'",
             "options": [
-              "East of the clock tower—which remains in its original position—the coal yard was cleared.",
-              "East of the clock tower—that remains in its original position—the coal yard was cleared.",
-              "East of the clock tower—who remains in its original position—the coal yard was cleared."
+              "The Historic Town Hall—which remains on its original site—has been expanded.",
+              "The Historic Town Hall—that remains on its original site—has been expanded.",
+              "The Historic Town Hall—who remains on its original site—has been expanded."
             ],
-            "answer": "East of the clock tower—which remains in its original position—the coal yard was cleared.",
+            "answer": "The Historic Town Hall—which remains on its original site—has been expanded.",
             "hint": "Never use 'that' inside a parenthetical non-defining relative clause; use 'which'."
           }
         ],
@@ -899,7 +899,7 @@
         "title": "Taking a clear, qualified position in the 2-sentence introduction",
         "miniLesson": {
           "markdown": "### Avoiding the 'Fence-Sitting' Trap in Opinion Essays\nWhen an IELTS Task 2 prompt asks *To what extent do you agree or disagree?*, never write a vague introduction like *This essay will discuss both sides and give my opinion at the end.* To score **Band 7+ in Task Response**, state your exact position in **Sentence 2 of your introduction**:\n\n- **Sentence 1 (Paraphrase)**: Reword the prompt's claim in your own vocabulary.\n- **Sentence 2 (Thesis & Blueprint)**: `While I acknowledge that [concession], I firmly contend that [your core position] because [Reason 1] and [Reason 2].`",
-          "modelText": "It is often argued that governments should invest their entire public-health budget in preventive lifestyle education rather than hospital treatment. While I agree that expanding preventive campaigns is essential to curb chronic disease, I firmly contend that states must maintain robust funding for acute clinical care because accidents and genetic conditions cannot be prevented through lifestyle choices alone.\n\nOn the one hand, channeling a substantial share of healthcare funds into public nutrition, vaccination, and anti-smoking initiatives yields massive long-term savings. A large proportion of modern hospital admissions—including type-two diabetes, hypertension, and smoking-related lung disease—stem directly from modifiable daily habits. When municipalities subsidize community sports centers, mandate clear sugar labeling on beverages, and offer free annual blood-pressure screenings, fewer citizens require costly intensive-care beds decades later.\n\nNevertheless, neglecting hospital infrastructure in favor of prevention alone would leave millions of citizens dangerously unprotected. Even the healthiest population faces road traffic collisions, complicated childbirths, infectious outbreaks, and hereditary cancers that require trained surgeons, diagnostic scanners, and emergency wards. Moreover, patients already living with advanced illnesses cannot simply be told to eat better; they depend on immediate medical intervention to survive. In conclusion, although preventive education reduces future strain on medical systems, governments must balance it with well-funded hospitals so every citizen receives timely life-saving care.\n\nA balanced budget also needs transparent priorities. Preventive projects should be evaluated against measurable health outcomes, while hospitals need sufficient reserves to handle unexpected demand. Funding one approach should therefore complement, rather than eliminate, the other part of a resilient health service."
+          "modelText": "Some people argue that universities should direct all their funding toward practical disciplines, such as engineering and medicine, rather than support arts and humanities courses. While I acknowledge the importance of professional training, I disagree with eliminating humanities funding because universities must develop both technical expertise and the ability to judge its social consequences.\n\nPractical subjects deserve substantial investment because their facilities are expensive and their graduates provide essential services. Training a doctor requires supervised clinical experience, while engineering students need safe laboratories and specialist equipment. Without reliable funding, universities cannot prepare enough qualified professionals to maintain infrastructure or deliver medical treatment. For example, a region planning new flood defenses needs engineers who understand local soils, drainage systems, and construction standards. These needs justify strong financial support, but they do not establish that every other discipline lacks public value.\n\nArts and humanities address questions that technical training alone cannot resolve. Ethical disputes stem from competing values, not simply missing calculations, and students need opportunities to examine those values carefully. A computer scientist developing automated recruitment software, for instance, benefits from studying discrimination, legal history, and the interpretation of evidence. Closing humanities departments in favor of funding technology alone would remove precisely the expertise needed to assess whether new tools serve people fairly. Shared courses can also encourage students from different disciplines to explain and question one another's assumptions.\n\nIn conclusion, universities should fund practical subjects adequately without treating arts and humanities as expendable. A balanced institution equips graduates to build effective systems and to make responsible decisions about their use."
         },
         "warmups": [
           {
@@ -915,21 +915,21 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the precise verb meaning 'arise or result from': 'Many modern hospital admissions ___ directly from modifiable daily habits.'",
+            "prompt": "Select the precise verb meaning 'arise or result from': 'Ethical disputes ___ directly from competing values.'",
             "options": ["stem", "root", "branch"],
             "answer": "stem",
             "hint": "'stem from [a cause]' is a natural Band 7.5+ verb phrase for cause and effect."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the verb form after 'in favor of': 'Neglecting hospitals in favor of prevent alone would be dangerous.'",
+            "prompt": "Fix the verb form after 'in favor of': 'Closing humanities departments in favor of fund technology alone would remove valuable expertise.'",
             "options": [
-              "Neglecting hospitals in favor of prevention alone would be dangerous.",
-              "Neglecting hospitals in favor of prevent alone would be dangerous.",
-              "Neglecting hospitals in favor of to prevent alone would be dangerous."
+              "Closing humanities departments in favor of funding technology alone would remove valuable expertise.",
+              "Closing humanities departments in favor of fund technology alone would remove valuable expertise.",
+              "Closing humanities departments in favor of to fund technology alone would remove valuable expertise."
             ],
-            "answer": "Neglecting hospitals in favor of prevention alone would be dangerous.",
-            "hint": "After the prepositional phrase 'in favor of', use a noun ('prevention') or gerund ('preventing')."
+            "answer": "Closing humanities departments in favor of funding technology alone would remove valuable expertise.",
+            "hint": "After the prepositional phrase 'in favor of', use a noun or gerund ('funding')."
           }
         ],
         "task": {
@@ -965,7 +965,7 @@
         "title": "Extending body paragraphs with single-idea depth instead of shopping lists",
         "miniLesson": {
           "markdown": "### Depth Over Breadth: Avoiding the 'Three Undeveloped Ideas' Trap\nBand 6.0 writers cram three separate ideas (*First..., Second..., Third...*) into a single 80-word body paragraph, leaving every point superficial. Band 7.5+ writers build each body paragraph around **one overarching argument** and unpack it across 4–5 sentences:\n\n1. **Topic Sentence**: Clear argument.\n2. **Mechanism (`This is because...` / `When...`)**: Explain how it works in practice.\n3. **Concrete Illustration (`For example,...`)**: Real-world policy, workplace, or educational scenario.\n4. **Consequence (`Consequently,...`)**: Tie back to the prompt.",
-          "modelText": "Some urban planners argue that levying congestion charges on private cars entering city centers is the most effective way to reduce traffic. I strongly agree with this view, provided that municipal authorities reinvest the resulting revenue directly into high-frequency public transport.\n\nThe primary reason congestion pricing succeeds is that it attaches an immediate, visible financial cost to solo rush-hour driving. When road access is completely free at the point of use, commuters naturally choose the convenience of a private car even for short three-kilometer journeys, ignoring the collective delay they impose on thousands of bus passengers. For example, after cities such as Singapore and Stockholm introduced automated electronic road pricing during peak morning hours, discretionary car trips dropped by nearly twenty percent within the first year, and average bus speeds rose noticeably. Consequently, pricing scarce road space encourages drivers to carpool, shift non-urgent errands to off-peak hours, or switch to rail.\n\nHowever, for such a charge to remain socially fair, every dollar collected must be ring-fenced to expand affordable transit alternatives. If a city penalizes drivers without adding suburban feeder buses or metro carriages, the fee merely acts as a regressive tax on working commuters who have no other way to reach their jobs. In conclusion, peak-hour road pricing is a powerful tool for clearing urban gridlock when paired with immediate reinvestment in public transit.\n\nExemptions also require careful design. Emergency vehicles and residents with disabilities may need special arrangements, but broad exceptions would weaken the incentive to change travel habits. Authorities should publish regular reports showing whether shorter journeys and better services actually justify the charge."
+          "modelText": "Higher taxes on sugary drinks and fast food are often proposed as the best response to rising public health problems. I partly agree: taxation can discourage unhealthy purchases, but it should form part of a wider strategy that makes nutritious alternatives affordable and accessible.\n\nThe strongest argument for such taxes is that prices influence repeated purchasing decisions. When a sweetened drink becomes more expensive than an unsweetened alternative, consumers have a financial reason to reconsider their usual choice. For example, a worker who buys a large sugary drink with lunch every day may switch to water if the price difference becomes noticeable across a working week. Consequently, a well-designed tax can reduce routine sugar consumption without prohibiting any product. It can also encourage manufacturers to reformulate drinks so that lower-sugar versions attract a smaller charge. These incentives target the purchasing environment rather than relying solely on personal willpower.\n\nHowever, a higher price does not automatically create a healthier option. People working irregular hours may depend on inexpensive takeaway meals because nearby shops offer little fresh food. In this situation, a tax increases household costs while leaving the underlying constraint unchanged. Governments should therefore use the revenue to support affordable school meals and improve access to nutritious food in underserved neighborhoods. For instance, a subsidized evening market near a large workplace could give staff a practical alternative to fast food. Provided that healthier meals become easier to obtain, the price signal is more likely to change behavior sustainably.\n\nIn conclusion, taxes can contribute to better health, but calling them the single best solution overlooks differences in access and income. Pricing measures work best alongside affordable alternatives and clear nutritional information."
         },
         "warmups": [
           {
@@ -981,21 +981,21 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the conditional conjunction meaning 'on the condition that': 'I agree with this view, ___ that cities reinvest the revenue into buses.'",
+            "prompt": "Select the conditional conjunction meaning 'on the condition that': 'I agree with this view, ___ that governments make healthier meals accessible.'",
             "options": ["provided", "unless", "despite"],
             "answer": "provided",
             "hint": "'provided that' or 'providing that' introduces a precise policy condition."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the adjective vs. adverb error: 'Average bus speeds rose noticeable after the charge launched.'",
+            "prompt": "Fix the adjective vs. adverb error: 'Purchasing habits changed noticeable after the tax was introduced.'",
             "options": [
-              "Average bus speeds rose noticeably after the charge launched.",
-              "Average bus speeds rose noticeable after the charge launched.",
-              "Average bus speeds noticeable rose after the charge."
+              "Purchasing habits changed noticeably after the tax was introduced.",
+              "Purchasing habits changed noticeable after the tax was introduced.",
+              "Purchasing habits noticeably after the tax was introduced."
             ],
-            "answer": "Average bus speeds rose noticeably after the charge launched.",
-            "hint": "Use the adverb 'noticeably' to modify the action verb 'rose'."
+            "answer": "Purchasing habits changed noticeably after the tax was introduced.",
+            "hint": "Use the adverb 'noticeably' to modify the action verb 'changed'."
           }
         ],
         "task": {
@@ -1031,37 +1031,37 @@
         "title": "Checkpoint: Full IELTS Task 2 Opinion essay",
         "miniLesson": {
           "markdown": "### IELTS Unit 5 Checkpoint: Complete Task 2 Opinion Essay\nDemonstrate a clear position from introduction to conclusion, two deeply developed body paragraphs, and accurate conditional and relative clauses.",
-          "modelText": "Many educators believe that secondary schools should make community service or unpaid volunteering a mandatory requirement for graduation. While compulsory programmes can sometimes feel burdensome during exam seasons, I strongly agree that structured community service should be part of the high-school curriculum because it cultivates civic empathy and exposes teenagers to practical workplace responsibilities.\n\nFirst and foremost, participating in local community projects helps adolescents look beyond their immediate academic pressure and understand diverse social realities. Modern secondary education often isolates students inside competitive exam tracks, leaving them with little awareness of the challenges faced by elderly neighbors, disabled residents, or low-income families. When a sixteen-year-old spends two hours a week tutoring younger children at a neighborhood center or assisting at a community kitchen, abstract lessons about citizenship become tangible human relationships. As a result, students graduate with stronger social empathy and a lasting sense of civic responsibility.\n\nEqually important, well-designed volunteering placements allow teenagers to develop foundational soft skills before entering university or the labor market. Coordinating a park clean-up or organizing charity book donations requires reliability, teamwork, and clear communication with adults outside a teenager's family circle. Provided that schools keep the required hours reasonable—such as twenty hours per academic year—and allow students to choose causes that match their interests, volunteering enriches rather than disrupts academic study. In conclusion, integrating manageable community service into secondary education prepares young people to become both capable professionals and compassionate citizens.\n\nSchools should also offer accessible alternatives for students with disabilities or caring duties, ensuring that participation remains fair and educational rather than punitive."
+          "modelText": "Some people believe that every university student should complete a semester-long workplace internship before graduating. While practical experience can strengthen a degree, I support this requirement only if universities guarantee relevant, supervised, and accessible placements rather than leaving students to find unpaid work independently.\n\nA well-designed internship connects academic knowledge with the practical demands of employment. Students must explain their decisions to colleagues, respond to feedback, and complete tasks within real organizational constraints. For example, an engineering student may understand how to calculate a component's strength but discover during a placement that the design must also meet a customer's budget and maintenance requirements. This experience cultivates professional judgment that lectures alone may not develop. Preparing a workplace report requires reliability and clear communication, and the resulting feedback can help students identify weaknesses before applying for permanent roles. Employers also gain a clearer view of students' capabilities than a transcript alone provides.\n\nNevertheless, a universal requirement can create unfair barriers if suitable placements are scarce or unpaid. Students with caring responsibilities may be unable to relocate for a semester, while others cannot afford to replace paid employment with an internship. Universities should therefore fund essential travel costs, approve flexible schedules, and offer equivalent supervised projects where appropriate. Provided that placements are relevant and financially accessible, a compulsory semester can enrich rather than disrupt study. Academic departments must also assess what students learn, not merely count attendance, so that routine clerical work is not mistaken for meaningful professional development.\n\nIn conclusion, workplace experience should be an important part of university education, but compulsion is justified only when institutions can provide fair access and genuine educational value for every student."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "How does paragraph three address the potential counter-argument against mandatory volunteering?",
+            "prompt": "How does paragraph three address the potential counter-argument against mandatory internships?",
             "options": [
-              "It embeds a practical safeguard ('Provided that hours stay reasonable...') to avoid overload.",
+              "It makes support conditional on relevant, financially accessible placements.",
               "It says exams do not matter at all.",
               "It contradicts the thesis statement."
             ],
-            "answer": "It embeds a practical safeguard ('Provided that hours stay reasonable...') to avoid overload.",
+            "answer": "It makes support conditional on relevant, financially accessible placements.",
             "hint": "Embedding a realistic safeguard shows Band 7.5+ maturity without losing your clear stance."
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the precise verb meaning 'develop or nurture a quality gradually': 'Structured volunteering ___ civic empathy in teenagers.'",
+            "prompt": "Select the precise verb meaning 'develop or nurture a quality gradually': 'A well-designed internship ___ professional judgment in students.'",
             "options": ["cultivates", "demolishes", "postpones"],
             "answer": "cultivates",
-            "hint": "'cultivate empathy / skills / habits' is an idiomatic C1/Band 8 collocation."
+            "hint": "'cultivate judgment / skills / habits' is an idiomatic C1/Band 8 collocation."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the verb agreement after 'requires': 'Organizing book donations require reliability and teamwork.'",
+            "prompt": "Fix the verb agreement after 'requires': 'Preparing a workplace report require reliability and teamwork.'",
             "options": [
-              "Organizing book donations requires reliability and teamwork.",
-              "Organizing book donations require reliability and teamwork.",
-              "Organize book donations requires reliability and teamwork."
+              "Preparing a workplace report requires reliability and teamwork.",
+              "Preparing a workplace report require reliability and teamwork.",
+              "Prepare a workplace report requires reliability and teamwork."
             ],
-            "answer": "Organizing book donations requires reliability and teamwork.",
-            "hint": "The singular gerund subject 'Organizing book donations' takes 'requires'."
+            "answer": "Preparing a workplace report requires reliability and teamwork.",
+            "hint": "The singular gerund subject 'Preparing a workplace report' takes 'requires'."
           }
         ],
         "task": {
@@ -1118,7 +1118,7 @@
         "title": "Distinguishing third-party attribution from your own authorial voice",
         "miniLesson": {
           "markdown": "### The #1 Scoring Rule for 'Discuss Both Views and Give Your Opinion'\nIn a Discussion essay, examiners check two distinct things:\n1. Did you discuss **both** views fairly?\n2. Is **your own opinion** unmistakably separate from the views you attribute to others?\n\n- **Body 1 (View A — The side you disagree with)**: Use third-person attribution (`Advocates of X argue that...`, `From this perspective,...`).\n- **Body 2 (View B + Your Opinion)**: Signal the shift explicitly (`However, I side with those who contend that...`, `In my view,...`).",
-          "modelText": "While some people argue that international sporting events such as the Olympics and the World Cup are a wasteful extravagance for host nations, others believe they bring lasting economic and cultural rewards. Although poorly planned tournaments can leave cities with underused stadiums, I contend that well-managed global events deliver long-term infrastructure and tourism benefits that justify the investment.\n\nCritics of hosting mega-events point out that constructing specialized arenas and athlete villages requires billions of dollars in public funds that could otherwise support schools, hospitals, or social housing. In several past host cities, bespoke velodromes and aquatic centers fell into disrepair within a few years of the closing ceremony, saddling local taxpayers with decades of maintenance debt. From a purely short-term accounting perspective, ticket and broadcast revenues rarely cover these initial capital outlays.\n\nHowever, I share the view that strategic host cities can use international tournaments as a catalyst to accelerate essential urban transit and regeneration projects. When cities such as Barcelona, London, or Tokyo prepared for global games, they directed the bulk of their budgets into permanent airport rail links, revitalized waterfronts, and modular athlete housing that was subsequently converted into thousands of residential apartments. Furthermore, global media coverage places the host country on the world tourism map for decades afterward. In conclusion, while vanity stadiums are indeed wasteful, hosting major sporting events is worthwhile when governments design every facility for post-tournament public use.\n\nPublic oversight is essential to this argument. Residents should see realistic maintenance budgets before a bid is approved, and independent reviews should compare projected benefits with alternative uses of the same funds."
+          "modelText": "Some people believe employees should remain with one company throughout their career, while others argue that changing jobs frequently promotes professional growth. Although long service can build valuable expertise, I favor purposeful career moves when a new role offers learning opportunities that the current employer cannot provide.\n\nSupporters of long-term employment argue that familiarity with an organization makes workers more effective. Experienced employees understand internal systems, maintain trusted relationships, and can see complex projects through from planning to completion. From this perspective, repeatedly starting again elsewhere wastes knowledge and may prevent a worker from developing deep responsibility. An engineer who stays with a manufacturer, for example, can learn how design choices affect maintenance over many years. However, these advantages depend on the company continuing to offer challenging work and fair promotion opportunities rather than expecting loyalty without reciprocal investment.\n\nHowever, I share the view that changing jobs can accelerate development when the move has a clear purpose. Different workplaces expose employees to alternative methods, customers, and management styles, broadening the range of problems they can solve. A designer moving from a large agency to a small product team might gain responsibility for research and delivery rather than only producing visual assets. Remaining indefinitely in a narrow role can restrict learning, leaving employees dependent on skills that one employer alone values. Frequent moves are not automatically beneficial, though: workers need enough time in each position to complete meaningful work and reflect on the results.\n\nIn conclusion, neither lifelong loyalty nor constant movement guarantees growth. Employees should stay where they continue to learn, but change companies when a carefully chosen opportunity offers a stronger path toward their career goals."
         },
         "warmups": [
           {
@@ -1134,21 +1134,21 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the voice-shift phrase that aligns your opinion with View B at the start of Body Paragraph 2: 'However, I ___ the view that strategic host cities can use tournaments as a catalyst.'",
+            "prompt": "Select the voice-shift phrase that aligns your opinion with View B at the start of Body Paragraph 2: 'However, I ___ the view that changing jobs can accelerate development.'",
             "options": ["share", "borrow", "refuse"],
             "answer": "share",
             "hint": "'However, I share the view that...' or 'However, I side with those who argue that...' makes your voice unmistakable."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the participle clause showing result: '...fell into disrepair, saddled local taxpayers with maintenance debt.'",
+            "prompt": "Fix the participle clause showing result: '...can restrict learning, left employees dependent on narrow skills.'",
             "options": [
-              "...fell into disrepair, saddling local taxpayers with maintenance debt.",
-              "...fell into disrepair, saddled local taxpayers with maintenance debt.",
-              "...fell into disrepair, to saddle local taxpayers with maintenance debt."
+              "...can restrict learning, leaving employees dependent on narrow skills.",
+              "...can restrict learning, left employees dependent on narrow skills.",
+              "...can restrict learning, to leave employees dependent on narrow skills."
             ],
-            "answer": "...fell into disrepair, saddling local taxpayers with maintenance debt.",
-            "hint": "Use the active present participle (', saddling...') to express the consequence of the preceding clause."
+            "answer": "...can restrict learning, leaving employees dependent on narrow skills.",
+            "hint": "Use the active present participle (', leaving...') to express the consequence of the preceding clause."
           }
         ],
         "task": {
@@ -1159,14 +1159,14 @@
           "scaffold": "outline",
           "frames": [],
           "wordBank": [
-            "extravagance",
-            "critics",
-            "point out that",
-            "saddling",
+            "long-term employment",
+            "expertise",
+            "trusted relationships",
+            "career progression",
             "However, I share the view",
-            "catalyst",
-            "subsequently",
-            "in conclusion"
+            "purposeful",
+            "responsibility",
+            "learning opportunities"
           ],
           "checklist": [
             "State both views and your own clear opinion in the introduction",
@@ -1184,37 +1184,37 @@
         "title": "Do the advantages outweigh the disadvantages? Proving net weight",
         "miniLesson": {
           "markdown": "### 'Outweigh' Essays: Why Listing 1 Pro and 1 Con Is Not Enough\nWhen a prompt asks *Do the advantages of X outweigh the disadvantages?*, you cannot just list one benefit and one drawback and stop. You must **evaluate why the drawbacks are manageable or temporary**, whereas **the advantages are systemic and transformative**.",
-          "modelText": "In many countries, physical cash is rapidly being replaced by mobile wallets, contactless cards, and instant QR-code transfers. Although a cashless economy introduces legitimate privacy and accessibility concerns, I believe the advantages far outweigh the disadvantages because digital payments reduce transaction crime, streamline small-business accounting, and can be designed to include vulnerable citizens.\n\nAdmittedly, transitioning away from physical banknotes creates two real challenges that governments must manage carefully. First, elderly citizens in rural areas who lack smartphones or digital literacy can feel excluded when shops refuse coins and notes. Second, complete reliance on banking servers means that a temporary power outage or cyberattack can briefly disrupt everyday purchases. However, both drawbacks are operational hurdles rather than permanent flaws: banks can provide simple offline-capable payment cards, and municipal regulations can require essential pharmacies and grocery stores to keep accepting cash.\n\nBy contrast, the economic and social benefits of digital payments are transformative and enduring. For small street vendors and independent retailers, instant QR transfers eliminate the risk of counterfeit bills, nighttime cash robberies, and time-consuming trips to deposit physical notes at a bank branch. Moreover, transparent digital records help micro-businesses prove their monthly revenue so they can qualify for fair low-interest bank loans instead of predatory informal credit. In conclusion, because the risks of digital payments are easily mitigated through sensible safeguards, their economic advantages clearly prevail.\n\nFinancial inclusion must nevertheless remain a practical commitment. Community training and accessible account services would help people who cannot navigate complex applications. Without these measures, efficiency gains for confident users could conceal substantial costs for others."
+          "modelText": "An increasing number of students choose to attend university abroad rather than study in their home country. Although international study can create substantial financial and emotional pressures, I believe its advantages usually outweigh its disadvantages when students choose an appropriate course and have a realistic funding plan.\n\nThe drawbacks deserve serious consideration because they can directly affect academic performance. Tuition fees and living costs may leave students dependent on long working hours, reducing the time available for study. Separation from family can also make illness or an unfamiliar assessment system harder to manage. For example, a student struggling to understand seminar expectations may hesitate to seek help in a second language. However, these pressures can often be reduced through scholarships, accessible academic guidance, and regular contact with a support network. Where no viable funding plan exists, studying at home may remain the wiser choice.\n\nBy contrast, a suitable overseas degree can provide benefits that continue long after graduation. Students may gain access to specialist facilities or courses unavailable locally while learning to communicate across cultural boundaries. Working on a research project with classmates from different educational backgrounds requires them to explain assumptions and negotiate unfamiliar approaches. These experiences develop independence alongside subject knowledge. The benefits also extend beyond the individual when graduates bring new methods and professional connections back to their communities. Unlike temporary adjustment difficulties, such capabilities can support an entire career, which gives them greater weight in the overall evaluation.\n\nIn conclusion, the academic and personal advantages of studying abroad generally prevail when financial and welfare risks are managed responsibly. The value comes from a well-matched educational experience, not simply from obtaining a foreign qualification."
         },
         "warmups": [
           {
             "type": "choose",
             "prompt": "How does the end of Body Paragraph 1 prove that the disadvantages do NOT outweigh the advantages?",
             "options": [
-              "It shows that both drawbacks are manageable operational hurdles with practical policy fixes.",
-              "It pretends that power outages never happen.",
-              "It says elderly people do not buy groceries."
+              "It shows that both drawbacks are pressures that support and realistic funding can reduce.",
+              "It pretends that tuition fees never matter.",
+              "It says students never feel homesick."
             ],
-            "answer": "It shows that both drawbacks are manageable operational hurdles with practical policy fixes.",
+            "answer": "It shows that both drawbacks are pressures that support and realistic funding can reduce.",
             "hint": "Explicitly minimizing the weight of the drawbacks at the end of Body 1 sets up your winning side in Body 2."
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the verb meaning 'win out or prove stronger in the end': 'In conclusion, the economic advantages clearly ___.'",
+            "prompt": "Select the verb meaning 'win out or prove stronger in the end': 'In conclusion, the academic and personal advantages clearly ___.'",
             "options": ["prevail", "surrender", "vanish"],
             "answer": "prevail",
             "hint": "'prevail' or 'far outweigh the drawbacks' delivers a decisive final evaluation."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the plural/uncountable agreement: 'Physical cash are rapidly being replaced by mobile wallets.'",
+            "prompt": "Fix the plural/uncountable agreement: 'Academic guidance are available to international students.'",
             "options": [
-              "Physical cash is rapidly being replaced by mobile wallets.",
-              "Physical cash are rapidly being replaced by mobile wallets.",
-              "Physical cashes are rapidly being replaced by mobile wallets."
+              "Academic guidance is available to international students.",
+              "Academic guidance are available to international students.",
+              "Academic guidances are available to international students."
             ],
-            "answer": "Physical cash is rapidly being replaced by mobile wallets.",
-            "hint": "'Cash' is an uncountable singular noun and takes 'is'."
+            "answer": "Academic guidance is available to international students.",
+            "hint": "'Guidance' is an uncountable noun and takes 'is'."
           }
         ],
         "task": {
@@ -1250,15 +1250,15 @@
         "title": "Checkpoint: Full Discussion & Opinion essay under exam constraints",
         "miniLesson": {
           "markdown": "### IELTS Unit 6 Checkpoint: Complete Discussion Essay\nDemonstrate balanced examination of both perspectives, unmistakable voice separation, and a cohesive synthesis.",
-          "modelText": "While some economists argue that governments should prioritize rapid economic growth above all else, others contend that environmental protection must take precedence even if it slows industrial expansion. Although rising incomes are vital for lifting populations out of poverty, I believe that safeguarding ecological systems must be the primary policy boundary because environmental collapse ultimately destroys the foundation of economic prosperity itself.\n\nAdvocates of growth-first policies emphasize that tax revenues generated by manufacturing, construction, and exports fund the public infrastructure that developing societies urgently need. Without robust industrial expansion, governments struggle to build rural hospitals, modernize grids, or create stable employment for millions of young graduates. From this viewpoint, strict emissions caps or land-use bans are luxuries that lower-income nations can only afford after achieving high per-capita wealth.\n\nHowever, I side with environmental scientists and economists who point out that treating nature as an expendable input is economically self-defeating. When unregulated factories pollute river basins or clear coastal mangroves, the immediate profits earned by a handful of corporations are dwarfed by the long-term public cost of agricultural crop failures, storm damage, and respiratory illness. In Vietnam's Mekong Delta, for instance, saltwater intrusion and land subsidence already threaten the livelihoods of millions of farming families. Furthermore, modern green technologies—such as solar microgrids and circular manufacturing—now allow nations to expand employment without repeating twentieth-century pollution. In conclusion, rather than sacrificing the environment for short-term GDP gains, governments must embed ecological limits at the heart of economic planning.\n\nThis does not mean rejecting development. Instead, governments should compare immediate gains with environmental costs and require firms to prevent damage before projects receive approval."
+          "modelText": "Some people see schools primarily as institutions that prepare children to become responsible citizens and productive workers, while others emphasize benefits to each individual. I believe these purposes reinforce one another, but schools should treat personal development as an essential goal rather than merely a means of serving society.\n\nThose who prioritize collective needs argue that education must equip young people to participate in shared institutions. Literacy, numeracy, and reliable working habits help future employees perform their duties, while understanding public rules enables citizens to make informed decisions. From this perspective, schools receive public funding because their benefits extend beyond the child. A classroom project that requires pupils to divide responsibilities and resolve disagreement, for example, can prepare them for both employment and community life. However, defining success only through compliance or immediate job readiness would give schools an excessively narrow mission.\n\nIn my view, individual curiosity and judgment are equally important because children cannot know in advance which careers or social roles they will choose. Schools should therefore provide opportunities to explore art, science, and personal interests, not just train pupils for current vacancies. The short-term convenience of producing compliant workers is dwarfed by the long-term value of people who can question weak assumptions and adapt to change. A pupil who learns to investigate an unfamiliar problem gains a capability that serves both personal ambitions and future employers. Treating individual development as an unnecessary expense is educationally self-defeating because society depends on people capable of independent thought.\n\nIn conclusion, schools should prepare children for shared responsibilities without reducing education to workforce training. Supporting each learner's abilities and judgment is itself a strong foundation for responsible citizenship and meaningful work."
         },
         "warmups": [
           {
             "type": "gap-fill",
-            "prompt": "Select the passive comparison phrase meaning 'made to look tiny by comparison': 'Immediate corporate profits are ___ by the long-term public cost of crop failures.'",
+            "prompt": "Select the passive comparison phrase meaning 'made to look tiny by comparison': 'The short-term convenience of producing compliant workers is ___ by the long-term value of independent thinkers.'",
             "options": ["dwarfed", "enlarged", "celebrated"],
             "answer": "dwarfed",
-            "hint": "'are dwarfed by [a much larger cost]' is a high-impact Band 8 comparative structure."
+            "hint": "'is dwarfed by [a much larger cost]' is a high-impact Band 8 comparative structure."
           },
           {
             "type": "choose",
@@ -1266,21 +1266,21 @@
             "options": [
               "Sentence 1 contrasts both views, and Sentence 2 states the writer's qualified stance.",
               "It copies the prompt word for word.",
-              "It waits until the last word of the essay to mention the environment."
+              "It waits until the last word of the essay to mention individual development."
             ],
             "answer": "Sentence 1 contrasts both views, and Sentence 2 states the writer's qualified stance.",
             "hint": "That 2-sentence introduction blueprint works for every IELTS Discussion essay."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the adjective form after 'economically': 'Treating nature as an expendable input is economically self-defeat.'",
+            "prompt": "Fix the adjective form after 'educationally': 'Treating individual development as unnecessary is educationally self-defeat.'",
             "options": [
-              "Treating nature as an expendable input is economically self-defeating.",
-              "Treating nature as an expendable input is economically self-defeat.",
-              "Treating nature as an expendable input is economical self-defeating."
+              "Treating individual development as unnecessary is educationally self-defeating.",
+              "Treating individual development as unnecessary is educationally self-defeat.",
+              "Treating individual development as unnecessary is educational self-defeating."
             ],
-            "answer": "Treating nature as an expendable input is economically self-defeating.",
-            "hint": "Use the compound participial adjective 'self-defeating' after the adverb 'economically'."
+            "answer": "Treating individual development as unnecessary is educationally self-defeating.",
+            "hint": "Use the compound participial adjective 'self-defeating' after the adverb 'educationally'."
           }
         ],
         "task": {
@@ -1337,7 +1337,7 @@
         "title": "Pairing specific root causes with mirrored solutions",
         "miniLesson": {
           "markdown": "### The 'Mirrored Cause & Solution' Blueprint\nIn a *What are the causes of this problem, and what measures can be taken to solve it?* essay, avoid listing three random causes in Body 1 and three unrelated clichés (*The government should raise awareness*) in Body 2. Instead, select **two specific structural causes** in Body 1, and design **two mirrored solutions** in Body 2 that directly target Cause 1 and Cause 2.",
-          "modelText": "Across many developed and rapidly industrializing nations, the average age at which young adults purchase their first home or start a family has risen sharply over the past two decades. This demographic shift stems primarily from prohibitive urban housing costs and the rise of precarious early-career employment, both of which require coordinated housing and labor-market reforms.\n\nTwo structural pressures explain why young people are delaying major life milestones. First, residential property prices in major employment hubs have grown three to four times faster than entry-level wages, driven by speculative real-estate investment and restrictive zoning laws that limit high-density apartment construction near transit lines. Second, even university-educated graduates now spend their twenties navigating short-term contract roles and gig-economy work while carrying substantial educational or living debt. Without predictable multi-year income or affordable rent, committing to a mortgage or raising children becomes financially reckless.\n\nAddressing these twin bottlenecks requires targeted interventions that match each underlying cause. To curb housing inflation, municipal and national governments should upzone land within walking distance of metro stations for mid-rise public-private rental housing while levying steep vacancy taxes on speculative second homes. Simultaneously, to alleviate early-career insecurity, policymakers can incentivize employers through payroll-tax credits to convert long-term contractors into permanent staff and expand subsidized municipal childcare for working parents. Where cities such as Vienna have combined transit-oriented social housing with stable tenant protections and universal early childhood education, young families enjoy far greater financial predictability. In conclusion, young adults delay settling down not out of personal reluctance, but because urban housing and entry-level work have grown prohibitively insecure; reforming residential zoning and labor contracts offers the surest path forward."
+          "modelText": "Chronic stress and burnout are increasingly common among urban workers. Two major causes are excessive workloads and the expectation of constant availability, and addressing them requires employers to redesign work while individuals establish realistic boundaries around their time.\n\nThe first pressure arises when staffing levels fail to match the volume of work. Employees then face overlapping deadlines and regularly sacrifice rest to avoid disappointing colleagues or customers. For example, a small service team handling twice its usual workload may keep extending shifts instead of reviewing which tasks are genuinely urgent. The second cause is continuous digital contact outside working hours. Even when no immediate response is formally required, late-night messages can make employees feel that disconnecting will damage their reputation. This uncertainty prevents proper recovery and turns an ordinary evening into an extension of the working day.\n\nSolutions should target these two pressures directly. To reduce excessive workload, employers should review staffing, agree achievable priorities, and remove low-value tasks rather than reward repeated overtime. Individuals can help by reporting capacity problems early instead of silently accepting every deadline. To address constant availability, organizations should define response windows and incentivize managers to respect protected rest periods. Workers should also disable nonessential notifications after their agreed hours and use a clear emergency contact arrangement. These boundaries need management support: an employee cannot reliably disconnect if a supervisor continues to penalize delayed replies. Together, realistic task allocation and protected recovery time can reduce the conditions that produce burnout.\n\nIn conclusion, work-related stress stems partly from organizational demands rather than individual weakness alone. Employers and workers must cooperate to keep workloads manageable and prevent digital communication from consuming the time needed for rest."
         },
         "warmups": [
           {
@@ -1353,21 +1353,21 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the C1 adjective meaning 'so high in price that it prevents people from buying': 'This shift stems from ___ urban housing costs.'",
-            "options": ["prohibitive", "charitable", "negligible"],
-            "answer": "prohibitive",
-            "hint": "'prohibitive costs / prices' is a natural Band 8 collocation."
+            "prompt": "Select the adjective meaning 'greater than is reasonable': 'Burnout can result from ___ workloads.'",
+            "options": ["excessive", "manageable", "balanced"],
+            "answer": "excessive",
+            "hint": "'Excessive workloads' means more work than employees can reasonably manage."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the verb pattern after 'incentivize': 'Governments can incentivize employers converting contractors into permanent staff.'",
+            "prompt": "Fix the verb pattern after 'incentivize': 'Organizations can incentivize managers respecting protected rest periods.'",
             "options": [
-              "Governments can incentivize employers to convert contractors into permanent staff.",
-              "Governments can incentivize employers converting contractors into permanent staff.",
-              "Governments can incentivize employers convert contractors into permanent staff."
+              "Organizations can incentivize managers to respect protected rest periods.",
+              "Organizations can incentivize managers respecting protected rest periods.",
+              "Organizations can incentivize managers respect protected rest periods."
             ],
-            "answer": "Governments can incentivize employers to convert contractors into permanent staff.",
-            "hint": "Use 'incentivize + object + to-infinitive' ('incentivize employers to convert')."
+            "answer": "Organizations can incentivize managers to respect protected rest periods.",
+            "hint": "Use 'incentivize + object + to-infinitive' ('incentivize managers to respect')."
           }
         ],
         "task": {
@@ -1378,14 +1378,14 @@
           "scaffold": "outline",
           "frames": [],
           "wordBank": [
-            "stems primarily from",
-            "prohibitive",
-            "precarious",
+            "excessive workloads",
+            "constant availability",
+            "recovery",
             "structural pressures",
-            "twin bottlenecks",
-            "curb",
-            "simultaneously",
-            "alleviate"
+            "protected rest periods",
+            "incentivize",
+            "manageable",
+            "burnout"
           ],
           "checklist": [
             "Preview both the two root causes and the policy direction in your thesis statement",
@@ -1403,12 +1403,12 @@
         "title": "Answering Two-Part Direct Question essays with equal weight",
         "miniLesson": {
           "markdown": "### Mastering Two-Part ('Direct Question') Prompts\nPrompts that end with two separate questions—such as *(1) Why is this happening? (2) Is this a positive or negative development?*—must be answered directly in **both your thesis and your two body paragraphs**:\n\n- **Introduction**: Paraphrase + **1 sentence answering Question 1 and Question 2 directly**.\n- **Body 1**: Answer Question 1 thoroughly.\n- **Body 2**: Answer Question 2 thoroughly.",
-          "modelText": "In recent years, traditional neighborhood grocery shops and independent bookstalls have increasingly been replaced by large international retail chains and next-day e-commerce platforms. This consolidation is driven by consumer demand for lower prices and frictionless home delivery, and while it improves household purchasing power, I view the complete disappearance of independent local retailers as a largely negative development for community life.\n\nThe primary catalyst behind the decline of small family-owned shops is the massive economies of scale enjoyed by multinational supermarkets and online marketplaces. Because global platforms purchase inventory in bulk and operate automated regional warehouses, they can undercut independent shopkeepers by fifteen to twenty percent on everyday staples while offering thousands of product varieties under one virtual roof. For time-poor dual-income families, ordering groceries via a smartphone app in five minutes is far more convenient than visiting three separate neighborhood stalls before closing time.\n\nDespite these undeniable consumer conveniences, the erosion of independent street-level retail carries severe long-term social and economic costs. Local shop owners do more than sell goods; they recirculate profits within the municipality, hire neighborhood youth, and provide informal daily social contact for elderly residents who live alone. When a high street is hollowed out by courier warehouses and identical chain storefronts, neighborhoods lose both their distinctive cultural character and their economic resilience against corporate price hikes. Municipalities can preserve this neighborhood vitality by offering targeted business-rate relief for ground-floor independent grocers and helping local markets build shared neighborhood delivery cooperatives. In conclusion, although economies of scale and digital convenience explain why mega-retailers dominate, cities lose vital social and economic fabric when independent merchants vanish entirely."
+          "modelText": "Many young adults now prefer freelance work or content creation to conventional company employment. This shift reflects easier access to digital markets and a desire for greater control over working life, but I regard it as positive only when independence is supported by sustainable income and adequate protections.\n\nTwo developments make self-employment more attractive. Online tools allow a designer, tutor, or video producer to reach customers without renting premises or persuading a large firm to hire them. A beginner can build a portfolio, test demand, and accept small projects alongside study or another job. At the same time, some young people associate traditional workplaces with rigid schedules and limited influence over their tasks. Freelance work offers the possibility of choosing clients and organizing hours around personal priorities. These opportunities explain the appeal, although visibility on a platform does not guarantee a reliable stream of paying customers.\n\nThe overall effect depends on whether flexibility translates into a viable livelihood. Independent workers can develop initiative and learn practical skills in pricing, communication, and financial planning. Creators do more than publish content; they build relationships with audiences and manage a small business. However, fluctuating demand can leave them without enough income for rent, sickness, or retirement savings. Platform rules may also change abruptly, threatening access to customers. I therefore view the trend as beneficial when workers diversify their clients, maintain financial reserves, and can obtain affordable insurance. Without these safeguards, apparent freedom may simply transfer business risks from employers to inexperienced individuals.\n\nIn conclusion, digital access and the wish for autonomy explain the growing interest in self-employment. The development can broaden opportunity, but its long-term value depends on making independence economically secure rather than merely fashionable."
         },
         "warmups": [
           {
             "type": "choose",
-            "prompt": "What happens to your Task Response score if you write 200 words explaining *why* small shops are closing (Question 1) and only one sentence on *whether it is positive or negative* (Question 2)?",
+            "prompt": "What happens to your Task Response score if you write 200 words explaining *why* young adults choose freelance work (Question 1) and only one sentence on *whether it is positive or negative* (Question 2)?",
             "options": [
               "Task Response is capped at Band 6.0 when one question is developed much less than the other.",
               "You automatically get Band 9.0.",
@@ -1419,20 +1419,20 @@
           },
           {
             "type": "gap-fill",
-            "prompt": "Select the economic collocation meaning 'cost advantages gained by large production/purchasing volume': '...the massive ___ enjoyed by multinational supermarkets.'",
-            "options": ["economies of scale", "shortages of scale", "scales of economy"],
-            "answer": "economies of scale",
-            "hint": "'economies of scale' is an exact C1 economic collocation for retail and industrial essays."
+            "prompt": "Select the phrase meaning money available for unexpected costs: 'Independent workers need ___ to manage uncertain income.'",
+            "options": ["financial reserves", "financial absences", "reserves financial"],
+            "answer": "financial reserves",
+            "hint": "Financial reserves are savings kept to cover future costs or periods of low income."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the semicolon + elaboration structure: 'Local shop owners do more than sell goods, they recirculate profits within the community.'",
+            "prompt": "Fix the semicolon + elaboration structure: 'Creators do more than publish content, they manage a small business.'",
             "options": [
-              "Local shop owners do more than sell goods; they recirculate profits within the community.",
-              "Local shop owners do more than sell goods, they recirculate profits within the community.",
-              "Local shop owners do more than sell goods; because they recirculate profits."
+              "Creators do more than publish content; they manage a small business.",
+              "Creators do more than publish content, they manage a small business.",
+              "Creators do more than publish content; because they manage a small business."
             ],
-            "answer": "Local shop owners do more than sell goods; they recirculate profits within the community.",
+            "answer": "Creators do more than publish content; they manage a small business.",
             "hint": "Use a semicolon (not a comma splice) between two closely linked independent clauses."
           }
         ],
@@ -1444,14 +1444,14 @@
           "scaffold": "outline",
           "frames": [],
           "wordBank": [
-            "consolidation",
-            "driven by",
-            "catalyst",
-            "economies of scale",
-            "time-poor",
-            "erosion",
-            "hollowed out",
-            "social fabric"
+            "self-employment",
+            "autonomy",
+            "digital markets",
+            "financial reserves",
+            "fluctuating demand",
+            "diversify",
+            "livelihood",
+            "protections"
           ],
           "checklist": [
             "Answer both Question 1 and Question 2 explicitly in your thesis statement",
@@ -1466,45 +1466,45 @@
       },
       {
         "id": "ielts-task2-problem-solution-3",
-        "title": "Checkpoint: Two-part essay on education, technology, and youth",
+        "title": "Checkpoint: Two-part essay on rural migration",
         "miniLesson": {
           "markdown": "### IELTS Unit 7 Checkpoint: Complete Band 8.0 Two-Part / Problem-Solution Essay\nDemonstrate balanced paragraph weighting, C1 causal and policy vocabulary, and zero mechanical clichés.",
-          "modelText": "In many countries today, fewer secondary-school students are choosing to study pure science and mathematics subjects at university. This decline stems largely from abstract, exam-driven classroom pedagogy and the perceived financial allure of business and media careers, a trend that poses serious risks to a nation's long-term technological and healthcare capacity.\n\nTwo interconnected factors explain why teenagers turn away from foundational scientific disciplines. First, secondary-school physics, chemistry, and calculus curricula frequently emphasize rote formula memorization for high-stakes standardized tests rather than hands-on laboratory inquiry, causing many capable students to view STEM subjects as dry and unforgiving. Second, students see graduates in finance, digital marketing, and commercial management earning rapid entry-level salaries without enduring the grueling laboratory hours required for scientific research. Faced with harder coursework and delayed financial rewards, pragmatic eighteen-year-olds naturally gravitate toward commercial degrees.\n\nIf left unaddressed, this talent drain will severely undermine both national innovation and public welfare over the coming decades. Modern economies depend on domestic cohorts of chemical engineers, epidemiologists, and materials scientists to develop renewable energy grid storage, manage aging populations, and respond to emerging public-health threats. When a country cannot train enough STEM specialists internally, its hospitals and technology firms become reliant on expensive foreign contractors, stalling homegrown research and development. Reversing this trajectory requires modernizing secondary-school laboratories around inquiry-based climate and engineering projects while expanding national research fellowships that guarantee competitive early-career compensation for STEM graduates. In conclusion, outdated teaching methods and skewed salary incentives are driving youth away from science, and addressing both pressures is vital to safeguard future economic and medical resilience."
+          "modelText": "Young adults in many countries are leaving rural villages to study and work in major cities. This migration is largely driven by unequal access to education and employment, and it can weaken village services while placing additional pressure on urban housing and infrastructure.\n\nThe main attraction of cities is the concentration of opportunities that are difficult to find locally. A rural school leaver may have no nearby university offering a preferred subject and few employers able to provide specialist training. Faced with limited local options, young adults naturally gravitate toward cities where institutions and businesses are clustered. Family expectations can reinforce this choice when an urban qualification is seen as the most reliable route to financial security. Although some migrants intend to return, professional networks and career progression may eventually make permanent urban residence more practical.\n\nThe consequences affect both ends of this movement. In villages, the departure of working-age residents can reduce the customer base for shops and leave fewer people available to support elderly relatives. Schools may struggle to maintain classes when young families settle elsewhere, further weakening the village's appeal. Cities, meanwhile, gain workers and students who contribute skills, spending, and new businesses. However, when arrivals outpace construction and service expansion, rents can rise and public transport can become overcrowded. For example, students unable to find affordable rooms near a campus may accept long commutes, increasing pressure on already busy routes. Migration therefore brings real opportunities but also redistributes costs between communities.\n\nIn conclusion, rural youth migration reflects the uneven geography of study and work. It can energize urban economies while reducing the capacity of villages to sustain services, making investment in both rural opportunities and urban infrastructure important."
         },
         "warmups": [
           {
             "type": "gap-fill",
-            "prompt": "Select the C1 participle opener showing how students react to conditions: '___ with harder coursework and delayed rewards, students gravitate toward business degrees.'",
+            "prompt": "Select the C1 participle opener showing how young adults react to conditions: '___ with limited local options, young adults gravitate toward cities.'",
             "options": ["Faced", "Facing to", "To face"],
             "answer": "Faced",
             "hint": "'Faced with [a situation], [subject]...' is a concise C1 passive participle opener."
           },
           {
             "type": "choose",
-            "prompt": "How does Body Paragraph 2 trace the concrete consequences of the STEM shortage?",
+            "prompt": "How does Body Paragraph 2 trace the consequences of rural youth migration?",
             "options": [
-              "It names specific scientific roles and the exact national sectors that suffer without them.",
-              "It says 'Science is very nice and everyone likes it.'",
+              "It names specific effects on village services, urban housing, and public transport.",
+              "It says 'Moving is very nice and everyone likes it.'",
               "It switches the topic to primary-school art classes."
             ],
-            "answer": "It names specific scientific roles and the exact national sectors that suffer without them.",
-            "hint": "Naming specific professions and concrete sectoral impacts turns a general claim into Band 8 analysis."
+            "answer": "It names specific effects on village services, urban housing, and public transport.",
+            "hint": "Naming specific services and concrete community impacts turns a general claim into Band 8 analysis."
           },
           {
             "type": "fix-the-error",
-            "prompt": "Fix the preposition after 'gravitate': 'Pragmatic students naturally gravitate in commercial degrees.'",
+            "prompt": "Fix the preposition after 'gravitate': 'Young adults naturally gravitate in cities.'",
             "options": [
-              "Pragmatic students naturally gravitate toward commercial degrees.",
-              "Pragmatic students naturally gravitate in commercial degrees.",
-              "Pragmatic students naturally gravitate at commercial degrees."
+              "Young adults naturally gravitate toward cities.",
+              "Young adults naturally gravitate in cities.",
+              "Young adults naturally gravitate at cities."
             ],
-            "answer": "Pragmatic students naturally gravitate toward commercial degrees.",
+            "answer": "Young adults naturally gravitate toward cities.",
             "hint": "Standard collocation: 'gravitate toward / towards [something]'."
           }
         ],
         "task": {
           "id": "ielts-task2-problem-solution-3-task",
-          "title": "Checkpoint: Two-part essay on education, technology, and youth",
+          "title": "Checkpoint: Two-part essay on rural migration",
           "genre": "application letter",
           "prompt": "IELTS Writing Task 2 Checkpoint (250-350 words): 'In many parts of the world, rural villages are losing their younger population as young adults move to major cities for work and study. Why is this happening, and what are the main effects on both rural communities and large cities?' Write a complete Band 8.0 Two-Part essay.",
           "scaffold": "checklist",

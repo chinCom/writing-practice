@@ -1,6 +1,8 @@
 import { expect, it } from 'vitest';
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import review from '../curriculum/growth.review.json';
 import draft from '../curriculum/growth.draft.json';
@@ -9,12 +11,41 @@ import { curriculumSchema } from '@/lib/curriculum';
 import { modelWords } from '@/lib/noticing';
 import { targetsForUnit } from '@/lib/targets';
 it('passes the approval gate and still stops before opening a database connection', () => {
-  expect(() =>
-    execFileSync(process.execPath, ['--import', 'tsx', 'scripts/seed-curriculum.ts'], {
-      env: { ...process.env, GROWTH_CONTENT: 'true', DATABASE_URL: '' },
-      stdio: 'pipe',
-    }),
-  ).toThrow(/DATABASE_URL is required/);
+  const folder = mkdtempSync(join(tmpdir(), 'growth-seed-'));
+  try {
+    mkdirSync(join(folder, 'curriculum'));
+    for (const name of ['growth.draft.json', 'growth.review.json', 'ielts.draft.json']) {
+      copyFileSync(join('curriculum', name), join(folder, 'curriculum', name));
+    }
+    writeFileSync(
+      join(folder, 'curriculum/ielts.review.json'),
+      JSON.stringify({
+        approved: true,
+        reviewer: 'Synthetic test reviewer',
+        reviewedAt: '2026-10-14T00:00:00Z',
+        contentHash: createHash('sha256')
+          .update(readFileSync(join(folder, 'curriculum/ielts.draft.json')))
+          .digest('hex'),
+      }),
+    );
+    expect(() =>
+      execFileSync(
+        process.execPath,
+        [
+          '--import',
+          resolve('node_modules/tsx/dist/loader.mjs'),
+          resolve('scripts/seed-curriculum.ts'),
+        ],
+        {
+          cwd: folder,
+          env: { ...process.env, GROWTH_CONTENT: 'true', DATABASE_URL: '' },
+          stdio: 'pipe',
+        },
+      ),
+    ).toThrow(/DATABASE_URL is required/);
+  } finally {
+    rmSync(folder, { recursive: true, force: true });
+  }
 });
 it('keeps the human approval tied to the exact formatted draft bytes', () => {
   const hash = createHash('sha256')

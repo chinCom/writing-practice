@@ -64,8 +64,12 @@ test('sweep bands stay one per line, evenly spaced, with emoji and a scrolled dr
     'We went to see a movie 🎬 and I felt scared 😱 for one moment, but it was fun. ';
   await writing.fill(sentence.repeat(14));
   await writing.evaluate((element) => {
+    // Keep this scroll test independent of the editor's responsive width.
+    element.style.height = '200px';
     element.scrollTop = 90;
+    element.dispatchEvent(new Event('scroll'));
   });
+  await expect.poll(() => writing.evaluate((element) => element.scrollTop)).toBe(90);
   await page.getByRole('button', { name: 'Check my writing', exact: true }).click();
   const bands = page.locator('[data-sweep-band]');
   await expect.poll(() => bands.count()).toBeGreaterThan(4);

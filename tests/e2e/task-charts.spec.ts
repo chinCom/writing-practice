@@ -13,6 +13,11 @@ test('dynamic Task 1 charts remain visible from the lesson through writing', asy
   await expect(chart.getByRole('table')).toContainText('74%');
   await expect(chart.getByRole('table')).toContainText('88%');
   await expect(chart.getByRole('table')).toContainText('9%');
+  const model = page.getByText(/^The line graph compares/);
+  await expect(model).toContainText('households in Country X');
+  await expect(model).toContainText('2010 and 2020');
+  await expect(model).toContainText('74%');
+  await expect(model).not.toContainText('commuters');
   for (const [index, warmup] of lesson.warmups.entries()) {
     await page.getByRole('combobox', { name: 'Your answer' }).selectOption(warmup.answer);
     await page.getByRole('button', { name: 'Check answer', exact: true }).click();
@@ -59,5 +64,26 @@ for (const [lesson, title, selector, count] of [
     const chart = page.getByRole('figure', { name: title });
     await expect(chart).toBeVisible();
     await expect(chart.locator(selector)).toHaveCount(count);
+    const model = page.getByText(/^The (bar chart|line graph) illustrates/);
+    if (lesson === 'ielts-task1-dynamic-charts-2') {
+      await expect(model).toContainText('book sales');
+      await expect(model).toContainText('2014 and 2024');
+      await expect(model).toContainText('82 million');
+      await expect(model).toContainText('38 million');
+      await expect(model).toContainText('74 million');
+      await expect(model).not.toContainText('electricity');
+      await expect(page.getByText(/Convert 'rose sharply'/)).toContainText('audiobook sales');
+    } else {
+      await expect(model).toContainText('retail sales');
+      await expect(model).toContainText('2005 and 2025');
+      await expect(model).toContainText('49%');
+      await expect(model).toContainText('13%');
+      await expect(model).toContainText('38%');
+      await expect(model).not.toContainText('household expenditure');
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(
+      false,
+    );
+    await page.screenshot({ path: test.info().outputPath('chart-and-model.png'), fullPage: true });
   });
 }
