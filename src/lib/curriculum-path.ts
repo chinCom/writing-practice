@@ -1,7 +1,6 @@
 import {
   curriculumLevel,
   publicLesson,
-  passesCheckpoint,
   type CurriculumUnit,
   type CurriculumLevel,
   type CurriculumTrack,
@@ -9,19 +8,16 @@ import {
 } from './curriculum';
 import { advisoryTargets, type MasteryAssessment } from './mastery';
 import { growthTargetsEnabled, targetsForUnit } from './targets';
+import {
+  lessonCompletion,
+  type LessonProgressRecord,
+  type LessonCheckRecord,
+} from './lesson-completion';
 export function buildCoursePath(
   content: CurriculumUnit[],
   chosenLevel: CurriculumLevel | null,
-  progress: { lessonId: string; warmups: Record<string, boolean>; completedAt?: Date | null }[],
-  checks: {
-    taskId: string;
-    at?: Date;
-    masteryAdvisory?: MasteryAssessment | null;
-    feedback: {
-      safety_flag: boolean;
-      scores: { task: number; organization: number; grammar: number; vocabulary: number };
-    };
-  }[],
+  progress: LessonProgressRecord[],
+  checks: LessonCheckRecord[],
   track: CurriculumTrack = 'core',
 ) {
   const ranks = Object.fromEntries(curriculumLevel.options.map((level, index) => [level, index]));
@@ -43,32 +39,15 @@ export function buildCoursePath(
           unit.parallelPrompt?.id === storedLesson.task.id
             ? { ...storedLesson, task: unit.parallelPrompt }
             : storedLesson;
-        const saved = progress.find((item) => item.lessonId === lesson.id);
-        const warmupsDone = lesson.warmups.every(
-          (_, index) => saved?.warmups[String(index)] === true,
+        const { warmupsDone, writingDone, done, completedAt, latest, answers } = lessonCompletion(
+          lesson,
+          progress,
+          checks,
         );
-        const passingChecks = checks.filter(
-          (check) =>
-            check.taskId === lesson.task.id &&
-            !check.feedback.safety_flag &&
-            (!lesson.task.isCheckpoint || passesCheckpoint(check.feedback.scores, false)),
-        );
-        const writingDone = passingChecks.length > 0;
-        const done = warmupsDone && writingDone;
-        const firstPass = passingChecks
-          .flatMap((check) => (check.at ? [check.at.getTime()] : []))
-          .sort((a, b) => a - b)[0];
-        const warmupsAt = saved?.completedAt?.getTime();
-        // A lesson is complete when its last requirement is met.
-        const finishedAt = Math.max(warmupsAt ?? 0, firstPass ?? 0);
-        const completedAt = done && finishedAt ? new Date(finishedAt).toISOString() : null;
         const state = done ? 'done' : beforeStart ? 'available' : open ? 'current' : 'locked';
         if (!beforeStart && !done) open = false;
         const recommendedTargets =
           track === 'core' ? advisoryTargets(targetsForUnit(unit), carried) : [];
-        const latest = checks
-          .filter((check) => check.taskId === lesson.task.id)
-          .sort((a, b) => (b.at?.getTime() ?? 0) - (a.at?.getTime() ?? 0))[0];
         if (
           track === 'core' &&
           growthTargetsEnabled() &&
@@ -84,7 +63,7 @@ export function buildCoursePath(
           warmupsDone,
           completedAt,
           writingDone,
-          answers: saved?.warmups ?? {},
+          answers,
         };
       });
       // Authored exercise answer keys are server-only, like warm-up answers.

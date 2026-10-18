@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import type { Feedback } from '@/lib/feedback/schema';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 export default function TargetReport({
   report,
@@ -14,9 +15,7 @@ export default function TargetReport({
   return (
     <Paper component="section" aria-label={t('targetsTitle')} variant="outlined" sx={{ p: 2 }}>
       <Stack sx={{ gap: 1.5 }}>
-        <Typography component="h2" variant="h3">
-          {t('targetsTitle')}
-        </Typography>
+        <SectionTitle>{t('targetsTitle')}</SectionTitle>
         {report.map((target) => (
           <Stack key={target.tag} sx={{ gap: 0.5 }}>
             <Typography variant="subtitle2">{t('tags.' + target.tag)}</Typography>

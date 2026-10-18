@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
@@ -13,6 +12,8 @@ import ReadingPassage from '@/components/curriculum/ReadingPassage';
 import IeltsContract from '@/components/curriculum/IeltsContract';
 import TaskChart from '@/components/curriculum/TaskChart';
 import type { CurriculumTask } from '@/lib/curriculum';
+import ToneChip from '@/components/shared/ToneChip';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 type TaskBriefProps = {
   onInsert: (phrase: string) => void;
@@ -31,10 +32,8 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
         direction="row"
         sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 2 }}
       >
-        <Typography component="h2" variant="h3">
-          {task?.title ?? t('title')}
-        </Typography>
-        <Chip label={task?.targetLevel ?? 'A2'} variant="tonal" color="primary" size="small" />
+        <SectionTitle>{task?.title ?? t('title')}</SectionTitle>
+        <ToneChip label={task?.targetLevel ?? 'A2'} tone="primary" size="small" />
       </Stack>
       {task ? <IeltsContract taskId={task.id} /> : null}
       <ReadingPassage reading={task?.reading} />
@@ -72,11 +71,10 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
           </Typography>
           <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1 }}>
             {wordBank.map((phrase) => (
-              <Chip
+              <ToneChip
                 key={phrase}
                 label={phrase}
-                variant="tonal"
-                color="primary"
+                tone="primary"
                 clickable
                 disabled={disabled}
                 onClick={() => onInsert(phrase)}

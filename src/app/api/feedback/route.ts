@@ -3,23 +3,41 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { apiFailure, ApiError, readJson, requireApiUser } from '@/lib/api';
 import { parseFeedbackInput } from '@/lib/feedback/input';
-import { locateFeedback, validateTargetReport, visibleFeedback } from '@/lib/targets';
-import {
-  claimSubmission,
-  completeSubmission,
-  failSubmission,
-  loadCheck,
-  loadFeedback,
-  reserveSubmission,
-} from '@/lib/db/queries';
-import { gradeWriting, LlmError } from '@/lib/llm/grade';
+import { checkSubmission, SubmissionCheckError } from '@/lib/feedback/check-submission';
+import { loadCheck } from '@/lib/db/queries';
+import { LlmError } from '@/lib/llm/errors';
 import { loadTaskContext } from '@/lib/db/curriculum';
+import { DomainError } from '@/lib/domain-error';
 
 export const maxDuration = 90;
 const privateHeaders = { 'Cache-Control': 'private, no-store' };
+const submissionErrorStatuses: Record<SubmissionCheckError['code'], number> = {
+  DAILY_LIMIT: 429,
+  INVALID_PARENT: 400,
+  CHECK_CONFLICT: 409,
+  CHECK_IN_PROGRESS: 409,
+  COACH_NOT_CONFIGURED: 503,
+  COACH_FAILED: 502,
+  SERVER_ERROR: 500,
+};
+
 function checkKey(value: string | null) {
   if (!value || !z.uuid().safeParse(value).success) throw new ApiError('INVALID_INPUT', 400);
   return value;
+}
+function feedbackApiError(error: unknown) {
+  if (error instanceof SubmissionCheckError)
+    return new ApiError(error.code, submissionErrorStatuses[error.code]);
+  if (error instanceof LlmError) {
+    const code =
+      error.message === 'LLM_TIMEOUT'
+        ? 'COACH_TIMEOUT'
+        : error.message === 'LLM_INVALID_RESPONSE'
+          ? 'COACH_INVALID_RESPONSE'
+          : 'COACH_UNAVAILABLE';
+    return new ApiError(code, 502);
+  }
+  return error;
 }
 async function checkResponse(userId: string, requestKey: string) {
   const check = await loadCheck(userId, requestKey);
@@ -41,102 +59,41 @@ export async function GET(request: Request) {
   }
 }
 export async function POST(request: Request) {
-  let submissionId: string | undefined;
-  let userId: string | undefined;
-  let claimed = false;
   const started = Date.now();
   try {
     const user = await requireApiUser(request);
-    userId = user.id;
     const body = await readJson(request);
     const reference = z.object({ taskId: z.string().regex(/^[a-z0-9-]{1,80}$/) }).safeParse(body);
     if (!reference.success) throw new ApiError('INVALID_INPUT', 400);
-    const { task, targets } = await loadTaskContext(user.id, reference.data.taskId);
+    const context = await loadTaskContext(user.id, reference.data.taskId);
     let input;
     try {
-      input = parseFeedbackInput(body, task.targetLevel, task);
+      input = parseFeedbackInput(body, context.task.targetLevel, context.task);
     } catch {
       throw new ApiError('INVALID_INPUT', 400);
     }
     const requestKey = request.headers.has('Idempotency-Key')
       ? checkKey(request.headers.get('Idempotency-Key'))
       : randomUUID();
-    if (!process.env.DEEPSEEK_API_KEY && process.env.USE_MOCK_LLM !== 'true')
-      throw new ApiError('COACH_NOT_CONFIGURED', 503);
-    try {
-      submissionId = await reserveSubmission(user.id, input, requestKey);
-    } catch (error) {
-      if (error instanceof Error) {
-        const errors: Record<string, number> = {
-          DAILY_LIMIT: 429,
-          INVALID_PARENT: 400,
-          CHECK_CONFLICT: 409,
-          CHECK_IN_PROGRESS: 409,
-        };
-        if (errors[error.message]) throw new ApiError(error.message, errors[error.message]);
-      }
-      throw error;
-    }
-    const previous = await loadCheck(user.id, requestKey);
-    if (previous?.status === 'completed') {
-      const saved = await loadFeedback(user.id, submissionId);
-      if (!saved) throw new ApiError('SERVER_ERROR', 500);
-      return NextResponse.json(
-        {
-          ok: true,
-          data: {
-            submissionId,
-            feedback: visibleFeedback(saved.feedback.json),
-            status: 'completed',
-          },
-        },
-        { headers: privateHeaders },
-      );
-    }
-    if (previous?.status === 'failed') throw new ApiError('COACH_FAILED', 502);
-    claimed = await claimSubmission(user.id, submissionId);
-    if (!claimed) {
-      return NextResponse.json(
-        { ok: true, data: { submissionId, status: 'pending' } },
-        { status: 202, headers: { ...privateHeaders, 'Retry-After': '3' } },
-      );
-    }
-    const result = await gradeWriting(input.text, {
-      apiKey: process.env.DEEPSEEK_API_KEY,
-      baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com',
-      model: process.env.DEEPSEEK_MODEL ?? 'deepseek-flash',
-      mock: process.env.USE_MOCK_LLM === 'true',
-      task,
-      targets,
-    });
-    const feedback = validateTargetReport(
-      locateFeedback(input.text, validateTargetReport(result.data, targets)),
-      targets,
-    );
-    await completeSubmission(user.id, submissionId, feedback, result);
+    const result = await checkSubmission(user.id, input, requestKey, context);
     return NextResponse.json(
-      { ok: true, data: { submissionId, feedback, mock: result.mock, status: 'completed' } },
-      { headers: privateHeaders },
+      { ok: true, data: result },
+      result.status === 'pending'
+        ? { status: 202, headers: { ...privateHeaders, 'Retry-After': '3' } }
+        : { headers: privateHeaders },
     );
   } catch (error) {
-    if (claimed && submissionId && userId)
-      await failSubmission(userId, submissionId).catch(() => undefined);
     // Never log writing, account identity, credentials, or provider response bodies.
     console.warn('coach_check_failed', {
-      code: error instanceof LlmError || error instanceof ApiError ? error.message : 'SERVER_ERROR',
+      code:
+        error instanceof LlmError ||
+        error instanceof ApiError ||
+        error instanceof DomainError ||
+        error instanceof SubmissionCheckError
+          ? error.message
+          : 'SERVER_ERROR',
       elapsedMs: Date.now() - started,
     });
-    return apiFailure(
-      error instanceof LlmError
-        ? new ApiError(
-            error.message === 'LLM_TIMEOUT'
-              ? 'COACH_TIMEOUT'
-              : error.message === 'LLM_INVALID_RESPONSE'
-                ? 'COACH_INVALID_RESPONSE'
-                : 'COACH_UNAVAILABLE',
-            502,
-          )
-        : error,
-    );
+    return apiFailure(feedbackApiError(error));
   }
 }

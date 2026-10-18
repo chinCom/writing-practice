@@ -10,8 +10,8 @@ import {
   profiles,
 } from './schema';
 import { curriculumLevel, type CurriculumLevel } from '@/lib/curriculum';
-import { explanationPromptVersion } from '@/lib/feedback/explanation';
-import type { explainCorrection } from '@/lib/llm/explain';
+import { explanationPromptVersion, type Explanation } from '@/lib/feedback/explanation';
+import type { AiResult } from '@/lib/ai-result';
 
 function identity(submissionId: string, correctionIndex: number) {
   return and(
@@ -88,7 +88,7 @@ export async function reserveDevelopment(userId: string, fallback: CurriculumLev
 export async function finishExplanation(
   userId: string,
   requestKey: string,
-  result: Awaited<ReturnType<typeof explainCorrection>>,
+  result: AiResult<Explanation>,
 ) {
   return withUserDatabase(userId, async (database) => {
     const [row] = await database

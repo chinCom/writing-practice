@@ -1,7 +1,6 @@
 'use client';
 import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useState } from 'react';
-import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -15,8 +14,7 @@ import EventAvailableOutlined from '@mui/icons-material/EventAvailableOutlined';
 import LocalFireDepartmentOutlined from '@mui/icons-material/LocalFireDepartmentOutlined';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
 import PaperAccent, { type PaperIllustration } from '@/components/ui/icons/PaperAccent';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
+import ActionNotice from '@/components/shared/ActionNotice';
 import { LineChart } from '@mui/x-charts/LineChart';
 import type { ProgressSummary } from '@/lib/progress';
 import { tickPop } from '@/theme/theme';
@@ -27,8 +25,12 @@ import Targets from './Targets';
 import { CourseProgressPanel } from './CourseProgress';
 import type { ProgressPageData } from '@/lib/db/progress';
 import type { ReactNode } from 'react';
-import PageHeader from '@/components/ui/PageHeader';
-import StatTile from '@/components/ui/StatTile';
+import PageHeader from '@/components/shared/PageHeader';
+import StatTile from '@/components/shared/StatTile';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
+import LoadingBar from '@/components/shared/LoadingBar';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 const levels = ['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 function ActivityCalendar({ data }: { data: ProgressSummary }) {
@@ -138,9 +140,7 @@ function OverviewCard({
           name={illustration === 'targets' ? 'target' : illustration === 'bars' ? 'bars' : 'trend'}
           sx={{ color: 'secondary.main', fontSize: 24 }}
         />
-        <Typography component="h2" variant="h3">
-          {title}
-        </Typography>
+        <SectionTitle>{title}</SectionTitle>
       </Stack>
       <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
         {body}
@@ -375,29 +375,27 @@ export default function Progress({
       {data ? (
         <ProgressPanels data={data} preview={preview} />
       ) : error ? (
-        <Alert
+        <ActionNotice
           severity="warning"
+          message={t(error)}
           action={
             error === 'session' ? (
-              <Button component={NextLink} href="/login">
-                {t('signIn')}
-              </Button>
+              <NavigationButton href="/login">{t('signIn')}</NavigationButton>
             ) : (
-              <Button
+              <ActionButton
+                tone="quiet"
                 onClick={() => {
                   setError('');
                   setAttempt((value) => value + 1);
                 }}
               >
                 {t('retry')}
-              </Button>
+              </ActionButton>
             )
           }
-        >
-          {t(error)}
-        </Alert>
+        />
       ) : (
-        <LinearProgress aria-label={t('loading')} />
+        <LoadingBar label={t('loading')} />
       )}
     </Stack>
   );

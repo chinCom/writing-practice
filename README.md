@@ -218,12 +218,16 @@ RUN_LIVE_EXPLANATION=true npx vitest run tests/live-explanation.test.ts
 | Path | Purpose |
 | --- | --- |
 | `src/app/` | Pages, API routes, and authentication routes |
-| `src/components/` | Interface components |
+| `src/components/` | Interface components, grouped by feature or shell area |
+| `src/components/shared/` | Reusable buttons-in-composition UI: page headers, panels, notices, empty states, writing fields and loading/error surfaces |
 | `src/lib/auth/` | Session verification and authentication configuration |
 | `src/lib/db/` | Database schema and learner data queries |
-| `src/lib/feedback/` | Feedback validation and correction matching |
+| `src/lib/feedback/` | Feedback validation, correction review rules, and submission orchestration |
 | `src/lib/practice.ts` | Practice question selection, answer checks, and review intervals |
-| `src/lib/llm/` | AI provider integration |
+| `src/lib/llm/` | Shared completion transport and feature-specific AI adapters |
+| `src/lib/domain-error.ts` | Transport-independent application reasons mapped at API/page boundaries |
+| `src/lib/ai-result.ts` | AI result/usage contracts shared by adapters and persistence |
+| `src/lib/lesson-completion.ts` | Pure lesson completion evidence, separate from path unlock policy |
 | `src/lib/prompts/` | Coach prompts and prompt versions |
 | `src/theme/` | Design tokens and component styles |
 | `messages/` | Interface translations |
@@ -231,6 +235,7 @@ RUN_LIVE_EXPLANATION=true npx vitest run tests/live-explanation.test.ts
 | `tests/` | Automated checks |
 
 Use descriptive names and small components. Format code with Prettier.
+See [refactoring boundaries and verification](docs/refactoring.md) for the application/controller/domain split and the preserved contracts. Reusable UI lives in [`src/components/shared/`](src/components/shared/README.md); feature-specific canvases and charts stay with their feature.
 
 ## Current limits
 

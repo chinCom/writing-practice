@@ -2,17 +2,15 @@
 import { fetchWithStatus } from '@/lib/network-status';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import WritingField from '@/components/ui/WritingField';
+import WritingField from '@/components/shared/WritingField';
 import { trackForId } from '@/lib/curriculum';
 import IeltsContract from './IeltsContract';
 import Noticing from './Noticing';
@@ -20,7 +18,9 @@ import ReadingPassage from './ReadingPassage';
 import TaskChart from './TaskChart';
 import TargetRecommendations from './TargetRecommendations';
 import type { LearningPath } from '@/lib/db/curriculum';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
 type Lesson = LearningPath['units'][number]['lessons'][number];
 export default function LessonView({
   lesson,
@@ -80,8 +80,7 @@ export default function LessonView({
   return (
     <Container maxWidth="lg" disableGutters>
       <Stack sx={{ gap: { xs: 2.5, md: 3 } }}>
-        <Button
-          component={NextLink}
+        <NavigationButton
           href={
             (preview ? '/dev/preview/path' + (fullCourse ? '?course=full&' : '?') : '/path?') +
             'track=' +
@@ -90,7 +89,7 @@ export default function LessonView({
           sx={{ alignSelf: 'flex-start', px: 0 }}
         >
           {t('backToPath')}
-        </Button>
+        </NavigationButton>
         <PageHeader title={lesson.title} note={app('paperNotes.path')} accentOffset={-82} />
         <TargetRecommendations targets={lesson.advisoryTargets} />
         <IeltsContract taskId={lesson.task.id} />
@@ -148,18 +147,17 @@ export default function LessonView({
             {done ? (
               <>
                 <Alert severity="success">{t('warmupsComplete')}</Alert>
-                <Button
-                  component={NextLink}
+                <NavigationButton
                   href={
                     preview
                       ? '/dev/preview/curriculum-write' +
                         (fullCourse ? '?course=full&task=' + lesson.task.id : '')
                       : '/write/' + lesson.task.id
                   }
-                  variant="contained"
+                  tone="primary"
                 >
                   {t('startWriting')}
-                </Button>
+                </NavigationButton>
               </>
             ) : (
               <>
@@ -201,9 +199,9 @@ export default function LessonView({
                   </Alert>
                 ) : null}
                 {result?.correct ? (
-                  <Button
+                  <ActionButton
                     type="button"
-                    variant="outlined"
+                    tone="secondary"
                     onClick={() => {
                       setIndex(index + 1);
                       setAnswer('');
@@ -211,11 +209,11 @@ export default function LessonView({
                     }}
                   >
                     {t('nextWarmup')}
-                  </Button>
+                  </ActionButton>
                 ) : (
-                  <Button type="submit" variant="contained" disabled={busy || !answer.trim()}>
+                  <ActionButton type="submit" tone="primary" disabled={busy || !answer.trim()}>
                     {t('check')}
-                  </Button>
+                  </ActionButton>
                 )}
               </>
             )}

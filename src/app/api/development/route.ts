@@ -4,7 +4,7 @@ import { developmentInput, parseDevelopmentInput } from '@/lib/feedback/developm
 import { loadTask } from '@/lib/db/curriculum';
 import { reserveDevelopment } from '@/lib/db/explanations';
 import { developWriting } from '@/lib/llm/develop';
-import { LlmError } from '@/lib/llm/grade';
+import { LlmError } from '@/lib/llm/errors';
 
 export const maxDuration = 30;
 export async function POST(request: Request) {

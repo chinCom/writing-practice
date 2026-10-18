@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
@@ -13,9 +12,10 @@ import AutoAwesomeOutlined from '@mui/icons-material/AutoAwesomeOutlined';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import MarkedText from '@/components/feedback/MarkedText';
-import WritingField from '@/components/ui/WritingField';
+import WritingField from '@/components/shared/WritingField';
 import type { LocatedCorrection } from '@/lib/feedback/schema';
 import { analyzeWriting, repeatedWord, type HintTask, type WritingHint } from '@/lib/writing-hints';
+import ActionButton from '@/components/shared/ActionButton';
 
 const demoTask: HintTask = { id: 'landing-demo', minWords: 1, maxWords: 60, targetLevel: 'A2' };
 const demoLimit = 300;
@@ -270,18 +270,18 @@ export default function LiveDemo() {
             : text}
         </Typography>
         <Stack direction="row" sx={{ gap: 1, mt: 1, alignItems: 'center' }}>
-          <Button variant="contained" size="small" disabled={!marks.length} onClick={applyAll}>
+          <ActionButton tone="primary" size="small" disabled={!marks.length} onClick={applyAll}>
             {t('acceptAll')}
-          </Button>
-          <Button
-            variant="outlined"
+          </ActionButton>
+          <ActionButton
+            tone="secondary"
             size="small"
             disabled={!current}
             onClick={ignoreCurrent}
             sx={{ bgcolor: 'background.paper' }}
           >
             {t('ignore')}
-          </Button>
+          </ActionButton>
           <Stack
             direction="row"
             sx={{ gap: 0.25, alignItems: 'center', marginInlineStart: 'auto' }}

@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
@@ -11,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined';
 import type { DevelopmentHelpState } from './useDevelopmentHelp';
+import ActionButton from '@/components/shared/ActionButton';
 
 /** The footer action: one request button and the long explanation in a tooltip. */
 export function DevelopmentAction({ help }: { help: DevelopmentHelpState }) {
@@ -18,15 +18,15 @@ export function DevelopmentAction({ help }: { help: DevelopmentHelpState }) {
   const { pending, canRequest, request } = help;
   return (
     <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center' }}>
-      <Button
-        variant="outlined"
+      <ActionButton
+        tone="secondary"
         size="small"
         startIcon={<LightbulbOutlined />}
         disabled={!canRequest}
         onClick={request}
       >
         {t(pending ? 'pending' : 'button')}
-      </Button>
+      </ActionButton>
       <Tooltip
         arrow
         title={

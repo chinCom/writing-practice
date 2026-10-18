@@ -9,7 +9,6 @@ import AppBar from '@mui/material/AppBar';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import Drawer from '@mui/material/Drawer';
@@ -29,6 +28,8 @@ import { signOut } from '@/app/login/actions';
 import { makeTheme } from '@/theme/theme';
 import LogoMark from '@/components/ui/icons/LogoMark';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
 
 // A separate CSS variable prefix keeps page themes from changing navigation styles.
 const navigationTheme = makeTheme('navigation');
@@ -127,27 +128,26 @@ function AccountFooter({ signedIn }: { signedIn: boolean }) {
       ) : null}
       {/* Account identity is temporarily hidden; keep sign-in and sign-out available. */}
       {signedIn ? (
-        <Button
+        <ActionButton
           fullWidth
-          variant="outlined"
+          tone="secondary"
           startIcon={<LogoutOutlined />}
           disabled={signingOut}
           onClick={handleSignOut}
           sx={{ justifyContent: 'center' }}
         >
           {t('signOut')}
-        </Button>
+        </ActionButton>
       ) : (
-        <Button
+        <NavigationButton
           fullWidth
-          variant="outlined"
+          tone="secondary"
           startIcon={<LoginOutlined />}
-          component={NextLink}
           href="/login"
           sx={{ justifyContent: 'center' }}
         >
           {t('signIn')}
-        </Button>
+        </NavigationButton>
       )}
     </Box>
   );

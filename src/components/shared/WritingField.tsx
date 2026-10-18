@@ -1,7 +1,7 @@
 'use client';
-import { forwardRef } from 'react';
 import TextField from '@mui/material/TextField';
 import type { TextFieldProps } from '@mui/material/TextField';
+
 export const writingAttributes = {
   dir: 'ltr',
   spellCheck: false,
@@ -12,19 +12,20 @@ export const writingAttributes = {
   'data-gramm_editor': 'false',
   'data-enable-grammarly': 'false',
 } as const;
-const WritingField = forwardRef<HTMLDivElement, TextFieldProps>(function WritingField(props, ref) {
+
+export default function WritingField({ ref, ...props }: TextFieldProps) {
+  const htmlInput = props.slotProps?.htmlInput;
   return (
     <TextField
       {...props}
       ref={ref}
       slotProps={{
         ...props.slotProps,
-        htmlInput: {
-          ...(typeof props.slotProps?.htmlInput === 'object' ? props.slotProps.htmlInput : {}),
+        htmlInput: (ownerState) => ({
+          ...(typeof htmlInput === 'function' ? htmlInput(ownerState) : htmlInput),
           ...writingAttributes,
-        },
+        }),
       }}
     />
   );
-});
-export default WritingField;
+}

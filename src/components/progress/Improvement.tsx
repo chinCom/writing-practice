@@ -2,9 +2,8 @@
 import { useFormatter, useTranslations } from 'next-intl';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Paper from '@mui/material/Paper';
+import SectionPanel from '@/components/shared/SectionPanel';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { scoreKeys, type Improvement as ImprovementData } from '@/lib/improvement';
@@ -117,29 +116,24 @@ function RevisionGainNote({ gain }: { gain: NonNullable<ImprovementData['revisio
 export default function Improvement({ data }: { data: ImprovementData }) {
   const t = useTranslations('progress');
   return (
-    <Paper component="section" aria-labelledby="improvement-title" sx={{ p: 3, minInlineSize: 0 }}>
-      <Stack sx={{ gap: 3 }}>
-        <Typography id="improvement-title" variant="h3">
-          {t('improvementTitle')}
-        </Typography>
-        <Typography variant="body2">{t('unmatchedTrends')}</Typography>
-        {data.weekly.length >= 2 ? (
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 22rem), 1fr))',
-              gap: 3,
-            }}
-          >
-            <WeeklyScoreChart weekly={data.weekly} />
-            <WeeklyErrorChart weekly={data.weekly} />
-          </Box>
-        ) : null}
-        {data.revisionGain ? <RevisionGainNote gain={data.revisionGain} /> : null}
-        <Typography variant="caption" color="text.secondary">
-          {t('improvementDisclaimer')}
-        </Typography>
-      </Stack>
-    </Paper>
+    <SectionPanel title={t('improvementTitle')} headingComponent="h3" titleId="improvement-title">
+      <Typography variant="body2">{t('unmatchedTrends')}</Typography>
+      {data.weekly.length >= 2 ? (
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 22rem), 1fr))',
+            gap: 3,
+          }}
+        >
+          <WeeklyScoreChart weekly={data.weekly} />
+          <WeeklyErrorChart weekly={data.weekly} />
+        </Box>
+      ) : null}
+      {data.revisionGain ? <RevisionGainNote gain={data.revisionGain} /> : null}
+      <Typography variant="caption" color="text.secondary">
+        {t('improvementDisclaimer')}
+      </Typography>
+    </SectionPanel>
   );
 }

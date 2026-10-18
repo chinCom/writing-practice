@@ -1,5 +1,4 @@
 'use client';
-import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -7,11 +6,12 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import LinearProgress from '@mui/material/LinearProgress';
-import Button from '@mui/material/Button';
 import type { CourseProgress } from '@/lib/course-progress';
 import MenuBookOutlined from '@mui/icons-material/MenuBookOutlined';
 import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import IconBadge from '@/components/shared/IconBadge';
+import NavigationButton from '@/components/shared/NavigationButton';
 
 function LevelRows({ levels }: { levels: CourseProgress['levels'] }) {
   const t = useTranslations('progress');
@@ -71,23 +71,9 @@ function TrackCard({ data, preview }: { data: CourseProgress; preview: boolean }
       <CardContent sx={{ p: { xs: 2.5, md: 3 } }}>
         <Stack sx={{ gap: 2 }}>
           <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
-            <Box
-              sx={{
-                inlineSize: 38,
-                blockSize: 38,
-                borderRadius: 1.5,
-                bgcolor: data.track === 'core' ? 'tonal.primary' : 'tonal.success',
-                color: data.track === 'core' ? 'secondary.main' : 'success.dark',
-                display: 'grid',
-                placeItems: 'center',
-              }}
-            >
-              {data.track === 'core' ? (
-                <MenuBookOutlined sx={{ fontSize: 20 }} />
-              ) : (
-                <SchoolOutlined sx={{ fontSize: 20 }} />
-              )}
-            </Box>
+            <IconBadge tone={data.track === 'core' ? 'purple' : 'green'} size="small">
+              {data.track === 'core' ? <MenuBookOutlined /> : <SchoolOutlined />}
+            </IconBadge>
             <Box>
               <Typography component="h3" variant="h3">
                 {t(data.track === 'core' ? 'coreTrack' : 'ieltsTrack')}
@@ -105,15 +91,14 @@ function TrackCard({ data, preview }: { data: CourseProgress; preview: boolean }
           <LevelRows levels={data.levels} />
           <Typography variant="body2">{t('lessonsThisWeek', { n: data.doneThisWeek })}</Typography>
           {current || (data.track === 'core' && data.lessonsDone === 0) ? (
-            <Button
-              component={NextLink}
+            <NavigationButton
               href={preview ? '/dev/preview/path' : href}
-              variant="outlined"
+              tone="secondary"
               endIcon={<ArrowForward />}
               sx={{ alignSelf: 'stretch', justifyContent: 'space-between' }}
             >
               {current ? t('continueLesson', { title: current.lessonTitle }) : t('findLevel')}
-            </Button>
+            </NavigationButton>
           ) : null}
           <RecentLessons recent={data.recent} />
         </Stack>

@@ -1,33 +1,35 @@
 'use client';
-import { fetchWithStatus } from '@/lib/network-status';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
-import NextLink from 'next/link';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
+import ActionNotice from '@/components/shared/ActionNotice';
+import EmptyState from '@/components/shared/EmptyState';
 import Collapse from '@mui/material/Collapse';
-import LinearProgress from '@mui/material/LinearProgress';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import CalendarMonthOutlined from '@mui/icons-material/CalendarMonthOutlined';
 import LightbulbOutlined from '@mui/icons-material/LightbulbOutlined';
 import TaskAltOutlined from '@mui/icons-material/TaskAltOutlined';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
 import CalloutRibbon from '@/components/ui/icons/CalloutRibbon';
-import WritingField from '@/components/ui/WritingField';
-import HintText from '@/components/ui/HintText';
+import WritingField from '@/components/shared/WritingField';
+import HintText from '@/components/shared/HintText';
 import Transfer from './Transfer';
 import { tickPop } from '@/theme/theme';
-import type { PracticeAnswer, PracticeQuestion } from '@/lib/practice';
+import type { PracticeAnswer } from '@/lib/practice';
+import { usePracticeSession } from './usePracticeSession';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
+import ToneChip from '@/components/shared/ToneChip';
+import LoadingBar from '@/components/shared/LoadingBar';
 
 function PracticeHint({ result }: { result: PracticeAnswer }) {
   const t = useTranslations('practice');
@@ -85,26 +87,23 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
   const app = useTranslations('app');
   const tags = useTranslations('feedback.tags');
   const format = useFormatter();
-  const endpoint = preview ? '/dev/preview/practice' : '/api/practice';
-  const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
-  const [nextReviewAt, setNextReviewAt] = useState<string | null>(null);
-  const [index, setIndex] = useState(0);
-  const [answer, setAnswer] = useState('');
-  const [result, setResult] = useState<PracticeAnswer | null>(null);
-  const [busy, setBusy] = useState(true);
-  const [error, setError] = useState<'loadError' | 'saveError' | 'session' | 'conflict' | null>(
-    null,
-  );
-  const [reload, setReload] = useState(0);
-  const [finishedBatch, setFinishedBatch] = useState(false);
-  const [pending, setPending] = useState<{
-    drillId: string;
-    answer: string;
-    version: number;
-  } | null>(null);
-  const checking = useRef(false);
-  const answerInput = useRef<HTMLInputElement>(null);
-  const question = questions[index];
+  const {
+    questions,
+    nextReviewAt,
+    index,
+    answer,
+    setAnswer,
+    result,
+    busy,
+    error,
+    finishedBatch,
+    pending,
+    answerInput,
+    question,
+    check,
+    next,
+    refresh,
+  } = usePracticeSession(preview);
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const card = useRef<HTMLDivElement>(null);
   // Fade the same card for each question. Remounting it would drop focus from the answer field.
@@ -113,109 +112,31 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
       card.current?.animate({ opacity: [0, 1] }, { duration: 150, easing: 'ease-out' });
   }, [index, reducedMotion]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchWithStatus(endpoint, {
-      cache: 'no-store',
-      signal: AbortSignal.any([controller.signal, AbortSignal.timeout(10000)]),
-    })
-      .then(async (response) => {
-        if (response.status === 401) throw new Error('session');
-        if (!response.ok) throw new Error('loadError');
-        const data = await response.json();
-        if (!data.ok || !Array.isArray(data.questions)) throw new Error('loadError');
-        if (controller.signal.aborted) return;
-        setQuestions(data.questions);
-        setNextReviewAt(data.nextReviewAt);
-        setIndex(0);
-        setResult(null);
-        setPending(null);
-        setAnswer('');
-        setError(null);
-      })
-      .catch((failure) => {
-        if (!controller.signal.aborted)
-          setError(failure.message === 'session' ? 'session' : 'loadError');
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setBusy(false);
-      });
-    return () => controller.abort();
-  }, [endpoint, reload]);
-
-  async function check() {
-    if (!question || checking.current || result?.complete || !answer.trim()) return;
-    const body = pending ?? {
-      drillId: question.id,
-      answer: answer.trim(),
-      version: result?.version ?? question.version,
-    };
-    checking.current = true;
-    setPending(body);
-    setBusy(true);
-    setError(null);
-    try {
-      const response = await fetchWithStatus(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-        signal: AbortSignal.timeout(10000),
-      });
-      if (response.status === 401) throw new Error('session');
-      if (response.status === 409 || response.status === 404) throw new Error('conflict');
-      if (!response.ok) throw new Error('saveError');
-      const data = await response.json();
-      if (!data.ok || !data.result) throw new Error('saveError');
-      setResult(data.result);
-      setPending(null);
-      if (!data.result.complete) requestAnimationFrame(() => answerInput.current?.focus());
-    } catch (failure) {
-      const message = failure instanceof Error ? failure.message : '';
-      setError(
-        message === 'session' ? 'session' : message === 'conflict' ? 'conflict' : 'saveError',
-      );
-    } finally {
-      checking.current = false;
-      setBusy(false);
-    }
-  }
-  function next() {
-    if (index + 1 === questions.length) {
-      setFinishedBatch(true);
-      refresh();
-      return;
-    }
-    setIndex(index + 1);
-    setAnswer('');
-    setResult(null);
-    requestAnimationFrame(() => answerInput.current?.focus());
-  }
-  function refresh() {
-    setBusy(true);
-    setReload(reload + 1);
-  }
-
   return (
     <Container maxWidth={false} disableGutters>
       <Stack sx={{ gap: 3 }}>
         <PageHeader title={t('title')} subtitle={t('subtitle')} note={app('paperNotes.practice')} />
-        {busy && <LinearProgress aria-label={t('loading')} />}
+        {busy && <LoadingBar label={t('loading')} />}
         {error && (
-          <Alert severity="error">
-            {t(error)}
-            {error === 'session' ? (
-              <Button component={NextLink} href="/login">
-                {t('signIn')}
-              </Button>
-            ) : error === 'loadError' || error === 'conflict' ? (
-              <Button onClick={refresh}>{t('reload')}</Button>
-            ) : null}
-          </Alert>
+          <ActionNotice
+            message={t(error)}
+            action={
+              error === 'session' ? (
+                <NavigationButton href="/login">{t('signIn')}</NavigationButton>
+              ) : error === 'loadError' || error === 'conflict' ? (
+                <ActionButton tone="quiet" onClick={refresh}>
+                  {t('reload')}
+                </ActionButton>
+              ) : null
+            }
+          />
         )}
         {!busy && !error && !question && (
-          <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
-            <Stack sx={{ gap: 2 }}>
-              {finishedBatch ? (
+          <EmptyState
+            title={t(finishedBatch ? 'complete' : 'empty')}
+            description={t(finishedBatch ? 'completeBody' : 'emptyBody')}
+            icon={
+              finishedBatch ? (
                 <CheckCircle
                   aria-hidden="true"
                   sx={{
@@ -226,31 +147,25 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
                     },
                   }}
                 />
-              ) : null}
-              <Typography component="h2" variant="h2">
-                {t(finishedBatch ? 'complete' : 'empty')}
-              </Typography>
-              <Typography>{t(finishedBatch ? 'completeBody' : 'emptyBody')}</Typography>
-              {nextReviewAt && (
-                <Typography variant="body2">
-                  {t('nextReview', {
-                    date: format.dateTime(new Date(nextReviewAt), {
-                      dateStyle: 'medium',
-                      timeStyle: 'short',
-                    }),
-                  })}
-                </Typography>
-              )}
-              <Button
-                component={NextLink}
-                href="/write/weekend"
-                variant="contained"
-                sx={{ alignSelf: 'flex-start' }}
-              >
+              ) : null
+            }
+            action={
+              <NavigationButton href="/write/weekend" tone="primary">
                 {t('write')}
-              </Button>
-            </Stack>
-          </Paper>
+              </NavigationButton>
+            }
+          >
+            {nextReviewAt ? (
+              <Typography variant="body2">
+                {t('nextReview', {
+                  date: format.dateTime(new Date(nextReviewAt), {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  }),
+                })}
+              </Typography>
+            ) : null}
+          </EmptyState>
         )}
         {question && (
           <>
@@ -273,11 +188,10 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
                 </Paper>
                 <Paper variant="outlined" sx={{ p: { xs: 2.5, md: 3.5 } }}>
                   <Stack sx={{ gap: 3 }}>
-                    <Chip
+                    <ToneChip
                       label={tags(question.tag)}
                       icon={<TaskAltOutlined />}
-                      variant="tonal"
-                      color="primary"
+                      tone="primary"
                       sx={{ alignSelf: 'flex-start', height: 34 }}
                     />
                     <Typography variant="body2">{t('instruction')}</Typography>
@@ -313,14 +227,14 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
                           slotProps={{ htmlInput: { maxLength: 300 } }}
                           onChange={(event) => setAnswer(event.target.value)}
                         />
-                        <Button
+                        <ActionButton
                           type="submit"
-                          variant="contained"
+                          tone="primary"
                           disabled={busy || !answer.trim() || Boolean(result?.complete)}
                           sx={{ alignSelf: 'flex-start' }}
                         >
                           {t(busy ? 'saving' : pending ? 'retry' : 'check')}
-                        </Button>
+                        </ActionButton>
                       </Stack>
                     </Box>
                     {result && !pending && (
@@ -355,9 +269,9 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
                           <CalendarMonthOutlined fontSize="small" />
                           {t('reviewDays', { n: result.days })}
                         </Typography>
-                        <Button variant="outlined" onClick={next}>
+                        <ActionButton tone="secondary" onClick={next}>
                           {t(index + 1 === questions.length ? 'finish' : 'next')}
-                        </Button>
+                        </ActionButton>
                       </Stack>
                     )}
                   </Stack>

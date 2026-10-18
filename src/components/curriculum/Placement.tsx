@@ -8,11 +8,11 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import LinearProgress from '@mui/material/LinearProgress';
-import WritingField from '@/components/ui/WritingField';
+import WritingField from '@/components/shared/WritingField';
+import ActionButton from '@/components/shared/ActionButton';
+import LoadingBar from '@/components/shared/LoadingBar';
 import {
   curriculumLevel,
   placementQuestions,
@@ -82,7 +82,7 @@ export default function Placement({
         </Typography>
         <Typography>{t('placementIntro')}</Typography>
         <Alert severity="info">{t('placementLimitNotice')}</Alert>
-        {busy ? <LinearProgress aria-label={t('loading')} /> : null}
+        {busy ? <LoadingBar label={t('loading')} /> : null}
         {error ? <Alert severity="error">{t(error)}</Alert> : null}
         {result ? (
           <Paper variant="outlined" sx={{ p: 3 }}>
@@ -110,9 +110,9 @@ export default function Placement({
                       </Box>
                     ))}
                   </TextField>
-                  <Button variant="contained" onClick={() => void submit(true)} disabled={busy}>
+                  <ActionButton tone="primary" onClick={() => void submit(true)} disabled={busy}>
                     {t('start')}
-                  </Button>
+                  </ActionButton>
                 </>
               )}
             </Stack>
@@ -172,9 +172,9 @@ export default function Placement({
                   ))}
                 </TextField>
               ))}
-              <Button
+              <ActionButton
                 type="submit"
-                variant="contained"
+                tone="primary"
                 disabled={
                   busy ||
                   samples.some((sample) => sample.trim().length < 30) ||
@@ -182,7 +182,7 @@ export default function Placement({
                 }
               >
                 {t('estimateButton')}
-              </Button>
+              </ActionButton>
             </Stack>
           </Paper>
         )}

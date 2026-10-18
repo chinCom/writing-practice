@@ -1,6 +1,6 @@
 'use client';
 import { useFormatter, useTranslations } from 'next-intl';
-import Paper from '@mui/material/Paper';
+import SectionPanel from '@/components/shared/SectionPanel';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -19,67 +19,62 @@ export default function Benchmarks({ comparisons }: { comparisons: BenchmarkComp
       ? t('benchmarkUnused')
       : format.number(value, { style: 'percent', maximumFractionDigits: 1 });
   return (
-    <Paper component="section" aria-labelledby="benchmarks-title" sx={{ p: 3, minInlineSize: 0 }}>
-      <Stack sx={{ gap: 2 }}>
-        <Typography id="benchmarks-title" variant="h3">
-          {t('benchmarksTitle')}
-        </Typography>
-        {!comparisons.length ? <Typography>{t('benchmarkEmpty')}</Typography> : null}
-        {comparisons.map((comparison) => (
-          <Stack key={comparison.unitId + comparison.version} sx={{ gap: 1 }}>
-            <Typography component="h3" variant="h3" sx={{ overflowWrap: 'anywhere' }}>
-              {comparison.unitId}
+    <SectionPanel title={t('benchmarksTitle')} headingComponent="h3" titleId="benchmarks-title">
+      {!comparisons.length ? <Typography>{t('benchmarkEmpty')}</Typography> : null}
+      {comparisons.map((comparison) => (
+        <Stack key={comparison.unitId + comparison.version} sx={{ gap: 1 }}>
+          <Typography component="h3" variant="h3" sx={{ overflowWrap: 'anywhere' }}>
+            {comparison.unitId}
+          </Typography>
+          <Typography variant="caption" sx={{ overflowWrap: 'anywhere' }}>
+            {t('benchmarkVersion', { version: comparison.version })}
+          </Typography>
+          <Typography>{t('benchmarkBefore', { value: number(comparison.before) })}</Typography>
+          <Typography>{t('benchmarkAfter', { value: number(comparison.after) })}</Typography>
+          <Typography variant="body2">
+            {t('benchmarkChange', { change: t('benchmark-' + comparison.scoreChange) })}
+          </Typography>
+          {comparison.targets.map((target) => (
+            <Typography key={target.tag} variant="body2">
+              {tags(target.tag)}: {rate(target.before)} → {rate(target.after)} ·{' '}
+              {t('benchmark-' + target.change)}
             </Typography>
-            <Typography variant="caption" sx={{ overflowWrap: 'anywhere' }}>
-              {t('benchmarkVersion', { version: comparison.version })}
-            </Typography>
-            <Typography>{t('benchmarkBefore', { value: number(comparison.before) })}</Typography>
-            <Typography>{t('benchmarkAfter', { value: number(comparison.after) })}</Typography>
-            <Typography variant="body2">
-              {t('benchmarkChange', { change: t('benchmark-' + comparison.scoreChange) })}
-            </Typography>
-            {comparison.targets.map((target) => (
-              <Typography key={target.tag} variant="body2">
-                {tags(target.tag)}: {rate(target.before)} → {rate(target.after)} ·{' '}
-                {t('benchmark-' + target.change)}
-              </Typography>
-            ))}
-            <Divider sx={{ my: 1 }} />
-            <Typography variant="subtitle1">{t('benchmarkContext')}</Typography>
-            <Typography variant="body2">
-              {t('benchmarkWords', {
-                before: number(comparison.indicators.before.words),
-                after: number(comparison.indicators.after.words),
-              })}
-            </Typography>
-            <Typography variant="body2">
-              {t('benchmarkRange', {
-                before: t(
-                  comparison.indicators.before.inRange ? 'benchmarkInRange' : 'benchmarkOutOfRange',
-                ),
-                after: t(
-                  comparison.indicators.after.inRange ? 'benchmarkInRange' : 'benchmarkOutOfRange',
-                ),
-              })}
-            </Typography>
-            <Typography variant="body2">
-              {t('benchmarkSentence', {
-                before: number(comparison.indicators.before.meanSentenceLength),
-                after: number(comparison.indicators.after.meanSentenceLength),
-              })}
-            </Typography>
-            <Typography variant="body2">
-              {t('benchmarkMtld', {
-                before: number(comparison.indicators.before.mtld),
-                after: number(comparison.indicators.after.mtld),
-              })}
-            </Typography>
-          </Stack>
-        ))}
-        <Typography variant="caption" color="text.secondary">
-          {t('benchmarkDisclaimer')}
-        </Typography>
-      </Stack>
-    </Paper>
+          ))}
+          <Divider sx={{ my: 1 }} />
+          <Typography variant="subtitle1">{t('benchmarkContext')}</Typography>
+          <Typography variant="body2">
+            {t('benchmarkWords', {
+              before: number(comparison.indicators.before.words),
+              after: number(comparison.indicators.after.words),
+            })}
+          </Typography>
+          <Typography variant="body2">
+            {t('benchmarkRange', {
+              before: t(
+                comparison.indicators.before.inRange ? 'benchmarkInRange' : 'benchmarkOutOfRange',
+              ),
+              after: t(
+                comparison.indicators.after.inRange ? 'benchmarkInRange' : 'benchmarkOutOfRange',
+              ),
+            })}
+          </Typography>
+          <Typography variant="body2">
+            {t('benchmarkSentence', {
+              before: number(comparison.indicators.before.meanSentenceLength),
+              after: number(comparison.indicators.after.meanSentenceLength),
+            })}
+          </Typography>
+          <Typography variant="body2">
+            {t('benchmarkMtld', {
+              before: number(comparison.indicators.before.mtld),
+              after: number(comparison.indicators.after.mtld),
+            })}
+          </Typography>
+        </Stack>
+      ))}
+      <Typography variant="caption" color="text.secondary">
+        {t('benchmarkDisclaimer')}
+      </Typography>
+    </SectionPanel>
   );
 }

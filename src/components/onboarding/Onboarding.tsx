@@ -2,7 +2,6 @@
 import { fetchWithStatus } from '@/lib/network-status';
 
 import { useEffect, useState } from 'react';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -12,10 +11,11 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { profileResult, type LearningProfile } from '@/lib/profile';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
 
 const defaultProfile: LearningProfile = {
   nativeLanguage: 'en',
@@ -183,9 +183,7 @@ export default function Onboarding({
               <Alert severity="warning">
                 {t(status)}
                 {status === 'expired' ? (
-                  <Button component={NextLink} href="/login">
-                    {t('signInAgain')}
-                  </Button>
+                  <NavigationButton href="/login">{t('signInAgain')}</NavigationButton>
                 ) : null}
               </Alert>
             ) : null}
@@ -198,12 +196,12 @@ export default function Onboarding({
               <Typography role="status">{t(status)}</Typography>
             ) : null}
             <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
-              <Button variant="contained" disabled={disabled} onClick={() => void save()}>
+              <ActionButton tone="primary" disabled={disabled} onClick={() => void save()}>
                 {t('save')}
-              </Button>
-              <Button component={NextLink} href={preview ? '/dev/preview/today' : '/today'}>
+              </ActionButton>
+              <NavigationButton href={preview ? '/dev/preview/today' : '/today'}>
                 {t('continue')}
-              </Button>
+              </NavigationButton>
             </Stack>
           </Stack>
         </Paper>

@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -12,6 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import type { ReportReason } from '@/lib/feedback/choices';
+import ActionButton from '@/components/shared/ActionButton';
 const reasons: ReportReason[] = ['incorrect', 'meaning', 'unclear', 'other'];
 export default function ReportCorrection({
   reason,
@@ -29,7 +29,8 @@ export default function ReportCorrection({
   const [selected, setSelected] = useState<ReportReason>('incorrect');
   return (
     <>
-      <Button
+      <ActionButton
+        tone="quiet"
         size="small"
         disabled={disabled}
         onClick={() => {
@@ -38,7 +39,7 @@ export default function ReportCorrection({
         }}
       >
         {t('report')}
-      </Button>
+      </ActionButton>
       {reason ? (
         <Typography variant="caption" role="status">
           {t('reportSaved')}
@@ -79,18 +80,18 @@ export default function ReportCorrection({
           </RadioGroup>
         </DialogContent>
         <DialogActions>
-          <Button disabled={disabled} onClick={() => setOpen(false)}>
+          <ActionButton tone="quiet" disabled={disabled} onClick={() => setOpen(false)}>
             {t('cancelReport')}
-          </Button>
-          <Button
-            variant="contained"
+          </ActionButton>
+          <ActionButton
+            tone="primary"
             disabled={disabled}
             onClick={async () => {
               if (await onReport(selected)) setOpen(false);
             }}
           >
             {t(disabled ? 'choiceSaving' : 'sendReport')}
-          </Button>
+          </ActionButton>
         </DialogActions>
       </Dialog>
     </>

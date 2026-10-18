@@ -5,7 +5,7 @@ import { loadFeedback } from '@/lib/db/queries';
 import { requireCorrectionAnswer } from '@/lib/db/corrections';
 import { failExplanation, finishExplanation, reserveExplanation } from '@/lib/db/explanations';
 import { explainCorrection } from '@/lib/llm/explain';
-import { LlmError } from '@/lib/llm/grade';
+import { LlmError } from '@/lib/llm/errors';
 
 export const maxDuration = 30;
 const InputSchema = z.strictObject({

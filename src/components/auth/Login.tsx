@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -16,6 +15,7 @@ import { signIn } from '@/app/login/actions';
 import LegalLinks from '@/components/landing/LegalLinks';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
 import HandDrawnArrow from '@/components/ui/icons/HandDrawnArrow';
+import ActionButton from '@/components/shared/ActionButton';
 
 export default function Login({
   configured,
@@ -169,9 +169,9 @@ export default function Login({
           </Stack>
           {!configured ? <Alert severity="info">{t('notConfigured')}</Alert> : null}
           <Box component="form" action="/auth/google" method="post">
-            <Button
+            <ActionButton
               type="submit"
-              variant="outlined"
+              tone="secondary"
               fullWidth
               disabled={!configured || !googleEnabled || state === 'loading'}
               startIcon={
@@ -191,7 +191,7 @@ export default function Login({
               sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
             >
               {t('google')}
-            </Button>
+            </ActionButton>
           </Box>
           {!googleEnabled ? (
             <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
@@ -219,15 +219,15 @@ export default function Login({
               onChange={(event) => setEmail(event.target.value)}
               disabled={!configured || state === 'loading'}
             />
-            <Button
+            <ActionButton
               type="submit"
-              variant="contained"
+              tone="primary"
               disabled={!configured || state === 'loading'}
               endIcon={<ArrowForward />}
               sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
             >
               {t(state === 'loading' ? 'sending' : 'send')}
-            </Button>
+            </ActionButton>
           </Stack>
           {state === 'sent' ? <Alert severity="success">{t('sent')}</Alert> : null}
           {state === 'error' ? <Alert severity="error">{t('error')}</Alert> : null}

@@ -1,13 +1,10 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
@@ -19,14 +16,15 @@ import HelpOutline from '@mui/icons-material/HelpOutlined';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
 import MarkedText from './MarkedText';
 import { maxRevisionAttempts } from '@/lib/limits';
-import { revisionText, targetCorrectionIndexes } from '@/lib/revision';
-import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
 import ScoreBars from './ScoreBars';
 import TargetReport from './TargetReport';
 import CorrectionCard from './CorrectionCard';
 import ConnectorLayer from './ConnectorLayer';
-import { useCorrectionChoices } from './use-correction-choices';
+import { useFeedbackReview } from './useFeedbackReview';
 import type { CorrectionChoice } from '@/lib/feedback/choices';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
+import ToneChip from '@/components/shared/ToneChip';
 
 export default function FeedbackView({
   submissionId,
@@ -57,29 +55,33 @@ export default function FeedbackView({
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
-  const [active, setActive] = useState(0);
-  const [sheet, setSheet] = useState(false);
   const [rewrite, setRewrite] = useState(false);
   const preview = mock && submissionId === 'preview';
-  const choiceState = useCorrectionChoices(submissionId, preview, initialChoices);
-  useUnsavedWriting(choiceState.pending || choiceState.errors.length > 0, t('choiceLeave'));
-  const targetIndexes = targetCorrectionIndexes(feedback);
-  const answersUnlocked = hasPreviousVersion || attempt > 1 || hasSubmittedRevision;
-  const hiddenAnswers = new Set(
-    [...targetIndexes].filter(
-      (index) =>
-        !answersUnlocked &&
-        !choiceState.choices.some((item) => item.correctionIndex === index && item.revealed),
-    ),
-  );
-  const rewriteAvailable =
-    !targetIndexes.size || answersUnlocked || choiceState.choices.some((item) => item.revealed);
-  const applied = new Set(
-    choiceState.choices
-      .filter((item) => item.status === 'applied')
-      .map((item) => item.correctionIndex),
-  );
-  const activeChoice = choiceState.choices.find((item) => item.correctionIndex === active);
+  const review = useFeedbackReview({
+    submissionId,
+    text,
+    feedback,
+    preview,
+    initialChoices,
+    answersUnlocked: hasPreviousVersion || attempt > 1 || hasSubmittedRevision,
+    desktop,
+    leaveWarning: t('choiceLeave'),
+  });
+  const {
+    active,
+    sheet,
+    setSheet,
+    total,
+    correction,
+    activeChoice,
+    choiceState,
+    applied,
+    hiddenAnswers,
+    rewriteAvailable,
+    visibleIndexes,
+    select,
+    prepareRevision,
+  } = review;
   const container = useRef<HTMLDivElement>(null);
   const cardFade = useRef<HTMLDivElement>(null);
   // Fade the card on the same element. Remounting it would drop keyboard focus from its buttons.
@@ -87,89 +89,44 @@ export default function FeedbackView({
     if (!reducedMotion)
       cardFade.current?.animate({ opacity: [0, 1] }, { duration: 150, easing: 'ease-out' });
   }, [active, reducedMotion]);
-  const total = feedback.corrections.length;
-  const correction = feedback.corrections[active];
-  const windowStart = Math.min(Math.max(0, active - 1), Math.max(0, total - 3));
-  const nearbyIndexes = feedback.corrections
-    .slice(windowStart, windowStart + 3)
-    .map((_, offset) => windowStart + offset)
-    .filter((index) => index !== active);
-  const visibleIndexes = total ? [active, ...nearbyIndexes] : [];
-
-  function select(index: number) {
-    setActive(index);
-    if (!desktop) setSheet(true);
-  }
-  function apply() {
-    if (choiceState.loading || choiceState.loadError) return;
-    const undo = applied.has(active);
-    void choiceState.save({ correctionIndex: active, status: undo ? 'open' : 'applied' });
-    if (!undo) {
-      const next = Array.from(
-        { length: total - 1 },
-        (_, offset) => (active + offset + 1) % total,
-      ).find(
-        (index) =>
-          !applied.has(index) &&
-          !choiceState.choices.some(
-            (item) => item.correctionIndex === index && item.status === 'dismissed',
-          ),
-      );
-      if (next !== undefined) setActive(next);
-    }
-  }
-  function prepareRevision() {
-    try {
-      sessionStorage.setItem(
-        'feedback-revision:' + submissionId,
-        revisionText(text, feedback.corrections, applied),
-      );
-    } catch {
-      // A blocked browser store leaves the original revision available on the server.
-    }
-  }
   const saveErrors = choiceState.errors
     .filter((item) => !('reason' in item.change))
     .map(({ change, code }) => (
       <Alert
         key={change.correctionIndex}
         severity="error"
-        action={<Button onClick={() => void choiceState.save(change)}>{t('choiceRetry')}</Button>}
+        action={
+          <ActionButton tone="quiet" onClick={() => void choiceState.save(change)}>
+            {t('choiceRetry')}
+          </ActionButton>
+        }
       >
         {t(code === 'UNAUTHENTICATED' ? 'choiceSession' : 'choiceError')}
       </Alert>
     ));
+  const correctionProps = {
+    submissionId,
+    preview,
+    answerHidden: hiddenAnswers.has(active),
+    onReveal: review.reveal,
+    index: active,
+    total,
+    applied: applied.has(active),
+    onApply: review.apply,
+    dismissed: activeChoice?.status === 'dismissed',
+    choiceBusy: choiceState.loading || choiceState.loadError,
+    choiceError:
+      choiceState.errors.find(
+        (item) => item.change.correctionIndex === active && 'reason' in item.change,
+      )?.code ?? null,
+    onRetry: review.retryReport,
+    onDismiss: review.dismiss,
+    reportReason: activeChoice?.reason ?? null,
+    onReport: review.report,
+    onMove: (direction: number) => select(active + direction),
+  };
   const details = correction ? (
-    <CorrectionCard
-      correction={correction}
-      submissionId={submissionId}
-      preview={mock && submissionId === 'preview'}
-      answerHidden={hiddenAnswers.has(active)}
-      onReveal={() => void choiceState.save({ correctionIndex: active, reveal: true })}
-      index={active}
-      total={total}
-      applied={applied.has(active)}
-      onApply={apply}
-      dismissed={activeChoice?.status === 'dismissed'}
-      choiceBusy={choiceState.loading || choiceState.loadError}
-      choiceError={
-        choiceState.errors.find(
-          (item) => item.change.correctionIndex === active && 'reason' in item.change,
-        )?.code ?? null
-      }
-      onRetry={() => {
-        if (choiceState.error) void choiceState.save(choiceState.error.change);
-      }}
-      onDismiss={() => {
-        void choiceState.save({
-          correctionIndex: active,
-          status: activeChoice?.status === 'dismissed' ? 'open' : 'dismissed',
-        });
-      }}
-      reportReason={activeChoice?.reason ?? null}
-      onReport={(reason) => choiceState.save({ correctionIndex: active, reason })}
-      onMove={(direction) => select(active + direction)}
-    />
+    <CorrectionCard correction={correction} {...correctionProps} />
   ) : null;
 
   if (feedback.safety_flag)
@@ -179,9 +136,7 @@ export default function FeedbackView({
           {t('title')}
         </Typography>
         <Alert severity="warning">{t('safety')}</Alert>
-        <Button component={NextLink} href="/today">
-          {t('next')}
-        </Button>
+        <NavigationButton href="/today">{t('next')}</NavigationButton>
       </Stack>
     );
 
@@ -206,18 +161,16 @@ export default function FeedbackView({
             </Alert>
           ))}
           <Stack direction="row" useFlexGap sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'start' }}>
-            <Chip
+            <ToneChip
               size="small"
-              variant="tonal"
-              color="primary"
+              tone="primary"
               label={t('estimated', { level: feedback.cefr_estimate })}
             />
             {feedback.strengths.map((strength) => (
-              <Chip
+              <ToneChip
                 key={strength}
                 size="small"
-                variant="tonal"
-                color="success"
+                tone="success"
                 icon={<CheckCircle color="success" />}
                 label={strength}
                 slotProps={{ label: { sx: { whiteSpace: 'normal' } } }}
@@ -225,11 +178,10 @@ export default function FeedbackView({
               />
             ))}
             {feedback.priorities.slice(0, 1).map((priority) => (
-              <Chip
+              <ToneChip
                 key={priority.tag}
                 size="small"
-                variant="tonal"
-                color="warning"
+                tone="warning"
                 icon={<HelpOutline color="warning" />}
                 label={t('focus', { topic: t('tags.' + priority.tag) })}
               />
@@ -244,9 +196,9 @@ export default function FeedbackView({
         <Alert
           severity="info"
           action={
-            <Button component={NextLink} href="/dev/preview/path?course=full">
+            <NavigationButton href="/dev/preview/path?course=full">
               {t('courseBack')}
-            </Button>
+            </NavigationButton>
           }
         >
           {t('courseSynthetic')}
@@ -260,7 +212,11 @@ export default function FeedbackView({
       {choiceState.loadError ? (
         <Alert
           severity="error"
-          action={<Button onClick={choiceState.reload}>{t('choiceRetry')}</Button>}
+          action={
+            <ActionButton tone="quiet" onClick={choiceState.reload}>
+              {t('choiceRetry')}
+            </ActionButton>
+          }
         >
           {t('choiceLoadError')}
         </Alert>
@@ -300,9 +256,9 @@ export default function FeedbackView({
               {t('original')}
             </Typography>
             {total > 0 ? (
-              <Button size="small" onClick={() => select(active)}>
+              <ActionButton tone="quiet" size="small" onClick={() => select(active)}>
                 {t('review')}
-              </Button>
+              </ActionButton>
             ) : null}
           </Stack>
           <MarkedText
@@ -321,9 +277,8 @@ export default function FeedbackView({
               direction={{ xs: 'column', sm: 'row' }}
               sx={{ gap: 1.5, borderBlockStart: 1, borderColor: 'divider', paddingBlockStart: 2 }}
             >
-              <Button
-                variant="contained"
-                component={NextLink}
+              <NavigationButton
+                tone="primary"
                 onClick={prepareRevision}
                 href={
                   coursePreview
@@ -338,24 +293,23 @@ export default function FeedbackView({
                 }
               >
                 {t(attempt >= maxRevisionAttempts ? 'newDraft' : 'revise')}
-              </Button>
+              </NavigationButton>
               {hasPreviousVersion ? (
-                <Button
-                  variant="outlined"
-                  component={NextLink}
+                <NavigationButton
+                  tone="secondary"
                   href={preview ? '/dev/preview/revision' : '/revision/' + submissionId}
                 >
                   {t('compare')}
-                </Button>
+                </NavigationButton>
               ) : null}
               {feedback.level_up_rewrite && rewriteAvailable ? (
-                <Button
-                  variant="outlined"
+                <ActionButton
+                  tone="secondary"
                   aria-expanded={rewrite}
                   onClick={() => setRewrite(!rewrite)}
                 >
                   {t('rewrite')}
-                </Button>
+                </ActionButton>
               ) : null}
             </Stack>
             <Collapse in={rewrite && rewriteAvailable} unmountOnExit>
@@ -479,33 +433,7 @@ export default function FeedbackView({
         {correction && !desktop ? (
           <CorrectionCard
             correction={correction}
-            submissionId={submissionId}
-            preview={mock && submissionId === 'preview'}
-            answerHidden={hiddenAnswers.has(active)}
-            onReveal={() => void choiceState.save({ correctionIndex: active, reveal: true })}
-            index={active}
-            total={total}
-            applied={applied.has(active)}
-            onApply={apply}
-            dismissed={activeChoice?.status === 'dismissed'}
-            choiceBusy={choiceState.loading || choiceState.loadError}
-            choiceError={
-              choiceState.errors.find(
-                (item) => item.change.correctionIndex === active && 'reason' in item.change,
-              )?.code ?? null
-            }
-            onRetry={() => {
-              if (choiceState.error) void choiceState.save(choiceState.error.change);
-            }}
-            onDismiss={() => {
-              void choiceState.save({
-                correctionIndex: active,
-                status: activeChoice?.status === 'dismissed' ? 'open' : 'dismissed',
-              });
-            }}
-            reportReason={activeChoice?.reason ?? null}
-            onReport={(reason) => choiceState.save({ correctionIndex: active, reason })}
-            onMove={(direction) => select(active + direction)}
+            {...correctionProps}
             onClose={() => setSheet(false)}
             mobile
           />

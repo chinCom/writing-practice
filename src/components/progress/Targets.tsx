@@ -1,12 +1,12 @@
 'use client';
-import { useId } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import Paper from '@mui/material/Paper';
+import SectionPanel from '@/components/shared/SectionPanel';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import type { TargetProgress } from '@/lib/target-progress';
+import ToneChip from '@/components/shared/ToneChip';
 
 function TargetRow({ target }: { target: TargetProgress }) {
   const t = useTranslations('progress.targets');
@@ -43,11 +43,10 @@ function TargetRow({ target }: { target: TargetProgress }) {
           <Typography component="h3" variant="subtitle1" sx={{ minInlineSize: 0 }}>
             {tags(target.tag)} · {target.level}
           </Typography>
-          <Chip
+          <ToneChip
             label={t('states.' + target.state)}
             size="small"
-            variant="tonal"
-            color={tone as 'success' | 'error' | 'warning' | 'primary'}
+            tone={tone as 'success' | 'error' | 'warning' | 'primary'}
             sx={{ flexShrink: 0 }}
           />
         </Stack>
@@ -96,40 +95,31 @@ function TargetRow({ target }: { target: TargetProgress }) {
 }
 
 export default function Targets({ targets }: { targets: TargetProgress[] }) {
-  const id = useId();
   const t = useTranslations('progress.targets');
   return (
-    <Paper component="section" aria-labelledby={id} sx={{ p: { xs: 2.5, md: 3.5 } }}>
-      <Stack sx={{ gap: 2 }}>
-        <Typography id={id} component="h2" variant="h3">
-          {t('title')}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {t('provisional')}
-        </Typography>
-        {targets.length ? (
-          <Box
-            component="ul"
-            sx={{
-              listStyle: 'none',
-              p: 0,
-              m: 0,
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 19rem), 1fr))',
-              gap: 1.5,
-            }}
-          >
-            {targets.map((target) => (
-              <TargetRow key={`${target.level}:${target.tag}`} target={target} />
-            ))}
-          </Box>
-        ) : (
-          <Typography>{t('empty')}</Typography>
-        )}
-        <Typography variant="body2" color="text.secondary">
-          {t('rule')}
-        </Typography>
-      </Stack>
-    </Paper>
+    <SectionPanel title={t('title')} headingComponent="h3" description={t('provisional')}>
+      {targets.length ? (
+        <Box
+          component="ul"
+          sx={{
+            listStyle: 'none',
+            p: 0,
+            m: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 19rem), 1fr))',
+            gap: 1.5,
+          }}
+        >
+          {targets.map((target) => (
+            <TargetRow key={`${target.level}:${target.tag}`} target={target} />
+          ))}
+        </Box>
+      ) : (
+        <Typography>{t('empty')}</Typography>
+      )}
+      <Typography variant="body2" color="text.secondary">
+        {t('rule')}
+      </Typography>
+    </SectionPanel>
   );
 }

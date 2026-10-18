@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -9,7 +8,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
@@ -18,6 +16,7 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import { tickPop } from '@/theme/theme';
 import type { ProgressReport } from '@/lib/db/progress';
 import { scoreKeys, type Improvement } from '@/lib/improvement';
+import NavigationButton from '@/components/shared/NavigationButton';
 
 function ImprovementHighlight({ improvement }: { improvement: Improvement }) {
   const t = useTranslations('today');
@@ -206,16 +205,15 @@ export default function AccountActivity({
             <ImprovementHighlight improvement={progress.improvement} />
           </Stack>
         </Stack>
-        <Button
-          component={NextLink}
+        <NavigationButton
           href={preview ? '/dev/preview/progress' : '/progress'}
-          variant="outlined"
+          tone="secondary"
           endIcon={<ArrowForward />}
           fullWidth
           sx={{ mt: 2.5 }}
         >
           {t('seeProgress')}
-        </Button>
+        </NavigationButton>
       </CardContent>
     </Card>
   );

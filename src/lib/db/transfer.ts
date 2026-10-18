@@ -7,7 +7,7 @@ import { pathInTransaction } from './curriculum';
 import { trustedTargetsInTransaction } from './targets';
 import { gradeTransfer, type TransferQuestion, type TransferItem } from '@/lib/transfer';
 import { normalizePracticeAnswer } from '@/lib/practice';
-import { ApiError } from '@/lib/api';
+import { DomainError } from '@/lib/domain-error';
 
 type Available = { unitId: string; item: TransferItem; hash: string };
 async function availableItems(database: Transaction): Promise<Available[]> {
@@ -72,7 +72,7 @@ export function answerTransfer(
     const available = (await availableItems(database)).find(
       (entry) => entry.unitId === unitId && entry.item.id === itemId,
     );
-    if (!available) throw new ApiError('NOT_FOUND', 404);
+    if (!available) throw new DomainError('NOT_FOUND');
     const { item, hash } = available;
     const normalized = normalizePracticeAnswer(answer);
     const [previous] = await database
@@ -85,7 +85,7 @@ export function answerTransfer(
         sql`unit_id=${unitId} AND item_id=${itemId} AND content_hash=${hash} AND version=${version}`,
       );
     if (previous) {
-      if (previous.answer !== normalized) throw new ApiError('PRACTICE_CONFLICT', 409);
+      if (previous.answer !== normalized) throw new DomainError('PRACTICE_CONFLICT');
       return previous.result;
     }
     await database.execute(
@@ -93,7 +93,7 @@ export function answerTransfer(
     );
     const row = await schedule(database, unitId, itemId, hash);
     if (row.version !== version || new Date(row.nextReviewAt).getTime() > Date.now())
-      throw new ApiError('PRACTICE_CONFLICT', 409);
+      throw new DomainError('PRACTICE_CONFLICT');
     const result = { ...gradeTransfer(item, answer, row.box, row.misses), version: version + 1 };
     await database.execute(
       sql`INSERT INTO writing.transfer_answers(user_id,unit_id,item_id,content_hash,version,answer,result) VALUES (${userId},${unitId},${itemId},${hash},${version},${normalized},${JSON.stringify(result)}::jsonb)`,

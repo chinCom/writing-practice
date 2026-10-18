@@ -1,20 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import { keyframes } from '@mui/material/styles';
 import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import CompareArrowsOutlined from '@mui/icons-material/CompareArrowsOutlined';
 import type { WritingVersion } from '@/lib/revision';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
+import ToneChip from '@/components/shared/ToneChip';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 const entryIn = keyframes`
   from { opacity: 0; transform: translateY(6px); }
@@ -51,12 +53,7 @@ export default function PortfolioEntry({
   const body = (
     <Stack sx={{ gap: 1.25, minInlineSize: 0 }}>
       <Stack direction="row" sx={{ alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-        <Chip
-          label={t(kind)}
-          size="small"
-          variant="tonal"
-          color={featured ? 'primary' : 'success'}
-        />
+        <ToneChip label={t(kind)} size="small" tone={featured ? 'primary' : 'success'} />
         {featured ? (
           <Chip label={t('featured')} size="small" variant="outlined" color="primary" />
         ) : (
@@ -88,9 +85,9 @@ export default function PortfolioEntry({
           </Typography>
         </>
       ) : (
-        <Typography component="h2" variant="h3" sx={{ fontSize: '1.125rem' }}>
+        <SectionTitle sx={{ fontSize: '1.125rem' }}>
           {t('version', { n: entry.attempt })}
-        </Typography>
+        </SectionTitle>
       )}
       <Typography
         dir="ltr"
@@ -110,14 +107,15 @@ export default function PortfolioEntry({
         {entry.text}
       </Typography>
       {long ? (
-        <Button
+        <ActionButton
+          tone="quiet"
           size="small"
           aria-expanded={expanded}
           onClick={() => setExpanded(!expanded)}
           sx={{ alignSelf: 'flex-start', paddingInline: 0, minHeight: 32 }}
         >
           {t(expanded ? 'showLess' : 'showMore')}
-        </Button>
+        </ActionButton>
       ) : null}
     </Stack>
   );
@@ -127,27 +125,25 @@ export default function PortfolioEntry({
       direction={featured ? 'column' : { xs: 'row', sm: 'row' }}
       sx={{ gap: 1, alignItems: featured ? 'stretch' : 'center', flexWrap: 'wrap' }}
     >
-      <Button
-        component={NextLink}
+      <NavigationButton
         href={'/feedback/' + entry.id}
-        variant={featured ? 'contained' : 'text'}
+        tone={featured ? 'primary' : 'quiet'}
         endIcon={<ArrowForward sx={{ fontSize: '0.875rem !important' }} />}
         fullWidth={featured}
         sx={{ whiteSpace: featured ? 'normal' : 'nowrap', lineHeight: 1.25 }}
       >
         {t('open')}
-      </Button>
+      </NavigationButton>
       {entry.parentSubmissionId ? (
-        <Button
-          variant="outlined"
-          component={NextLink}
+        <NavigationButton
+          tone="secondary"
           href={preview ? '/dev/preview/revision' : '/revision/' + entry.id}
           startIcon={<CompareArrowsOutlined sx={{ fontSize: '1rem !important' }} />}
           fullWidth={featured}
           sx={{ whiteSpace: featured ? 'normal' : 'nowrap', lineHeight: 1.25 }}
         >
           {t('compare')}
-        </Button>
+        </NavigationButton>
       ) : null}
     </Stack>
   );

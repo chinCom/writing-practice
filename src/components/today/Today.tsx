@@ -1,7 +1,6 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import NextLink from 'next/link';
 import { useTranslations, useFormatter } from 'next-intl';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -9,9 +8,7 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
 import ShowChart from '@mui/icons-material/ShowChart';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import AccessTimeOutlined from '@mui/icons-material/AccessTimeOutlined';
@@ -25,11 +22,14 @@ import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot'
 import type { ProgressReport } from '@/lib/db/progress';
 import type { NextTask } from '@/lib/next-task';
 import TargetRecommendations from '@/components/curriculum/TargetRecommendations';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
 import CalloutRibbon from '@/components/ui/icons/CalloutRibbon';
 import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ToneChip from '@/components/shared/ToneChip';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 const focusIcons: Record<string, typeof AccessTimeOutlined> = {
   'verb-tense': AccessTimeOutlined,
@@ -54,7 +54,7 @@ function WeekendTaskCard({ preview }: { preview: boolean }) {
         }}
       >
         <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25, mb: 2 }}>
-          <Chip label="A2" color="primary" variant="tonal" size="small" />
+          <ToneChip label="A2" tone="primary" size="small" />
           <Typography variant="body2" color="text.secondary">
             {t('taskLabel')}
           </Typography>
@@ -85,15 +85,14 @@ function WeekendTaskCard({ preview }: { preview: boolean }) {
             {t('opening')}
           </Typography>
         </Box>
-        <Button
-          component={NextLink}
+        <NavigationButton
           href={preview ? '/dev/preview/write' : '/write/weekend'}
-          variant="contained"
+          tone="primary"
           endIcon={<ArrowForward />}
           sx={{ alignSelf: 'flex-start' }}
         >
           {t('start')}
-        </Button>
+        </NavigationButton>
         <Divider sx={{ mt: 3, mb: 2 }} />
         <Typography variant="body2" color="text.secondary">
           {t('focus')}
@@ -118,12 +117,11 @@ function FocusChips({ focus }: { focus: string[] }) {
         {focus.map((tag) => {
           const Icon = focusIcons[tag] ?? AutoAwesomeOutlined;
           return (
-            <Chip
+            <ToneChip
               key={tag}
               icon={<Icon />}
               label={tags(tag)}
-              variant="tonal"
-              color="primary"
+              tone="primary"
               sx={{ height: 34 }}
             />
           );
@@ -160,7 +158,7 @@ function LessonTaskCard({
         >
           <Stack sx={{ gap: 1.5, minInlineSize: 0 }}>
             <Stack direction="row" sx={{ alignItems: 'center', gap: 1.25 }}>
-              <Chip label={next.level} color="primary" variant="tonal" size="small" />
+              <ToneChip label={next.level} tone="primary" size="small" />
               <Typography variant="body2" color="text.secondary">
                 {t('taskLabel')}
               </Typography>
@@ -190,14 +188,13 @@ function LessonTaskCard({
               {next.prompt}
             </Typography>
             <Box>
-              <Button
-                component={NextLink}
+              <NavigationButton
                 href={preview ? '/dev/preview/write' : next.href}
-                variant="contained"
+                tone="primary"
                 endIcon={<ArrowForward />}
               >
                 {t(next.warmupsDone ? 'continueWriting' : 'startLesson')}
-              </Button>
+              </NavigationButton>
             </Box>
           </Stack>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'center' }}>
@@ -220,15 +217,14 @@ function PlacementTaskCard({ preview }: { preview: boolean }) {
         <Stack sx={{ gap: 2 }}>
           <Typography variant="h2">{t('placementTitle')}</Typography>
           <Typography color="text.secondary">{t('placementBody')}</Typography>
-          <Button
-            component={NextLink}
+          <NavigationButton
             href={preview ? '/dev/preview/placement' : '/placement'}
-            variant="contained"
+            tone="primary"
             endIcon={<ArrowForward />}
             sx={{ alignSelf: 'flex-start' }}
           >
             {t('startPlacement')}
-          </Button>
+          </NavigationButton>
         </Stack>
       </CardContent>
     </Card>
@@ -277,15 +273,14 @@ function ReviewPrompt({
           </Typography>
         </Box>
       </Stack>
-      <Button
-        component={NextLink}
+      <NavigationButton
         href={preview ? '/dev/preview/practice-page' : '/practice'}
-        variant="outlined"
+        tone="secondary"
         endIcon={<ArrowForward />}
         sx={{ flexShrink: 0, bgcolor: 'background.paper' }}
       >
         {t('due', { n: due })}
-      </Button>
+      </NavigationButton>
     </PaperLikeReview>
   );
 }
@@ -383,14 +378,9 @@ export default function Today({
               </Typography>
               <Typography color="text.secondary">{t('emptyBody')}</Typography>
               {process.env.NODE_ENV === 'development' ? (
-                <Button
-                  variant="outlined"
-                  component={NextLink}
-                  href="/dev/preview/today"
-                  sx={{ mt: 3 }}
-                >
+                <NavigationButton tone="secondary" href="/dev/preview/today" sx={{ mt: 3 }}>
                   {t('preview')}
-                </Button>
+                </NavigationButton>
               ) : null}
             </CardContent>
           </Card>
@@ -431,16 +421,13 @@ export default function Today({
                       sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between' }}
                     >
                       <SchoolOutlined sx={{ color: 'primary.main' }} />
-                      <Typography component="h2" variant="h3" sx={{ flex: 1 }}>
-                        {t('ieltsTitle')}
-                      </Typography>
+                      <SectionTitle sx={{ flex: 1 }}>{t('ieltsTitle')}</SectionTitle>
                     </Stack>
                     <Typography variant="body2" color="text.secondary">
                       {t('ieltsIntro')}
                     </Typography>
-                    <Button
-                      component={NextLink}
-                      variant="outlined"
+                    <NavigationButton
+                      tone="secondary"
                       endIcon={<ArrowForward />}
                       href={
                         preview ? '/dev/preview/path?course=full&track=ielts' : '/path?track=ielts'
@@ -448,7 +435,7 @@ export default function Today({
                       sx={{ alignSelf: 'flex-start' }}
                     >
                       {t('ieltsTitle')}
-                    </Button>
+                    </NavigationButton>
                   </Stack>
                 </CardContent>
               </Card>

@@ -2,7 +2,7 @@
 
 import { useState, useSyncExternalStore, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
-import Button from '@mui/material/Button';
+import ActionButton from './ActionButton';
 import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -45,9 +45,9 @@ export default function PageLoadError({ retry }: { retry: () => void }) {
           {t('pageErrorTitle')}
         </Typography>
         <Typography color="text.secondary">{t('pageErrorBody')}</Typography>
-        <Button variant="contained" onClick={tryAgain} disabled={retryDisabled}>
+        <ActionButton tone="primary" onClick={tryAgain} disabled={retryDisabled}>
           {retryLabel}
-        </Button>
+        </ActionButton>
       </Stack>
       <Dialog
         open={open}
@@ -65,10 +65,12 @@ export default function PageLoadError({ retry }: { retry: () => void }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={close}>{t('close')}</Button>
-          <Button variant="contained" onClick={tryAgain} disabled={retryDisabled}>
+          <ActionButton tone="quiet" onClick={close}>
+            {t('close')}
+          </ActionButton>
+          <ActionButton tone="primary" onClick={tryAgain} disabled={retryDisabled}>
             {retryLabel}
-          </Button>
+          </ActionButton>
         </DialogActions>
       </Dialog>
     </Container>

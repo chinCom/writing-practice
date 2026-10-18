@@ -1,11 +1,21 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import PaperAccent from './icons/PaperAccent';
+import PaperAccent from '@/components/ui/icons/PaperAccent';
 import { useTranslations } from 'next-intl';
+
+export type PageHeaderProps = Omit<BoxProps, 'title' | 'children'> & {
+  title: ReactNode;
+  subtitle?: ReactNode;
+  eyebrow?: ReactNode;
+  action?: ReactNode;
+  accent?: boolean;
+  accentOffset?: number;
+  note?: ReactNode;
+};
 
 /**
  * The page opening used across the workspace: an editorial serif title and a quiet paper illustration.
@@ -19,28 +29,29 @@ export default function PageHeader({
   accent = true,
   accentOffset = -22,
   note,
-}: {
-  title: ReactNode;
-  subtitle?: ReactNode;
-  eyebrow?: ReactNode;
-  action?: ReactNode;
-  accent?: boolean;
-  accentOffset?: number;
-  note?: ReactNode;
-}) {
+  sx = [],
+  ref,
+  ...props
+}: PageHeaderProps) {
   const app = useTranslations('app');
   return (
     <Box
       component="header"
-      sx={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        gap: 2,
-        mb: { xs: 2, md: 3 },
-        minBlockSize: { md: 100 },
-      }}
+      {...props}
+      ref={ref}
+      data-ui="page-header"
+      sx={[
+        {
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: 2,
+          mb: { xs: 2, md: 3 },
+          minBlockSize: { md: 100 },
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Stack sx={{ gap: 1.25, minInlineSize: 0, flex: 1 }}>
         {eyebrow ? (

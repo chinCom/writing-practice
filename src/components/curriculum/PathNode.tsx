@@ -1,15 +1,15 @@
 'use client';
 import type { ReactNode } from 'react';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { keyframes } from '@mui/material/styles';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import DiamondOutlined from '@mui/icons-material/DiamondOutlined';
 import LockOutlined from '@mui/icons-material/LockOutlined';
+import NavigationButton from '@/components/shared/NavigationButton';
+import VisuallyHidden from '@/components/shared/VisuallyHidden';
 
 type LessonState = 'done' | 'current' | 'locked' | 'available';
 
@@ -21,15 +21,6 @@ const pulseRing = keyframes`
   from { box-shadow: 0 0 0 0 var(--ring-color); }
   to { box-shadow: 0 0 0 12px transparent; }
 `;
-const visuallyHidden = {
-  position: 'absolute',
-  inlineSize: 1,
-  blockSize: 1,
-  overflow: 'hidden',
-  clip: 'rect(0 0 0 0)',
-  whiteSpace: 'nowrap',
-} as const;
-
 function NodeIcon({ state, checkpoint }: { state: LessonState; checkpoint: boolean }) {
   if (state === 'done') return <CheckCircle sx={{ color: 'success.main', fontSize: nodeSize }} />;
   const current = state === 'current';
@@ -124,19 +115,16 @@ export default function PathNode({
             sx={{ typography: 'subtitle1', color: 'text.disabled', textAlign: 'start' }}
           >
             {title}
-            <Box component="span" sx={visuallyHidden}>
-              {' · ' + t('locked')}
-            </Box>
+            <VisuallyHidden>{' · ' + t('locked')}</VisuallyHidden>
           </ButtonBase>
         ) : (
-          <Button
-            component={NextLink}
+          <NavigationButton
             href={href}
-            variant={state === 'current' ? 'contained' : 'text'}
+            tone={state === 'current' ? 'primary' : 'quiet'}
             sx={state === 'current' ? {} : { paddingInline: 0, justifyContent: 'start' }}
           >
             {title}
-          </Button>
+          </NavigationButton>
         )}
         <Typography variant="caption" color="text.secondary">
           {meta}

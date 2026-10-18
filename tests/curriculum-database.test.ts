@@ -5,13 +5,11 @@ import { sql } from 'drizzle-orm';
 import { beforeAll, afterAll, expect, it, vi } from 'vitest';
 import { curriculumDraft } from '@/mocks/curriculum-content';
 import { loadTransfer, answerTransfer } from '@/lib/db/transfer';
+import { choosePlacement, reservePlacement, completePlacement } from '@/lib/db/placement';
 import {
   loadPath,
   answerWarmup,
   loadLesson,
-  choosePlacement,
-  reservePlacement,
-  completePlacement,
   loadTask,
   loadTaskContext,
   answerNoticing,

@@ -1,6 +1,6 @@
 import 'server-only';
-import { and, eq, sql } from 'drizzle-orm';
-import { withUserDatabase } from './client';
+import { eq, sql } from 'drizzle-orm';
+import { withUserDatabase, type Transaction } from './client';
 import {
   curriculumUnits,
   placementResults,
@@ -11,19 +11,16 @@ import {
 import {
   curriculumSchema,
   gradeWarmup,
-  placementOutput,
   weekendTask,
   type CurriculumLevel,
-  type PlacementResult,
   type CurriculumTrack,
   trackForId,
 } from '@/lib/curriculum';
-import { ApiError } from '@/lib/api';
+import { DomainError } from '@/lib/domain-error';
 import { gradeNoticing, type TextSpan } from '@/lib/noticing';
 import { buildCoursePath } from '@/lib/curriculum-path';
 import { trustedTargetsInTransaction } from './targets';
 
-type Transaction = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
 export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
   const [units, [placement], progress, checks] = await Promise.all([
     database.select({ content: curriculumUnits.content }).from(curriculumUnits),
@@ -55,8 +52,8 @@ export async function loadPath(userId: string, track: CurriculumTrack = 'core') 
 async function lessonInTransaction(database: Transaction, lessonId: string) {
   const path = await pathInTransaction(database, trackForId(lessonId));
   const lesson = path.units.flatMap((unit) => unit.lessons).find((item) => item.id === lessonId);
-  if (!lesson) throw new ApiError('NOT_FOUND', 404);
-  if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
+  if (!lesson) throw new DomainError('NOT_FOUND');
+  if (lesson.state === 'locked') throw new DomainError('LESSON_LOCKED');
   return lesson;
 }
 export async function loadLesson(userId: string, lessonId: string) {
@@ -73,9 +70,9 @@ export async function loadTaskContext(userId: string, taskId: string) {
       item.lessons.some((lesson) => lesson.task.id === taskId),
     );
     const lesson = unit?.lessons.find((item) => item.task.id === taskId);
-    if (!lesson) throw new ApiError('NOT_FOUND', 404);
-    if (lesson.state === 'locked') throw new ApiError('LESSON_LOCKED', 403);
-    if (!lesson.warmupsDone) throw new ApiError('WARMUPS_REQUIRED', 403);
+    if (!lesson) throw new DomainError('NOT_FOUND');
+    if (lesson.state === 'locked') throw new DomainError('LESSON_LOCKED');
+    if (!lesson.warmupsDone) throw new DomainError('WARMUPS_REQUIRED');
     return { task: lesson.task, targets: await trustedTargetsInTransaction(database, unit!) };
   });
 }
@@ -95,7 +92,7 @@ export async function answerWarmup(
         sql`${curriculumUnits.content}->'lessons' @> ${JSON.stringify([{ id: lessonId }])}::jsonb`,
       );
     const warmup = unit?.content.lessons.find((item) => item.id === lessonId)?.warmups[index];
-    if (!warmup) throw new ApiError('INVALID_INPUT', 400);
+    if (!warmup) throw new DomainError('INVALID_INPUT');
     const correct = gradeWarmup(warmup, answer);
     const answers = { ...lesson.answers };
     if (correct) answers[String(index)] = true;
@@ -124,68 +121,8 @@ export async function answerNoticing(userId: string, lessonId: string, selected:
         sql`${curriculumUnits.content}->'lessons' @> ${JSON.stringify([{ id: lessonId }])}::jsonb`,
       );
     const exercise = unit?.content.lessons.find((lesson) => lesson.id === lessonId)?.noticing;
-    if (!exercise) throw new ApiError('NOT_FOUND', 404);
+    if (!exercise) throw new DomainError('NOT_FOUND');
     const correct = gradeNoticing(exercise, selected);
     return { correct, ...(correct ? { explanation: exercise.explanation } : {}) };
-  });
-}
-export async function reservePlacement(userId: string) {
-  return withUserDatabase(userId, async (database) => {
-    await database.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${userId}, 3))`);
-    const [previous] = await database.select().from(placementResults);
-    const now = new Date();
-    const today = now.toISOString().slice(0, 10);
-    if (previous?.status === 'pending' && now.getTime() - previous.startedAt.getTime() < 60000)
-      throw new ApiError('PLACEMENT_PENDING', 409);
-    const calls = previous?.callDay === today ? previous.callsToday : 0;
-    if (calls >= 3) throw new ApiError('PLACEMENT_LIMIT', 429);
-    await database
-      .insert(placementResults)
-      .values({
-        userId,
-        status: 'pending',
-        callsToday: calls + 1,
-        callDay: today,
-        startedAt: now,
-        updatedAt: now,
-      })
-      .onConflictDoUpdate({
-        target: placementResults.userId,
-        set: {
-          status: 'pending',
-          callsToday: calls + 1,
-          callDay: today,
-          startedAt: now,
-          updatedAt: now,
-        },
-      });
-  });
-}
-export async function completePlacement(userId: string, result: PlacementResult) {
-  return withUserDatabase(userId, async (database) => {
-    await database
-      .update(placementResults)
-      .set({ status: 'completed', result: placementOutput.parse(result), updatedAt: new Date() })
-      .where(eq(placementResults.userId, userId));
-  });
-}
-export async function failPlacement(userId: string) {
-  return withUserDatabase(userId, async (database) => {
-    await database
-      .update(placementResults)
-      .set({ status: 'failed', updatedAt: new Date() })
-      .where(eq(placementResults.userId, userId));
-  });
-}
-export async function choosePlacement(userId: string, level: CurriculumLevel) {
-  return withUserDatabase(userId, async (database) => {
-    const [result] = await database.select().from(placementResults);
-    if (result?.status !== 'completed' || !result.result || result.result.safety_flag)
-      throw new ApiError('PLACEMENT_REQUIRED', 400);
-    await database
-      .update(placementResults)
-      .set({ chosenLevel: level, updatedAt: new Date() })
-      .where(and(eq(placementResults.userId, userId), eq(placementResults.status, 'completed')));
-    return { chosenLevel: level };
   });
 }

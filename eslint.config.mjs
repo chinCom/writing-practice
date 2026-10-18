@@ -21,6 +21,41 @@ const muiSelectors = {
   selector: 'Literal[value=/\\.Mui[A-Z]/]',
   message: 'MUI internal selectors belong in src/theme.',
 };
+const restrictedImports = {
+  paths: [
+    { name: '@mui/icons-material', message: 'Import icons by path.' },
+    { name: '@emotion/react', message: 'Use MUI styling.' },
+    { name: '@emotion/styled', message: 'Use MUI styling.' },
+  ],
+  patterns: [
+    {
+      group: [
+        'tailwindcss*',
+        '@radix-ui/*',
+        '@headlessui/*',
+        '@chakra-ui/*',
+        '@mantine/*',
+        'antd',
+        '@ant-design/*',
+        'bootstrap',
+        'react-bootstrap',
+        'styled-components',
+        'lucide-react',
+        'react-icons*',
+        '@heroicons/*',
+        '@fortawesome/*',
+        'recharts',
+        'chart.js',
+        'react-chartjs-2',
+        'class-variance-authority',
+        'tailwind-merge',
+        'sonner',
+        'react-hot-toast',
+      ],
+      message: 'UI must be MUI-only.',
+    },
+  ],
+};
 const config = [
   ...nextVitals,
   ...nextTypescript,
@@ -37,40 +72,22 @@ const config = [
     files: ['src/**/*.{ts,tsx}'],
     rules: {
       'no-restricted-syntax': ['error', raw, style, classes, hex, colors, muiSelectors],
+      'no-restricted-imports': ['error', restrictedImports],
+    },
+  },
+  {
+    files: ['src/lib/db/**/*.ts'],
+    rules: {
       'no-restricted-imports': [
         'error',
         {
-          paths: [
-            { name: '@mui/icons-material', message: 'Import icons by path.' },
-            { name: '@emotion/react', message: 'Use MUI styling.' },
-            { name: '@emotion/styled', message: 'Use MUI styling.' },
-          ],
+          ...restrictedImports,
           patterns: [
+            ...restrictedImports.patterns,
             {
-              group: [
-                'tailwindcss*',
-                '@radix-ui/*',
-                '@headlessui/*',
-                '@chakra-ui/*',
-                '@mantine/*',
-                'antd',
-                '@ant-design/*',
-                'bootstrap',
-                'react-bootstrap',
-                'styled-components',
-                'lucide-react',
-                'react-icons*',
-                '@heroicons/*',
-                '@fortawesome/*',
-                'recharts',
-                'chart.js',
-                'react-chartjs-2',
-                'class-variance-authority',
-                'tailwind-merge',
-                'sonner',
-                'react-hot-toast',
-              ],
-              message: 'UI must be MUI-only.',
+              group: ['@/lib/api', '../api', '@/lib/llm/**', '../llm/**', 'next/**'],
+              message:
+                'Database operations use domain errors and explicit result contracts, not HTTP or provider adapters.',
             },
           ],
         },

@@ -1,1 +1,1 @@
-export { default } from '@/components/ui/PageLoading';
+export { default } from '@/components/shared/PageLoading';

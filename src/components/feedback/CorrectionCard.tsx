@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
@@ -13,10 +12,11 @@ import type { ReportReason } from '@/lib/feedback/choices';
 import Collapse from '@mui/material/Collapse';
 import Close from '@mui/icons-material/Close';
 import ArrowForward from '@mui/icons-material/ArrowForward';
-import WritingField from '@/components/ui/WritingField';
+import WritingField from '@/components/shared/WritingField';
 import type { LocatedCorrection } from '@/lib/feedback/schema';
 import { markStyle } from './mark-style';
 import ExplanationPanel from './ExplanationPanel';
+import ActionButton from '@/components/shared/ActionButton';
 
 export default function CorrectionCard({
   correction,
@@ -108,9 +108,9 @@ export default function CorrectionCard({
           <Typography variant="body2">
             {t('targetCue', { topic: t('tags.' + correction.tag) })}
           </Typography>
-          <Button variant="outlined" disabled={choiceBusy} onClick={onReveal}>
+          <ActionButton tone="secondary" disabled={choiceBusy} onClick={onReveal}>
             {t('showMe')}
-          </Button>
+          </ActionButton>
         </Stack>
       ) : (
         <>
@@ -135,9 +135,9 @@ export default function CorrectionCard({
         </>
       )}
       <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1, alignItems: 'center' }}>
-        <Button size="small" disabled={choiceBusy} onClick={onDismiss}>
+        <ActionButton tone="quiet" size="small" disabled={choiceBusy} onClick={onDismiss}>
           {t(dismissed ? 'restore' : 'dismiss')}
-        </Button>
+        </ActionButton>
         <ReportCorrection
           reason={reportReason}
           disabled={choiceBusy}
@@ -154,9 +154,9 @@ export default function CorrectionCard({
         <Alert
           severity="error"
           action={
-            <Button onClick={onRetry} disabled={choiceBusy}>
+            <ActionButton tone="quiet" onClick={onRetry} disabled={choiceBusy}>
               {t('choiceRetry')}
-            </Button>
+            </ActionButton>
           }
         >
           {t(choiceError === 'UNAUTHENTICATED' ? 'choiceSession' : 'choiceError')}
@@ -183,31 +183,31 @@ export default function CorrectionCard({
               {t('tryAgain')}
             </Typography>
           ) : null}
-          <Button type="submit" disabled={choiceBusy}>
+          <ActionButton tone="quiet" type="submit" disabled={choiceBusy}>
             {t('checkAnswer')}
-          </Button>
+          </ActionButton>
         </Box>
       </Collapse>
       {!answerHidden ? (
         <Stack direction="row" sx={{ gap: 1, marginBlockStart: 2 }}>
           {!applied && !dismissed ? (
-            <Button
-              variant="outlined"
+            <ActionButton
+              tone="secondary"
               fullWidth
               disabled={choiceBusy}
               onClick={() => setExercise({ ...current, trying: !trying })}
             >
               {t('try')}
-            </Button>
+            </ActionButton>
           ) : null}
-          <Button
-            variant={applied ? 'outlined' : 'contained'}
+          <ActionButton
+            tone={applied ? 'secondary' : 'primary'}
             fullWidth
             disabled={choiceBusy || dismissed}
             onClick={onApply}
           >
             {t(applied ? 'undo' : 'apply')}
-          </Button>
+          </ActionButton>
         </Stack>
       ) : null}
       {applied ? (
@@ -219,25 +219,27 @@ export default function CorrectionCard({
         direction="row"
         sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, marginBlockStart: 2 }}
       >
-        <Button
+        <ActionButton
+          tone="quiet"
           size="small"
           aria-label={t('previous')}
           disabled={index === 0}
           onClick={() => onMove(-1)}
         >
           {t('previousShort')}
-        </Button>
+        </ActionButton>
         <Typography variant="caption" role="status">
           {t('position', { n: index + 1, total })}
         </Typography>
-        <Button
+        <ActionButton
+          tone="quiet"
           size="small"
           aria-label={t('following')}
           disabled={index === total - 1}
           onClick={() => onMove(1)}
         >
           {t('nextShort')}
-        </Button>
+        </ActionButton>
       </Stack>
     </Paper>
   );

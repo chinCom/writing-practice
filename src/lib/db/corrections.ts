@@ -1,6 +1,6 @@
 import 'server-only';
 import { eq, sql } from 'drizzle-orm';
-import { withUserDatabase } from './client';
+import { withUserDatabase, type Transaction } from './client';
 import {
   correctionChoices,
   correctionReports,
@@ -8,12 +8,11 @@ import {
   submissions,
   targetAssistance,
 } from './schema';
-import { ApiError } from '@/lib/api';
+import { DomainError } from '@/lib/domain-error';
 import { targetCorrectionIndexes } from '@/lib/revision';
 import type { CorrectionChoice, CorrectionStatus, ReportReason } from '@/lib/feedback/choices';
 
-type Database = Parameters<Parameters<typeof withUserDatabase>[1]>[0];
-async function savedFeedback(database: Database, submissionId: string, index?: number) {
+async function savedFeedback(database: Transaction, submissionId: string, index?: number) {
   const [row] = await database
     .select()
     .from(feedbackRows)
@@ -95,7 +94,7 @@ export async function reportCorrection(
 }
 
 async function assertAnswerAvailable(
-  database: Database,
+  database: Transaction,
   submissionId: string,
   correctionIndex: number,
 ) {
@@ -114,7 +113,7 @@ async function assertAnswerAvailable(
     .from(targetAssistance)
     .where(eq(targetAssistance.submissionId, submissionId));
   if (assistance.some((item) => item.correctionIndex === correctionIndex)) return;
-  throw new ApiError('ANSWER_HIDDEN', 403);
+  throw new DomainError('ANSWER_HIDDEN');
 }
 export async function requireCorrectionAnswer(
   userId: string,

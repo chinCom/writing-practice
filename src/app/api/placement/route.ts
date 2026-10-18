@@ -3,14 +3,14 @@ import { z } from 'zod';
 import { requireApiUser, readJson, ApiError, apiFailure } from '@/lib/api';
 import { curriculumLevel, placementInput } from '@/lib/curriculum';
 import {
-  loadPath,
   reservePlacement,
   completePlacement,
   failPlacement,
   choosePlacement,
-} from '@/lib/db/curriculum';
+} from '@/lib/db/placement';
+import { loadPath } from '@/lib/db/curriculum';
 import { estimatePlacement } from '@/lib/llm/placement';
-import { LlmError } from '@/lib/llm/grade';
+import { LlmError } from '@/lib/llm/errors';
 const headers = { 'Cache-Control': 'private, no-store' };
 export const maxDuration = 60;
 export async function GET(request: Request) {

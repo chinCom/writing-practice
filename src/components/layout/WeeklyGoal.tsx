@@ -1,7 +1,6 @@
 'use client';
 import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useRef, useState } from 'react';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,9 +8,10 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { preferencesResult, type WeeklyGoal as Goal } from '@/lib/preferences';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
 
 export default function WeeklyGoal({
   initialGoal = 5,
@@ -110,11 +110,11 @@ export default function WeeklyGoal({
         <Alert severity="warning">
           {t(status === 'expired' ? 'goalExpired' : 'goalError')}
           {status === 'expired' ? (
-            <Button component={NextLink} href="/login">
-              {t('goalSignInAgain')}
-            </Button>
+            <NavigationButton href="/login">{t('goalSignInAgain')}</NavigationButton>
           ) : (
-            <Button onClick={() => void save(pending.current)}>{t('goalRetry')}</Button>
+            <ActionButton tone="quiet" onClick={() => void save(pending.current)}>
+              {t('goalRetry')}
+            </ActionButton>
           )}
         </Alert>
       ) : null}

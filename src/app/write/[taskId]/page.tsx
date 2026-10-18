@@ -8,7 +8,7 @@ import LiveStudio from '@/components/studio/LiveStudio';
 import { loadTask } from '@/lib/db/curriculum';
 import { maxRevisionAttempts } from '@/lib/limits';
 import RevisionLimit from '@/components/studio/RevisionLimit';
-import { ApiError } from '@/lib/api';
+import { DomainError } from '@/lib/domain-error';
 export default async function Page({
   params,
   searchParams,
@@ -24,8 +24,12 @@ export default async function Page({
   try {
     task = await loadTask(user.id, taskId);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) notFound();
-    if (error instanceof ApiError && error.status === 403) redirect('/path');
+    if (error instanceof DomainError && error.code === 'NOT_FOUND') notFound();
+    if (
+      error instanceof DomainError &&
+      (error.code === 'LESSON_LOCKED' || error.code === 'WARMUPS_REQUIRED')
+    )
+      redirect('/path');
     throw error;
   }
   const revision = (await searchParams).revise;

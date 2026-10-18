@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
+import LoadingBar from '@/components/shared/LoadingBar';
 
 export default function CoachStatus() {
   const live = useTranslations('liveStudio');
@@ -15,7 +15,7 @@ export default function CoachStatus() {
   }, []);
   return (
     <Stack sx={{ gap: 1.5 }} role="status" aria-live="polite">
-      <LinearProgress aria-label={live('checking')} />
+      <LoadingBar label={live('checking')} />
       <Typography variant="subtitle1">
         {live(seconds >= 15 ? 'checkingSlow' : 'checking')}
       </Typography>

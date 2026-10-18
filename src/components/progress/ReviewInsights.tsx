@@ -1,6 +1,6 @@
 'use client';
 import { useFormatter, useTranslations } from 'next-intl';
-import Paper from '@mui/material/Paper';
+import SectionPanel from '@/components/shared/SectionPanel';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
@@ -15,13 +15,7 @@ export default function ReviewInsights({ skills }: { skills: ProgressSummary['sk
   const tags = useTranslations('feedback.tags');
   const format = useFormatter();
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h3" sx={{ mb: 1 }}>
-        {t('insights')}
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        {t('insightNote')}
-      </Typography>
+    <SectionPanel title={t('insights')} description={t('insightNote')}>
       {skills.length ? (
         <TableContainer>
           <Table size="small" aria-label={t('insights')}>
@@ -61,6 +55,6 @@ export default function ReviewInsights({ skills }: { skills: ProgressSummary['sk
       ) : (
         <Typography>{t('noErrors')}</Typography>
       )}
-    </Paper>
+    </SectionPanel>
   );
 }

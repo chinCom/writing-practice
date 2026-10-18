@@ -2,19 +2,19 @@
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ieltsModule, type CurriculumTrack } from '@/lib/curriculum';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
 import type { LearningPath as Path } from '@/lib/db/curriculum';
 import PathNode from './PathNode';
-import PageHeader from '@/components/ui/PageHeader';
-import SegmentedControl from '@/components/ui/SegmentedControl';
+import PageHeader from '@/components/shared/PageHeader';
+import SegmentedControl from '@/components/shared/SegmentedControl';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ToneChip from '@/components/shared/ToneChip';
 export default function LearningPath({
   path,
   preview = false,
@@ -57,13 +57,9 @@ export default function LearningPath({
           </Alert>
         ) : null}
         {track === 'core' && !path.chosenLevel ? (
-          <Button
-            component={NextLink}
-            href={preview ? '/dev/preview/placement' : '/placement'}
-            variant="contained"
-          >
+          <NavigationButton href={preview ? '/dev/preview/placement' : '/placement'} tone="primary">
             {t('placementTitle')}
-          </Button>
+          </NavigationButton>
         ) : track === 'core' && path.chosenLevel ? (
           <Chip
             label={t('startingAt', { level: path.chosenLevel })}
@@ -89,12 +85,7 @@ export default function LearningPath({
                 <Paper variant="outlined" key={unit.id} sx={{ p: { xs: 2.5, md: 3.5 } }}>
                   <Stack sx={{ gap: 2 }}>
                     <Stack direction="row" sx={{ alignItems: 'center', gap: 1.5 }}>
-                      <Chip
-                        label={unit.level}
-                        variant="tonal"
-                        color="primary"
-                        sx={{ fontWeight: 700 }}
-                      />
+                      <ToneChip label={unit.level} tone="primary" sx={{ fontWeight: 700 }} />
                       <Typography component={track === 'ielts' ? 'h2' : 'h2'} variant="h2">
                         {unit.title}
                       </Typography>

@@ -2,6 +2,19 @@ import 'server-only';
 import { NextResponse } from 'next/server';
 import { authConfigured } from '@/lib/auth/config';
 import { currentUser } from '@/lib/auth/server';
+import { DomainError, type DomainErrorCode } from '@/lib/domain-error';
+
+const domainErrorStatuses: Record<DomainErrorCode, number> = {
+  NOT_FOUND: 404,
+  LESSON_LOCKED: 403,
+  WARMUPS_REQUIRED: 403,
+  INVALID_INPUT: 400,
+  PLACEMENT_PENDING: 409,
+  PLACEMENT_LIMIT: 429,
+  PLACEMENT_REQUIRED: 400,
+  PRACTICE_CONFLICT: 409,
+  ANSWER_HIDDEN: 403,
+};
 export class ApiError extends Error {
   constructor(
     public code: string,
@@ -17,7 +30,11 @@ function databaseTimedOut(error: unknown): boolean {
     String(cause.code),
   );
 }
-export function apiFailure(error: unknown) {
+export function apiFailure(cause: unknown) {
+  const error =
+    cause instanceof DomainError
+      ? new ApiError(cause.code, domainErrorStatuses[cause.code])
+      : cause;
   const known = error instanceof ApiError;
   const timeout = !known && databaseTimedOut(error);
   return NextResponse.json(

@@ -1,12 +1,10 @@
 'use client';
 
-import NextLink from 'next/link';
 import { useFormatter, useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
@@ -16,6 +14,7 @@ import TableContainer from '@mui/material/TableContainer';
 import Box from '@mui/material/Box';
 import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import NavigationButton from '@/components/shared/NavigationButton';
 
 export interface SavedSubmission {
   id: string;
@@ -60,14 +59,13 @@ export default function SavedFeedback({
               {t('saved')}
             </Typography>
           </Stack>
-          <Button
-            component={NextLink}
+          <NavigationButton
             href={preview ? '/dev/preview/portfolio' : '/portfolio'}
             endIcon={<ArrowForward sx={{ fontSize: '1rem !important' }} />}
             sx={{ paddingInline: 1.5, minHeight: 36, fontSize: '0.8125rem' }}
           >
             {t('portfolio')}
-          </Button>
+          </NavigationButton>
         </Stack>
         {submissions.length ? (
           <TableContainer>
@@ -134,8 +132,7 @@ export default function SavedFeedback({
                       {format.number(submission.wordCount)}
                     </TableCell>
                     <TableCell align="right">
-                      <Button
-                        component={NextLink}
+                      <NavigationButton
                         href={preview ? '/dev/preview/feedback' : '/feedback/' + submission.id}
                         endIcon={<ArrowForward sx={{ fontSize: '0.875rem !important' }} />}
                         sx={{
@@ -146,7 +143,7 @@ export default function SavedFeedback({
                         }}
                       >
                         {learning('open')}
-                      </Button>
+                      </NavigationButton>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -507,7 +507,7 @@ Icons (closest MUI match; swap freely): Today `HomeOutlined`, Learning path `Map
 
 ## 7. Composed components (build these once, reuse everywhere)
 
-All live in `src/components/`, are Client Components, and consist only of MUI parts (plus the §1.3 exceptions).
+All live in `src/components/`, are Client Components, and consist only of MUI parts (plus the §1.3 exceptions). Generic, cross-screen pieces (`PageHeader`, `StatTile`, `SectionPanel`, `SectionTitle`, `IconBadge`, `EmptyState`, `ActionNotice`, `ActionButton`, `NavigationButton`, `ToneChip`, `LoadingBar`, `VisuallyHidden`, `WritingField`, `SegmentedControl`, `HintText`, `PageLoading`, `PageLoadError`) live in [`src/components/shared/`](src/components/shared/README.md); feature-specific compositions live beside their feature. Before adding a composition, check the shared folder and use or extend it rather than creating a near-copy. Buttons use the three shared weights (`primary` contained, `secondary` outlined, `quiet` text); do not choose a new `variant`/`color` pair per screen. Soft level/status chips use `ToneChip` tones rather than repeating `variant="tonal"`.
 
 **`MarkedText`**
 - Props: `text`, `corrections: LocatedCorrection[]` (with `start`/`end`), `strengths?: {start,end}[]`, `activeId?`, `onSelect(id)`.

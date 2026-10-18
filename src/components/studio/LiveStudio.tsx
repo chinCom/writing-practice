@@ -1,30 +1,29 @@
 'use client';
 import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import CoachStatus from './CoachStatus';
 import { DevelopmentAction, DevelopmentFeedback } from './DevelopmentHelp';
 import DevelopmentSuggestion from './DevelopmentSuggestion';
 import { useDevelopmentHelp } from './useDevelopmentHelp';
-import { requestCoach, recoverCoach, type CoachResult } from '@/lib/feedback/request';
+import { useWritingCheck } from './useWritingCheck';
 import WritingCanvas from './WritingCanvas';
 import ReadSweep from './ReadSweep';
 import TaskBrief from './TaskBrief';
 import { SaveStatus, WordMeter } from './WritingStatus';
 import { countWords } from '@/lib/draft';
-import NextLink from 'next/link';
 import { useUnsavedWriting } from '@/lib/use-unsaved-writing';
 import { weekendTask, type CurriculumTask } from '@/lib/curriculum';
 import { textLimits } from '@/lib/limits';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
 
 export default function LiveStudio({
   initialText,
@@ -44,39 +43,32 @@ export default function LiveStudio({
   const app = useTranslations('app');
   const t = useTranslations('studio');
   const live = useTranslations('liveStudio');
-  const router = useRouter();
-  const pathname = usePathname();
-  const recoveryStorageKey = 'coach-check:' + pathname + (coursePreview ? ':' + task.id : '');
   const courseDraftKey = 'course-draft:' + task.id;
   const [text, setText] = useState(initialText);
   const [savedText, setSavedText] = useState(initialText);
-  const [busy, setBusy] = useState<'save' | 'check' | null>(null);
-  const [error, setError] = useState<
-    | 'saveError'
-    | 'error'
-    | 'unavailable'
-    | 'invalidFeedback'
-    | 'failedCheck'
-    | 'dailyLimit'
-    | 'sessionExpired'
-    | 'timeout'
-    | 'inProgress'
-    | 'recoverable'
-    | null
-  >(null);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<'saveError' | 'sessionExpired' | null>(null);
   const allowNavigation = useUnsavedWriting(text !== savedText, live('leaveWarning'));
+  const coach = useWritingCheck({
+    input: { taskId: task.id, text, attempt, parentSubmissionId },
+    savedText,
+    preview,
+    coursePreview,
+    allowNavigation,
+  });
+  const { recoveryStorageKey } = coach;
+  const busy = coach.pending ? 'check' : saving ? 'save' : null;
+  const error = saveError ?? coach.error;
   const input = useRef<HTMLTextAreaElement>(null);
-  const checking = useRef(false);
-  const requestKey = useRef<string | null>(null);
-  const submittedText = useRef<string | null>(null);
   const words = countWords(text);
   const limit = textLimits[task.targetLevel];
   const help = useDevelopmentHelp(text, task, busy === 'check');
   const developing = help.pending;
   async function save() {
     if (coursePreview || busy || text.length > limit) return;
-    setBusy('save');
-    setError(null);
+    setSaving(true);
+    setSaveError(null);
+    coach.clearError();
     const snapshot = text;
     try {
       const response = await fetchWithStatus('/api/draft', {
@@ -88,96 +80,21 @@ export default function LiveStudio({
         signal: AbortSignal.timeout(10000),
       });
       if (response.status === 401) {
-        setError('sessionExpired');
+        setSaveError('sessionExpired');
         return;
       }
       if (!response.ok) throw new Error('Save failed');
       setSavedText(snapshot);
     } catch {
-      setError('saveError');
+      setSaveError('saveError');
     } finally {
-      setBusy(null);
+      setSaving(false);
     }
-  }
-  function rememberCheck(value: string | null) {
-    requestKey.current = value;
-    try {
-      if (value) sessionStorage.setItem(recoveryStorageKey, value);
-      else sessionStorage.removeItem(recoveryStorageKey);
-    } catch {
-      // Browser storage can be blocked. In-memory recovery remains available.
-    }
-  }
-  function handleCoachResult(result: CoachResult) {
-    if (result.status === 'completed') {
-      if (
-        text !== savedText &&
-        text !== submittedText.current &&
-        !window.confirm(live('leaveWarning'))
-      ) {
-        setError('recoverable');
-        return;
-      }
-      rememberCheck(null);
-      if (coursePreview) {
-        try {
-          sessionStorage.setItem(courseDraftKey, submittedText.current ?? text);
-        } catch {
-          // The synthetic preview can be rewritten when browser storage is blocked.
-        }
-      }
-      allowNavigation();
-      router.push(
-        preview
-          ? coursePreview
-            ? '/dev/preview/course-feedback?task=' + task.id
-            : '/dev/preview/feedback'
-          : '/feedback/' + result.submissionId,
-      );
-      return;
-    }
-    if (result.status === 'pending') {
-      setError('recoverable');
-      return;
-    }
-    rememberCheck(null);
-    const errors: Record<string, NonNullable<typeof error>> = {
-      UNAUTHENTICATED: 'sessionExpired',
-      DAILY_LIMIT: 'dailyLimit',
-      COACH_TIMEOUT: 'timeout',
-      COACH_UNAVAILABLE: 'unavailable',
-      COACH_FAILED: 'failedCheck',
-      COACH_NOT_CONFIGURED: 'unavailable',
-      COACH_INVALID_RESPONSE: 'invalidFeedback',
-      CHECK_IN_PROGRESS: 'inProgress',
-    };
-    setError(errors[result.code] ?? 'error');
   }
   async function check(recover = false) {
-    if (checking.current || developing) return;
-    checking.current = true;
-    setBusy('check');
-    setError(null);
-    try {
-      if (!recover) submittedText.current = text;
-      rememberCheck(requestKey.current ?? crypto.randomUUID());
-      const result = recover
-        ? await recoverCoach(
-            requestKey.current!,
-            coursePreview ? { endpoint: '/dev/preview/course-api' } : {},
-          )
-        : await requestCoach(
-            { taskId: task.id, text, attempt, parentSubmissionId },
-            requestKey.current!,
-            coursePreview ? { endpoint: '/dev/preview/course-api' } : {},
-          );
-      handleCoachResult(result);
-    } catch {
-      setError('recoverable');
-    } finally {
-      checking.current = false;
-      setBusy(null);
-    }
+    if (coach.pending || developing) return;
+    setSaveError(null);
+    await coach.check(recover);
   }
   const recoverOnMount = useEffectEvent(() => {
     try {
@@ -191,11 +108,7 @@ export default function LiveStudio({
         const revision = sessionStorage.getItem(revisionKey);
         if (revision !== null && revision.length <= 10000) setText(revision);
       }
-      const savedKey = sessionStorage.getItem(recoveryStorageKey);
-      if (savedKey && /^[a-f0-9-]{36}$/i.test(savedKey)) {
-        requestKey.current = savedKey;
-        void check(true);
-      }
+      if (!developing) coach.restore();
     } catch {
       // Do not block writing when browser storage is unavailable.
     }
@@ -317,17 +230,17 @@ export default function LiveStudio({
                 direction={{ xs: 'column', sm: 'row' }}
                 sx={{ gap: 2, flexWrap: 'wrap', alignItems: { sm: 'center' } }}
               >
-                <Button
-                  variant="outlined"
+                <ActionButton
+                  tone="secondary"
                   disabled={
                     coursePreview || busy !== null || text === savedText || text.length > limit
                   }
                   onClick={save}
                 >
                   {live(busy === 'save' ? 'saving' : 'save')}
-                </Button>
-                <Button
-                  variant="contained"
+                </ActionButton>
+                <ActionButton
+                  tone="primary"
                   loading={busy === 'check'}
                   loadingPosition="start"
                   disabled={
@@ -340,7 +253,7 @@ export default function LiveStudio({
                   onClick={() => check()}
                 >
                   {t('check')}
-                </Button>
+                </ActionButton>
                 <Box sx={{ marginInlineStart: { sm: 'auto' } }}>
                   <DevelopmentAction help={help} />
                 </Box>
@@ -363,21 +276,19 @@ export default function LiveStudio({
                 <Alert severity="error">
                   {live(error)}
                   {error === 'sessionExpired' ? (
-                    <Button component={NextLink} href="/login">
-                      {live('signInAgain')}
-                    </Button>
+                    <NavigationButton href="/login">{live('signInAgain')}</NavigationButton>
                   ) : error === 'recoverable' ? (
-                    <Button disabled={busy !== null} onClick={() => check(true)}>
+                    <ActionButton tone="quiet" disabled={busy !== null} onClick={() => check(true)}>
                       {live('recover')}
-                    </Button>
+                    </ActionButton>
                   ) : error === 'error' ||
                     error === 'timeout' ||
                     error === 'unavailable' ||
                     error === 'invalidFeedback' ||
                     error === 'failedCheck' ? (
-                    <Button disabled={busy !== null} onClick={() => check()}>
+                    <ActionButton tone="quiet" disabled={busy !== null} onClick={() => check()}>
                       {live('retry')}
-                    </Button>
+                    </ActionButton>
                   ) : null}
                 </Alert>
               ) : null}

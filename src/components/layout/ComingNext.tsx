@@ -1,9 +1,8 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import NextLink from 'next/link';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import NavigationButton from '@/components/shared/NavigationButton';
 export default function ComingNext() {
   const t = useTranslations('unavailable');
   return (
@@ -14,9 +13,9 @@ export default function ComingNext() {
       <Typography color="text.secondary" sx={{ mb: 3 }}>
         {t('body')}
       </Typography>
-      <Button component={NextLink} href="/today" variant="outlined">
+      <NavigationButton href="/today" tone="secondary">
         {t('back')}
-      </Button>
+      </NavigationButton>
     </Container>
   );
 }

@@ -5,10 +5,10 @@ import { useTranslations } from 'next-intl';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import { modelWords, type TextSpan } from '@/lib/noticing';
+import ActionButton from '@/components/shared/ActionButton';
 
 export default function Noticing({
   lessonId,
@@ -58,9 +58,9 @@ export default function Noticing({
           {words.map((word, index) => (
             <Box component="span" key={word.start}>
               {text.slice(index ? words[index - 1].end : 0, word.start)}
-              <Button
+              <ActionButton
                 size="small"
-                variant={selected.some((span) => span.start === word.start) ? 'contained' : 'text'}
+                tone={selected.some((span) => span.start === word.start) ? 'primary' : 'quiet'}
                 aria-pressed={selected.some((span) => span.start === word.start)}
                 disabled={busy || Boolean(result?.correct)}
                 sx={{
@@ -82,19 +82,19 @@ export default function Noticing({
                 }}
               >
                 {word.text}
-              </Button>
+              </ActionButton>
             </Box>
           ))}
           {text.slice(words.at(-1)?.end ?? 0)}
         </Box>
-        <Button
-          variant="outlined"
+        <ActionButton
+          tone="secondary"
           disabled={busy || !selected.length || Boolean(result?.correct)}
           onClick={() => void check()}
           sx={{ alignSelf: 'flex-start' }}
         >
           {t('checkSelections')}
-        </Button>
+        </ActionButton>
         {result ? (
           <Alert role="status" severity={result.correct ? 'success' : 'warning'}>
             {t(result.correct ? 'correct' : 'tryAgain')} {result.explanation}

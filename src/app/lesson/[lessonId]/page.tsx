@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { currentUser } from '@/lib/auth/server';
 import { loadLesson } from '@/lib/db/curriculum';
 import LessonView from '@/components/curriculum/LessonView';
-import { ApiError } from '@/lib/api';
+import { DomainError } from '@/lib/domain-error';
 export default async function Page({ params }: { params: Promise<{ lessonId: string }> }) {
   const user = await currentUser();
   if (!user) redirect('/login');
@@ -12,8 +12,12 @@ export default async function Page({ params }: { params: Promise<{ lessonId: str
   try {
     lesson = await loadLesson(user.id, lessonId);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) notFound();
-    if (error instanceof ApiError && error.status === 403) redirect('/path');
+    if (error instanceof DomainError && error.code === 'NOT_FOUND') notFound();
+    if (
+      error instanceof DomainError &&
+      (error.code === 'LESSON_LOCKED' || error.code === 'WARMUPS_REQUIRED')
+    )
+      redirect('/path');
     throw error;
   }
   return <LessonView lesson={lesson} />;

@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -23,7 +22,8 @@ import { useDevelopmentHelp } from './useDevelopmentHelp';
 import { countWords, decodeDraft, DRAFT_KEY } from '@/lib/draft';
 import { sampleDraft } from '@/mocks/draft.sample';
 import { weekendTask } from '@/lib/curriculum';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
+import ActionButton from '@/components/shared/ActionButton';
 
 const DRAFT_CHANGE_EVENT = 'preview-draft-change';
 
@@ -179,9 +179,9 @@ export default function Studio() {
               <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
                 {t('words', { n: words })}
               </Typography>
-              <Button variant="contained" disabled={words < 40} onClick={() => setTip(true)}>
+              <ActionButton tone="primary" disabled={words < 40} onClick={() => setTip(true)}>
                 {t('check')}
-              </Button>
+              </ActionButton>
               <DevelopmentAction help={help} />
             </Stack>
             <DevelopmentFeedback help={help} />

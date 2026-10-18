@@ -18,9 +18,9 @@ import { countWords } from '@/lib/draft';
 import { freeDailySubmissions } from '@/lib/limits';
 import { seedSubmissionPractice } from './practice';
 import type { FeedbackInput } from '@/lib/feedback/input';
-import type { LocatedFeedback } from '@/lib/feedback/schema';
+import type { Feedback, LocatedFeedback } from '@/lib/feedback/schema';
 import { feedbackPromptVersion } from '@/lib/prompts/version';
-import type { gradeWriting } from '@/lib/llm/grade';
+import type { AiResult } from '@/lib/ai-result';
 
 export async function loadDraft(userId: string, taskId = 'weekend') {
   return withUserDatabase(
@@ -40,7 +40,7 @@ export async function saveDraft(userId: string, text: string, taskId = 'weekend'
       });
   });
 }
-async function expireChecks(database: Parameters<Parameters<typeof withUserDatabase>[1]>[0]) {
+async function expireChecks(database: Transaction) {
   await database
     .update(submissions)
     .set({ status: 'failed' })
@@ -176,7 +176,7 @@ export async function completeSubmission(
   userId: string,
   submissionId: string,
   feedback: LocatedFeedback,
-  result: Awaited<ReturnType<typeof gradeWriting>>,
+  result: AiResult<Feedback>,
 ) {
   return withUserDatabase(userId, async (database) => {
     const updated = await database

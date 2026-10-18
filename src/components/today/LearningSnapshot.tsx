@@ -1,18 +1,17 @@
 'use client';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
 import Check from '@mui/icons-material/Check';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import Circle from '@mui/icons-material/Circle';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ToneChip from '@/components/shared/ToneChip';
 
 export type LearningSnapshotData = {
   level: string;
@@ -52,8 +51,7 @@ export default function LearningSnapshot({
               {t('keepBuilding')}
             </Typography>
           </Stack>
-          <Button
-            component={NextLink}
+          <NavigationButton
             href={preview ? '/dev/preview/path' : '/path'}
             endIcon={<ArrowForward />}
             sx={{
@@ -64,12 +62,12 @@ export default function LearningSnapshot({
             }}
           >
             {t('learningPath')}
-          </Button>
+          </NavigationButton>
         </Stack>
         {path ? (
           <>
             <Stack direction="row" sx={{ gap: 2, alignItems: 'center' }}>
-              <Chip label={path.level} color="primary" variant="tonal" size="small" />
+              <ToneChip label={path.level} tone="primary" size="small" />
               <Typography variant="subtitle1" component="p" sx={{ minInlineSize: 0 }}>
                 {path.title}
               </Typography>

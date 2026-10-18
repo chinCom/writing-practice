@@ -1,7 +1,7 @@
 'use client';
 import { useTranslations } from 'next-intl';
 import type { TextFieldProps } from '@mui/material/TextField';
-import WritingField from '@/components/ui/WritingField';
+import WritingField from '@/components/shared/WritingField';
 
 type WritingCanvasProps = Pick<TextFieldProps, 'value' | 'onChange' | 'inputRef' | 'disabled'> & {
   maxLength?: number;

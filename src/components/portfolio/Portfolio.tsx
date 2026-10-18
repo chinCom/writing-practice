@@ -2,14 +2,12 @@
 
 import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useMemo, useState } from 'react';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
+import ActionNotice from '@/components/shared/ActionNotice';
+import EmptyState from '@/components/shared/EmptyState';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -22,20 +20,14 @@ import ChatBubbleOutlineOutlined from '@mui/icons-material/ChatBubbleOutlineOutl
 import CompareArrowsOutlined from '@mui/icons-material/CompareArrowsOutlined';
 import type { PortfolioPage, WritingVersion } from '@/lib/revision';
 import PortfolioEntry from './PortfolioEntry';
-import PageHeader from '@/components/ui/PageHeader';
-import StatTile from '@/components/ui/StatTile';
+import PageHeader from '@/components/shared/PageHeader';
+import StatTile from '@/components/shared/StatTile';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
+import VisuallyHidden from '@/components/shared/VisuallyHidden';
 
 type Filter = 'all' | 'revisions' | 'first';
 type Sort = 'newest' | 'oldest' | 'longest';
-
-const visuallyHidden = {
-  position: 'absolute',
-  inlineSize: 1,
-  blockSize: 1,
-  overflow: 'hidden',
-  clip: 'rect(0 0 0 0)',
-  whiteSpace: 'nowrap',
-} as const;
 
 export default function Portfolio({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('portfolio');
@@ -220,15 +212,15 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
         </TextField>
       </Box>
       {error ? (
-        <Alert
+        <ActionNotice
           severity="warning"
+          message={t(sessionExpired ? 'sessionExpired' : 'loadError')}
           action={
             sessionExpired ? (
-              <Button component={NextLink} href="/login">
-                {t('signIn')}
-              </Button>
+              <NavigationButton href="/login">{t('signIn')}</NavigationButton>
             ) : (
-              <Button
+              <ActionButton
+                tone="quiet"
                 disabled={loading}
                 onClick={() => {
                   setLoading(true);
@@ -236,12 +228,10 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
                 }}
               >
                 {t('retry')}
-              </Button>
+              </ActionButton>
             )
           }
-        >
-          {t(sessionExpired ? 'sessionExpired' : 'loadError')}
-        </Alert>
+        />
       ) : null}
       {visible.map((entry, order) => (
         <PortfolioEntry
@@ -253,27 +243,27 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
         />
       ))}
       {!loading && !error && entries.length > 0 && visible.length === 0 ? (
-        <Alert
-          severity="info"
+        <EmptyState
+          role="status"
+          title={t('noResults')}
           action={
-            <Button
+            <ActionButton
+              tone="quiet"
               onClick={() => {
                 setQuery('');
                 setFilter('all');
               }}
             >
               {t('clear')}
-            </Button>
+            </ActionButton>
           }
-        >
-          {t('noResults')}
-        </Alert>
+        />
       ) : null}
       {loading ? (
         <Stack sx={{ gap: 3 }}>
-          <Typography role="status" sx={visuallyHidden}>
+          <VisuallyHidden component="p" role="status">
             {t('loading')}
-          </Typography>
+          </VisuallyHidden>
           {[0, 1].map((placeholder) => (
             <Skeleton
               key={placeholder}
@@ -286,20 +276,16 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
         </Stack>
       ) : null}
       {!loading && !error && !entries.length ? (
-        <Alert
-          severity="info"
-          action={
-            <Button component={NextLink} href="/write/weekend">
-              {t('write')}
-            </Button>
-          }
-        >
-          {t('empty')}
-        </Alert>
+        <EmptyState
+          role="status"
+          title={t('savedPieces')}
+          description={t('empty')}
+          action={<NavigationButton href="/write/weekend">{t('write')}</NavigationButton>}
+        />
       ) : null}
       {!loading && entries.length && offset !== null ? (
-        <Button
-          variant="outlined"
+        <ActionButton
+          tone="secondary"
           onClick={() => {
             setLoading(true);
             setRequestedOffset(offset);
@@ -307,7 +293,7 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
           sx={{ alignSelf: 'center' }}
         >
           {t('older')}
-        </Button>
+        </ActionButton>
       ) : null}
     </Stack>
   );

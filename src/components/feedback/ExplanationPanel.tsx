@@ -3,11 +3,11 @@ import { fetchWithStatus } from '@/lib/network-status';
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
 import { ExplanationSchema, type Explanation } from '@/lib/feedback/explanation';
+import ActionButton from '@/components/shared/ActionButton';
+import LoadingBar from '@/components/shared/LoadingBar';
 
 type State = { loading?: boolean; data?: Explanation; error?: string; mock?: boolean };
 export default function ExplanationPanel({
@@ -73,20 +73,20 @@ export default function ExplanationPanel({
   return (
     <Box sx={{ marginBlockStart: 1.5 }}>
       {!state.data ? (
-        <Button
+        <ActionButton
           size="small"
-          variant="outlined"
+          tone="secondary"
           onClick={explain}
           disabled={state.loading}
           aria-expanded={Boolean(state.data)}
         >
           {t(state.loading ? 'explaining' : state.error ? 'explainRetry' : 'explain')}
-        </Button>
+        </ActionButton>
       ) : null}
       {state.loading ? (
         <Box role="status" sx={{ marginBlockStart: 1 }}>
           <Typography variant="caption">{t('explainWaiting')}</Typography>
-          <LinearProgress aria-label={t('explaining')} sx={{ marginBlockStart: 0.5 }} />
+          <LoadingBar label={t('explaining')} sx={{ marginBlockStart: 0.5 }} />
         </Box>
       ) : null}
       {state.error ? (

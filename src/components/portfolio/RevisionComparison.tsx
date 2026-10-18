@@ -1,12 +1,10 @@
 'use client';
 import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useState } from 'react';
-import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,6 +13,8 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import { diffWriting, compareScores, type RevisionComparison as Comparison } from '@/lib/revision';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ActionButton from '@/components/shared/ActionButton';
 
 export default function RevisionComparison({
   submissionId,
@@ -73,30 +73,28 @@ export default function RevisionComparison({
   return (
     <Stack sx={{ gap: 3 }}>
       <Typography variant="h1">{t('comparisonTitle')}</Typography>
-      <Button
-        component={NextLink}
+      <NavigationButton
         href={preview ? '/dev/preview/portfolio' : '/portfolio'}
         sx={{ alignSelf: 'start' }}
       >
         {t('back')}
-      </Button>
+      </NavigationButton>
       {error ? (
         <Alert
           severity="warning"
           action={
             error === 'sessionExpired' ? (
-              <Button component={NextLink} href="/login">
-                {t('signIn')}
-              </Button>
+              <NavigationButton href="/login">{t('signIn')}</NavigationButton>
             ) : error === 'loadError' ? (
-              <Button
+              <ActionButton
+                tone="quiet"
                 onClick={() => {
                   setError(null);
                   setRetry((value) => value + 1);
                 }}
               >
                 {t('retry')}
-              </Button>
+              </ActionButton>
             ) : undefined
           }
         >
@@ -181,12 +179,12 @@ export default function RevisionComparison({
             {t('scoreNote')}
           </Typography>
           <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 1 }}>
-            <Button component={NextLink} href={'/feedback/' + data.original.id}>
+            <NavigationButton href={'/feedback/' + data.original.id}>
               {t('openPrevious')}
-            </Button>
-            <Button variant="contained" component={NextLink} href={'/feedback/' + data.current.id}>
+            </NavigationButton>
+            <NavigationButton tone="primary" href={'/feedback/' + data.current.id}>
               {t('openCurrent')}
-            </Button>
+            </NavigationButton>
           </Stack>
         </>
       ) : null}

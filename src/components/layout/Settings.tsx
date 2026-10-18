@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import NextLink from 'next/link';
-import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { useColorScheme } from '@mui/material/styles';
@@ -19,11 +17,11 @@ import ToggleButton from '@mui/material/ToggleButton';
 import Card from '@mui/material/Card';
 import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
-import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 import WeeklyGoal from './WeeklyGoal';
 import type { WeeklyGoal as Goal } from '@/lib/preferences';
-import PageHeader from '@/components/ui/PageHeader';
+import PageHeader from '@/components/shared/PageHeader';
+import IconBadge from '@/components/shared/IconBadge';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
 import CalloutRibbon from '@/components/ui/icons/CalloutRibbon';
@@ -34,6 +32,9 @@ import LightModeOutlined from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlined from '@mui/icons-material/DarkModeOutlined';
 import DesktopWindowsOutlined from '@mui/icons-material/DesktopWindowsOutlined';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import NavigationButton from '@/components/shared/NavigationButton';
+import ToneChip from '@/components/shared/ToneChip';
+import SectionTitle from '@/components/shared/SectionTitle';
 
 function SettingCard({
   icon,
@@ -48,12 +49,6 @@ function SettingCard({
   tone?: 'purple' | 'green' | 'amber' | 'rose';
   children: ReactNode;
 }) {
-  const colors = {
-    purple: ['pastel.lilac', 'secondary.main'],
-    green: ['pastel.mint', 'success.dark'],
-    amber: ['pastel.sand', 'warning.main'],
-    rose: ['pastel.rose', 'error.main'],
-  }[tone];
   return (
     <Card sx={{ p: { xs: 2.5, md: 3 } }}>
       <Box
@@ -65,25 +60,11 @@ function SettingCard({
         }}
       >
         <Stack direction="row" sx={{ gap: 1.5, alignItems: 'flex-start' }}>
-          <Box
-            sx={{
-              inlineSize: 44,
-              blockSize: 44,
-              borderRadius: '50%',
-              bgcolor: colors[0],
-              color: colors[1],
-              display: 'grid',
-              placeItems: 'center',
-              flexShrink: 0,
-              '& svg': { fontSize: 22 },
-            }}
-          >
+          <IconBadge tone={tone} size="small">
             {icon}
-          </Box>
+          </IconBadge>
           <Box>
-            <Typography component="h2" variant="h3" sx={{ mb: 0.5 }}>
-              {title}
-            </Typography>
+            <SectionTitle sx={{ mb: 0.5 }}>{title}</SectionTitle>
             <Typography variant="body2" color="text.secondary">
               {description}
             </Typography>
@@ -309,10 +290,9 @@ export default function Settings({
             description={t('planBody')}
           >
             <Stack sx={{ gap: 1 }}>
-              <Chip
+              <ToneChip
                 label={t('free')}
-                variant="tonal"
-                color="primary"
+                tone="primary"
                 sx={{ alignSelf: 'flex-start', fontWeight: 700 }}
               />
               <Typography variant="body2" color="text.secondary">
@@ -342,10 +322,8 @@ export default function Settings({
               direction="row"
               sx={{ justifyContent: 'space-between', alignItems: 'center', gap: 1, mb: 2 }}
             >
-              <Typography component="h2" variant="h3">
-                {t('accountTitle')}
-              </Typography>
-              <Chip label={t('free')} size="small" variant="tonal" color="primary" />
+              <SectionTitle>{t('accountTitle')}</SectionTitle>
+              <ToneChip label={t('free')} size="small" tone="primary" />
             </Stack>
             <Stack direction="row" sx={{ gap: 1.5, alignItems: 'center' }}>
               <Avatar
@@ -373,16 +351,15 @@ export default function Settings({
             <OverviewRow label={t('weekly')} value={t('sessions', { n: weeklyGoal })} />
             <OverviewRow label={t('theme')} value={themeLabel} />
             {signedIn ? (
-              <Button
-                component={NextLink}
+              <NavigationButton
                 href={preview ? '/dev/preview/onboarding' : '/onboarding'}
-                variant="outlined"
+                tone="secondary"
                 fullWidth
                 endIcon={<ArrowForward />}
                 sx={{ mt: 2 }}
               >
                 {t('learningProfile')}
-              </Button>
+              </NavigationButton>
             ) : null}
           </Card>
           <Card
@@ -397,20 +374,17 @@ export default function Settings({
             }}
           >
             <CalloutRibbon />
-            <Typography component="h2" variant="h3" sx={{ mb: 1 }}>
-              {t('profileTitle')}
-            </Typography>
+            <SectionTitle sx={{ mb: 1 }}>{t('profileTitle')}</SectionTitle>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               {t('profileBody')}
             </Typography>
-            <Button
-              component={NextLink}
+            <NavigationButton
               href={preview ? '/dev/preview/onboarding' : signedIn ? '/onboarding' : '/login'}
-              variant="contained"
+              tone="primary"
               endIcon={<ArrowForward />}
             >
               {t(signedIn ? 'learningProfile' : 'signInStart')}
-            </Button>
+            </NavigationButton>
             <PaperAccent
               kind="crown"
               inlineSize={180}
