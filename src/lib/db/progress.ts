@@ -2,7 +2,7 @@ import 'server-only';
 import { and, eq, sql } from 'drizzle-orm';
 import { withUserDatabase, type Transaction } from './client';
 import { submissions, feedbackRows, practiceAnswers, practiceDrills } from './schema';
-import { pathInTransaction } from './curriculum';
+import { coursePathsInTransaction } from './curriculum';
 import { summarizeProgress, type ProgressSummary } from '@/lib/progress';
 import { summarizeImprovement, type Improvement } from '@/lib/improvement';
 import { summarizeCourse, type CourseProgress } from '@/lib/course-progress';
@@ -10,6 +10,7 @@ import { targetsInTransaction } from './targets';
 import { growthTargetsEnabled, visibleFeedback } from '@/lib/targets';
 import type { TargetProgress } from '@/lib/target-progress';
 import { summarizeBenchmarks } from '@/lib/benchmarks';
+import { traceOperation } from '@/lib/observability/server';
 
 export type ProgressReport = ProgressSummary & {
   improvement: Improvement;
@@ -23,12 +24,17 @@ export type ProgressPageData = ProgressReport & {
 export function loadProgress(userId: string): Promise<ProgressPageData> {
   return withUserDatabase(userId, async (database) => {
     const now = new Date();
-    const report = await progressInTransaction(database, now);
-    const core = await pathInTransaction(database, 'core');
-    const ielts = await pathInTransaction(database, 'ielts');
+    const report = await traceOperation('progress.history', () =>
+      progressInTransaction(database, now),
+    );
+    const { core, ielts } = await traceOperation('progress.courses', () =>
+      coursePathsInTransaction(database),
+    );
     return {
       ...report,
-      targets: growthTargetsEnabled() ? await targetsInTransaction(database, now) : [],
+      targets: growthTargetsEnabled()
+        ? await traceOperation('progress.targets', () => targetsInTransaction(database, now))
+        : [],
       course: {
         core: summarizeCourse(core.units, 'core', now),
         ielts: summarizeCourse(ielts.units, 'ielts', now),

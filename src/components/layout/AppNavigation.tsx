@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import NextLink from 'next/link';
+import IntentLink from './IntentLink';
 import { useTranslations } from 'next-intl';
 import { ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -162,7 +162,7 @@ function NavigationLinks({ pathname, onNavigate }: { pathname: string; onNavigat
       {items.map((item) => (
         <ListItemButton
           key={item.id}
-          component={NextLink}
+          component={IntentLink}
           href={destination(item, pathname)}
           selected={active === item.id}
           aria-current={active === item.id ? 'page' : undefined}
@@ -179,28 +179,11 @@ function NavigationLinks({ pathname, onNavigate }: { pathname: string; onNavigat
   );
 }
 
-export default function AppNavigation({
-  signedIn,
-  collapsed,
-  onCollapsedChange,
-}: {
-  signedIn: boolean;
-  collapsed: boolean;
-  onCollapsedChange: (collapsed: boolean) => void;
-}) {
+export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
   const pathname = usePathname();
   const t = useTranslations('app');
   const [menuOpen, setMenuOpen] = useState(false);
   const active = activeItem(pathname);
-  const reopenButton = useRef<HTMLButtonElement>(null);
-  const collapseButton = useRef<HTMLButtonElement>(null);
-
-  function toggleSidebar() {
-    onCollapsedChange(!collapsed);
-    requestAnimationFrame(() => {
-      (collapsed ? collapseButton : reopenButton).current?.focus();
-    });
-  }
 
   function closeMenu() {
     setMenuOpen(false);
@@ -211,7 +194,7 @@ export default function AppNavigation({
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: 'none', md: collapsed ? 'none' : 'block' },
+          display: { xs: 'none', md: 'block' },
           width: (theme) => theme.layout.navWidth,
         }}
         slotProps={{
@@ -220,14 +203,14 @@ export default function AppNavigation({
             id: 'desktop-navigation',
             'aria-label': t('nav'),
             sx: {
-              width: (theme) => theme.layout.navWidth - 16,
+              inlineSize: (theme) => theme.layout.navWidth,
               boxSizing: 'border-box',
               bgcolor: 'background.paper',
-              insetBlock: '20px',
-              insetInlineStart: '20px',
-              height: 'auto',
-              border: 1,
-              borderRadius: 3,
+              insetBlock: 0,
+              insetInlineStart: 0,
+              blockSize: '100dvh',
+              border: 0,
+              borderRadius: 0,
               backgroundImage:
                 'linear-gradient(135deg, var(--navigation-palette-background-paper), color-mix(in srgb, var(--navigation-palette-background-paper) 92%, var(--navigation-palette-tonal-primary)))',
               borderInlineEnd: 1,
@@ -237,43 +220,15 @@ export default function AppNavigation({
           },
         }}
       >
-        <Box component="header" sx={{ pt: 0.75, pb: 3.5, px: 0.75 }}>
+        <Box
+          component="header"
+          sx={{ paddingBlockStart: 0.75, paddingBlockEnd: 3.5, paddingInline: 0.75 }}
+        >
           <Logo />
-          <IconButton
-            ref={collapseButton}
-            aria-label={t('close')}
-            aria-expanded={!collapsed}
-            aria-controls="desktop-navigation"
-            onClick={toggleSidebar}
-            sx={{ mt: 1 }}
-          >
-            <CloseOutlined />
-          </IconButton>
         </Box>
         <NavigationLinks pathname={pathname} onNavigate={closeMenu} />
         <AccountFooter signedIn={signedIn} />
       </Drawer>
-      {collapsed ? (
-        <IconButton
-          ref={reopenButton}
-          aria-label={t('menu')}
-          aria-expanded={false}
-          aria-controls="desktop-navigation"
-          onClick={toggleSidebar}
-          sx={{
-            display: { xs: 'none', md: 'inline-flex' },
-            position: 'fixed',
-            insetBlockStart: 8,
-            insetInlineStart: 8,
-            zIndex: (theme) => theme.zIndex.appBar,
-            bgcolor: 'background.paper',
-            border: 1,
-            borderColor: 'divider',
-          }}
-        >
-          <MenuOutlined />
-        </IconButton>
-      ) : null}
       <AppBar
         position="fixed"
         elevation={0}
@@ -333,7 +288,7 @@ export default function AppNavigation({
               value={item.id}
               label={t(item.id === 'write' ? 'writeShort' : item.id)}
               icon={<BoardIcon name={item.icon} />}
-              component={NextLink}
+              component={IntentLink}
               href={destination(item, pathname)}
               aria-current={active === item.id ? 'page' : undefined}
             />

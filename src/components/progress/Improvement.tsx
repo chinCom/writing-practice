@@ -1,18 +1,16 @@
 'use client';
 import { useFormatter, useTranslations } from 'next-intl';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import SectionPanel from '@/components/shared/SectionPanel';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { LineChart } from '@mui/x-charts/LineChart';
+import LineChart from './ProgressLineChart';
 import { scoreKeys, type Improvement as ImprovementData } from '@/lib/improvement';
 
 function WeeklyScoreChart({ weekly }: { weekly: ImprovementData['weekly'] }) {
   const t = useTranslations('progress');
   const format = useFormatter();
   const theme = useTheme();
-  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const colors = [
     theme.palette.primary.main,
     theme.palette.success.main,
@@ -34,7 +32,6 @@ function WeeklyScoreChart({ weekly }: { weekly: ImprovementData['weekly'] }) {
       <Box role="img" aria-label={summary}>
         <LineChart
           height={300}
-          skipAnimation={reducedMotion}
           xAxis={[
             {
               data: weekly.map((week) => new Date(week.weekStart + 'T00:00:00Z')),
@@ -60,7 +57,6 @@ function WeeklyErrorChart({ weekly }: { weekly: ImprovementData['weekly'] }) {
   const t = useTranslations('progress');
   const format = useFormatter();
   const theme = useTheme();
-  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const summary = t('errorTrendSummary', {
     then: format.number(weekly[0].errorsPer100Words),
     now: format.number(weekly[weekly.length - 1].errorsPer100Words),
@@ -73,7 +69,6 @@ function WeeklyErrorChart({ weekly }: { weekly: ImprovementData['weekly'] }) {
       <Box role="img" aria-label={summary}>
         <LineChart
           height={260}
-          skipAnimation={reducedMotion}
           xAxis={[
             {
               data: weekly.map((week) => new Date(week.weekStart + 'T00:00:00Z')),

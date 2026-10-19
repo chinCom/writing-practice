@@ -1,8 +1,10 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { authConfigured } from '@/lib/auth/config';
+import { traceOperation } from '@/lib/observability/server';
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
+  if (request.nextUrl.pathname === '/api/telemetry') return response;
   if (!authConfigured()) return response;
   const client = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,7 +21,7 @@ export async function proxy(request: NextRequest) {
       },
     },
   );
-  await client.auth.getUser();
+  await traceOperation('auth.getUser.proxy', () => client.auth.getUser());
   if (!response.headers.has('Cache-Control')) {
     response.headers.set('Cache-Control', 'private, no-store');
   }

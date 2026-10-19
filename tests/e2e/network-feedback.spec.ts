@@ -91,7 +91,8 @@ test('server page loading shows a slow notice and clears it when the page arrive
   test.setTimeout(45000);
   await page.goto('/dev/preview/connection/ready');
   await page.getByRole('link', { name: 'Load a slow page', exact: true }).click();
-  await expect(page.getByText('Loading your page…', { exact: true })).toBeVisible();
+  await expect(page.getByRole('status')).toHaveText('Loading your page…');
+  await expect(page.locator('[data-ui="connection-skeleton"]')).toBeVisible();
   await expect(page.getByText(slowTitle, { exact: true })).toBeVisible({ timeout: 8000 });
   await expect(
     page.getByRole('heading', { name: 'Connection preview is ready', exact: true }),

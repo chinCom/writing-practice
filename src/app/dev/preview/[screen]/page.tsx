@@ -40,11 +40,15 @@ export default async function Page({
     lesson?: string;
     task?: string;
     track?: string;
+    delay?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== 'development') notFound();
   const { screen } = await params;
   const query = await searchParams;
+  // Development-only delay makes each route's streaming fallback inspectable.
+  const delay = Math.min(8000, Math.max(0, Number(query.delay) || 0));
+  if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
   const full = query.course === 'full' || screen === 'course-feedback';
   if (full) {
     const track =

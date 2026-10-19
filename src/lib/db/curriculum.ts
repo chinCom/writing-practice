@@ -21,7 +21,7 @@ import { gradeNoticing, type TextSpan } from '@/lib/noticing';
 import { buildCoursePath } from '@/lib/curriculum-path';
 import { trustedTargetsInTransaction } from './targets';
 
-export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
+async function pathDataInTransaction(database: Transaction) {
   const [units, [placement], progress, checks] = await Promise.all([
     database.select({ content: curriculumUnits.content }).from(curriculumUnits),
     database.select().from(placementResults),
@@ -39,11 +39,28 @@ export async function pathInTransaction(database: Transaction, track: Curriculum
   ]);
   const content = units.length ? curriculumSchema.parse(units.map((unit) => unit.content)) : [];
   const chosenLevel = (placement?.chosenLevel as CurriculumLevel | null) ?? null;
+  return { content, chosenLevel, placement: placement?.result ?? null, progress, checks };
+}
+
+function buildPath(
+  data: Awaited<ReturnType<typeof pathDataInTransaction>>,
+  track: CurriculumTrack,
+) {
+  const { content, chosenLevel, placement, progress, checks } = data;
   return {
     chosenLevel,
-    placement: placement?.result ?? null,
+    placement,
     units: buildCoursePath(content, chosenLevel, progress, checks, track),
   };
+}
+
+export async function pathInTransaction(database: Transaction, track: CurriculumTrack = 'core') {
+  return buildPath(await pathDataInTransaction(database), track);
+}
+
+export async function coursePathsInTransaction(database: Transaction) {
+  const data = await pathDataInTransaction(database);
+  return { core: buildPath(data, 'core'), ielts: buildPath(data, 'ielts') };
 }
 export type LearningPath = Awaited<ReturnType<typeof pathInTransaction>>;
 export async function loadPath(userId: string, track: CurriculumTrack = 'core') {

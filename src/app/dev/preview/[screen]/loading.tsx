@@ -1,1 +1,1 @@
-export { default } from '@/components/shared/PageLoading';
+export { default } from '@/components/layout/PreviewLoading';

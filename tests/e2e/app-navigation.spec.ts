@@ -76,7 +76,12 @@ for (const colorScheme of ['light', 'dark'] as const) {
 
     const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true });
     const appearance = await navigationAppearance(navigation);
-    expect(appearance.width).toBe(228);
+    expect(appearance.width).toBe(244);
+    const sidebar = page.getByRole('complementary');
+    const bounds = await sidebar.boundingBox();
+    expect(bounds).toMatchObject({ x: 0, y: 0, height: page.viewportSize()!.height });
+    await expect(sidebar).toHaveCSS('border-radius', '0px');
+    await expect(sidebar.getByRole('button', { name: 'Close menu' })).toHaveCount(0);
     expect(appearance.label.fontSize).toBe('15px');
     expect(appearance.footer).not.toBeNull();
     const originalNavigation = await navigation.elementHandle();

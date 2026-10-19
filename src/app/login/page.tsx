@@ -2,11 +2,13 @@ import { redirect } from 'next/navigation';
 import Login from '@/components/auth/Login';
 import { authConfigured } from '@/lib/auth/config';
 import { currentUser } from '@/lib/auth/server';
+import { waitForLoadingPreview } from '@/lib/dev-loading';
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; delay?: string }>;
 }) {
+  await waitForLoadingPreview(searchParams);
   if (await currentUser()) redirect('/today');
   return (
     <Login

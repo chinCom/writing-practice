@@ -30,6 +30,8 @@ import NavigationButton from '@/components/shared/NavigationButton';
 import ActionButton from '@/components/shared/ActionButton';
 import ToneChip from '@/components/shared/ToneChip';
 import LoadingBar from '@/components/shared/LoadingBar';
+import { LoadingContent } from '@/components/shared/ContentSkeleton';
+import { PracticeQuestionSkeleton } from './PracticeSkeleton';
 
 function PracticeHint({ result }: { result: PracticeAnswer }) {
   const t = useTranslations('practice');
@@ -116,7 +118,12 @@ export default function Practice({ preview = false }: { preview?: boolean }) {
     <Container maxWidth={false} disableGutters>
       <Stack sx={{ gap: 3 }}>
         <PageHeader title={t('title')} subtitle={t('subtitle')} note={app('paperNotes.practice')} />
-        {busy && <LoadingBar label={t('loading')} />}
+        {busy && !question ? (
+          <LoadingContent label={t('loading')}>
+            <PracticeQuestionSkeleton />
+          </LoadingContent>
+        ) : null}
+        {busy && question ? <LoadingBar label={t('loading')} /> : null}
         {error && (
           <ActionNotice
             message={t(error)}

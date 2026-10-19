@@ -4,8 +4,6 @@ import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Stack from '@mui/material/Stack';
-import Skeleton from '@mui/material/Skeleton';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import ActionNotice from '@/components/shared/ActionNotice';
 import EmptyState from '@/components/shared/EmptyState';
 import Box from '@mui/material/Box';
@@ -24,7 +22,9 @@ import PageHeader from '@/components/shared/PageHeader';
 import StatTile from '@/components/shared/StatTile';
 import NavigationButton from '@/components/shared/NavigationButton';
 import ActionButton from '@/components/shared/ActionButton';
-import VisuallyHidden from '@/components/shared/VisuallyHidden';
+import { LoadingContent } from '@/components/shared/ContentSkeleton';
+import StatTilesSkeleton from '@/components/shared/StatTilesSkeleton';
+import { PortfolioEntriesSkeleton } from './PortfolioSkeleton';
 
 type Filter = 'all' | 'revisions' | 'first';
 type Sort = 'newest' | 'oldest' | 'longest';
@@ -32,7 +32,6 @@ type Sort = 'newest' | 'oldest' | 'longest';
 export default function Portfolio({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('portfolio');
   const app = useTranslations('app');
-  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const [entries, setEntries] = useState<WritingVersion[]>([]);
   const [offset, setOffset] = useState<number | null>(0);
   const [loading, setLoading] = useState(true);
@@ -114,29 +113,41 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
   return (
     <Stack sx={{ gap: { xs: 2.5, md: 3 } }}>
       <PageHeader title={t('title')} subtitle={t('subtitle')} note={app('paperNotes.portfolio')} />
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: 'repeat(2, minmax(0, 1fr))',
-            md: 'repeat(4, minmax(0, 1fr))',
-          },
-          gap: 2,
-        }}
-      >
-        <StatTile label={t('savedPieces')} value={entries.length} icon={<DescriptionOutlined />} />
-        <StatTile label={t('totalWords')} value={stats.words} icon={<TextFieldsOutlined />} />
-        <StatTile
-          label={t('withFeedback')}
-          value={entries.length}
-          icon={<ChatBubbleOutlineOutlined />}
+      {loading && !entries.length ? (
+        <StatTilesSkeleton
+          labels={['savedPieces', 'totalWords', 'withFeedback', 'revisionCount'].map((key) =>
+            t(key),
+          )}
         />
-        <StatTile
-          label={t('revisionCount')}
-          value={stats.revisions}
-          icon={<CompareArrowsOutlined />}
-        />
-      </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: 'repeat(2, minmax(0, 1fr))',
+              md: 'repeat(4, minmax(0, 1fr))',
+            },
+            gap: 2,
+          }}
+        >
+          <StatTile
+            label={t('savedPieces')}
+            value={entries.length}
+            icon={<DescriptionOutlined />}
+          />
+          <StatTile label={t('totalWords')} value={stats.words} icon={<TextFieldsOutlined />} />
+          <StatTile
+            label={t('withFeedback')}
+            value={entries.length}
+            icon={<ChatBubbleOutlineOutlined />}
+          />
+          <StatTile
+            label={t('revisionCount')}
+            value={stats.revisions}
+            icon={<CompareArrowsOutlined />}
+          />
+        </Box>
+      )}
       <Box
         sx={{
           display: 'grid',
@@ -260,20 +271,9 @@ export default function Portfolio({ preview = false }: { preview?: boolean }) {
         />
       ) : null}
       {loading ? (
-        <Stack sx={{ gap: 3 }}>
-          <VisuallyHidden component="p" role="status">
-            {t('loading')}
-          </VisuallyHidden>
-          {[0, 1].map((placeholder) => (
-            <Skeleton
-              key={placeholder}
-              aria-hidden="true"
-              variant="rounded"
-              height={150}
-              animation={reducedMotion ? false : 'pulse'}
-            />
-          ))}
-        </Stack>
+        <LoadingContent label={t('loading')}>
+          <PortfolioEntriesSkeleton featured={!entries.length && filter === 'all' && !query} />
+        </LoadingContent>
       ) : null}
       {!loading && !error && !entries.length ? (
         <EmptyState

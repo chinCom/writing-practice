@@ -1,6 +1,6 @@
 'use client';
 import { fetchWithStatus } from '@/lib/network-status';
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -117,28 +117,35 @@ export default function LiveStudio({
     const frame = requestAnimationFrame(() => recoverOnMount());
     return () => cancelAnimationFrame(frame);
   }, [recoveryStorageKey]);
-  function updateText(value: string) {
-    setText(value);
-    if (parentSubmissionId) {
-      try {
-        sessionStorage.setItem('feedback-revision:' + parentSubmissionId, value);
-      } catch {
-        // The unsaved-writing guard still protects this editor if storage is blocked.
+  const updateText = useCallback(
+    (value: string) => {
+      setText(value);
+      if (parentSubmissionId) {
+        try {
+          sessionStorage.setItem('feedback-revision:' + parentSubmissionId, value);
+        } catch {
+          // The unsaved-writing guard still protects this editor if storage is blocked.
+        }
       }
-    }
-  }
-  function insertPhrase(phrase: string) {
-    if (busy === 'check') return;
-    const start = input.current?.selectionStart ?? text.length;
-    const end = input.current?.selectionEnd ?? start;
-    const value = text.slice(0, start) + phrase + text.slice(end);
-    if (value.length > limit) return;
-    updateText(value);
-    requestAnimationFrame(() => {
-      input.current?.focus();
-      input.current?.setSelectionRange(start + phrase.length, start + phrase.length);
-    });
-  }
+    },
+    [parentSubmissionId],
+  );
+  const checking = busy === 'check';
+  const insertPhrase = useCallback(
+    (phrase: string) => {
+      const editor = input.current;
+      if (checking || !editor) return;
+      const { selectionStart: start, selectionEnd: end, value: draft } = editor;
+      const value = draft.slice(0, start) + phrase + draft.slice(end);
+      if (value.length > limit) return;
+      updateText(value);
+      requestAnimationFrame(() => {
+        input.current?.focus();
+        input.current?.setSelectionRange(start + phrase.length, start + phrase.length);
+      });
+    },
+    [checking, limit, updateText],
+  );
   return (
     <Stack sx={{ gap: 3 }}>
       <PageHeader title={app('write')} subtitle={t('subtitle')} note={app('paperNotes.studio')} />

@@ -263,7 +263,7 @@ function Section({
   );
 }
 
-function Hero() {
+function Hero({ loading = false }: { loading?: boolean }) {
   const t = useTranslations('landing');
   return (
     <Box
@@ -340,7 +340,7 @@ function Hero() {
             </Typography>
           </Stack>
           <Box sx={{ minInlineSize: 0 }}>
-            <LiveDemo />
+            <LiveDemo loading={loading} />
           </Box>
         </Box>
       </Container>
@@ -800,12 +800,12 @@ function LandingFooter() {
   );
 }
 
-export default function Landing() {
+export default function Landing({ loading = false }: { loading?: boolean }) {
   return (
     <Box data-landing sx={{ bgcolor: 'background.paper', color: 'primary.main' }}>
       <LandingHeader />
       <Box component="main" id="main" tabIndex={-1}>
-        <Hero />
+        <Hero loading={loading} />
         <HowItWorks />
         <Features />
         <Levels />

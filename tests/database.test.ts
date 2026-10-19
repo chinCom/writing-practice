@@ -523,6 +523,7 @@ it('returns private progress for the verified owner without counting another acc
   const response = await getProgress(new Request('http://localhost/api/progress'));
   expect(response.status).toBe(200);
   expect(response.headers.get('cache-control')).toContain('no-store');
+  expect(response.headers.get('server-timing')).toMatch(/^auth;dur=\d+\.\d, database;dur=\d+\.\d$/);
   expect(await response.json()).toMatchObject({
     ok: true,
     data: { sessions: 1, words: 58, reviews: 2, correctReviews: 2, xp: 20 },

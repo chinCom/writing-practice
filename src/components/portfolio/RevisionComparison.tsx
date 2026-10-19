@@ -1,4 +1,6 @@
 'use client';
+import { LoadingContent } from '@/components/shared/ContentSkeleton';
+import { RevisionContentSkeleton } from './RevisionSkeleton';
 import { fetchWithStatus } from '@/lib/network-status';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -101,7 +103,9 @@ export default function RevisionComparison({
           {t(error)}
         </Alert>
       ) : !data ? (
-        <Typography role="status">{t('loading')}</Typography>
+        <LoadingContent label={t('loading')}>
+          <RevisionContentSkeleton />
+        </LoadingContent>
       ) : null}
       {data && deltas ? (
         <>

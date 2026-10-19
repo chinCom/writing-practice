@@ -7,17 +7,21 @@ import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { LineChart } from '@mui/x-charts/LineChart';
-import { BarChart } from '@mui/x-charts/BarChart';
+import dynamic from 'next/dynamic';
+import { ContentSkeleton } from '@/components/shared/ContentSkeleton';
 import { useTheme } from '@mui/material/styles';
 
-type TaskChartData = {
+export type TaskChartData = {
   title: string;
   kind: 'line' | 'bar';
   unit: string;
   years: number[];
   series: { label: string; data: number[] }[];
 };
+
+const TaskChartPlot = dynamic(() => import('./TaskChartPlot'), {
+  loading: () => <ContentSkeleton variant="rectangular" height={260} />,
+});
 
 // Task IDs keep visuals available for already-seeded curricula without a database migration.
 const charts: Record<string, TaskChartData> = {
@@ -61,7 +65,6 @@ export default function TaskChart({ taskId }: { taskId: string }) {
   const colors = [theme.palette.primary.main, theme.palette.warning.main, theme.palette.error.main];
   const chart = charts[taskId];
   if (!chart) return null;
-  const Chart = chart.kind === 'line' ? LineChart : BarChart;
   return (
     <Box
       component="figure"
@@ -75,28 +78,7 @@ export default function TaskChart({ taskId }: { taskId: string }) {
       <Typography variant="caption">
         {chart.unit === '%' ? 'Percentage (%)' : 'Millions of copies'}
       </Typography>
-      <Chart
-        height={260}
-        skipAnimation
-        hideLegend
-        xAxis={[
-          {
-            data: chart.years,
-            scaleType: 'band',
-            height: 32,
-            valueFormatter: (year: number) => String(year),
-          },
-        ]}
-        yAxis={[{ min: 0, max: chart.unit === '%' ? 100 : undefined, width: 38 }]}
-        series={chart.series.map((series, index) => ({
-          ...series,
-          color: colors[index],
-          curve: 'linear' as const,
-          valueFormatter: (value: number | null) => (value === null ? '' : `${value}${chart.unit}`),
-        }))}
-        grid={{ horizontal: true }}
-        margin={{ left: 0, right: 8, top: 12, bottom: 28 }}
-      />
+      <TaskChartPlot chart={chart} colors={colors} />
       <Table
         size="small"
         aria-label={`${chart.title}: chart data`}

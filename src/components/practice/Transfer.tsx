@@ -10,6 +10,8 @@ import ActionNotice from '@/components/shared/ActionNotice';
 import WritingField from '@/components/shared/WritingField';
 import type { TransferQuestion, gradeTransfer } from '@/lib/transfer';
 import ActionButton from '@/components/shared/ActionButton';
+import { LoadingContent } from '@/components/shared/ContentSkeleton';
+import { TransferQuestionSkeleton } from './PracticeSkeleton';
 type Result = ReturnType<typeof gradeTransfer> & { version: number };
 export default function Transfer({ preview = false }: { preview?: boolean }) {
   const t = useTranslations('practice');
@@ -97,7 +99,11 @@ export default function Transfer({ preview = false }: { preview?: boolean }) {
           }
         />
       )}
-      {busy && !question && <Typography aria-live="polite">{t('loading')}</Typography>}
+      {busy && !question ? (
+        <LoadingContent label={t('loading')}>
+          <TransferQuestionSkeleton />
+        </LoadingContent>
+      ) : null}
       {!busy && !error && !question && (
         <Typography>
           {at

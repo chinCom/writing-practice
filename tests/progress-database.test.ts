@@ -16,10 +16,13 @@ const course = curriculumSchema.parse(
 const ielts = curriculumSchema.parse(
   JSON.parse(await readFile('curriculum/ielts.draft.json', 'utf8')),
 );
+const queryLog = vi.hoisted(() => ({ queries: [] as string[] }));
 vi.mock('server-only', () => ({}));
 vi.mock('@/lib/db/client', () => ({
   withUserDatabase: (userId: string, work: (transaction: unknown) => Promise<unknown>) =>
-    drizzle(database).transaction(async (transaction) => {
+    drizzle(database, {
+      logger: { logQuery: (query) => queryLog.queries.push(query) },
+    }).transaction(async (transaction) => {
       await transaction.execute(sql`SELECT set_config('request.jwt.claim.sub', ${userId}, true)`);
       await transaction.execute(sql`SET LOCAL ROLE authenticated`);
       return work(transaction);
@@ -102,6 +105,16 @@ beforeAll(async () => {
   await addCheck(bob, 2, 1);
 });
 afterAll(() => database.close());
+it('reads shared course inputs once while retaining both tracks', async () => {
+  queryLog.queries = [];
+  const report = await loadProgress(alice);
+  const reads = queryLog.queries.filter(
+    (query) => query.startsWith('select') && query.includes('"curriculum_units"'),
+  );
+  expect(reads).toHaveLength(1);
+  expect(report.course.core.lessonsTotal).toBeGreaterThan(0);
+  expect(report.course.ielts.lessonsTotal).toBeGreaterThan(0);
+});
 it('loads only owner safe reviewed benchmark pairs and freezes their content identity', async () => {
   const context = {
     unitId: course[0].id,

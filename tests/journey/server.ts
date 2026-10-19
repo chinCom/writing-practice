@@ -135,7 +135,14 @@ const services = createServer(async (request, response) => {
 await new Promise<void>((resolve) => services.listen(4319, '127.0.0.1', resolve));
 const app = spawn(
   process.execPath,
-  ['node_modules/next/dist/bin/next', 'dev', '--hostname', '127.0.0.1', '--port', '3100'],
+  [
+    'node_modules/next/dist/bin/next',
+    process.env.JOURNEY_APP_MODE === 'production' ? 'start' : 'dev',
+    '--hostname',
+    '127.0.0.1',
+    '--port',
+    '3100',
+  ],
   {
     stdio: 'inherit',
     env: {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { memo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -14,14 +15,21 @@ import TaskChart from '@/components/curriculum/TaskChart';
 import type { CurriculumTask } from '@/lib/curriculum';
 import ToneChip from '@/components/shared/ToneChip';
 import SectionTitle from '@/components/shared/SectionTitle';
+import { SkeletonMask } from '@/components/shared/ContentSkeleton';
 
 type TaskBriefProps = {
   onInsert: (phrase: string) => void;
   disabled?: boolean;
   task?: CurriculumTask;
+  loading?: boolean;
 };
 
-export default function TaskBrief({ onInsert, disabled = false, task }: TaskBriefProps) {
+export default memo(function TaskBrief({
+  onInsert,
+  disabled = false,
+  task,
+  loading = false,
+}: TaskBriefProps) {
   const t = useTranslations('studio');
   const wordBank = task
     ? task.wordBank
@@ -32,12 +40,16 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
         direction="row"
         sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 2 }}
       >
-        <SectionTitle>{task?.title ?? t('title')}</SectionTitle>
+        <SkeletonMask loading={loading}>
+          <SectionTitle>{task?.title ?? t('title')}</SectionTitle>
+        </SkeletonMask>
         <ToneChip label={task?.targetLevel ?? 'A2'} tone="primary" size="small" />
       </Stack>
       {task ? <IeltsContract taskId={task.id} /> : null}
       <ReadingPassage reading={task?.reading} />
-      <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>
+      <SkeletonMask loading={loading}>
+        <Typography sx={{ mb: 1 }}>{task?.prompt ?? t('description')}</Typography>
+      </SkeletonMask>
       {task ? <TaskChart taskId={task.id} /> : null}
       <Typography variant="body2" color="text.secondary">
         {task ? t('taskWordRange', { min: task.minWords, max: task.maxWords }) : t('wordRange')}
@@ -58,8 +70,12 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
         {(task?.checklist ?? ['where', 'what', 'invite'].map((key) => t(key))).map((point) => (
           <FormControlLabel
             key={point}
-            control={<Checkbox />}
-            label={<Typography variant="body2">{point}</Typography>}
+            control={<Checkbox disabled={disabled} />}
+            label={
+              <SkeletonMask loading={loading}>
+                <Typography variant="body2">{point}</Typography>
+              </SkeletonMask>
+            }
           />
         ))}
       </FormGroup>
@@ -86,4 +102,4 @@ export default function TaskBrief({ onInsert, disabled = false, task }: TaskBrie
       ) : null}
     </Box>
   );
-}
+});

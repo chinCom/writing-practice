@@ -13,7 +13,9 @@ Approved decorative assets remain in [the icon folder](../ui/icons/).
 | [NavigationButton](NavigationButton.tsx) | A `primary`/`secondary`/`quiet` button that navigates with Next.js client routing | Every workspace link-button: Today, path, lessons, feedback, revision, Practice, Progress, Portfolio, Settings, onboarding and sign-in |
 | [ToneChip](ToneChip.tsx) | Soft level/status chips on the theme's tonal palettes | Today, path, lessons, task briefs, feedback, Portfolio, Settings and Progress targets |
 | [SectionTitle](SectionTitle.tsx) | A section heading with the workspace level and scale | Today, Progress overview, Settings, Portfolio versions, task briefs and reading passages |
-| [LoadingBar](LoadingBar.tsx) | The indeterminate progress bar with a required accessible label | Progress, Practice, Transfer, explanations, placement and the coach status |
+| [LoadingBar](LoadingBar.tsx) | The indeterminate progress bar with a required accessible label | Answer saving, explanations, placement and the coach status |
+| [ContentSkeleton](ContentSkeleton.tsx) | MUI skeleton shapes, typography sizing, panels and an accessible loading region | Content-specific route and data fallbacks; wave animation respects reduced motion |
+| [StatTilesSkeleton](StatTilesSkeleton.tsx) | Four metric tiles with the same responsive grid as loaded summaries | Portfolio and Progress |
 | [VisuallyHidden](VisuallyHidden.tsx) | Text announced by assistive technology but not shown | Portfolio loading status and locked-path suffix |
 | [SectionPanel](SectionPanel.tsx) | Named report/learning sections with a consistent heading, description, spacing and optional icon/action | Targets, benchmarks, improvement, review insights and transfer Practice |
 | [IconBadge](IconBadge.tsx) | Decorative icons beside an accessible label, using the same sizes and theme palettes | Metric tiles, Settings and course summaries |
@@ -23,7 +25,7 @@ Approved decorative assets remain in [the icon folder](../ui/icons/).
 | [WritingField](WritingField.tsx) | Every learner-writing input; consistent English direction and browser-assistance safeguards | Studio, drills, transfer, corrections, placement, lessons and the live demo |
 | [SegmentedControl](SegmentedControl.tsx) | A MUI tab group with the existing sliding selection pill | Core/IELTS path tabs |
 | [HintText](HintText.tsx) | Safe, themed emphasis within text hints | Practice |
-| [PageLoading](PageLoading.tsx) | Route loading with the existing global slow-network notice | Sixteen route boundaries |
+| [PageLoading](PageLoading.tsx) | Wrap a screen-specific skeleton with the global slow-network notice | Sixteen route boundaries |
 | [PageLoadError](PageLoadError.tsx) | The existing route error/retry dialog | App error boundary |
 
 ## Composition and ownership

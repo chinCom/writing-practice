@@ -7,15 +7,14 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
 import { profileResult, type LearningProfile } from '@/lib/profile';
 import PageHeader from '@/components/shared/PageHeader';
 import NavigationButton from '@/components/shared/NavigationButton';
 import ActionButton from '@/components/shared/ActionButton';
+import { LoadingContent } from '@/components/shared/ContentSkeleton';
+import OnboardingSkeleton from './OnboardingSkeleton';
+import ProfileField from './ProfileField';
 
 const defaultProfile: LearningProfile = {
   nativeLanguage: 'en',
@@ -23,41 +22,6 @@ const defaultProfile: LearningProfile = {
   startingLevel: 'A2',
   dailyMinutes: 15,
 };
-
-type FieldName = 'nativeLanguage' | 'goal' | 'startingLevel' | 'dailyMinutes';
-function ProfileField({
-  name,
-  value,
-  options,
-  disabled,
-  onChange,
-}: {
-  name: FieldName;
-  value: string;
-  options: { value: string; label: string }[];
-  disabled: boolean;
-  onChange: (value: string) => void;
-}) {
-  const t = useTranslations('onboarding');
-  return (
-    <FormControl disabled={disabled} fullWidth>
-      <InputLabel id={name + '-label'}>{t(name)}</InputLabel>
-      <Select
-        labelId={name + '-label'}
-        id={name}
-        label={t(name)}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  );
-}
 
 export default function Onboarding({
   initialProfile,
@@ -123,6 +87,12 @@ export default function Onboarding({
     setProfile((previous) => ({ ...previous, [name]: value }));
     setStatus('idle');
   }
+  if (status === 'loading')
+    return (
+      <LoadingContent label={t('loading')}>
+        <OnboardingSkeleton />
+      </LoadingContent>
+    );
   return (
     <Container maxWidth="md" disableGutters sx={{ marginInlineStart: 0 }}>
       <Stack sx={{ gap: 3 }}>
@@ -192,9 +162,7 @@ export default function Onboarding({
                 {t('saved')}
               </Alert>
             ) : null}
-            {status === 'loading' || status === 'saving' ? (
-              <Typography role="status">{t(status)}</Typography>
-            ) : null}
+            {status === 'saving' ? <Typography role="status">{t(status)}</Typography> : null}
             <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ gap: 2 }}>
               <ActionButton tone="primary" disabled={disabled} onClick={() => void save()}>
                 {t('save')}

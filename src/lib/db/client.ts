@@ -2,6 +2,7 @@ import 'server-only';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { sql } from 'drizzle-orm';
+import { traceOperation } from '@/lib/observability/server';
 
 function connect() {
   if (!process.env.DATABASE_URL) throw new Error('NOT_CONFIGURED');
@@ -66,7 +67,7 @@ export async function withUserDatabase<T>(
   userId: string,
   work: (transaction: Transaction) => Promise<T>,
 ) {
-  const slot = await acquire();
+  const slot = await traceOperation('database.pool.acquire', acquire);
   let timer: ReturnType<typeof setTimeout> | undefined;
   let expired = false;
   try {
@@ -84,15 +85,17 @@ export async function withUserDatabase<T>(
         );
       }, 10000);
     });
-    const operation = database.transaction(async (transaction) => {
-      await transaction.execute(sql`SELECT
+    const operation = traceOperation('database.transaction', () =>
+      database.transaction(async (transaction) => {
+        await transaction.execute(sql`SELECT
         set_config('statement_timeout', '5s', true),
         set_config('lock_timeout', '2s', true),
         set_config('idle_in_transaction_session_timeout', '5s', true),
         set_config('request.jwt.claim.sub', ${userId}, true)`);
-      await transaction.execute(sql`SET LOCAL ROLE authenticated`);
-      return work(transaction);
-    });
+        await transaction.execute(sql`SET LOCAL ROLE authenticated`);
+        return work(transaction);
+      }),
+    );
     try {
       return await Promise.race([operation, deadline]);
     } catch (error) {

@@ -16,15 +16,18 @@ import LegalLinks from '@/components/landing/LegalLinks';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
 import HandDrawnArrow from '@/components/ui/icons/HandDrawnArrow';
 import ActionButton from '@/components/shared/ActionButton';
+import { SkeletonMask } from '@/components/shared/ContentSkeleton';
 
 export default function Login({
   configured,
   callbackError = false,
   googleEnabled = false,
+  loading = false,
 }: {
   configured: boolean;
   callbackError?: boolean;
   googleEnabled?: boolean;
+  loading?: boolean;
 }) {
   const t = useTranslations('auth');
   const [email, setEmail] = useState('');
@@ -169,29 +172,31 @@ export default function Login({
           </Stack>
           {!configured ? <Alert severity="info">{t('notConfigured')}</Alert> : null}
           <Box component="form" action="/auth/google" method="post">
-            <ActionButton
-              type="submit"
-              tone="secondary"
-              fullWidth
-              disabled={!configured || !googleEnabled || state === 'loading'}
-              startIcon={
-                <Box
-                  component="img"
-                  src="/brand/google-g.png"
-                  alt=""
-                  aria-hidden="true"
-                  sx={{
-                    inlineSize: '1.25em',
-                    blockSize: '1.25em',
-                    objectFit: 'contain',
-                    flex: 'none',
-                  }}
-                />
-              }
-              sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
-            >
-              {t('google')}
-            </ActionButton>
+            <SkeletonMask loading={loading} variant="rounded">
+              <ActionButton
+                type="submit"
+                tone="secondary"
+                fullWidth
+                disabled={!configured || !googleEnabled || state === 'loading'}
+                startIcon={
+                  <Box
+                    component="img"
+                    src="/brand/google-g.png"
+                    alt=""
+                    aria-hidden="true"
+                    sx={{
+                      inlineSize: '1.25em',
+                      blockSize: '1.25em',
+                      objectFit: 'contain',
+                      flex: 'none',
+                    }}
+                  />
+                }
+                sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
+              >
+                {t('google')}
+              </ActionButton>
+            </SkeletonMask>
           </Box>
           {!googleEnabled ? (
             <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
@@ -207,27 +212,33 @@ export default function Login({
             }}
             sx={{ gap: 2 }}
           >
-            <TextField
-              label={t('email')}
-              type="email"
-              name="email"
-              placeholder={t('emailPlaceholder')}
-              slotProps={{ inputLabel: { shrink: true }, htmlInput: { spellCheck: false } }}
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              disabled={!configured || state === 'loading'}
-            />
-            <ActionButton
-              type="submit"
-              tone="primary"
-              disabled={!configured || state === 'loading'}
-              endIcon={<ArrowForward />}
-              sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
-            >
-              {t(state === 'loading' ? 'sending' : 'send')}
-            </ActionButton>
+            <SkeletonMask loading={loading} variant="rounded">
+              <TextField
+                label={t('email')}
+                fullWidth
+                type="email"
+                name="email"
+                placeholder={t('emailPlaceholder')}
+                slotProps={{ inputLabel: { shrink: true }, htmlInput: { spellCheck: false } }}
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                disabled={!configured || state === 'loading'}
+              />
+            </SkeletonMask>
+            <SkeletonMask loading={loading} variant="rounded">
+              <ActionButton
+                type="submit"
+                tone="primary"
+                disabled={!configured || state === 'loading'}
+                endIcon={<ArrowForward />}
+                sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
+                fullWidth
+              >
+                {t(state === 'loading' ? 'sending' : 'send')}
+              </ActionButton>
+            </SkeletonMask>
           </Stack>
           {state === 'sent' ? <Alert severity="success">{t('sent')}</Alert> : null}
           {state === 'error' ? <Alert severity="error">{t('error')}</Alert> : null}

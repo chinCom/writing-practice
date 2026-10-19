@@ -17,19 +17,19 @@ for (const screen of ['write', 'live-write']) {
   });
 }
 
-test('desktop sidebar can hide and reopen without losing writing', async ({ page }, info) => {
-  test.skip(info.project.name !== 'desktop', 'Mobile already uses a dismissible menu');
+test('desktop sidebar stays flush with the viewport while writing', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop', 'Desktop sidebar only');
   await page.goto('/dev/preview/live-write');
   const editor = page.getByRole('textbox', { name: 'Your writing' });
   await editor.fill('Keep this draft while I focus on writing.');
-  await page.getByRole('button', { name: 'Close menu', exact: true }).click();
-  await expect(page.getByRole('complementary')).toBeHidden();
-  await expect(page.getByRole('main')).toHaveCSS('margin-left', '0px');
+  const sidebar = page.getByRole('complementary');
+  await expect(sidebar).toBeVisible();
+  await expect(sidebar.getByRole('button', { name: 'Close menu', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('main')).toHaveCSS('margin-left', '244px');
+  const bounds = await sidebar.boundingBox();
+  expect(bounds).toMatchObject({ x: 0, y: 0, height: page.viewportSize()!.height });
+  await page.getByRole('main').evaluate((element) => element.scrollIntoView({ block: 'end' }));
+  expect(await sidebar.boundingBox()).toEqual(bounds);
   await expect(editor).toHaveValue('Keep this draft while I focus on writing.');
-  const reopen = page.getByRole('button', { name: 'Open menu', exact: true });
-  await expect(reopen).toBeFocused();
-  await reopen.click();
-  await expect(page.getByRole('complementary')).toBeVisible();
-  await expect(editor).toHaveValue('Keep this draft while I focus on writing.');
-  await page.screenshot({ path: test.info().outputPath('sidebar-restored.png'), fullPage: true });
+  await page.screenshot({ path: test.info().outputPath('sidebar-flush.png'), fullPage: true });
 });

@@ -7,6 +7,7 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Providers from '@/components/layout/Providers';
 import AppShell from '@/components/layout/AppShell';
 import { currentUser } from '@/lib/auth/server';
+import WebVitals from '@/components/layout/WebVitals';
 const handwriting = localFont({
   src: '../../public/fonts/caveat-variable.ttf',
   variable: '--font-handwriting',
@@ -66,6 +67,14 @@ export default async function Layout({ children }: { children: ReactNode }) {
       ].join(' ')}
     >
       <body>
+        {process.env.PERFORMANCE_TELEMETRY === 'true' ? (
+          <WebVitals
+            sampleRate={Math.min(
+              1,
+              Math.max(0, Number(process.env.PERFORMANCE_SAMPLE_RATE ?? '0.1') || 0),
+            )}
+          />
+        ) : null}
         <InitColorSchemeScript attribute="data-mui-color-scheme" />
         <NextIntlClientProvider>
           <Providers>

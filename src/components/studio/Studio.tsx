@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useRef, useState, useSyncExternalStore } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -52,7 +52,7 @@ export default function Studio() {
   const words = countWords(text);
   const help = useDevelopmentHelp(text, weekendTask);
 
-  function saveDraft(value: string) {
+  const saveDraft = useCallback((value: string) => {
     setEdited(value);
     try {
       localStorage.setItem(DRAFT_KEY, JSON.stringify({ version: 1, text: value }));
@@ -61,23 +61,27 @@ export default function Studio() {
     } catch {
       setSaveState('error');
     }
-  }
+  }, []);
 
-  function insertPhrase(phrase: string) {
-    const start = input.current?.selectionStart ?? text.length;
-    const end = input.current?.selectionEnd ?? start;
-    const before = text.slice(0, start);
-    const after = text.slice(end);
-    const addition =
-      (before && !/\s$/.test(before) ? ' ' : '') +
-      phrase +
-      (after && !/^\s/.test(after) ? ' ' : '');
-    saveDraft(before + addition + after);
-    requestAnimationFrame(() => {
-      input.current?.focus();
-      input.current?.setSelectionRange(start + addition.length, start + addition.length);
-    });
-  }
+  const insertPhrase = useCallback(
+    (phrase: string) => {
+      const editor = input.current;
+      if (!editor) return;
+      const { selectionStart: start, selectionEnd: end, value: draft } = editor;
+      const before = draft.slice(0, start);
+      const after = draft.slice(end);
+      const addition =
+        (before && !/\s$/.test(before) ? ' ' : '') +
+        phrase +
+        (after && !/^\s/.test(after) ? ' ' : '');
+      saveDraft(before + addition + after);
+      requestAnimationFrame(() => {
+        input.current?.focus();
+        input.current?.setSelectionRange(start + addition.length, start + addition.length);
+      });
+    },
+    [saveDraft],
+  );
   return (
     <Stack sx={{ gap: 3 }}>
       <PageHeader title={app('write')} subtitle={t('subtitle')} note={app('paperNotes.studio')} />

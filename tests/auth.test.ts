@@ -8,6 +8,7 @@ import { proxy, config } from '@/proxy';
 import { unstable_doesMiddlewareMatch } from 'next/experimental/testing/server';
 
 vi.mock('@supabase/ssr', () => ({ createServerClient: vi.fn() }));
+vi.mock('server-only', () => ({}));
 vi.mock('@/lib/auth/config', () => ({ authConfigured: () => true }));
 vi.mock('@/lib/auth/server', () => ({ authClient: vi.fn() }));
 

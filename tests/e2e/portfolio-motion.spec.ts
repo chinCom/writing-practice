@@ -34,7 +34,14 @@ for (const [reducedMotion, moves] of [
     });
     await page.goto('/dev/preview/portfolio');
     await expect(page.getByRole('status')).toHaveText('Loading saved writing…');
-    await expect(page.locator('.MuiSkeleton-root')).toHaveCount(2);
+    await expect(page.locator('[data-ui="portfolio-entry-skeleton"]')).toHaveCount(2);
+    const skeleton = page.locator('[data-ui="portfolio-entry-skeleton"] .MuiSkeleton-root').first();
+    await expect(skeleton).toHaveClass(/MuiSkeleton-wave/);
+    const wave = await skeleton.evaluate(
+      (element) => getComputedStyle(element, '::after').animationName,
+    );
+    if (moves) expect(wave).not.toBe('none');
+    else expect(wave).toBe('none');
     const longEntry = page.getByText(longText.slice(0, 20));
     await expect(longEntry).toBeVisible();
     await expect(page.locator('.MuiSkeleton-root')).toHaveCount(0);

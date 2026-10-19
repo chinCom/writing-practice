@@ -8,10 +8,6 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import Card from '@mui/material/Card';
@@ -19,6 +15,7 @@ import Alert from '@mui/material/Alert';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import WeeklyGoal from './WeeklyGoal';
+import PreferenceSelect from './PreferenceSelect';
 import type { WeeklyGoal as Goal } from '@/lib/preferences';
 import PageHeader from '@/components/shared/PageHeader';
 import IconBadge from '@/components/shared/IconBadge';
@@ -73,41 +70,6 @@ function SettingCard({
         <Box sx={{ minInlineSize: 0 }}>{children}</Box>
       </Box>
     </Card>
-  );
-}
-
-function PreferenceSelect({
-  id,
-  label,
-  value,
-  options,
-  onChange,
-  disabled = false,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  options: { value: string; label: string }[];
-  onChange: (value: string) => void;
-  disabled?: boolean;
-}) {
-  return (
-    <FormControl disabled={disabled} size="small" sx={{ flex: 1, minInlineSize: 0 }}>
-      <InputLabel id={id + '-label'}>{label}</InputLabel>
-      <Select
-        labelId={id + '-label'}
-        id={id}
-        label={label}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      >
-        {options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
   );
 }
 

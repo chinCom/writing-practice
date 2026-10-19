@@ -16,6 +16,7 @@ import WritingField from '@/components/shared/WritingField';
 import type { LocatedCorrection } from '@/lib/feedback/schema';
 import { analyzeWriting, repeatedWord, type HintTask, type WritingHint } from '@/lib/writing-hints';
 import ActionButton from '@/components/shared/ActionButton';
+import { SkeletonMask } from '@/components/shared/ContentSkeleton';
 
 const demoTask: HintTask = { id: 'landing-demo', minWords: 1, maxWords: 60, targetLevel: 'A2' };
 const demoLimit = 300;
@@ -65,7 +66,7 @@ function useDemoMarks(text: string): DemoMark[] {
   return marks;
 }
 
-export default function LiveDemo() {
+export default function LiveDemo({ loading = false }: { loading?: boolean }) {
   const t = useTranslations('landing');
   const [text, setText] = useState(() => t('demoText'));
   const [draft, setDraft] = useState('');
@@ -173,21 +174,23 @@ export default function LiveDemo() {
           ))}
         </Stack>
         <Box role="region" aria-label={t('demoResult')} aria-live="polite" sx={{ pt: 1 }}>
-          <Box
-            sx={{
-              fontSize: { xs: '1rem', sm: '0.875rem' },
-              lineHeight: 1.6,
-              '& [data-marked-text]': { fontFamily: 'inherit', fontSize: 'inherit' },
-            }}
-          >
-            <MarkedText
-              text={text}
-              corrections={marks.map((mark) => mark.correction)}
-              active={current ? marks.indexOf(current) : -1}
-              applied={noneApplied}
-              onSelect={(index) => setActive(index)}
-            />
-          </Box>
+          <SkeletonMask loading={loading}>
+            <Box
+              sx={{
+                fontSize: { xs: '1rem', sm: '0.875rem' },
+                lineHeight: 1.6,
+                '& [data-marked-text]': { fontFamily: 'inherit', fontSize: 'inherit' },
+              }}
+            >
+              <MarkedText
+                text={text}
+                corrections={marks.map((mark) => mark.correction)}
+                active={current ? marks.indexOf(current) : -1}
+                applied={noneApplied}
+                onSelect={(index) => setActive(index)}
+              />
+            </Box>
+          </SkeletonMask>
           <Box
             sx={{
               position: 'absolute',
@@ -211,34 +214,36 @@ export default function LiveDemo() {
           ) : null}
         </Box>
         <Box sx={{ pt: 1 }}>
-          <WritingField
-            label={t('demoLabel')}
-            placeholder={t('demoPlaceholder')}
-            value={draft}
-            onChange={(event) => {
-              const value = event.target.value.slice(0, demoLimit);
-              setDraft(value);
-              setText(value);
-              setActive(0);
-              setIgnored(new Set());
-            }}
-            multiline
-            minRows={1}
-            fullWidth
-            size="small"
-            slotProps={{
-              htmlInput: { maxLength: demoLimit },
-              input: {
-                sx: {
-                  bgcolor: 'background.default',
-                  borderRadius: 2,
-                  fontSize: '0.8125rem',
-                  alignItems: 'flex-start',
-                  '& textarea': { lineHeight: 1.5 },
+          <SkeletonMask loading={loading} variant="rounded">
+            <WritingField
+              label={t('demoLabel')}
+              placeholder={t('demoPlaceholder')}
+              value={draft}
+              onChange={(event) => {
+                const value = event.target.value.slice(0, demoLimit);
+                setDraft(value);
+                setText(value);
+                setActive(0);
+                setIgnored(new Set());
+              }}
+              multiline
+              minRows={1}
+              fullWidth
+              size="small"
+              slotProps={{
+                htmlInput: { maxLength: demoLimit },
+                input: {
+                  sx: {
+                    bgcolor: 'background.default',
+                    borderRadius: 2,
+                    fontSize: '0.8125rem',
+                    alignItems: 'flex-start',
+                    '& textarea': { lineHeight: 1.5 },
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </SkeletonMask>
         </Box>
       </Paper>
       <Paper
@@ -262,13 +267,15 @@ export default function LiveDemo() {
             {t('demoTabs.grammar')}
           </Typography>
         </Stack>
-        <Typography sx={{ mt: 0.75, fontSize: '0.75rem', lineHeight: 1.5, fontWeight: 500 }}>
-          {current
-            ? text.slice(0, current.correction.start) +
-              current.correction.suggestion +
-              text.slice(current.correction.end)
-            : text}
-        </Typography>
+        <SkeletonMask loading={loading}>
+          <Typography sx={{ mt: 0.75, fontSize: '0.75rem', lineHeight: 1.5, fontWeight: 500 }}>
+            {current
+              ? text.slice(0, current.correction.start) +
+                current.correction.suggestion +
+                text.slice(current.correction.end)
+              : text}
+          </Typography>
+        </SkeletonMask>
         <Stack direction="row" sx={{ gap: 1, mt: 1, alignItems: 'center' }}>
           <ActionButton tone="primary" size="small" disabled={!marks.length} onClick={applyAll}>
             {t('acceptAll')}

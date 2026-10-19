@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import WritingField from '@/components/shared/WritingField';
+import PlacementSampleField from './PlacementSampleField';
 import ActionButton from '@/components/shared/ActionButton';
 import LoadingBar from '@/components/shared/LoadingBar';
 import {
@@ -128,21 +128,17 @@ export default function Placement({
             }}
           >
             <Stack sx={{ gap: 3 }}>
-              <WritingField
+              <PlacementSampleField
                 label={t('aboutYou')}
                 helperText={t('aboutPrompt')}
-                multiline
-                minRows={3}
                 value={samples[0]}
                 disabled={busy}
                 slotProps={{ htmlInput: { minLength: 30, maxLength: 1200 } }}
                 onChange={(event) => setSamples([event.target.value, samples[1]])}
               />
-              <WritingField
+              <PlacementSampleField
                 label={t('recentDay')}
                 helperText={t('dayPrompt')}
-                multiline
-                minRows={3}
                 value={samples[1]}
                 disabled={busy}
                 slotProps={{ htmlInput: { minLength: 30, maxLength: 1200 } }}

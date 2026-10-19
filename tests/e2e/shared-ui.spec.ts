@@ -154,7 +154,7 @@ test('shared actions keep their weight, pass-through props and client navigation
   await expect(secondary).toHaveClass(/MuiButton-outlined/);
 });
 
-test('shared soft chips and loading bars preserve status and accessible labels', async ({
+test('shared soft chips and content skeletons preserve status and accessible labels', async ({
   page,
 }) => {
   await page.route('**/dev/preview/progress-data*', async (route) => {
@@ -162,9 +162,9 @@ test('shared soft chips and loading bars preserve status and accessible labels',
     await route.continue();
   });
   await page.goto('/dev/preview/progress');
-  const loading = page.getByRole('progressbar', { name: 'Loading progress', exact: true });
+  const loading = page.locator('[data-ui="progress-panels-skeleton"]');
   await expect(loading).toBeVisible();
-  await expect(loading).toHaveAttribute('data-ui', 'loading-bar');
+  await expect(page.getByRole('status')).toHaveText('Loading progress');
   await expect(panels(page)).toHaveCount(4);
   await expect(loading).toHaveCount(0);
   const chips = page.locator('.MuiChip-root');
