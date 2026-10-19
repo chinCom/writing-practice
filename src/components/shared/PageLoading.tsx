@@ -11,7 +11,21 @@ export default function PageLoading() {
   const t = useTranslations('network');
   useEffect(beginLoadingNotice, []);
   return (
-    <Stack role="status" aria-live="polite" sx={{ alignItems: 'center', gap: 2, py: 6 }}>
+    <Stack
+      role="status"
+      aria-live="polite"
+      sx={(theme) => ({
+        alignItems: 'center',
+        justifyContent: 'center',
+        // Fill the viewport space left by AppShell's responsive padding.
+        minHeight: {
+          xs: `calc(100dvh - ${theme.layout.topBarHeight}px - ${theme.layout.bottomNavHeight}px - ${theme.spacing(7)})`,
+          md: `calc(100dvh - ${theme.spacing(12.5)})`,
+        },
+        gap: 2,
+        py: 6,
+      })}
+    >
       <CircularProgress
         disableShrink
         aria-hidden
