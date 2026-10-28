@@ -31,6 +31,8 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
   const count = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() + 1, 0)).getUTCDate();
   const offset = (first.getUTCDay() + 6) % 7;
   const todayKey = today.toISOString().slice(0, 10);
+  // A set keeps the per-day check constant instead of scanning the whole list.
+  const writingDays = new Set(data.writingDays);
   let writtenOrder = 0;
   return (
     <Paper sx={{ p: 3 }}>
@@ -52,7 +54,7 @@ function ActivityCalendar({ data }: { data: ProgressSummary }) {
         {Array.from({ length: count }, (_, index) => {
           const date = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), index + 1));
           const key = date.toISOString().slice(0, 10);
-          const written = data.writingDays.includes(key);
+          const written = writingDays.has(key);
           const current = key === todayKey;
           const order = written ? writtenOrder++ : 0;
           const label = format.dateTime(date, {

@@ -4,9 +4,8 @@ import { loadLesson } from '@/lib/db/curriculum';
 import LessonView from '@/components/curriculum/LessonView';
 import { DomainError } from '@/lib/domain-error';
 export default async function Page({ params }: { params: Promise<{ lessonId: string }> }) {
-  const user = await currentUser();
+  const [user, { lessonId }] = await Promise.all([currentUser(), params]);
   if (!user) redirect('/login');
-  const { lessonId } = await params;
   if (!/^[a-z0-9-]{1,80}$/.test(lessonId)) notFound();
   let lesson;
   try {

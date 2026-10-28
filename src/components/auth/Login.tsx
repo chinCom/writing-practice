@@ -51,17 +51,16 @@ export default function Login({
         position: 'relative',
         maxInlineSize: 640,
         marginInline: 'auto',
-        paddingBlockStart: { xs: 1, md: 12.75 },
-        paddingBlockEnd: { xs: 1, md: 0 },
       }}
     >
+      {/* Side drawings are positioned as a share of the card so they stay in view on short screens. */}
       <Box
         sx={{
           position: 'absolute',
-          insetBlockStart: { md: 575 },
+          insetBlockStart: '60%',
           insetInlineEnd: { md: -250 },
           zIndex: 0,
-          display: { xs: 'none', md: 'block' },
+          display: { xs: 'none', lg: 'block' },
         }}
       >
         <PaperAccent kind="pen" inlineSize={280} blockSize={250} sx={{ display: 'block' }} />
@@ -69,7 +68,7 @@ export default function Login({
       <Box
         sx={{
           position: 'absolute',
-          insetBlockStart: { md: 210 },
+          insetBlockStart: '26%',
           insetInlineStart: { md: -230 },
           zIndex: 0,
           display: { xs: 'none', lg: 'block' },
@@ -82,10 +81,10 @@ export default function Login({
         aria-hidden="true"
         sx={{
           position: 'absolute',
-          insetBlockStart: 250,
+          insetBlockStart: '31%',
           insetInlineEnd: -230,
           inlineSize: 145,
-          display: { xs: 'none', md: 'block' },
+          display: { xs: 'none', lg: 'block' },
           fontFamily: 'var(--font-handwriting), cursive',
           fontSize: '1.75rem',
           lineHeight: 1.15,
@@ -101,12 +100,12 @@ export default function Login({
         sx={{
           position: 'absolute',
           insetInlineEnd: -155,
-          insetBlockStart: 380,
+          insetBlockStart: '47%',
           inlineSize: 100,
           blockSize: 70,
           color: 'secondary.main',
           opacity: 0.6,
-          display: { xs: 'none', md: 'block' },
+          display: { xs: 'none', lg: 'block' },
         }}
       />
       <Box
@@ -114,7 +113,7 @@ export default function Login({
         sx={{
           position: 'absolute',
           insetInlineStart: -185,
-          insetBlockStart: 520,
+          insetBlockStart: '75%',
           display: { xs: 'none', lg: 'block' },
           color: 'secondary.main',
           transform: 'rotate(-12deg)',
@@ -144,22 +143,21 @@ export default function Login({
         sx={{
           position: 'relative',
           zIndex: 1,
-          p: { xs: 3, sm: 7 },
-          paddingBlockStart: { md: 10 },
-          paddingBlockEnd: { md: 9 },
+          p: { xs: 2.5, sm: 5 },
+          paddingBlock: { xs: 2.5, sm: 3 },
           borderRadius: 4,
           boxShadow: 'none',
           border: 1,
           borderColor: 'divider',
         }}
       >
-        <Stack sx={{ gap: { xs: 2.5, md: 3.5 } }}>
-          <Stack sx={{ gap: 2.5, textAlign: 'center' }}>
+        <Stack sx={{ gap: { xs: 2, sm: 2.25 } }}>
+          <Stack sx={{ gap: { xs: 2, sm: 2.25 }, textAlign: 'center' }}>
             <Typography
               component="h1"
               variant="h1"
               sx={{
-                fontSize: { xs: '2.25rem', sm: '3.125rem' },
+                fontSize: { xs: '2.25rem', sm: '2.5rem' },
                 maxInlineSize: '15ch',
                 mx: 'auto',
               }}
@@ -192,7 +190,7 @@ export default function Login({
                     }}
                   />
                 }
-                sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
+                sx={{ minHeight: { xs: 46, md: 50 }, fontSize: { md: '1.125rem' } }}
               >
                 {t('google')}
               </ActionButton>
@@ -233,7 +231,7 @@ export default function Login({
                 tone="primary"
                 disabled={!configured || state === 'loading'}
                 endIcon={<ArrowForward />}
-                sx={{ minHeight: { xs: 50, md: 62 }, fontSize: { md: '1.125rem' } }}
+                sx={{ minHeight: { xs: 46, md: 50 }, fontSize: { md: '1.125rem' } }}
                 fullWidth
               >
                 {t(state === 'loading' ? 'sending' : 'send')}
@@ -245,7 +243,7 @@ export default function Login({
           <Paper
             variant="outlined"
             sx={{
-              p: 2,
+              p: 1.5,
               display: 'flex',
               gap: 1.5,
               alignItems: 'flex-start',

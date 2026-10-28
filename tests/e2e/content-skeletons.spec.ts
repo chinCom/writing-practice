@@ -35,8 +35,15 @@ function observeLoadingFrames() {
 }
 
 async function panelBounds(root: Locator) {
-  return root.evaluate((element) =>
-    Array.from(element.querySelectorAll('.MuiPaper-root'))
+  return root.evaluate(async (element) => {
+    // The skeleton shows no text, so its font may still be unloaded and the fallback font
+    // wraps differently. Force every declared face to load before measuring.
+    const families = Array.from(new Set(Array.from(document.fonts).map((face) => face.family)));
+    await Promise.allSettled(
+      families.map((family) => document.fonts.load('1rem "' + family.replace(/"/g, '') + '"')),
+    );
+    await document.fonts.ready;
+    return Array.from(element.querySelectorAll('.MuiPaper-root'))
       .filter(
         (panel) =>
           !panel.matches('.MuiAlert-root') && !panel.parentElement?.closest('.MuiPaper-root'),
@@ -45,8 +52,23 @@ async function panelBounds(root: Locator) {
       .map((panel) => {
         const bounds = panel.getBoundingClientRect();
         return { x: bounds.x, y: bounds.y + scrollY, width: bounds.width, height: bounds.height };
-      }),
-  );
+      });
+  });
+}
+
+// The handwritten font loads lazily, so a single read can land between two layouts. Waiting for
+// two identical reads compares the settled skeleton against the settled page.
+async function settledPanelBounds(root: Locator) {
+  let previous = '';
+  let bounds: Awaited<ReturnType<typeof panelBounds>> = [];
+  for (let attempt = 0; attempt < 60; attempt++) {
+    bounds = await panelBounds(root);
+    const signature = JSON.stringify(bounds);
+    if (signature === previous) return bounds;
+    previous = signature;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  return bounds;
 }
 
 const screens = [
@@ -129,7 +151,7 @@ for (const [screen, layout] of screens) {
     let before: Awaited<ReturnType<typeof panelBounds>> = [];
     await expect
       .poll(async () => {
-        before = await panelBounds(skeleton);
+        before = await settledPanelBounds(skeleton);
         return before.length;
       })
       .toBeGreaterThan(screen === 'connection' ? -1 : 0);
@@ -145,7 +167,7 @@ for (const [screen, layout] of screens) {
       expect((await editor.boundingBox())!.height).toBeCloseTo(canvasHeight, 0);
     }
     await page.screenshot({ path: info.outputPath('loaded.png'), fullPage: true });
-    const after = await panelBounds(page.getByRole('main'));
+    const after = await settledPanelBounds(page.getByRole('main'));
     if (
       ['landing', 'login', 'placement', 'onboarding', 'settings', 'live-write'].includes(screen)
     ) {

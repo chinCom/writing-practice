@@ -5,9 +5,9 @@
   "scripts": {
     "postinstall": "node scripts/patch-postgres.mjs",
     "dev": "next dev --hostname 127.0.0.1",
-    "build": "next build",
+    "build": "pnpm run typecheck && next build",
     "start": "next start --hostname 127.0.0.1",
-    "typecheck": "next typegen && tsc --noEmit",
+    "typecheck": "next typegen && tsrs --noEmit",
     "lint": "oxlint .",
     "check:design": "node scripts/check-design.mjs",
     "test": "vitest run",
@@ -66,6 +66,7 @@
     "@types/react-dom": "^19.3.0",
     "oxlint": "^1.88.0",
     "prettier": "^3.9.10",
+    "tsrs": "0.18.0-ts7.1.0-dev.20260929",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "vitest": "^5.0.4"

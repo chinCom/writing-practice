@@ -424,7 +424,8 @@
     "showMe": "Cho tôi xem",
     "targetCue": "Tự sửa phần này. Kiểm tra quy tắc về {topic}.",
     "selfRevisionNext": "Tự sửa các lỗi mục tiêu được gạch chân, rồi kiểm tra lại bài viết.",
-    "targetAvoided": "{topic}: đã tránh dùng, chưa phải đã sửa. Bạn sử dụng mục tiêu này ít hơn một nửa so với bản đầu tiên."
+    "targetAvoided": "{topic}: đã tránh dùng, chưa phải đã sửa. Bạn sử dụng mục tiêu này ít hơn một nửa so với bản đầu tiên.",
+    "hideExplanation": "Ẩn giải thích"
   },
   "liveStudio": {
     "save": "Lưu bản nháp",
@@ -452,7 +453,8 @@
     "recoverable": "Chưa thể xác nhận kết quả. Bài viết vẫn ở đây. Tìm nhận xét đã lưu trước khi bắt đầu lượt kiểm tra khác.",
     "recover": "Tìm nhận xét của tôi",
     "retry": "Thử lại",
-    "taskTooLong": "Giữ bài viết dưới {n} ký tự."
+    "taskTooLong": "Giữ bài viết dưới {n} ký tự.",
+    "retrySave": "Thử lưu bản nháp lại"
   },
   "practice": {
     "title": "Luyện lại từ bài viết của bạn",

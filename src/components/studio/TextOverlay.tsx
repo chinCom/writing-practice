@@ -112,7 +112,7 @@ export default function TextOverlay({
         track.current.style.transform = `translateY(${-input.scrollTop}px)`;
     }
     follow();
-    input.addEventListener('scroll', follow);
+    input.addEventListener('scroll', follow, { passive: true });
     return () => input.removeEventListener('scroll', follow);
   }, [inputRef, measured]);
 

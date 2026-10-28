@@ -7,8 +7,8 @@ export default async function Page({
 }: {
   searchParams: Promise<{ track?: string }>;
 }) {
-  const track = (await searchParams).track === 'ielts' ? 'ielts' : 'core';
-  const user = await currentUser();
+  const [{ track: requested }, user] = await Promise.all([searchParams, currentUser()]);
+  const track = requested === 'ielts' ? 'ielts' : 'core';
   if (!user) redirect('/login');
   return <LearningPath path={await loadPath(user.id, track)} track={track} />;
 }

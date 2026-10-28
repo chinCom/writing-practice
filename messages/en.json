@@ -424,7 +424,8 @@
     "showMe": "Show me",
     "targetCue": "Revise this part yourself. Check the rule for {topic}.",
     "selfRevisionNext": "Revise the underlined target errors yourself, then check your writing again.",
-    "targetAvoided": "{topic}: avoided, not fixed. You used this target less than half as often as in your first draft."
+    "targetAvoided": "{topic}: avoided, not fixed. You used this target less than half as often as in your first draft.",
+    "hideExplanation": "Hide explanation"
   },
   "liveStudio": {
     "save": "Save draft",
@@ -452,7 +453,8 @@
     "recoverable": "We could not confirm the result. Your writing is still here. Look for saved feedback before starting another check.",
     "recover": "Look for my feedback",
     "retry": "Try again",
-    "taskTooLong": "Keep this task under {n} characters."
+    "taskTooLong": "Keep this task under {n} characters.",
+    "retrySave": "Retry saving draft"
   },
   "practice": {
     "title": "Give your writing another try",

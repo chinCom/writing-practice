@@ -412,7 +412,7 @@ export default function FeedbackView({
               p: 2,
               paddingBlockEnd: 'calc(' + theme.spacing(2) + ' + env(safe-area-inset-bottom, 0px))',
               maxBlockSize: '80dvh',
-              overflowY: 'auto',
+              overflowY: 'hidden',
               overscrollBehavior: 'contain',
             },
           },
@@ -429,12 +429,12 @@ export default function FeedbackView({
             marginBlockEnd: 1,
           }}
         />
-        {saveErrors}
         {correction && !desktop ? (
           <CorrectionCard
             correction={correction}
             {...correctionProps}
             onClose={() => setSheet(false)}
+            notices={saveErrors}
             mobile
           />
         ) : null}

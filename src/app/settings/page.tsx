@@ -8,12 +8,12 @@ const Preferences = z.object({
   daily: z.enum(['5', '15', '30']).catch('15'),
 });
 export default async function Page() {
-  const store = await cookies();
+  // The cookie read and the session check do not depend on each other.
+  const [store, user] = await Promise.all([cookies(), currentUser()]);
   const preferences = Preferences.parse({
     explanation: store.get('explanation')?.value,
     daily: store.get('daily')?.value,
   });
-  const user = await currentUser();
   const account = user && process.env.DATABASE_URL ? await loadPreferences(user.id) : undefined;
   return (
     <Settings

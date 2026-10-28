@@ -24,7 +24,7 @@ const glow = keyframes`
   to { box-shadow: 0 0 0 10px transparent; }
 `;
 const pop = keyframes`
-  from { opacity: 0; transform: translateY(var(--rise)) scale(0.94); }
+  from { opacity: 0.65; transform: translateY(var(--rise)); }
   to { opacity: 1; transform: none; }
 `;
 const rise = keyframes`
@@ -162,7 +162,7 @@ function Callout({
       setInView(bottom > 0 && top < input.clientHeight);
     }
     track();
-    input.addEventListener('scroll', track);
+    input.addEventListener('scroll', track, { passive: true });
     return () => input.removeEventListener('scroll', track);
   }, [inputRef, first, last]);
 
@@ -199,7 +199,7 @@ function Callout({
         '--rise': placement === 'below' ? '-8px' : '8px',
         transformOrigin: `${pointerX}px ${placement === 'below' ? 'top' : 'bottom'}`,
         [motion]: {
-          animation: `${pop} 420ms cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}ms both`,
+          animation: `${pop} 200ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms backwards`,
           '& [data-rise]': {
             animation: `${rise} 320ms ease-out both`,
           },

@@ -20,6 +20,16 @@ test('unconfigured Google sign-in is unavailable instead of sending users to a p
   ).toBeVisible();
 });
 
+test('login is a standalone screen that fits without page scrolling', async ({ page }) => {
+  await page.goto('/login');
+  await expect(page.getByRole('navigation', { name: 'Main navigation' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByRole('main')).toBeVisible();
+  expect(
+    await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight),
+  ).toBe(true);
+});
+
 test('unsaved writing warns before navigation and cancel keeps the draft', async ({
   page,
 }, testInfo) => {

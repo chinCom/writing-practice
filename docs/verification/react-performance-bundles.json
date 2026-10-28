@@ -1,0 +1,57 @@
+{
+  "metric": "Eager minified client module bytes; uncompressed",
+  "comparisons": [
+    {
+      "route": "/progress",
+      "component": "Progress.tsx",
+      "before": {
+        "bytes": 691566,
+        "chartBytes": 196726
+      },
+      "after": {
+        "bytes": 318739,
+        "chartBytes": 0
+      },
+      "reductionPercent": 53.9
+    },
+    {
+      "route": "/write/[taskId]",
+      "component": "LiveStudio.tsx",
+      "before": {
+        "bytes": 1222946,
+        "chartBytes": 415705
+      },
+      "after": {
+        "bytes": 583582,
+        "chartBytes": 0
+      },
+      "reductionPercent": 52.3
+    },
+    {
+      "route": "/",
+      "component": "Landing.tsx",
+      "before": {
+        "bytes": 423519,
+        "chartBytes": 0
+      },
+      "after": {
+        "bytes": 423847,
+        "chartBytes": 0
+      },
+      "reductionPercent": -0.1
+    },
+    {
+      "route": "/today",
+      "component": "Today.tsx",
+      "before": {
+        "bytes": 345890,
+        "chartBytes": 0
+      },
+      "after": {
+        "bytes": 345868,
+        "chartBytes": 0
+      },
+      "reductionPercent": 0
+    }
+  ]
+}

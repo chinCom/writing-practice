@@ -8,18 +8,17 @@ export function correctionReviewState(
   answersUnlocked: boolean,
 ) {
   const targets = targetCorrectionIndexes(feedback);
-  const hiddenAnswers = new Set(
-    [...targets].filter(
-      (index) =>
-        !answersUnlocked &&
-        !choices.some((choice) => choice.correctionIndex === index && choice.revealed),
-    ),
+  // Two passes over `choices` replace a scan per target index.
+  const revealed = new Set(
+    choices.filter((choice) => choice.revealed).map((choice) => choice.correctionIndex),
   );
   const applied = new Set(
     choices.filter((choice) => choice.status === 'applied').map((choice) => choice.correctionIndex),
   );
-  const rewriteAvailable =
-    !targets.size || answersUnlocked || choices.some((choice) => choice.revealed);
+  const hiddenAnswers = new Set(
+    [...targets].filter((index) => !answersUnlocked && !revealed.has(index)),
+  );
+  const rewriteAvailable = !targets.size || answersUnlocked || revealed.size > 0;
   return { hiddenAnswers, applied, rewriteAvailable };
 }
 

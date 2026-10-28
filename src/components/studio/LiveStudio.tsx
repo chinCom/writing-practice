@@ -60,6 +60,10 @@ export default function LiveStudio({
   const busy = coach.pending ? 'check' : saving ? 'save' : null;
   const error = saveError ?? coach.error;
   const input = useRef<HTMLTextAreaElement>(null);
+  const errorNotice = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (error) errorNotice.current?.focus();
+  }, [error]);
   const words = countWords(text);
   const limit = textLimits[task.targetLevel];
   const help = useDevelopmentHelp(text, task, busy === 'check');
@@ -85,6 +89,7 @@ export default function LiveStudio({
       }
       if (!response.ok) throw new Error('Save failed');
       setSavedText(snapshot);
+      input.current?.focus({ preventScroll: true });
     } catch {
       setSaveError('saveError');
     } finally {
@@ -184,7 +189,7 @@ export default function LiveStudio({
             </Typography>
             <SaveStatus
               saved={text === savedText}
-              label={live(text === savedText ? 'saved' : 'unsaved')}
+              label={live(saving ? 'saving' : text === savedText ? 'saved' : 'unsaved')}
             />
           </Stack>
           <Box sx={{ p: { xs: 2, md: 3.5 } }}>
@@ -269,9 +274,13 @@ export default function LiveStudio({
               ) : null}
               {busy === 'check' ? <CoachStatus /> : null}
               {error ? (
-                <Alert severity="error">
+                <Alert ref={errorNotice} tabIndex={-1} severity="error">
                   {live(error)}
-                  {error === 'sessionExpired' ? (
+                  {error === 'saveError' ? (
+                    <ActionButton tone="quiet" disabled={busy !== null} onClick={save}>
+                      {live('retrySave')}
+                    </ActionButton>
+                  ) : error === 'sessionExpired' ? (
                     <NavigationButton href="/login">{live('signInAgain')}</NavigationButton>
                   ) : error === 'recoverable' ? (
                     <ActionButton tone="quiet" disabled={busy !== null} onClick={() => check(true)}>

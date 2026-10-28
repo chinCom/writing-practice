@@ -12,6 +12,7 @@ import {
 } from './schema';
 import { validateTargetReport } from '@/lib/targets';
 import { trustedTargetsInTransaction } from './targets';
+import { correctionChoicesInTransaction, revisionSubmittedInTransaction } from './corrections';
 import { assessMastery } from '@/lib/mastery';
 import { benchmarkContextForTask } from '@/lib/benchmarks';
 import { countWords } from '@/lib/draft';
@@ -263,22 +264,39 @@ export async function failSubmission(userId: string, submissionId: string) {
   });
 }
 export async function loadFeedback(userId: string, submissionId: string) {
-  return withUserDatabase(
-    userId,
-    async (database) =>
-      (
-        await database
-          .select({ submission: submissions, feedback: feedbackRows })
-          .from(submissions)
-          .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
-          .where(eq(submissions.id, submissionId))
-      )[0] ?? null,
+  return withUserDatabase(userId, (database) => feedbackInTransaction(database, submissionId));
+}
+
+async function feedbackInTransaction(database: Transaction, submissionId: string) {
+  return (
+    (
+      await database
+        .select({ submission: submissions, feedback: feedbackRows })
+        .from(submissions)
+        .innerJoin(feedbackRows, eq(submissions.id, feedbackRows.submissionId))
+        .where(eq(submissions.id, submissionId))
+    )[0] ?? null
   );
 }
-export async function loadOriginalFeedback(userId: string, submissionId: string) {
-  return withUserDatabase(userId, (database) =>
-    originalFeedbackInTransaction(database, submissionId),
-  );
+
+// The feedback page owns one slot: its independent reads are pipelined in a single transaction
+// instead of queueing behind each other's cold connections.
+export function loadFeedbackReview(userId: string, submissionId: string) {
+  return withUserDatabase(userId, async (database) => {
+    const [result, original, revisionSubmitted] = await Promise.all([
+      feedbackInTransaction(database, submissionId),
+      originalFeedbackInTransaction(database, submissionId),
+      revisionSubmittedInTransaction(database, submissionId),
+    ]);
+    const choices = result?.feedback.json.safety_flag
+      ? []
+      : await correctionChoicesInTransaction(
+          database,
+          submissionId,
+          result?.feedback.json.corrections.length ?? 0,
+        );
+    return { result, original, revisionSubmitted, choices };
+  });
 }
 async function originalFeedbackInTransaction(database: Transaction, submissionId: string) {
   let id = submissionId;

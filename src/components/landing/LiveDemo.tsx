@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -21,9 +21,19 @@ import { SkeletonMask } from '@/components/shared/ContentSkeleton';
 const demoTask: HintTask = { id: 'landing-demo', minWords: 1, maxWords: 60, targetLevel: 'A2' };
 const demoLimit = 300;
 const noneApplied = new Set<number>();
+const wordPatterns = new Map<string, RegExp>();
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// The demo re-analyzes on every keystroke, so each phrase's pattern is built once.
+function wordPattern(word: string) {
+  const known = wordPatterns.get(word);
+  if (known) return known;
+  const pattern = new RegExp('\\b' + escapeRegExp(word) + '\\b', 'i');
+  wordPatterns.set(word, pattern);
+  return pattern;
 }
 
 function findSpan(text: string, pattern: RegExp) {
@@ -33,9 +43,8 @@ function findSpan(text: string, pattern: RegExp) {
 
 function locateHint(text: string, hint: WritingHint) {
   if (hint.kind === 'repeat') return findSpan(text, repeatedWord);
-  if (hint.kind === 'verb' || hint.kind === 'past') {
-    return findSpan(text, new RegExp('\\b' + escapeRegExp(hint.original) + '\\b', 'i'));
-  }
+  if (hint.kind === 'verb' || hint.kind === 'past')
+    return findSpan(text, wordPattern(hint.original));
   return null;
 }
 
@@ -44,26 +53,29 @@ type DemoMark = { correction: SpanCorrection; message: string };
 
 function useDemoMarks(text: string): DemoMark[] {
   const t = useTranslations('studio');
-  const marks: DemoMark[] = [];
-  for (const hint of analyzeWriting(text, demoTask)) {
-    const span = locateHint(text, hint);
-    if (!span) continue;
-    const message = t('helpHints.' + hint.kind, { ...hint });
-    const original = text.slice(span.start, span.end);
-    marks.push({
-      message,
-      correction: {
-        original,
-        suggestion: 'suggestion' in hint ? hint.suggestion : original.split(/\s+/)[0],
-        tag: hint.kind === 'repeat' ? 'extra-word' : 'verb-form',
-        severity: 'major',
-        explanation: message,
-        confidence: 1,
-        ...span,
-      },
-    });
-  }
-  return marks;
+  // Typing re-renders this panel on every character; the marks only change with the text.
+  return useMemo(() => {
+    const marks: DemoMark[] = [];
+    for (const hint of analyzeWriting(text, demoTask)) {
+      const span = locateHint(text, hint);
+      if (!span) continue;
+      const message = t('helpHints.' + hint.kind, { ...hint });
+      const original = text.slice(span.start, span.end);
+      marks.push({
+        message,
+        correction: {
+          original,
+          suggestion: 'suggestion' in hint ? hint.suggestion : original.split(/\s+/)[0],
+          tag: hint.kind === 'repeat' ? 'extra-word' : 'verb-form',
+          severity: 'major',
+          explanation: message,
+          confidence: 1,
+          ...span,
+        },
+      });
+    }
+    return marks;
+  }, [text, t]);
 }
 
 export default function LiveDemo({ loading = false }: { loading?: boolean }) {
@@ -73,8 +85,12 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
   const [active, setActive] = useState(0);
   const [ignored, setIgnored] = useState<Set<number>>(() => new Set());
   const allMarks = useDemoMarks(text);
-  const marks = allMarks.filter((mark) => !ignored.has(mark.correction.start));
+  const marks = useMemo(
+    () => allMarks.filter((mark) => !ignored.has(mark.correction.start)),
+    [allMarks, ignored],
+  );
   const current = marks[Math.min(active, Math.max(marks.length - 1, 0))];
+  const currentIndex = current ? marks.indexOf(current) : -1;
   const tabs = ['grammar', 'clarity', 'tone', 'vocabulary'] as const;
 
   function applyAll() {
@@ -185,7 +201,7 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
               <MarkedText
                 text={text}
                 corrections={marks.map((mark) => mark.correction)}
-                active={current ? marks.indexOf(current) : -1}
+                active={currentIndex}
                 applied={noneApplied}
                 onSelect={(index) => setActive(index)}
               />
@@ -301,7 +317,7 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
               color="text.secondary"
               sx={{ whiteSpace: 'nowrap', minInlineSize: 34, textAlign: 'center' }}
             >
-              {marks.length ? `${marks.indexOf(current) + 1} / ${marks.length}` : '0 / 0'}
+              {marks.length ? `${currentIndex + 1} / ${marks.length}` : '0 / 0'}
             </Typography>
             <IconButton size="small" aria-label={t('nextSuggestion')} onClick={() => step(1)}>
               <ChevronRight fontSize="small" />

@@ -15,6 +15,13 @@ Use pnpm for all project commands. `packageManager` pins the version, and npm's
 `devEngines` check rejects npm installs and scripts. A preinstall guard also
 rejects other package managers when lifecycle scripts are enabled.
 
+Type checking uses [tsrs](https://github.com/oxc-project/tsrs), the Rust port of the
+TypeScript 7 checker. `pnpm run typecheck` generates Next.js route types and runs
+`tsrs --noEmit`. `pnpm run build` runs that check before the production build;
+Next.js's built-in TypeScript check is disabled to avoid running a second checker.
+Use `pnpm run build` for deployments so type errors block the build. The
+`typescript` package remains installed for Next.js configuration tooling.
+
 ## Run locally
 
 1. Install the dependencies.
@@ -245,6 +252,24 @@ RUN_LIVE_EXPLANATION=true pnpm exec vitest run tests/live-explanation.test.ts
 
 Use descriptive names and small components. Format code with Prettier.
 See [refactoring boundaries and verification](docs/refactoring.md) for the application/controller/domain split and the preserved contracts. Reusable UI lives in [`src/components/shared/`](src/components/shared/README.md); feature-specific canvases and charts stay with their feature.
+
+## Deploy to Vercel
+
+The Vercel project is `writing-practice` in `ducchinhpro123s-projects`.
+The production URL is https://writing-practice-delta.vercel.app.
+Deploy the current source with Vercel MCP's `create_deployment` tool, targeting
+the existing project and the `production` environment. Local `.vercel/` metadata is ignored by Git.
+
+`vercel.json` runs the type-checked build and places server functions in Singapore.
+Set `ENABLE_EXPERIMENTAL_COREPACK=1` in Vercel so installation uses the pnpm version
+pinned in `package.json`. Keep `DATABASE_URL` and `DEEPSEEK_API_KEY` encrypted in
+Vercel's environment settings. The two `NEXT_PUBLIC_SUPABASE_*` values must also
+be available during the build. Never include `.env` or OAuth client secret files
+in deployment source uploads.
+
+Set the Supabase Auth Site URL to the production URL and add its `/auth/callback`
+to Redirect URLs. Keep localhost redirects for development. Google sign-in also
+requires the Google provider to be configured in Supabase.
 
 ## Current limits
 

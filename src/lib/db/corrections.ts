@@ -27,28 +27,50 @@ export async function loadCorrectionChoices(
 ): Promise<CorrectionChoice[]> {
   return withUserDatabase(userId, async (database) => {
     const row = await savedFeedback(database, submissionId);
-    const choices = await database
+    return correctionChoicesInTransaction(database, submissionId, row.json.corrections.length);
+  });
+}
+
+// Callers that already hold the saved feedback pass its correction count instead of reading it
+// twice, so a page can resolve its whole review in one transaction.
+export async function correctionChoicesInTransaction(
+  database: Transaction,
+  submissionId: string,
+  correctionCount: number,
+): Promise<CorrectionChoice[]> {
+  // The three child tables are independent, so one pipelined round trip replaces three.
+  const [choices, assistance, reports] = await Promise.all([
+    database
       .select()
       .from(correctionChoices)
-      .where(eq(correctionChoices.submissionId, submissionId));
-    const assistance = await database
-      .select()
-      .from(targetAssistance)
-      .where(eq(targetAssistance.submissionId, submissionId));
-    const reports = await database
+      .where(eq(correctionChoices.submissionId, submissionId)),
+    database.select().from(targetAssistance).where(eq(targetAssistance.submissionId, submissionId)),
+    database
       .select()
       .from(correctionReports)
-      .where(eq(correctionReports.submissionId, submissionId));
-    return row.json.corrections.map((_, correctionIndex) => ({
-      correctionIndex,
-      status:
-        choices.find((choice) => choice.correctionIndex === correctionIndex)?.status ?? 'open',
-      reason: reports.find((report) => report.correctionIndex === correctionIndex)?.reason ?? null,
-      ...(assistance.some((item) => item.correctionIndex === correctionIndex)
-        ? { revealed: true }
-        : {}),
-    }));
-  });
+      .where(eq(correctionReports.submissionId, submissionId)),
+  ]);
+  const statusByIndex = new Map(
+    choices.map((choice) => [choice.correctionIndex, choice.status] as const),
+  );
+  const reasonByIndex = new Map(
+    reports.map((report) => [report.correctionIndex, report.reason] as const),
+  );
+  const revealed = new Set(assistance.map((item) => item.correctionIndex));
+  return Array.from({ length: correctionCount }, (_, correctionIndex) => ({
+    correctionIndex,
+    status: statusByIndex.get(correctionIndex) ?? 'open',
+    reason: reasonByIndex.get(correctionIndex) ?? null,
+    ...(revealed.has(correctionIndex) ? { revealed: true } : {}),
+  }));
+}
+
+export async function revisionSubmittedInTransaction(database: Transaction, submissionId: string) {
+  const children = await database
+    .select()
+    .from(submissions)
+    .where(eq(submissions.parentSubmissionId, submissionId));
+  return children.some((item) => item.status === 'completed');
 }
 export async function saveCorrectionChoice(
   userId: string,
@@ -142,11 +164,7 @@ export async function revealCorrection(
   });
 }
 export async function hasSubmittedRevision(userId: string, submissionId: string) {
-  return withUserDatabase(userId, async (database) => {
-    const children = await database
-      .select()
-      .from(submissions)
-      .where(eq(submissions.parentSubmissionId, submissionId));
-    return children.some((item) => item.status === 'completed');
-  });
+  return withUserDatabase(userId, (database) =>
+    revisionSubmittedInTransaction(database, submissionId),
+  );
 }

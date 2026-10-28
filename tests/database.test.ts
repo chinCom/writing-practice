@@ -7,6 +7,7 @@ import {
   reserveSubmission,
   completeSubmission,
   loadFeedback,
+  loadFeedbackReview,
   loadDraft,
   recentSubmissions,
   loadCheck,
@@ -305,6 +306,57 @@ it('persists correction choices, excludes dismissed drills, restores reviews, an
   ).toBe(404);
   vi.mocked(currentUser).mockResolvedValue(null);
   expect((await saveCorrectionChoice(request('/api/corrections', payload))).status).toBe(401);
+});
+
+it('resolves a whole feedback review in one transaction with the same owner-only results', async () => {
+  const owner = '00000000-0000-4000-8000-00000000009a';
+  await database.exec(`INSERT INTO auth.users VALUES ('${owner}')`);
+  const located = {
+    ...markedPageSample,
+    corrections: [
+      {
+        ...markedPageSample.corrections[0],
+        start: sampleDraft.indexOf('go'),
+        end: sampleDraft.indexOf('go') + 2,
+      },
+    ],
+  };
+  const graded = {
+    data: markedPageSample,
+    usage: { promptTokens: 1, completionTokens: 1, cacheHitTokens: 0 },
+    model: 'test',
+    latencyMs: 1,
+    mock: true,
+  };
+  const parent = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft,
+    attempt: 1,
+  });
+  await completeSubmission(owner, parent, located, graded);
+  const revision = await reserveSubmission(owner, {
+    taskId: 'weekend',
+    text: sampleDraft.replace('go', 'went'),
+    attempt: 2,
+    parentSubmissionId: parent,
+  });
+  await completeSubmission(owner, revision, located, graded);
+  const review = await loadFeedbackReview(owner, parent);
+  expect(review.result?.submission.id).toBe(parent);
+  expect(review.original?.submissionId).toBe(parent);
+  expect(review.revisionSubmitted).toBe(true);
+  expect(review.choices).toHaveLength(1);
+  expect(review.choices[0]).toMatchObject({ correctionIndex: 0, status: 'open', reason: null });
+  expect(review.choices.some((choice) => choice.revealed)).toBe(false);
+  // A different user gets nothing, so the transaction still enforces row ownership.
+  expect(await loadFeedbackReview(bob, parent)).toEqual({
+    result: null,
+    original: null,
+    revisionSubmitted: false,
+    choices: [],
+  });
+  // A revision reports the original feedback it was graded against.
+  expect((await loadFeedbackReview(owner, revision)).original).not.toBeNull();
 });
 it('backfills safe legacy corrections together, marks unsafe sources, and never duplicates cards', async () => {
   const owner = crypto.randomUUID();

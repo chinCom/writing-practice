@@ -1,19 +1,20 @@
 import { notFound, redirect } from 'next/navigation';
 import { z } from 'zod';
 import { currentUser } from '@/lib/auth/server';
-import { loadFeedback, loadOriginalFeedback } from '@/lib/db/queries';
+import { loadFeedbackReview } from '@/lib/db/queries';
 import { avoidedTargets } from '@/lib/revision';
 import { visibleFeedback } from '@/lib/targets';
-import { loadCorrectionChoices, hasSubmittedRevision } from '@/lib/db/corrections';
 import FeedbackView from '@/components/feedback/FeedbackView';
+
 export default async function Page({ params }: { params: Promise<{ submissionId: string }> }) {
-  const user = await currentUser();
+  const [user, { submissionId }] = await Promise.all([currentUser(), params]);
   if (!user) redirect('/login');
-  const { submissionId } = await params;
   if (!z.uuid().safeParse(submissionId).success) notFound();
-  const result = await loadFeedback(user.id, submissionId);
+  const { result, original, revisionSubmitted, choices } = await loadFeedbackReview(
+    user.id,
+    submissionId,
+  );
   if (!result) notFound();
-  const original = await loadOriginalFeedback(user.id, submissionId);
   const sameGrader =
     original?.model === result.feedback.model &&
     original?.promptVersion === result.feedback.promptVersion;
@@ -27,7 +28,7 @@ export default async function Page({ params }: { params: Promise<{ submissionId:
       feedback={feedback}
       mock={result.feedback.model === 'mock'}
       hasPreviousVersion={Boolean(result.submission.parentSubmissionId)}
-      hasSubmittedRevision={await hasSubmittedRevision(user.id, submissionId)}
+      hasSubmittedRevision={revisionSubmitted}
       avoided={
         sameGrader
           ? avoidedTargets(
@@ -36,9 +37,7 @@ export default async function Page({ params }: { params: Promise<{ submissionId:
             )
           : []
       }
-      initialChoices={
-        result.feedback.json.safety_flag ? [] : await loadCorrectionChoices(user.id, submissionId)
-      }
+      initialChoices={choices}
     />
   );
 }

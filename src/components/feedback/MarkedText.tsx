@@ -1,4 +1,5 @@
 'use client';
+import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { keyframes } from '@mui/material/styles';
@@ -9,13 +10,16 @@ const settleIn = keyframes`
   from { text-decoration-color: transparent; }
 `;
 
+// A shared empty set keeps the default prop stable across renders.
+const noHiddenAnswers = new Set<number>();
+
 export default function MarkedText({
   text,
   corrections,
   active,
   applied,
   onSelect,
-  hiddenAnswers = new Set<number>(),
+  hiddenAnswers = noHiddenAnswers,
 }: {
   text: string;
   corrections: LocatedCorrection[];
@@ -24,12 +28,16 @@ export default function MarkedText({
   hiddenAnswers?: Set<number>;
   onSelect: (index: number) => void;
 }) {
+  const located = useMemo(
+    () =>
+      corrections
+        .map((correction, index) => ({ ...correction, index }))
+        .filter((correction) => correction.start !== null && correction.end !== null)
+        .sort((a, b) => a.start! - b.start!),
+    [corrections],
+  );
   const parts = [];
   let cursor = 0;
-  const located = corrections
-    .map((correction, index) => ({ ...correction, index }))
-    .filter((correction) => correction.start !== null && correction.end !== null)
-    .sort((a, b) => a.start! - b.start!);
   for (const [order, correction] of located.entries()) {
     const start = correction.start!;
     const end = correction.end!;

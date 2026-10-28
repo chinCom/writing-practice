@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { CorrectionChoice, ReportReason } from '@/lib/feedback/choices';
 import type { LocatedFeedback } from '@/lib/feedback/schema';
 import {
@@ -36,10 +36,9 @@ export function useFeedbackReview({
   const [sheet, setSheet] = useState(false);
   const choiceState = useCorrectionChoices(submissionId, preview, initialChoices);
   useUnsavedWriting(choiceState.pending || choiceState.errors.length > 0, leaveWarning);
-  const { hiddenAnswers, applied, rewriteAvailable } = correctionReviewState(
-    feedback,
-    choiceState.choices,
-    answersUnlocked,
+  const { hiddenAnswers, applied, rewriteAvailable } = useMemo(
+    () => correctionReviewState(feedback, choiceState.choices, answersUnlocked),
+    [feedback, choiceState.choices, answersUnlocked],
   );
   const total = feedback.corrections.length;
   const correction = feedback.corrections[active];

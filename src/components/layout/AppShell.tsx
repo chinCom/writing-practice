@@ -44,6 +44,8 @@ export default function AppShell({
   const preview = pathname.startsWith('/dev/preview');
   // Signed-out visitors on the landing page get the marketing layout; the page renders its own header, main and footer.
   const marketing = pathname === '/' && !signedIn;
+  // Login is a standalone entry screen, so it keeps the page background without the app navigation.
+  const standalone = pathname === '/login';
   if (marketing)
     return (
       <>
@@ -60,23 +62,30 @@ export default function AppShell({
         isolation: 'isolate',
       }}
     >
-      <BackdropRibbons expansive={pathname === '/login'} />
+      <BackdropRibbons expansive={standalone} />
       <SkipLink />
-      <AppNavigation signedIn={signedIn} />
+      {standalone ? null : <AppNavigation signedIn={signedIn} />}
       <Box
         component="main"
         id="main"
         tabIndex={-1}
         sx={(theme) => ({
-          marginInlineStart: { md: theme.layout.navWidth + 'px' },
-          paddingBlockStart: {
-            xs: 'calc(' + theme.layout.topBarHeight + 'px + ' + theme.spacing(3) + ')',
-            md: theme.spacing(6.5),
-          },
-          paddingBlockEnd: {
-            xs: 'calc(' + theme.layout.bottomNavHeight + 'px + ' + theme.spacing(4) + ')',
-            md: theme.spacing(6),
-          },
+          marginInlineStart: standalone ? 0 : { md: theme.layout.navWidth + 'px' },
+          display: standalone ? 'flex' : 'block',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          paddingBlockStart: standalone
+            ? 1.5
+            : {
+                xs: 'calc(' + theme.layout.topBarHeight + 'px + ' + theme.spacing(3) + ')',
+                md: theme.spacing(6.5),
+              },
+          paddingBlockEnd: standalone
+            ? 1.5
+            : {
+                xs: 'calc(' + theme.layout.bottomNavHeight + 'px + ' + theme.spacing(4) + ')',
+                md: theme.spacing(6),
+              },
           paddingInline: { xs: 2, sm: 3, md: 5 },
           minHeight: '100dvh',
         })}

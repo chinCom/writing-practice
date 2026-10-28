@@ -1,0 +1,1391 @@
+{
+  "measuredAt": "2026-10-19",
+  "source": "Local production profiling build; not production field data",
+  "caveats": [
+    "Three runs per route/device; medians are not field percentiles.",
+    "Desktop 1x CPU, mobile viewport 4x CPU, local network; not physical mobile hardware.",
+    "Before/after speed measurements have application telemetry disabled; diagnostic server spans come from a separate run.",
+    "Progress readyMs includes waiting for the report and clicking its title; editor readyMs includes the 61-character typing sample.",
+    "An intermediate full-SSR report caused cold interaction regressions and was discarded."
+  ],
+  "summaries": [
+    {
+      "device": "desktop",
+      "route": "/progress",
+      "before": {
+        "samples": 3,
+        "readyMs": 381.1659460000001,
+        "LCP": 92,
+        "INP": 8,
+        "CLS": 0,
+        "progressApiRequests": [
+          1,
+          1,
+          1
+        ]
+      },
+      "after": {
+        "samples": 3,
+        "readyMs": 383.8957429999996,
+        "LCP": 164,
+        "INP": 16,
+        "CLS": 0,
+        "progressApiRequests": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "device": "desktop",
+      "route": "/write/weekend",
+      "before": {
+        "samples": 3,
+        "readyMs": 2243.9190260000005,
+        "LCP": 88,
+        "INP": 24,
+        "CLS": 0.0000415625,
+        "progressApiRequests": [
+          0,
+          0,
+          0
+        ],
+        "editorRenderMs": 189.90000000968575,
+        "taskBriefRenders": 65
+      },
+      "after": {
+        "samples": 3,
+        "readyMs": 2148.864912,
+        "LCP": 96,
+        "INP": 24,
+        "CLS": 0.0000415625,
+        "progressApiRequests": [
+          0,
+          0,
+          0
+        ],
+        "editorRenderMs": 123.70000000298023,
+        "taskBriefRenders": 0
+      }
+    },
+    {
+      "device": "mobile",
+      "route": "/progress",
+      "before": {
+        "samples": 3,
+        "readyMs": 1454.1893349999991,
+        "LCP": 224,
+        "INP": 8,
+        "CLS": 0,
+        "progressApiRequests": [
+          1,
+          1,
+          1
+        ]
+      },
+      "after": {
+        "samples": 3,
+        "readyMs": 1366.8372740000013,
+        "LCP": 608,
+        "INP": 8,
+        "CLS": 0,
+        "progressApiRequests": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "device": "mobile",
+      "route": "/write/weekend",
+      "before": {
+        "samples": 3,
+        "readyMs": 3728.1176470000028,
+        "LCP": 908,
+        "INP": 40,
+        "CLS": 0,
+        "progressApiRequests": [
+          0,
+          0,
+          0
+        ],
+        "editorRenderMs": 668.800000037998,
+        "taskBriefRenders": 65
+      },
+      "after": {
+        "samples": 3,
+        "readyMs": 3349.774276,
+        "LCP": 192,
+        "INP": 24,
+        "CLS": 0,
+        "progressApiRequests": [
+          0,
+          0,
+          0
+        ],
+        "editorRenderMs": 395.3999999947846,
+        "taskBriefRenders": 0
+      }
+    }
+  ],
+  "before": {
+    "source": "Local production profiling build; Chromium; synthetic auth and PGlite; not field data",
+    "conditions": "Fresh browser contexts; desktop 1x CPU; mobile viewport 4x CPU; local network; 61 typed characters",
+    "results": [
+      {
+        "device": "desktop",
+        "run": 0,
+        "route": "/progress",
+        "readyMs": 348.73874099999995,
+        "progressApiRequests": 1,
+        "firstProgressApiStartMs": 223.487549,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 88,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 37.600000001490116,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 16,
+            "rating": "good"
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 0,
+        "route": "/write/weekend",
+        "readyMs": 2237.3926840000004,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 88,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.0000415625,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 33.19999999925494,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 65,
+          "taskBriefMs": 75.09999996423721,
+          "renderMs": 178.4999999962747
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 1,
+        "route": "/progress",
+        "readyMs": 408.6721180000004,
+        "progressApiRequests": 1,
+        "firstProgressApiStartMs": 255.64268700000002,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 120,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 54.20000000298023,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 1,
+        "route": "/write/weekend",
+        "readyMs": 2243.9190260000005,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "TTFB": {
+            "name": "TTFB",
+            "value": 33.69999999925494,
+            "rating": "good"
+          },
+          "LCP": {
+            "name": "LCP",
+            "value": 128,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.0000415625,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 65,
+          "taskBriefMs": 78.10000001639128,
+          "renderMs": 189.90000000968575
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 2,
+        "route": "/progress",
+        "readyMs": 381.1659460000001,
+        "progressApiRequests": 1,
+        "firstProgressApiStartMs": 227.02908000000025,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 92,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 33.399999998509884,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 2,
+        "route": "/write/weekend",
+        "readyMs": 2275.2878930000006,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 88,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.0000415625,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 35.600000001490116,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 64,
+          "taskBriefRenders": 64,
+          "taskBriefMs": 87.39999999850988,
+          "renderMs": 211.69999999925494
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 0,
+        "route": "/progress",
+        "readyMs": 1506.145364,
+        "progressApiRequests": 1,
+        "firstProgressApiStartMs": 906.2083459999994,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 224,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 32.900000002235174,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 0,
+        "route": "/write/weekend",
+        "readyMs": 4345.377107,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 1296,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.00029299051614363496,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 45.5,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 40,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 65,
+          "taskBriefMs": 300.600000012666,
+          "renderMs": 750.3999999836087
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 1,
+        "route": "/progress",
+        "readyMs": 1353.7551570000014,
+        "progressApiRequests": 1,
+        "firstProgressApiStartMs": 779.1909500000002,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 216,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 43.599999997764826,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 1,
+        "route": "/write/weekend",
+        "readyMs": 3704.8393210000013,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 908,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 24.300000000745058,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 32,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 65,
+          "taskBriefMs": 300.9999999962747,
+          "renderMs": 656.3999999985099
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 2,
+        "route": "/progress",
+        "readyMs": 1454.1893349999991,
+        "progressApiRequests": 1,
+        "firstProgressApiStartMs": 870.0970089999973,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 596,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 53,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 2,
+        "route": "/write/weekend",
+        "readyMs": 3728.1176470000028,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 208,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 35.5,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 40,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 65,
+          "taskBriefMs": 295.80000000074506,
+          "renderMs": 668.800000037998
+        }
+      }
+    ]
+  },
+  "after": {
+    "source": "Local production profiling build; Chromium; synthetic auth and PGlite; not field data",
+    "conditions": "Fresh browser contexts; desktop 1x CPU; mobile viewport 4x CPU; local network; 61 typed characters",
+    "results": [
+      {
+        "device": "desktop",
+        "run": 0,
+        "route": "/progress",
+        "readyMs": 458.014686,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 172,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 118.30000000074506,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 16,
+            "rating": "good"
+          }
+        },
+        "interactionSummary": {
+          "entries": 17,
+          "longest": {
+            "name": "click",
+            "duration": 16,
+            "inputDelay": 1.800000000745058,
+            "processingMs": 0.19999999925494194
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 0,
+        "route": "/write/weekend",
+        "readyMs": 2231.947667,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 156,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.0000415625,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 68.09999999776483,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 64,
+          "taskBriefRenders": 0,
+          "taskBriefMs": 0,
+          "renderMs": 130.50000001490116
+        },
+        "interactionSummary": {
+          "entries": 134,
+          "longest": {
+            "name": "beforeinput",
+            "duration": 80,
+            "inputDelay": 0,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 1,
+        "route": "/progress",
+        "readyMs": 383.8957429999996,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "TTFB": {
+            "name": "TTFB",
+            "value": 48.5,
+            "rating": "good"
+          },
+          "LCP": {
+            "name": "LCP",
+            "value": 164,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 16,
+            "rating": "good"
+          }
+        },
+        "interactionSummary": {
+          "entries": 25,
+          "longest": {
+            "name": "mouseover",
+            "duration": 104,
+            "inputDelay": 75.19999999925494,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 1,
+        "route": "/write/weekend",
+        "readyMs": 2148.864912,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 96,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 37.5,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.0000415625,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 0,
+          "taskBriefMs": 0,
+          "renderMs": 123.70000000298023
+        },
+        "interactionSummary": {
+          "entries": 156,
+          "longest": {
+            "name": "beforeinput",
+            "duration": 80,
+            "inputDelay": 0,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 2,
+        "route": "/progress",
+        "readyMs": 372.4804100000001,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 104,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 48.100000001490116,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 16,
+            "rating": "good"
+          }
+        },
+        "interactionSummary": {
+          "entries": 17,
+          "longest": {
+            "name": "click",
+            "duration": 16,
+            "inputDelay": 1.8999999985098839,
+            "processingMs": 0.19999999925494194
+          }
+        }
+      },
+      {
+        "device": "desktop",
+        "run": 2,
+        "route": "/write/weekend",
+        "readyMs": 2140.720749000001,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 88,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0.0000415625,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 37.30000000074506,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 0,
+          "taskBriefMs": 0,
+          "renderMs": 119.2999999858439
+        },
+        "interactionSummary": {
+          "entries": 155,
+          "longest": {
+            "name": "beforeinput",
+            "duration": 88,
+            "inputDelay": 0,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 0,
+        "route": "/progress",
+        "readyMs": 1366.8372740000013,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 200,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 70,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        },
+        "interactionSummary": {
+          "entries": 4,
+          "longest": {
+            "name": "mouseover",
+            "duration": 56,
+            "inputDelay": 52.5,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 0,
+        "route": "/write/weekend",
+        "readyMs": 3304.8333170000005,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 176,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 31.100000001490116,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 40,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 0,
+          "taskBriefMs": 0,
+          "renderMs": 395.2000000178814
+        },
+        "interactionSummary": {
+          "entries": 284,
+          "longest": {
+            "name": "beforeinput",
+            "duration": 288,
+            "inputDelay": 0,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 1,
+        "route": "/progress",
+        "readyMs": 1047.828743,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 608,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 58.80000000074506,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 16,
+            "rating": "good"
+          }
+        },
+        "interactionSummary": {
+          "entries": 21,
+          "longest": {
+            "name": "mouseover",
+            "duration": 80,
+            "inputDelay": 69.5,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 1,
+        "route": "/write/weekend",
+        "readyMs": 3403.0418500000014,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 200,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 47.599999997764826,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 0,
+          "taskBriefMs": 0,
+          "renderMs": 426.70000000298023
+        },
+        "interactionSummary": {
+          "entries": 285,
+          "longest": {
+            "name": "beforeinput",
+            "duration": 296,
+            "inputDelay": 0,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 2,
+        "route": "/progress",
+        "readyMs": 1537.637333999999,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 640,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 45.899999998509884,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 8,
+            "rating": "good"
+          }
+        },
+        "interactionSummary": {
+          "entries": 4,
+          "longest": {
+            "name": "mouseover",
+            "duration": 72,
+            "inputDelay": 64.90000000223517,
+            "processingMs": 0
+          }
+        }
+      },
+      {
+        "device": "mobile",
+        "run": 2,
+        "route": "/write/weekend",
+        "readyMs": 3349.774276,
+        "progressApiRequests": 0,
+        "firstProgressApiStartMs": null,
+        "metrics": {
+          "LCP": {
+            "name": "LCP",
+            "value": 192,
+            "rating": "good"
+          },
+          "CLS": {
+            "name": "CLS",
+            "value": 0,
+            "rating": "good"
+          },
+          "TTFB": {
+            "name": "TTFB",
+            "value": 36.5,
+            "rating": "good"
+          },
+          "INP": {
+            "name": "INP",
+            "value": 24,
+            "rating": "good"
+          }
+        },
+        "editorProfile": {
+          "recording": false,
+          "commits": 65,
+          "taskBriefRenders": 0,
+          "taskBriefMs": 0,
+          "renderMs": 395.3999999947846
+        },
+        "interactionSummary": {
+          "entries": 276,
+          "longest": {
+            "name": "beforeinput",
+            "duration": 304,
+            "inputDelay": 0,
+            "processingMs": 0
+          }
+        }
+      }
+    ]
+  },
+  "serverDiagnostic": {
+    "vitals": [
+      {
+        "name": "/progress desktop FCP",
+        "samples": 3,
+        "p50": 176,
+        "p75": 252,
+        "p95": 252,
+        "max": 252
+      },
+      {
+        "name": "/progress desktop TTFB",
+        "samples": 3,
+        "p50": 73.5,
+        "p75": 176.69999999925494,
+        "p95": 176.69999999925494,
+        "max": 176.69999999925494
+      },
+      {
+        "name": "/progress desktop LCP",
+        "samples": 3,
+        "p50": 176,
+        "p75": 252,
+        "p95": 252,
+        "max": 252
+      },
+      {
+        "name": "/progress desktop INP",
+        "samples": 3,
+        "p50": 8,
+        "p75": 16,
+        "p95": 16,
+        "max": 16
+      },
+      {
+        "name": "/progress desktop CLS",
+        "samples": 3,
+        "p50": 0,
+        "p75": 0,
+        "p95": 0,
+        "max": 0
+      },
+      {
+        "name": "/write/[id] desktop FCP",
+        "samples": 3,
+        "p50": 152,
+        "p75": 184,
+        "p95": 184,
+        "max": 184
+      },
+      {
+        "name": "/write/[id] desktop TTFB",
+        "samples": 3,
+        "p50": 55.70000000298023,
+        "p75": 104.5,
+        "p95": 104.5,
+        "max": 104.5
+      },
+      {
+        "name": "/write/[id] desktop LCP",
+        "samples": 3,
+        "p50": 152,
+        "p75": 184,
+        "p95": 184,
+        "max": 184
+      },
+      {
+        "name": "/write/[id] desktop INP",
+        "samples": 3,
+        "p50": 16,
+        "p75": 16,
+        "p95": 16,
+        "max": 16
+      },
+      {
+        "name": "/write/[id] desktop CLS",
+        "samples": 3,
+        "p50": 0.0000415625,
+        "p75": 0.0000415625,
+        "p95": 0.0000415625,
+        "max": 0.0000415625
+      },
+      {
+        "name": "/progress mobile FCP",
+        "samples": 3,
+        "p50": 260,
+        "p75": 268,
+        "p95": 268,
+        "max": 268
+      },
+      {
+        "name": "/progress mobile TTFB",
+        "samples": 3,
+        "p50": 73.30000000074506,
+        "p75": 77.30000000074506,
+        "p95": 77.30000000074506,
+        "max": 77.30000000074506
+      },
+      {
+        "name": "/progress mobile LCP",
+        "samples": 3,
+        "p50": 352,
+        "p75": 680,
+        "p95": 680,
+        "max": 680
+      },
+      {
+        "name": "/progress mobile CLS",
+        "samples": 3,
+        "p50": 0,
+        "p75": 0,
+        "p95": 0,
+        "max": 0
+      },
+      {
+        "name": "/write/[id] mobile FCP",
+        "samples": 3,
+        "p50": 252,
+        "p75": 252,
+        "p95": 252,
+        "max": 252
+      },
+      {
+        "name": "/write/[id] mobile TTFB",
+        "samples": 3,
+        "p50": 52.5,
+        "p75": 61.100000001490116,
+        "p95": 61.100000001490116,
+        "max": 61.100000001490116
+      },
+      {
+        "name": "/write/[id] mobile LCP",
+        "samples": 3,
+        "p50": 1268,
+        "p75": 1276,
+        "p95": 1276,
+        "max": 1276
+      },
+      {
+        "name": "/write/[id] mobile INP",
+        "samples": 3,
+        "p50": 32,
+        "p75": 40,
+        "p95": 40,
+        "max": 40
+      },
+      {
+        "name": "/write/[id] mobile CLS",
+        "samples": 3,
+        "p50": 0.00029299051614363496,
+        "p75": 0.00029299051614363496,
+        "p95": 0.00029299051614363496,
+        "max": 0.00029299051614363496
+      }
+    ],
+    "server": [
+      {
+        "name": "auth.getUser.render",
+        "samples": 13,
+        "p50": 3.080934,
+        "p75": 5.346911,
+        "p95": 12.303418,
+        "max": 12.303418
+      },
+      {
+        "name": "auth.getUser.proxy",
+        "samples": 18,
+        "p50": 1.813528,
+        "p75": 2.395559,
+        "p95": 12.432029,
+        "max": 12.432029
+      },
+      {
+        "name": "database.pool.acquire",
+        "samples": 12,
+        "p50": 0.042249,
+        "p75": 0.255179,
+        "p95": 1.060096,
+        "max": 1.060096
+      },
+      {
+        "name": "progress.history",
+        "samples": 6,
+        "p50": 3.242748,
+        "p75": 3.819759,
+        "p95": 13.040951,
+        "max": 13.040951
+      },
+      {
+        "name": "progress.courses",
+        "samples": 6,
+        "p50": 10.725281,
+        "p75": 17.146386,
+        "p95": 27.434446,
+        "max": 27.434446
+      },
+      {
+        "name": "progress.targets",
+        "samples": 6,
+        "p50": 5.41027,
+        "p75": 8.674888,
+        "p95": 15.067429,
+        "max": 15.067429
+      },
+      {
+        "name": "database.transaction",
+        "samples": 12,
+        "p50": 78.530579,
+        "p75": 84.408546,
+        "p95": 167.053386,
+        "max": 167.053386
+      },
+      {
+        "name": "progress.load",
+        "samples": 6,
+        "p50": 85.218334,
+        "p75": 101.760225,
+        "p95": 170.17718,
+        "max": 170.17718
+      }
+    ]
+  },
+  "database": {
+    "source": "Hosted database, read-only diagnostics from this workstation",
+    "timings": [
+      {
+        "run": 0,
+        "kind": "connect-and-query",
+        "durationMs": 964.824158
+      },
+      {
+        "run": 1,
+        "kind": "warm-query",
+        "durationMs": 120.99436400000002
+      },
+      {
+        "run": 2,
+        "kind": "warm-query",
+        "durationMs": 121.337808
+      },
+      {
+        "run": 3,
+        "kind": "warm-query",
+        "durationMs": 121.67381799999998
+      },
+      {
+        "run": 4,
+        "kind": "warm-query",
+        "durationMs": 120.94987900000001
+      }
+    ],
+    "statements": [
+      {
+        "query_id": "5457019535816659310",
+        "calls": "24",
+        "mean_ms": 3503.08645170833,
+        "max_ms": 7007.043406,
+        "rows": "24",
+        "artificial_delay": true
+      },
+      {
+        "query_id": "-2647655532108368607",
+        "calls": "28",
+        "mean_ms": 450.731730071429,
+        "max_ms": 2226.59636,
+        "rows": "2184",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "4868794970434878014",
+        "calls": "7",
+        "mean_ms": 238.862199571429,
+        "max_ms": 461.33432,
+        "rows": "7",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "-7726440967385220442",
+        "calls": "17",
+        "mean_ms": 209.348293764706,
+        "max_ms": 260.868014,
+        "rows": "10166",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "-6340671216805360367",
+        "calls": "17",
+        "mean_ms": 53.8343390588235,
+        "max_ms": 90.433124,
+        "rows": "28",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "3912751625198982508",
+        "calls": "6",
+        "mean_ms": 41.038831,
+        "max_ms": 45.548713,
+        "rows": "0",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "-7636120669495855217",
+        "calls": "7",
+        "mean_ms": 39.1995515714286,
+        "max_ms": 50.729913,
+        "rows": "7",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "8580411586163530256",
+        "calls": "121",
+        "mean_ms": 23.9854120661157,
+        "max_ms": 79.052553,
+        "rows": "26493",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "-1716421701957738214",
+        "calls": "7",
+        "mean_ms": 23.3006734285714,
+        "max_ms": 33.440409,
+        "rows": "318",
+        "artificial_delay": false
+      },
+      {
+        "query_id": "-8856799461280935852",
+        "calls": "17",
+        "mean_ms": 14.9605429411765,
+        "max_ms": 45.247802,
+        "rows": "805",
+        "artificial_delay": false
+      }
+    ]
+  }
+}

@@ -17,6 +17,12 @@ export default async function Page() {
   const unit = learningPath?.units.find((item) =>
     item.lessons.some((lesson) => lesson.state === 'current'),
   );
+  // One pass over the curriculum replaces a lookup per submission.
+  const titleByTaskId = new Map(
+    (learningPath?.units ?? [])
+      .flatMap((unit) => unit.lessons)
+      .map((lesson) => [lesson.task.id, lesson.task.title] as const),
+  );
   const path = unit
     ? {
         level: unit.level,
@@ -42,9 +48,7 @@ export default async function Page() {
         title:
           submission.taskId === 'weekend'
             ? 'Weekend message'
-            : learningPath?.units
-                .flatMap((unit) => unit.lessons)
-                .find((lesson) => lesson.task.id === submission.taskId)?.task.title,
+            : titleByTaskId.get(submission.taskId),
         createdAt: submission.createdAt.toISOString(),
       }))}
     />
