@@ -25,6 +25,7 @@ import type { CorrectionChoice } from '@/lib/feedback/choices';
 import NavigationButton from '@/components/shared/NavigationButton';
 import ActionButton from '@/components/shared/ActionButton';
 import ToneChip from '@/components/shared/ToneChip';
+import FirstSessionGuide from '@/components/onboarding/FirstSessionGuide';
 
 export default function FeedbackView({
   submissionId,
@@ -38,6 +39,7 @@ export default function FeedbackView({
   taskId = 'weekend',
   attempt = 1,
   coursePreview = false,
+  firstSession = false,
 }: {
   submissionId: string;
   text: string;
@@ -50,6 +52,7 @@ export default function FeedbackView({
   taskId?: string;
   attempt?: number;
   coursePreview?: boolean;
+  firstSession?: boolean;
 }) {
   const t = useTranslations('feedback');
   const theme = useTheme();
@@ -192,6 +195,7 @@ export default function FeedbackView({
           <ScoreBars scores={feedback.scores} taskId={taskId} />
         </Box>
       </Box>
+      {firstSession ? <FirstSessionGuide step="revise" /> : null}
       {coursePreview ? (
         <Alert
           severity="info"

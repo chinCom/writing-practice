@@ -9,20 +9,11 @@ import { loadTask } from '@/lib/db/curriculum';
 import { maxRevisionAttempts } from '@/lib/limits';
 import RevisionLimit from '@/components/studio/RevisionLimit';
 import { DomainError } from '@/lib/domain-error';
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ taskId: string }>;
-  searchParams: Promise<{ revise?: string }>;
-}) {
-  const { taskId } = await params;
-  if (!/^[a-z0-9-]{1,80}$/.test(taskId)) notFound();
-  const user = await currentUser();
-  if (!user) redirect('/login');
-  let task;
+
+/** Redirects for a missing, locked or warm-up-gated task before the page renders it. */
+async function loadOwnedTask(userId: string, taskId: string) {
   try {
-    task = await loadTask(user.id, taskId);
+    return await loadTask(userId, taskId);
   } catch (error) {
     if (error instanceof DomainError && error.code === 'NOT_FOUND') notFound();
     if (
@@ -32,13 +23,30 @@ export default async function Page({
       redirect('/path');
     throw error;
   }
-  const revision = (await searchParams).revise;
+}
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ taskId: string }>;
+  searchParams: Promise<{ revise?: string }>;
+}) {
+  // URL data and the session check do not depend on each other.
+  const [{ taskId }, query, user] = await Promise.all([params, searchParams, currentUser()]);
+  if (!/^[a-z0-9-]{1,80}$/.test(taskId)) notFound();
+  if (!user) redirect('/login');
+  const revision = query.revise;
   if (revision) {
     if (!z.uuid().safeParse(revision).success) notFound();
-    const result = await loadFeedback(user.id, revision);
+    // The task, saved feedback and saved choices are independent reads.
+    const [task, result, choices] = await Promise.all([
+      loadOwnedTask(user.id, taskId),
+      loadFeedback(user.id, revision),
+      loadCorrectionChoices(user.id, revision),
+    ]);
     if (!result || result.submission.taskId !== taskId) notFound();
     if (result.submission.attempt >= maxRevisionAttempts) return <RevisionLimit taskId={taskId} />;
-    const choices = await loadCorrectionChoices(user.id, revision);
     const applied = new Set(
       choices
         .filter((choice) => choice.status === 'applied')
@@ -58,5 +66,9 @@ export default async function Page({
       />
     );
   }
-  return <LiveStudio key={task.id} task={task} initialText={await loadDraft(user.id, task.id)} />;
+  const [task, initialText] = await Promise.all([
+    loadOwnedTask(user.id, taskId),
+    loadDraft(user.id, taskId),
+  ]);
+  return <LiveStudio key={task.id} task={task} initialText={initialText} />;
 }

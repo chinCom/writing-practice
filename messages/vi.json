@@ -233,6 +233,7 @@
     "words": "{n} từ",
     "remaining": "Viết thêm {n} từ để đạt số từ tối thiểu.",
     "check": "Kiểm tra bài viết",
+    "nextStep": "Sau khi Kiểm tra, bạn sẽ thấy bài được đánh dấu và một điểm cần sửa. Sau đó bạn viết lại cả bài.",
     "coach": "Một chút gợi ý",
     "question": "Làm thế nào để mời Maria?",
     "hint": "Thử kết thúc bằng một câu hỏi rõ ràng. Bạn muốn Maria làm gì?",
@@ -647,6 +648,26 @@
     "error": "Chưa lưu được hồ sơ học tập. Các lựa chọn của bạn vẫn còn ở đây.",
     "expired": "Đăng nhập lại để lưu hồ sơ học tập.",
     "signInAgain": "Đăng nhập lại"
+  },
+  "firstSession": {
+    "title": "Buổi học đầu tiên",
+    "intro": "Một vòng ngắn: chọn bài, viết, đọc nhận xét, rồi sửa lại.",
+    "label": "Các bước của buổi học đầu tiên",
+    "done": "đã xong",
+    "readFeedback": "Đọc nhận xét của bạn",
+    "steps": {
+      "signIn": "Đăng nhập",
+      "choose": "Chọn bài",
+      "write": "Viết",
+      "feedback": "Đọc nhận xét",
+      "revise": "Sửa bài"
+    },
+    "now": {
+      "choose": "Bắt đầu với bài ngắn bên dưới. Bài này giúp chọn trình độ, và bạn có thể đổi sau.",
+      "write": "Viết câu trả lời, rồi bấm Kiểm tra khi đủ số từ.",
+      "feedback": "Nhận xét đã sẵn sàng. Đọc lỗi đầu tiên, rồi sửa bài viết.",
+      "revise": "Áp dụng những chỗ sửa bạn thấy đúng, rồi viết lại cả bài. Chính việc sửa bài giúp bạn tiến bộ."
+    }
   },
   "curriculum": {
     "placementTitle": "Tìm trình độ bắt đầu",

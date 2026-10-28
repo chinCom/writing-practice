@@ -259,6 +259,9 @@ export default function LiveStudio({
                   <DevelopmentAction help={help} />
                 </Box>
               </Stack>
+              <Typography variant="body2" color="text.secondary">
+                {t('nextStep')}
+              </Typography>
               <DevelopmentFeedback help={help} />
               {text.length > limit ? (
                 <Alert severity="warning">

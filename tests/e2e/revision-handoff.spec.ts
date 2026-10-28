@@ -9,7 +9,13 @@ test('applied fixes reach the revision editor without changing saved feedback', 
     info.project.name === 'mobile'
       ? page.getByRole('dialog', { name: 'Correction details' })
       : page.getByRole('region', { name: 'Correction details' });
+  const choiceSaved = page.waitForResponse(
+    (response) =>
+      response.url().includes('/dev/preview/corrections') && response.request().method() === 'POST',
+  );
   await detail.getByRole('button', { name: 'Apply fix', exact: true }).click();
+  // Wait for the ordered save to settle; an in-flight save deliberately asks before leaving.
+  await choiceSaved;
   if (info.project.name === 'mobile')
     await page.getByRole('button', { name: 'Close correction' }).click();
   await page.getByRole('link', { name: 'Revise your writing', exact: true }).click();

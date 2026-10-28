@@ -233,6 +233,7 @@
     "words": "{n} words",
     "remaining": "Write {n} more words to reach the task minimum.",
     "check": "Check my writing",
+    "nextStep": "After Check, you’ll see your marked page and one priority to fix. Then you revise the whole draft.",
     "coach": "A little help",
     "question": "How do I invite Maria?",
     "hint": "Try ending with a clear question. What would you like Maria to do?",
@@ -647,6 +648,26 @@
     "error": "Your learning profile was not saved. Your choices are still here.",
     "expired": "Sign in again to save your learning profile.",
     "signInAgain": "Sign in again"
+  },
+  "firstSession": {
+    "title": "Your first session",
+    "intro": "One short loop: choose a task, write, read the feedback, then revise.",
+    "label": "First session steps",
+    "done": "done",
+    "readFeedback": "Read your feedback",
+    "steps": {
+      "signIn": "Sign in",
+      "choose": "Choose a task",
+      "write": "Write",
+      "feedback": "Read feedback",
+      "revise": "Revise"
+    },
+    "now": {
+      "choose": "Start with the short task below. It sets your starting level, and you can change it later.",
+      "write": "Write your answer, then press Check when you reach the word range.",
+      "feedback": "Your feedback is ready. Read the first correction, then revise your draft.",
+      "revise": "Apply the fixes you agree with, then rewrite the whole draft. Revising is what improves your writing."
+    }
   },
   "curriculum": {
     "placementTitle": "Find your starting level",

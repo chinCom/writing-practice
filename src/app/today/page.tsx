@@ -2,6 +2,7 @@ import Today from '@/components/today/Today';
 import { currentUser } from '@/lib/auth/server';
 import { loadToday } from '@/lib/db/today';
 import { nextTask } from '@/lib/next-task';
+import { firstSessionGuide } from '@/lib/first-session';
 export default async function Page() {
   const user = await currentUser();
   const { submissions, progress, practice, preferences, learningPath } =
@@ -33,12 +34,14 @@ export default async function Page() {
         })),
       }
     : undefined;
+  const next = nextTask(learningPath);
   return (
     <Today
       signedIn={Boolean(user)}
       progress={progress}
       path={path}
-      next={nextTask(learningPath)}
+      next={next}
+      firstSession={firstSessionGuide(submissions, next)}
       pastTense={practice?.questions.some((question) => question.tag === 'verb-tense')}
       now={new Date().toISOString()}
       due={practice?.questions.length ?? 0}

@@ -38,6 +38,7 @@ export default async function Page({ params }: { params: Promise<{ submissionId:
           : []
       }
       initialChoices={choices}
+      firstSession={result.submission.attempt === 1 && !result.submission.parentSubmissionId}
     />
   );
 }

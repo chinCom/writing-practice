@@ -21,6 +21,8 @@ import AccountActivity from './AccountActivity';
 import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot';
 import type { ProgressReport } from '@/lib/db/progress';
 import type { NextTask } from '@/lib/next-task';
+import type { FirstSessionGuideState } from '@/lib/first-session';
+import FirstSessionGuide from '@/components/onboarding/FirstSessionGuide';
 import TargetRecommendations from '@/components/curriculum/TargetRecommendations';
 import PageHeader from '@/components/shared/PageHeader';
 import PaperAccent from '@/components/ui/icons/PaperAccent';
@@ -320,12 +322,14 @@ export default function Today({
   pastTense = false,
   now,
   next,
+  firstSession,
 }: {
   preview?: boolean;
   signedIn?: boolean;
   submissions?: SavedSubmission[];
   progress?: ProgressReport;
   next?: NextTask;
+  firstSession?: FirstSessionGuideState | null;
   due?: number;
   weeklyGoal?: number;
   path?: LearningSnapshotData;
@@ -359,6 +363,15 @@ export default function Today({
           </Stack>
         }
       />
+      {account && firstSession ? (
+        <Box sx={{ mb: { xs: 2, md: 2.5 } }}>
+          <FirstSessionGuide
+            step={firstSession.step}
+            feedbackId={firstSession.feedbackId}
+            preview={preview}
+          />
+        </Box>
+      ) : null}
       <Box
         sx={{
           display: 'grid',
