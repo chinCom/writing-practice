@@ -34,16 +34,16 @@ function SkipLink() {
 
 export default function AppShell({
   children,
-  signedIn = false,
+  signedIn,
 }: {
   children: ReactNode;
-  signedIn?: boolean;
+  signedIn: Promise<boolean>;
 }) {
   const pathname = usePathname();
   const t = useTranslations('app');
   const preview = pathname.startsWith('/dev/preview');
-  // Signed-out visitors on the landing page get the marketing layout; the page renders its own header, main and footer.
-  const marketing = pathname === '/' && !signedIn;
+  // The landing page redirects signed-in learners, so `/` always gets the marketing layout; the page renders its own header, main and footer.
+  const marketing = pathname === '/';
   // Login is a standalone entry screen, so it keeps the page background without the app navigation.
   const standalone = pathname === '/login';
   if (marketing)

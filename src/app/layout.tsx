@@ -52,7 +52,9 @@ export function generateMetadata(): Promise<Metadata> {
   return rootMetadata();
 }
 export default async function Layout({ children }: { children: ReactNode }) {
-  const [locale, user] = await Promise.all([getLocale(), currentUser()]);
+  const locale = await getLocale();
+  // Only the account button needs the session, so each route's loading UI streams without waiting for auth.
+  const signedIn = currentUser().then(Boolean, () => false);
   return (
     <html
       lang={locale}
@@ -78,7 +80,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         <InitColorSchemeScript attribute="data-mui-color-scheme" />
         <NextIntlClientProvider>
           <Providers>
-            <AppShell signedIn={Boolean(user)}>{children}</AppShell>
+            <AppShell signedIn={signedIn}>{children}</AppShell>
           </Providers>
         </NextIntlClientProvider>
       </body>

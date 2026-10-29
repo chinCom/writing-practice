@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, use, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import IntentLink from './IntentLink';
 import { useTranslations } from 'next-intl';
@@ -30,6 +30,7 @@ import LogoMark from '@/components/ui/icons/LogoMark';
 import BoardIcon from '@/components/ui/icons/BoardIcon';
 import NavigationButton from '@/components/shared/NavigationButton';
 import ActionButton from '@/components/shared/ActionButton';
+import { ContentSkeleton } from '@/components/shared/ContentSkeleton';
 
 // A separate CSS variable prefix keeps page themes from changing navigation styles.
 const navigationTheme = makeTheme('navigation');
@@ -92,7 +93,43 @@ export function Logo({ label }: { label?: string }) {
   );
 }
 
-function AccountFooter({ signedIn }: { signedIn: boolean }) {
+function AccountButton({
+  signedIn,
+  signingOut,
+  onSignOut,
+}: {
+  signedIn: Promise<boolean>;
+  signingOut: boolean;
+  onSignOut: () => void;
+}) {
+  const t = useTranslations('app');
+  if (!use(signedIn))
+    return (
+      <NavigationButton
+        fullWidth
+        tone="secondary"
+        startIcon={<LoginOutlined />}
+        href="/login"
+        sx={{ justifyContent: 'center' }}
+      >
+        {t('signIn')}
+      </NavigationButton>
+    );
+  return (
+    <ActionButton
+      fullWidth
+      tone="secondary"
+      startIcon={<LogoutOutlined />}
+      disabled={signingOut}
+      onClick={onSignOut}
+      sx={{ justifyContent: 'center' }}
+    >
+      {t('signOut')}
+    </ActionButton>
+  );
+}
+
+function AccountFooter({ signedIn }: { signedIn: Promise<boolean> }) {
   const router = useRouter();
   const t = useTranslations('app');
 
@@ -127,28 +164,9 @@ function AccountFooter({ signedIn }: { signedIn: boolean }) {
         </Alert>
       ) : null}
       {/* Account identity is temporarily hidden; keep sign-in and sign-out available. */}
-      {signedIn ? (
-        <ActionButton
-          fullWidth
-          tone="secondary"
-          startIcon={<LogoutOutlined />}
-          disabled={signingOut}
-          onClick={handleSignOut}
-          sx={{ justifyContent: 'center' }}
-        >
-          {t('signOut')}
-        </ActionButton>
-      ) : (
-        <NavigationButton
-          fullWidth
-          tone="secondary"
-          startIcon={<LoginOutlined />}
-          href="/login"
-          sx={{ justifyContent: 'center' }}
-        >
-          {t('signIn')}
-        </NavigationButton>
-      )}
+      <Suspense fallback={<ContentSkeleton variant="rounded" height={44} />}>
+        <AccountButton signedIn={signedIn} signingOut={signingOut} onSignOut={handleSignOut} />
+      </Suspense>
     </Box>
   );
 }
@@ -179,7 +197,7 @@ function NavigationLinks({ pathname, onNavigate }: { pathname: string; onNavigat
   );
 }
 
-export default function AppNavigation({ signedIn }: { signedIn: boolean }) {
+export default function AppNavigation({ signedIn }: { signedIn: Promise<boolean> }) {
   const pathname = usePathname();
   const t = useTranslations('app');
   const [menuOpen, setMenuOpen] = useState(false);
