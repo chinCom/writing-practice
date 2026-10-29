@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+// Loading skeletons reuse SectionPanel, so count only the panels of the loaded report.
 function panels(page: import('@playwright/test').Page) {
-  return page.locator('[data-ui="section-panel"]');
+  return page.locator('[data-ui="section-panel"]:not([data-ui="loading-content"] *)');
 }
 
 test('report and Practice sections share padding, named headings and shrink-safe layout', async ({
@@ -108,8 +109,10 @@ test('shared panels wrap Vietnamese content in dark mode without changing Englis
   await context.addCookies([{ name: 'locale', value: 'vi', url: 'http://127.0.0.1:3000' }]);
   await page.addInitScript(() => localStorage.setItem('mui-mode', 'dark'));
   await page.goto('/dev/preview/progress');
+  await expect(page.locator('[data-ui="loading-content"]')).toHaveCount(0);
   await expect(panels(page)).toHaveCount(4);
   for (const panel of await panels(page).all()) {
+    await expect(panel).toBeVisible();
     const bounds = await panel.boundingBox();
     expect(bounds).not.toBeNull();
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual((page.viewportSize()?.width ?? 0) + 1);
