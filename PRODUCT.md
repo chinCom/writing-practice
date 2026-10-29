@@ -59,9 +59,10 @@ It is writing-focused by construction: model-text noticing and source passages e
 - Check recovery: saved writing before grading, request-key reuse, single active claim, lost-response and reload recovery.
 - Feedback and revision: marked text, immediate Apply/Undo with ordered saves, revision and parent-revision comparison, 20-attempt boundary.
 - On-demand short English explanations with owner-only saved reuse and 60 new attempts per UTC day.
-- Today: Core-path next task, saved feedback, UTC streak, weekly goal, strongest improvement, due practice.
+- Goals: onboarding sets a goal with a target (a CEFR level, or an IELTS 1–5 practice score) and an optional date. The goal chooses the track (IELTS goal → IELTS modules; others → Core; TOEFL has no dedicated tasks yet). Today and Progress show a practice estimate from recent first attempts with its range (withheld until three exist; revisions and safety-flagged writing excluded), the skill clearly holding the learner back, levels and lessons to go, this week against the weekly goal, and the pace a date needs. A level goal is measured at the current level until the learner reaches the target level, where 3/5 means meeting it. The estimate is labelled as not an official IELTS band or CEFR certificate.
+- Today: goal card, goal-track next task, saved feedback, UTC streak, weekly goal, strongest improvement, due practice.
 - Practice: saved correction exercises, review-gated transfer drills, local answer checks, retries.
-- Progress: descriptive first-attempt trends, matched same-version unit benchmarks, "How much you fixed", Core/IELTS completion.
+- Progress: the goal panel, descriptive first-attempt trends, matched same-version unit benchmarks, "How much you fixed", Core/IELTS completion.
 - Portfolio: owner-only paginated entries with revision comparison.
 - Signed-out landing page with a local live demo; draft privacy and terms pages; English/Vietnamese UI.
 
