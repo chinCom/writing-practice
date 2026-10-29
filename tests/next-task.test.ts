@@ -47,6 +47,18 @@ it('asks for placement when no level is chosen', () => {
   });
 });
 
+it('starts an IELTS goal on the first IELTS module without placement', async () => {
+  const ielts = curriculumSchema.parse(
+    JSON.parse(await readFile('curriculum/ielts.draft.json', 'utf8')),
+  );
+  const units = buildCoursePath(ielts, null, [], [], 'ielts');
+  expect(nextTask({ chosenLevel: null, units }, 'ielts')).toMatchObject({
+    kind: 'lesson',
+    href: '/lesson/' + units[0].lessons[0].id,
+  });
+  expect(units[0].id.startsWith('ielts-')).toBe(true);
+});
+
 it('falls back to the weekend task with no curriculum or no learning path', () => {
   expect(nextTask(undefined)).toEqual({ kind: 'weekend', href: '/write/weekend' });
   expect(nextTask({ chosenLevel: 'A2', units: [] })).toEqual({

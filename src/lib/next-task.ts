@@ -1,4 +1,4 @@
-import type { CurriculumLevel, CurriculumUnit } from '@/lib/curriculum';
+import type { CurriculumLevel, CurriculumTrack, CurriculumUnit } from '@/lib/curriculum';
 import type { CoursePathUnit } from '@/lib/curriculum-path';
 import type { AdvisoryTarget } from '@/lib/mastery';
 
@@ -21,13 +21,17 @@ export type NextTask =
 
 const weekend = { kind: 'weekend', href: '/write/weekend' } as const;
 
-// Today follows the Core path. Without seeded lessons, or after the last lesson, keep the weekend task.
-export function nextTask(path?: {
-  chosenLevel: CurriculumLevel | null;
-  units: CoursePathUnit[];
-}): NextTask {
+// Today follows the learner's goal track. Without seeded lessons, or after the last lesson, keep the weekend task.
+export function nextTask(
+  path?: {
+    chosenLevel: CurriculumLevel | null;
+    units: CoursePathUnit[];
+  },
+  track: CurriculumTrack = 'core',
+): NextTask {
   if (!path?.units.length) return weekend;
-  if (!path.chosenLevel) return { kind: 'placement', href: '/placement' };
+  // IELTS modules are open from the start; only the Core path needs a starting level.
+  if (track === 'core' && !path.chosenLevel) return { kind: 'placement', href: '/placement' };
   for (const unit of path.units) {
     const lesson = unit.lessons.find((item) => item.state === 'current');
     if (!lesson) continue;

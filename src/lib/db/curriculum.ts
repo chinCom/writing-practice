@@ -20,6 +20,8 @@ import { DomainError } from '@/lib/domain-error';
 import { gradeNoticing, type TextSpan } from '@/lib/noticing';
 import { buildCoursePath } from '@/lib/curriculum-path';
 import { trustedTargetsInTransaction } from './targets';
+import { profileInTransaction } from './profile';
+import { goalTrack } from '@/lib/profile';
 
 async function pathDataInTransaction(database: Transaction) {
   const [units, [placement], progress, checks] = await Promise.all([
@@ -65,6 +67,14 @@ export async function coursePathsInTransaction(database: Transaction) {
 export type LearningPath = Awaited<ReturnType<typeof pathInTransaction>>;
 export async function loadPath(userId: string, track: CurriculumTrack = 'core') {
   return withUserDatabase(userId, (database) => pathInTransaction(database, track));
+}
+/** Opens the track that matches the learner's goal; Core when no goal is saved. */
+export async function loadGoalPath(userId: string) {
+  return withUserDatabase(userId, async (database) => {
+    const profile = await profileInTransaction(database, userId);
+    const track = profile ? goalTrack(profile.goal) : 'core';
+    return { track, path: await pathInTransaction(database, track) };
+  });
 }
 async function lessonInTransaction(database: Transaction, lessonId: string) {
   const path = await pathInTransaction(database, trackForId(lessonId));

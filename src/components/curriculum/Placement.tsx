@@ -58,7 +58,8 @@ export default function Placement({
                 : 'requestError',
         );
       if (choose) {
-        router.push(preview ? '/dev/preview/path' : '/path');
+        // Placement chooses the Core starting level, so show the Core path whatever the goal.
+        router.push(preview ? '/dev/preview/path' : '/path?track=core');
         return;
       }
       setResult(data.result);

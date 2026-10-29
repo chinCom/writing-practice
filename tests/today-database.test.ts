@@ -46,6 +46,7 @@ beforeAll(async () => {
     '0009_writing_course.sql',
     '0012_mastery_advisory.sql',
     '0014_benchmark_context.sql',
+    '0015_goal_targets.sql',
   ])
     await database.exec(await readFile(`drizzle/${migration}`, 'utf8'));
   for (const [owner, id, goal] of [
@@ -67,6 +68,11 @@ beforeAll(async () => {
       goal,
     ]);
   }
+  await database.query(
+    `INSERT INTO writing.profiles(user_id,native_language,goal,starting_level,daily_minutes,target_score)
+     VALUES ($1,'vi','ielts','B1',15,4.5)`,
+    [bob],
+  );
 });
 
 afterAll(async () => {
@@ -86,6 +92,8 @@ it('renders Today through healthy slow startup without timing out its own databa
   expect(page.props.submissions.map((row: { id: string }) => row.id)).toEqual([aliceSubmission]);
   expect(page.props.progress.sessions).toBe(1);
   expect(page.props.due).toBe(0);
+  // Without a saved goal, Today follows the Core path.
+  expect(page.props.track).toBe('core');
 }, 15000);
 
 it('does not reuse the previous learner data on the shared Today connection', async () => {
@@ -95,4 +103,6 @@ it('does not reuse the previous learner data on the shared Today connection', as
   const page = await TodayPage();
   expect(page.props.weeklyGoal).toBe(7);
   expect(page.props.submissions.map((row: { id: string }) => row.id)).toEqual([bobSubmission]);
+  // Bob's IELTS goal moves Today onto the IELTS track; Alice's run above stayed on Core.
+  expect(page.props.track).toBe('ielts');
 }, 15000);

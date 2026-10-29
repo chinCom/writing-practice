@@ -20,6 +20,7 @@ import SavedFeedback, { type SavedSubmission } from './SavedFeedback';
 import AccountActivity from './AccountActivity';
 import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot';
 import type { ProgressReport } from '@/lib/db/progress';
+import type { CurriculumTrack } from '@/lib/curriculum';
 import type { NextTask } from '@/lib/next-task';
 import type { FirstSessionGuideState } from '@/lib/first-session';
 import FirstSessionGuide from '@/components/onboarding/FirstSessionGuide';
@@ -311,9 +312,45 @@ function PaperLikeReview({ children }: { children: ReactNode }) {
   );
 }
 
+function IeltsPromoCard({ preview }: { preview: boolean }) {
+  const t = useTranslations('today');
+  return (
+    <Card sx={{ position: 'relative', overflow: 'clip' }}>
+      <PaperAccent
+        inlineSize={160}
+        blockSize={130}
+        sx={{ position: 'absolute', insetInlineEnd: -30, insetBlockEnd: -45 }}
+      />
+      <CardContent sx={{ p: 2.5 }}>
+        <Stack sx={{ gap: 1 }}>
+          <Stack
+            direction="row"
+            sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <SchoolOutlined sx={{ color: 'primary.main' }} />
+            <SectionTitle sx={{ flex: 1 }}>{t('ieltsTitle')}</SectionTitle>
+          </Stack>
+          <Typography variant="body2" color="text.secondary">
+            {t('ieltsIntro')}
+          </Typography>
+          <NavigationButton
+            tone="secondary"
+            endIcon={<ArrowForward />}
+            href={preview ? '/dev/preview/path?course=full&track=ielts' : '/path?track=ielts'}
+            sx={{ alignSelf: 'flex-start' }}
+          >
+            {t('ieltsTitle')}
+          </NavigationButton>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function Today({
   preview = false,
   signedIn = false,
+  track = 'core',
   submissions = [],
   progress,
   due = 0,
@@ -326,6 +363,7 @@ export default function Today({
 }: {
   preview?: boolean;
   signedIn?: boolean;
+  track?: CurriculumTrack;
   submissions?: SavedSubmission[];
   progress?: ProgressReport;
   next?: NextTask;
@@ -421,37 +459,7 @@ export default function Today({
             <SavedFeedback submissions={submissions} preview={preview} />
             <Stack sx={{ gap: { xs: 2, md: 2.5 } }}>
               <LearningSnapshot path={path} preview={preview} />
-              <Card sx={{ position: 'relative', overflow: 'clip' }}>
-                <PaperAccent
-                  inlineSize={160}
-                  blockSize={130}
-                  sx={{ position: 'absolute', insetInlineEnd: -30, insetBlockEnd: -45 }}
-                />
-                <CardContent sx={{ p: 2.5 }}>
-                  <Stack sx={{ gap: 1 }}>
-                    <Stack
-                      direction="row"
-                      sx={{ gap: 1, alignItems: 'center', justifyContent: 'space-between' }}
-                    >
-                      <SchoolOutlined sx={{ color: 'primary.main' }} />
-                      <SectionTitle sx={{ flex: 1 }}>{t('ieltsTitle')}</SectionTitle>
-                    </Stack>
-                    <Typography variant="body2" color="text.secondary">
-                      {t('ieltsIntro')}
-                    </Typography>
-                    <NavigationButton
-                      tone="secondary"
-                      endIcon={<ArrowForward />}
-                      href={
-                        preview ? '/dev/preview/path?course=full&track=ielts' : '/path?track=ielts'
-                      }
-                      sx={{ alignSelf: 'flex-start' }}
-                    >
-                      {t('ieltsTitle')}
-                    </NavigationButton>
-                  </Stack>
-                </CardContent>
-              </Card>
+              {track === 'ielts' ? null : <IeltsPromoCard preview={preview} />}
             </Stack>
           </Box>
         </>

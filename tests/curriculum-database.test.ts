@@ -8,6 +8,7 @@ import { loadTransfer, answerTransfer } from '@/lib/db/transfer';
 import { choosePlacement, reservePlacement, completePlacement } from '@/lib/db/placement';
 import {
   loadPath,
+  loadGoalPath,
   answerWarmup,
   loadLesson,
   loadTask,
@@ -184,6 +185,8 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0012_mastery_advisory.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0014_benchmark_context.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0013_transfer_practice.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0007_profiles.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0015_goal_targets.sql', 'utf8'));
   for (const unit of curriculumDraft)
     await database.query('INSERT INTO writing.curriculum_units VALUES ($1,$2,$3,$4,$5,now(),$6)', [
       unit.id,
@@ -323,4 +326,19 @@ it('limits placement attempts and does not accept results from another owner or 
     safety_flag: false,
   });
   await expect(reservePlacement(bob)).rejects.toThrow('PLACEMENT_LIMIT');
+});
+it('opens the track of the learner goal, and Core without a saved goal', async () => {
+  const learner = '00000000-0000-4000-8000-000000000016';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [learner]);
+  expect((await loadGoalPath(learner)).track).toBe('core');
+  await database.query(
+    `INSERT INTO writing.profiles(user_id,native_language,goal,starting_level,daily_minutes,target_score)
+     VALUES ($1,'en','ielts','B1',15,4)`,
+    [learner],
+  );
+  const { track, path } = await loadGoalPath(learner);
+  expect(track).toBe('ielts');
+  expect(path.units.every((unit) => unit.id.startsWith('ielts-'))).toBe(true);
+  // Another learner's IELTS goal never changes this one's track.
+  expect((await loadGoalPath(bob)).track).toBe('core');
 });

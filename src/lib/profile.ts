@@ -33,7 +33,7 @@ export const profileResult = z.strictObject({
   profile: learningProfile.nullable(),
 });
 
-export function goalTrack(goal: LearningGoal) {
+export function goalTrack(goal: LearningGoal): 'core' | 'ielts' {
   return goal === 'ielts' ? 'ielts' : 'core';
 }
 

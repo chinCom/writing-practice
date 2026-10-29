@@ -9,7 +9,7 @@ export function generateMetadata() {
 }
 export default async function Page() {
   const user = await currentUser();
-  const { submissions, progress, practice, preferences, learningPath } =
+  const { submissions, progress, practice, preferences, learningPath, track, paths } =
     user && process.env.DATABASE_URL
       ? await loadToday(user.id)
       : {
@@ -18,13 +18,15 @@ export default async function Page() {
           practice: undefined,
           preferences: undefined,
           learningPath: undefined,
+          track: 'core' as const,
+          paths: undefined,
         };
   const unit = learningPath?.units.find((item) =>
     item.lessons.some((lesson) => lesson.state === 'current'),
   );
-  // One pass over the curriculum replaces a lookup per submission.
+  // One pass over both tracks replaces a lookup per submission; saved work may come from either.
   const titleByTaskId = new Map(
-    (learningPath?.units ?? [])
+    [...(paths?.core.units ?? []), ...(paths?.ielts.units ?? [])]
       .flatMap((unit) => unit.lessons)
       .map((lesson) => [lesson.task.id, lesson.task.title] as const),
   );
@@ -38,10 +40,11 @@ export default async function Page() {
         })),
       }
     : undefined;
-  const next = nextTask(learningPath);
+  const next = nextTask(learningPath, track);
   return (
     <Today
       signedIn={Boolean(user)}
+      track={track}
       progress={progress}
       path={path}
       next={next}
