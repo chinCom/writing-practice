@@ -751,27 +751,24 @@
     "inWriting": "Câu hỏi của trợ lý nằm cạnh phần được tô sáng trong bài viết của bạn."
   },
   "landing": {
-    "title": "Viết bằng tiếng Anh. Thấy ngay chỗ cần sửa.",
-    "body": "Writing coach đánh dấu lỗi ngay trên bài viết, giải thích bằng tiếng Anh ngắn gọn và giúp bạn sửa bài. Luyện tập với các bài học từ những từ đầu tiên đến bài luận nâng cao.",
-    "start": "Bắt đầu viết miễn phí",
     "signIn": "Đăng nhập",
     "demoLabel": "Thử ngay: sửa câu này",
     "demoText": "Yesterday I go to the the park and eated an ice cream.",
     "demoResult": "Câu của bạn đã được đánh dấu",
     "demoClear": "Các bước kiểm tra nhanh này không tìm thấy lỗi. Sau khi đăng nhập, công cụ đầy đủ sẽ kiểm tra kỹ hơn nhiều.",
-    "demoLocal": "Bản thử này chỉ chạy trong trình duyệt của bạn. Nó kiểm tra một vài lỗi thường gặp và không gửi gì đến máy chủ. Sau khi đăng nhập, công cụ đầy đủ sẽ dùng AI.",
+    "demoLocal": "Bản thử này chỉ chạy trong trình duyệt và kiểm tra một vài lỗi thường gặp. Sau khi đăng nhập, công cụ đầy đủ sẽ dùng AI.",
     "steps": {
       "write": {
-        "title": "Viết hoặc dán",
-        "body": "Nhập văn bản hoặc tải tài liệu lên."
+        "title": "Viết một bài ngắn",
+        "body": "Viết theo trình độ của bạn. Không có tự động sửa lỗi: chính lỗi của bạn là thứ để học."
       },
       "mark": {
-        "title": "Nhận gợi ý",
-        "body": "Xem nhận xét tức thì về ngữ pháp, độ rõ ràng, giọng điệu và hơn thế."
+        "title": "Thấy chỗ cần sửa",
+        "body": "Huấn luyện viên đánh dấu tối đa ba ưu tiên và giải thích từng điểm. Khi không chắc chắn, nó sẽ không nhận xét."
       },
       "revise": {
-        "title": "Áp dụng và cải thiện",
-        "body": "Chấp nhận gợi ý và làm bài viết tốt hơn."
+        "title": "Tự sửa bài",
+        "body": "Viết lại, kiểm tra lại và so sánh các phiên bản. Lỗi của bạn sẽ quay lại sau dưới dạng bài tập ngắn."
       }
     },
     "nav": {
@@ -784,14 +781,13 @@
       "language": "Ngôn ngữ giao diện",
       "start": "Bắt đầu"
     },
-    "eyebrow": "Miễn phí trong giai đoạn thử nghiệm",
-    "heroNote": "Không cần thẻ tín dụng · Chạy ngay trên trình duyệt",
+    "heroNote": "Miễn phí trong giai đoạn thử nghiệm · Giao diện tiếng Anh và tiếng Việt",
     "how": {
-      "title": "Viết tốt hơn với 3 bước đơn giản",
-      "intro": "Nhận gợi ý hữu ích trong vài giây để bài viết rõ ràng, tự nhiên và chuyên nghiệp hơn."
+      "title": "Viết, đọc nhận xét, sửa bài",
+      "intro": "Một vòng ngắn, vừa với điện thoại và vài phút rảnh."
     },
     "features": {
-      "title": "Dành cho những tình huống viết thực tế",
+      "title": "Xây dựng xoay quanh việc sửa bài",
       "path": {
         "title": "Lộ trình từ những từ đầu tiên đến C2",
         "body": "Bài học ngắn, văn mẫu và bài khởi động theo trình độ của bạn, sau đó là bài viết."
@@ -810,77 +806,48 @@
       },
       "progress": {
         "title": "Theo dõi tiến bộ",
-        "body": "Xem số ngày viết, điểm số và các bài học đã hoàn thành theo thời gian."
+        "body": "Tiến bộ được đo trên lần viết đầu tiên của các bài mới, nên bản đã sửa không làm điểm cao lên giả tạo."
       },
       "ielts": {
         "title": "Luyện viết IELTS",
         "body": "Luyện Task 1 và Task 2 với thang điểm luyện tập 1–5. Đây không phải điểm band chính thức."
       },
-      "intro": "Dù là email, bài luận, báo cáo hay bài đăng mạng xã hội, hãy nhận gợi ý phù hợp với nhu cầu của bạn.",
-      "grammar": {
-        "title": "Ngữ pháp và chính tả",
-        "body": "Phát hiện lỗi và sửa bằng giải thích rõ ràng."
-      },
-      "clarity": {
-        "title": "Rõ ràng và súc tích",
-        "body": "Đơn giản hóa câu phức tạp và loại bỏ từ thừa."
-      },
-      "tone": {
-        "title": "Gợi ý giọng điệu",
-        "body": "Điều chỉnh giọng điệu trang trọng, chuyên nghiệp hoặc thân mật hơn."
-      },
-      "vocabulary": {
-        "title": "Nâng cao từ vựng",
-        "body": "Chọn từ hay hơn để diễn đạt tự nhiên và chính xác hơn."
-      },
-      "usecases": {
-        "title": "Nhiều mục đích sử dụng",
-        "body": "Dùng cho email, bài luận, báo cáo, thư xin việc và hơn thế."
-      },
-      "everyone": {
-        "title": "Tiếng Anh cho mọi người",
-        "body": "Dành cho người học, học sinh và người đi làm."
-      }
+      "intro": "Mọi phần của ứng dụng đều dẫn đến cùng một việc: bạn tự viết lại bài của mình."
     },
     "levels": {
       "title": "Bắt đầu đúng trình độ",
-      "intro": "Nhận gợi ý cá nhân hóa dựa trên mục tiêu viết và trình độ của bạn.",
+      "intro": "Viết một đoạn ngắn để tìm trình độ, hoặc tự chọn. Đề bài và giới hạn số từ phù hợp với bạn, từ Pre-A1 đến C2.",
       "PRE_A1": "Các từ và một hai câu đơn giản về bản thân",
       "A1": "Câu đơn giản về một ngày, gia đình và nơi chốn",
       "A2": "Tin nhắn ngắn có liên kết, ghi chú và email đơn giản",
       "B1": "Đoạn văn rõ ràng, câu chuyện và ý kiến có lý do",
       "B2": "Bài luận có cấu trúc, báo cáo và thư trang trọng",
       "C1": "Viết chính xác, linh hoạt cho học tập và công việc",
-      "C2": "Bài viết dài trau chuốt, kiểm soát tốt văn phong",
-      "checks": ["Viết rõ ràng hơn", "Ít lỗi hơn", "Tự tin hơn", "Sẵn sàng cho thực tế"]
+      "C2": "Bài viết dài trau chuốt, kiểm soát tốt văn phong"
     },
     "pricing": {
-      "title": "Học phí đơn giản, minh bạch",
-      "plan": "Gói miễn phí",
+      "title": "Miễn phí trong giai đoạn thử nghiệm",
+      "plan": "Thử nghiệm",
       "price": "$0",
-      "note": "Miễn phí trong thời gian chúng tôi thử nghiệm với những người học đầu tiên. Gói trả phí chưa được quyết định.",
       "includes": [
-        "Kiểm tra ngữ pháp và chính tả cơ bản",
-        "Gợi ý giọng điệu và độ rõ ràng có giới hạn",
-        "Chạy ngay trên trình duyệt"
+        "20 lượt kiểm tra mỗi ngày",
+        "Bài học, luyện tập và theo dõi tiến bộ",
+        "Giao diện tiếng Anh và tiếng Việt"
       ],
-      "taglineTitle": "Chọn gói phù hợp với nhu cầu. Nâng cấp bất cứ lúc nào.",
-      "taglineBody": "Bắt đầu miễn phí, nâng cấp khi cần thêm nhận xét và luyện tập.",
+      "taglineTitle": "Gói trả phí chưa được quyết định. Nếu có thay đổi, chúng tôi sẽ báo bạn trước.",
       "duringPilot": "trong giai đoạn thử nghiệm",
-      "planNote": "Phù hợp để bắt đầu",
-      "forever": "mãi mãi",
+      "planNote": "Toàn bộ ứng dụng, trong lúc chúng tôi thử nghiệm với những người học đầu tiên",
       "cta": "Bắt đầu miễn phí"
     },
     "faq": {
       "title": "Câu hỏi thường gặp",
-      "viewAll": "Xem tất cả câu hỏi",
       "cost": {
         "q": "Có thật sự miễn phí không?",
         "a": "Có, trong giai đoạn thử nghiệm. Nếu sau này có gói trả phí, chúng tôi sẽ báo trước khi có thay đổi."
       },
       "types": {
-        "q": "Tôi có thể dùng cho những loại bài viết nào?",
-        "a": "Email, bài luận, báo cáo, thư xin việc, bài đăng mạng xã hội và tin nhắn hằng ngày. Huấn luyện viên thích ứng với đề bài và trình độ của bạn."
+        "q": "Tôi luyện viết những loại bài nào?",
+        "a": "Các bài viết trong bài học theo trình độ của bạn, từ tin nhắn ngắn đến bài luận, cùng luyện tập IELTS Task 1 và Task 2. Bạn viết trực tiếp trong ứng dụng; không có tải tài liệu lên."
       },
       "account": {
         "q": "Tôi có cần tạo tài khoản không?",
@@ -893,15 +860,17 @@
       "devices": {
         "q": "Tôi có thể dùng trên điện thoại không?",
         "a": "Có. Ứng dụng chạy trên trình duyệt điện thoại, máy tính bảng hoặc máy tính."
+      },
+      "accuracy": {
+        "q": "Huấn luyện viên có luôn đúng không?",
+        "a": "Không. Đây là AI và có thể sai. Khi không chắc chắn, nó sẽ không nhận xét thay vì đoán, và gợi ý văn phong tùy chọn được tách riêng khỏi lỗi của bạn. Bạn có thể báo cáo một chỗ sửa có vẻ sai."
       }
     },
     "final": {
-      "title": "Viết bản nháp đầu tiên tốt hơn ngay hôm nay",
-      "body": "Cùng hàng nghìn người viết tự tin hơn."
+      "title": "Viết bài đầu tiên ngay hôm nay",
+      "body": "Chọn trình độ, viết một bài ngắn và xem chỗ cần sửa."
     },
     "copyright": "© 2026 Writing coach",
-    "heroPrivate": "Riêng tư mặc định",
-    "heroLanguage": "Giao diện tiếng Anh và tiếng Việt",
     "eyebrows": {
       "how": "Cách hoạt động",
       "features": "Tính năng chính",
@@ -909,48 +878,22 @@
       "pricing": "Học phí",
       "faq": "Câu hỏi thường gặp"
     },
-    "growthTitle": "Điều gì thay đổi khi bạn tiến bộ",
     "growthLines": [
       "Câu rõ ràng hơn, mỗi lần một mục tiêu",
       "Nhận xét có thể hành động, không phải một bức tường lỗi đỏ",
       "Lỗi của chính bạn quay lại thành bài tập ngắn"
     ],
-    "demoLive": "Trực tiếp",
-    "brand": "WriteRight",
+    "brand": "Writing coach",
     "titleLead": "Viết bằng tiếng Anh.",
     "titleAccent": "Thấy điều cần sửa.",
-    "heroBody": "Nhận gợi ý tức thì, rõ ràng để cải thiện ngữ pháp, sự rõ ràng và phong cách — để bạn tự tin viết hơn.",
-    "tryFree": "Dùng thử miễn phí",
+    "heroBody": "Huấn luyện viên đánh dấu lỗi ngay trong bài viết của bạn, giải thích từng lỗi bằng tiếng Anh ngắn gọn, dễ hiểu, rồi bạn tự sửa bài. Bài học đi từ những câu đầu tiên đến bài luận, kèm luyện tập IELTS.",
+    "tryFree": "Bắt đầu viết miễn phí",
     "howItWorks": "Cách hoạt động",
-    "audience": {
-      "students": {
-        "title": "Học sinh, sinh viên",
-        "body": "Cải thiện bài luận, bài tập và việc học"
-      },
-      "professionals": {
-        "title": "Người đi làm",
-        "body": "Viết email, báo cáo và thuyết trình rõ ràng hơn"
-      },
-      "learners": {
-        "title": "Người học tiếng Anh",
-        "body": "Nhận giải thích đơn giản, dễ hiểu"
-      },
-      "anyone": {
-        "title": "Bất kỳ ai",
-        "body": "Tự tin hơn và giao tiếp tốt hơn"
-      }
-    },
-    "demoTabs": {
-      "grammar": "Ngữ pháp",
-      "clarity": "Rõ ràng",
-      "tone": "Giọng điệu",
-      "vocabulary": "Từ vựng"
-    },
-    "acceptAll": "Chấp nhận tất cả",
-    "ignore": "Bỏ qua",
     "prevSuggestion": "Gợi ý trước",
     "nextSuggestion": "Gợi ý tiếp theo",
-    "demoPlaceholder": "Nhập câu để kiểm tra"
+    "demoPlaceholder": "Nhập câu để kiểm tra",
+    "demoMarkTitle": "Chỗ cần sửa",
+    "demoRevise": "Hãy tự sửa trong ô phía trên. Huấn luyện viên không bao giờ viết lại bài thay bạn."
   },
   "legal": {
     "nav": "Pháp lý",
@@ -1110,5 +1053,25 @@
         }
       ]
     }
+  },
+  "meta": {
+    "name": "Writing coach",
+    "description": "Luyện viết tiếng Anh: huấn luyện viên đánh dấu lỗi, giải thích, và bạn tự sửa bài.",
+    "landing": "Writing coach · Luyện viết tiếng Anh",
+    "today": "Hôm nay",
+    "path": "Lộ trình học",
+    "placement": "Tìm trình độ bắt đầu",
+    "lesson": "Bài học",
+    "write": "Không gian viết",
+    "feedback": "Nhận xét",
+    "revision": "So sánh bản sửa",
+    "practice": "Luyện tập",
+    "progress": "Tiến độ",
+    "portfolio": "Hồ sơ bài viết",
+    "settings": "Cài đặt",
+    "login": "Đăng nhập",
+    "onboarding": "Chào mừng",
+    "privacy": "Chính sách quyền riêng tư",
+    "terms": "Điều khoản sử dụng"
   }
 }

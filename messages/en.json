@@ -751,27 +751,24 @@
     "inWriting": "The coach's question is next to the highlighted part of your writing."
   },
   "landing": {
-    "title": "Write in English. See what to fix.",
-    "body": "Writing coach marks your mistakes on the page, explains them in short English, and helps you revise. Practice with lessons from first words to advanced essays.",
-    "start": "Start writing for free",
     "signIn": "Sign in",
     "demoLabel": "Try it: edit this sentence",
     "demoText": "Yesterday I go to the the park and eated an ice cream.",
     "demoResult": "Your marked sentence",
     "demoClear": "No mistakes found by these quick checks. The full coach checks much more after you sign in.",
-    "demoLocal": "This demo runs only in your browser. It checks a few common mistakes and sends nothing to a server. The full coach uses AI after you sign in.",
+    "demoLocal": "This demo runs only in your browser and checks a few common mistakes. The full coach uses AI after you sign in.",
     "steps": {
       "write": {
-        "title": "Write or paste",
-        "body": "Type your text or upload a document."
+        "title": "Write a short task",
+        "body": "Write at your level. There is no autocorrect: your own mistakes are what you learn from."
       },
       "mark": {
-        "title": "Get suggestions",
-        "body": "See instant feedback on grammar, clarity, tone and more."
+        "title": "See what to fix",
+        "body": "The coach marks up to three priorities and explains each one. When it is not sure, it stays quiet."
       },
       "revise": {
-        "title": "Apply and improve",
-        "body": "Accept suggestions and make your writing better."
+        "title": "Revise it yourself",
+        "body": "Rewrite, check again and compare versions. Your mistakes come back later as short practice."
       }
     },
     "nav": {
@@ -784,14 +781,13 @@
       "language": "Interface language",
       "start": "Get started"
     },
-    "eyebrow": "Free during the pilot",
-    "heroNote": "No credit card required · Works in your browser",
+    "heroNote": "Free during the pilot · English and Vietnamese interface",
     "how": {
-      "title": "Better writing in 3 simple steps",
-      "intro": "Get helpful suggestions in seconds and make your writing clearer, more natural and more professional."
+      "title": "Write, read the marks, revise",
+      "intro": "One short loop, built for a phone and a few spare minutes."
     },
     "features": {
-      "title": "Built for real writing situations",
+      "title": "Built around revision",
       "path": {
         "title": "A path from first words to C2",
         "body": "Short lessons, model texts and warm-ups at your level, then a writing task."
@@ -810,77 +806,48 @@
       },
       "progress": {
         "title": "See your progress",
-        "body": "Follow your writing days, scores and finished lessons over time."
+        "body": "Progress is measured on first attempts at new tasks, so a cleaned-up revision never inflates it."
       },
       "ielts": {
         "title": "IELTS writing practice",
         "body": "Task 1 and Task 2 practice with a 1–5 practice scale. These are not official band scores."
       },
-      "intro": "Whether it's an email, essay, report or social post, get tailored suggestions that fit your needs.",
-      "grammar": {
-        "title": "Grammar & spelling",
-        "body": "Catch mistakes and fix them with clear explanations."
-      },
-      "clarity": {
-        "title": "Clarity & conciseness",
-        "body": "Simplify complex sentences and eliminate wordiness."
-      },
-      "tone": {
-        "title": "Tone suggestions",
-        "body": "Adjust your tone to be more formal, professional or casual."
-      },
-      "vocabulary": {
-        "title": "Vocabulary enhancement",
-        "body": "Get better word choices to sound more natural and precise."
-      },
-      "usecases": {
-        "title": "Multiple use cases",
-        "body": "Works for emails, essays, reports, cover letters and more."
-      },
-      "everyone": {
-        "title": "English for everyone",
-        "body": "Designed for learners, students and working professionals."
-      }
+      "intro": "Every part of the app ends in the same place: you rewriting your own text."
     },
     "levels": {
       "title": "Start at your level",
-      "intro": "Get personalised suggestions based on your writing goals and proficiency level.",
+      "intro": "Take a short placement or choose your level. Tasks and word limits match where you are, from Pre-A1 to C2.",
       "PRE_A1": "Words and one or two simple sentences about yourself",
       "A1": "Simple sentences about your day, family and places",
       "A2": "Short connected messages, notes and simple emails",
       "B1": "Clear paragraphs, stories and opinions with reasons",
       "B2": "Structured essays, reports and formal letters",
       "C1": "Precise, flexible writing for study and work",
-      "C2": "Polished long-form writing with control of style",
-      "checks": ["Clearer writing", "Fewer mistakes", "More confidence", "Ready for real life"]
+      "C2": "Polished long-form writing with control of style"
     },
     "pricing": {
-      "title": "Simple, transparent pricing",
-      "plan": "Free Plan",
+      "title": "Free during the pilot",
+      "plan": "Pilot",
       "price": "$0",
-      "note": "Free while we test the app with early learners. Paid plans are not decided yet.",
       "includes": [
-        "Basic grammar and spelling checks",
-        "Limited tone and clarity suggestions",
-        "Works in your browser"
+        "20 coach checks a day",
+        "Lessons, practice and progress tracking",
+        "English and Vietnamese interface"
       ],
-      "taglineTitle": "Choose a plan that fits your needs. Upgrade anytime.",
-      "taglineBody": "Start free, then upgrade when you need more feedback and practice.",
+      "taglineTitle": "Paid plans are not decided yet. If that changes, we will tell you first.",
       "duringPilot": "during the pilot",
-      "planNote": "Great for getting started",
-      "forever": "forever",
+      "planNote": "Everything in the app, while we test it with early learners",
       "cta": "Get started free"
     },
     "faq": {
       "title": "Frequently asked questions",
-      "viewAll": "View all FAQs",
       "cost": {
         "q": "Is it really free?",
         "a": "Yes, during the pilot. If paid plans start later, we will tell you before anything changes."
       },
       "types": {
-        "q": "What types of writing can I use it for?",
-        "a": "Emails, essays, reports, cover letters, social posts and everyday messages. The coach adapts to the task and your level."
+        "q": "What kind of writing do I practise?",
+        "a": "Writing tasks from your level’s lessons, from short messages to essays, plus IELTS Task 1 and Task 2 practice. You write in the app; there is no document upload."
       },
       "account": {
         "q": "Do I need to create an account?",
@@ -893,15 +860,17 @@
       "devices": {
         "q": "Can I use it on my mobile device?",
         "a": "Yes. The app works in the browser on your phone, tablet or computer."
+      },
+      "accuracy": {
+        "q": "Is the coach always right?",
+        "a": "No. It is an AI and can make mistakes. When it is not sure, it stays quiet instead of guessing, and optional style suggestions are kept apart from your mistakes. You can report a correction that looks wrong."
       }
     },
     "final": {
-      "title": "Write your first, better draft today",
-      "body": "Join thousands who write with more confidence."
+      "title": "Write your first piece today",
+      "body": "Choose your level, write one short task and see what to fix."
     },
     "copyright": "© 2026 Writing coach",
-    "heroPrivate": "Private by default",
-    "heroLanguage": "English and Vietnamese interface",
     "eyebrows": {
       "how": "How it works",
       "features": "Key features",
@@ -909,48 +878,22 @@
       "pricing": "Pricing",
       "faq": "FAQ"
     },
-    "growthTitle": "What changes as you grow",
     "growthLines": [
       "Clearer sentences, one target at a time",
       "Feedback you can act on, not a wall of red",
       "Your own mistakes return as short practice"
     ],
-    "demoLive": "Live",
-    "brand": "WriteRight",
+    "brand": "Writing coach",
     "titleLead": "Write in English.",
     "titleAccent": "See what to fix.",
-    "heroBody": "Get instant, clear suggestions to improve your grammar, clarity and style — so you can write with confidence.",
-    "tryFree": "Try it free",
+    "heroBody": "The coach marks the mistakes in your own writing, explains each one in short, plain English, and then you revise. Lessons run from first sentences to essays, plus IELTS practice.",
+    "tryFree": "Start writing for free",
     "howItWorks": "How it works",
-    "audience": {
-      "students": {
-        "title": "Students",
-        "body": "Improve essays, assignments and school work"
-      },
-      "professionals": {
-        "title": "Professionals",
-        "body": "Write clearer emails, reports and presentations"
-      },
-      "learners": {
-        "title": "English learners",
-        "body": "Get simple, easy-to-understand explanations"
-      },
-      "anyone": {
-        "title": "Anyone",
-        "body": "Build confidence and communicate better"
-      }
-    },
-    "demoTabs": {
-      "grammar": "Grammar",
-      "clarity": "Clarity",
-      "tone": "Tone",
-      "vocabulary": "Vocabulary"
-    },
-    "acceptAll": "Accept all",
-    "ignore": "Ignore",
     "prevSuggestion": "Previous suggestion",
     "nextSuggestion": "Next suggestion",
-    "demoPlaceholder": "Type a sentence to check"
+    "demoPlaceholder": "Type a sentence to check",
+    "demoMarkTitle": "What to fix",
+    "demoRevise": "Fix it yourself in the box above. The coach never rewrites your text for you."
   },
   "legal": {
     "nav": "Legal",
@@ -1110,5 +1053,25 @@
         }
       ]
     }
+  },
+  "meta": {
+    "name": "Writing coach",
+    "description": "Practice English writing: the coach marks your mistakes, explains them, and you revise.",
+    "landing": "Writing coach · English writing practice",
+    "today": "Today",
+    "path": "Learning path",
+    "placement": "Placement",
+    "lesson": "Lesson",
+    "write": "Writing Studio",
+    "feedback": "Feedback",
+    "revision": "Compare revisions",
+    "practice": "Practice",
+    "progress": "Progress",
+    "portfolio": "Portfolio",
+    "settings": "Settings",
+    "login": "Sign in",
+    "onboarding": "Welcome",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use"
   }
 }

@@ -1,6 +1,8 @@
-import type { Metadata } from 'next';
 import LegalPage from '@/components/landing/LegalPage';
-export const metadata: Metadata = { title: 'Terms of use · Writing coach' };
+import { pageMetadata } from '@/lib/i18n/metadata';
+export function generateMetadata() {
+  return pageMetadata('terms');
+}
 export default function TermsPage() {
   return <LegalPage document="terms" />;
 }

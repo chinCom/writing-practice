@@ -3,6 +3,10 @@ import { currentUser } from '@/lib/auth/server';
 import { loadLesson } from '@/lib/db/curriculum';
 import LessonView from '@/components/curriculum/LessonView';
 import { DomainError } from '@/lib/domain-error';
+import { pageMetadata } from '@/lib/i18n/metadata';
+export function generateMetadata() {
+  return pageMetadata('lesson');
+}
 export default async function Page({ params }: { params: Promise<{ lessonId: string }> }) {
   const [user, { lessonId }] = await Promise.all([currentUser(), params]);
   if (!user) redirect('/login');

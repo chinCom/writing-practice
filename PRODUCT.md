@@ -75,7 +75,7 @@ It is writing-focused by construction: model-text noticing and source passages e
 
 ## Brand Commitments
 
-- **Name:** Writing Coach. (The landing brand label in `messages/en.json` currently reads "WriteRight", and some copy uses "Writing coach" — a naming inconsistency to resolve in later copy work, not a second brand.)
+- **Name:** Writing Coach, shown as "Writing coach" in the UI, the landing page, tab titles, and the app icon. "WriteRight" was only the name of a visual reference board and is not a brand.
 - **Languages:** English and Vietnamese UI, both left-to-right. AI feedback and explanations are English.
 - **Voice:** plain, short, specific, and honest about uncertainty. No hype, no inflated claims about results, no false confidence in a correction.
 - No logo, visual identity, or legal entity is settled; the operator name, country, and contact email are unresolved placeholders in the legal copy.

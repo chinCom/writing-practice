@@ -5,7 +5,11 @@ import { loadFeedbackReview } from '@/lib/db/queries';
 import { avoidedTargets } from '@/lib/revision';
 import { visibleFeedback } from '@/lib/targets';
 import FeedbackView from '@/components/feedback/FeedbackView';
+import { pageMetadata } from '@/lib/i18n/metadata';
 
+export function generateMetadata() {
+  return pageMetadata('feedback');
+}
 export default async function Page({ params }: { params: Promise<{ submissionId: string }> }) {
   const [user, { submissionId }] = await Promise.all([currentUser(), params]);
   if (!user) redirect('/login');

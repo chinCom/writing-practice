@@ -9,6 +9,7 @@ import { loadTask } from '@/lib/db/curriculum';
 import { maxRevisionAttempts } from '@/lib/limits';
 import RevisionLimit from '@/components/studio/RevisionLimit';
 import { DomainError } from '@/lib/domain-error';
+import { pageMetadata } from '@/lib/i18n/metadata';
 
 /** Redirects for a missing, locked or warm-up-gated task before the page renders it. */
 async function loadOwnedTask(userId: string, taskId: string) {
@@ -25,6 +26,9 @@ async function loadOwnedTask(userId: string, taskId: string) {
   }
 }
 
+export function generateMetadata() {
+  return pageMetadata('write');
+}
 export default async function Page({
   params,
   searchParams,

@@ -376,6 +376,22 @@
       }
     },
     {
+      "files": ["src/components/ui/icons/BrandIconImage.tsx"],
+      "rules": {
+        "project/restricted-syntax": [
+          "error",
+          {
+            "selector": "JSXAttribute[name.name='className']",
+            "message": "next/og renders inline styles only."
+          },
+          {
+            "selector": "Literal[value=/^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/]",
+            "message": "Colors belong in src/theme."
+          }
+        ]
+      }
+    },
+    {
       "files": ["src/app/layout.tsx"],
       "rules": {
         "project/restricted-syntax": [

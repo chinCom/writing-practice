@@ -19,12 +19,9 @@ import Typography from '@mui/material/Typography';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import LanguageOutlined from '@mui/icons-material/LanguageOutlined';
-import PersonOutline from '@mui/icons-material/PersonOutlineOutlined';
 import PlayCircleOutlined from '@mui/icons-material/PlayCircleOutlined';
 import SchoolOutlined from '@mui/icons-material/SchoolOutlined';
 import SearchOutlined from '@mui/icons-material/SearchOutlined';
-import WorkOutlineOutlined from '@mui/icons-material/WorkOutlineOutlined';
 import { Logo } from '@/components/layout/AppNavigation';
 import LevelIllustration from './LevelIllustration';
 import LiveDemo from './LiveDemo';
@@ -39,33 +36,31 @@ const stepIcons = [DescriptionOutlined, SearchOutlined, CheckStep];
 function CheckStep() {
   return <BoardIcon name="check" sx={{ fontSize: 'inherit' }} />;
 }
-function ToneIcon() {
-  return <BoardIcon name="people" />;
+function PathIcon() {
+  return <BoardIcon name="map" />;
 }
-function VocabularyIcon() {
-  return <BoardIcon name="book" />;
-}
-function GrammarIcon() {
+function ExplainIcon() {
   return <BoardIcon name="sparkles" />;
 }
-function LearnerIcon() {
-  return <BoardIcon name="bars" />;
+function PracticeIcon() {
+  return <BoardIcon name="practice" />;
+}
+function ProgressIcon() {
+  return <BoardIcon name="trend" />;
 }
 const features = [
-  { id: 'grammar', icon: GrammarIcon, tile: 'pastel.lilac', accent: 'secondary.main' },
-  { id: 'clarity', icon: DescriptionOutlined, tile: 'pastel.mint', accent: 'success.dark' },
-  { id: 'tone', icon: ToneIcon, tile: 'pastel.blue', accent: 'info.main' },
-  { id: 'vocabulary', icon: VocabularyIcon, tile: 'pastel.peach', accent: 'warning.main' },
-  { id: 'usecases', icon: DescriptionOutlined, tile: 'pastel.rose', accent: 'error.main' },
-  { id: 'everyone', icon: LanguageOutlined, tile: 'pastel.lilac', accent: 'secondary.main' },
+  { id: 'path', icon: PathIcon, tile: 'pastel.lilac', accent: 'secondary.main' },
+  { id: 'explain', icon: ExplainIcon, tile: 'pastel.mint', accent: 'success.dark' },
+  { id: 'revise', icon: DescriptionOutlined, tile: 'pastel.blue', accent: 'info.main' },
+  { id: 'practice', icon: PracticeIcon, tile: 'pastel.peach', accent: 'warning.main' },
+  { id: 'progress', icon: ProgressIcon, tile: 'pastel.rose', accent: 'error.main' },
+  { id: 'ielts', icon: SchoolOutlined, tile: 'pastel.lilac', accent: 'secondary.main' },
 ] as const;
-const audience = [
-  { id: 'students', icon: SchoolOutlined },
-  { id: 'professionals', icon: WorkOutlineOutlined },
-  { id: 'learners', icon: LearnerIcon },
-  { id: 'anyone', icon: PersonOutline },
-] as const;
-const questions = ['cost', 'types', 'account', 'privacy', 'devices'] as const;
+const levels = ['PRE_A1', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+function levelLabel(level: (typeof levels)[number]) {
+  return level === 'PRE_A1' ? 'Pre-A1' : level;
+}
+const questions = ['cost', 'types', 'accuracy', 'account', 'privacy', 'devices'] as const;
 // Anchored sections stop below the sticky header instead of under it.
 const anchorOffset = 22;
 const landingSplit = '@media (min-width: 760px)';
@@ -210,7 +205,6 @@ function Section({
   title,
   intro,
   tone = 'white',
-  action,
   children,
 }: {
   id: string;
@@ -218,7 +212,6 @@ function Section({
   title: string;
   intro?: string;
   tone?: 'white' | 'lavender';
-  action?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -255,7 +248,6 @@ function Section({
               </Typography>
             ) : null}
           </Stack>
-          {action}
         </Stack>
         {children}
       </Container>
@@ -505,9 +497,44 @@ function Features() {
   );
 }
 
+function LevelRow({ level }: { level: (typeof levels)[number] }) {
+  const t = useTranslations('landing.levels');
+  return (
+    <Stack
+      component="li"
+      direction="row"
+      sx={{
+        gap: 1.5,
+        alignItems: 'center',
+        p: { xs: 0.5, md: 0.75 },
+        bgcolor: 'tonal.primary',
+        borderRadius: 8,
+      }}
+    >
+      <Box
+        sx={{
+          minInlineSize: 52,
+          paddingBlock: 0.5,
+          flexShrink: 0,
+          borderRadius: 999,
+          bgcolor: 'background.paper',
+          color: 'secondary.main',
+          textAlign: 'center',
+          typography: 'caption',
+          fontWeight: 700,
+        }}
+      >
+        {levelLabel(level)}
+      </Box>
+      <Typography variant="body2" color="text.secondary">
+        {t(level)}
+      </Typography>
+    </Stack>
+  );
+}
+
 function Levels() {
   const t = useTranslations('landing.levels');
-  const audienceCopy = useTranslations('landing.audience');
   const landing = useTranslations('landing');
   return (
     <Section id="levels" eyebrow={landing('eyebrows.levels')} title={t('title')} intro={t('intro')}>
@@ -521,53 +548,8 @@ function Levels() {
         }}
       >
         <Stack component="ul" sx={{ m: 0, p: 0, listStyle: 'none', gap: 0.5 }}>
-          {audience.map(({ id, icon: Icon }) => (
-            <Stack
-              component="li"
-              key={id}
-              direction="row"
-              sx={{
-                gap: 1,
-                alignItems: 'center',
-                p: { xs: 0.5, md: 1 },
-                bgcolor: 'tonal.primary',
-                borderRadius: 8,
-              }}
-            >
-              <Box
-                sx={{
-                  inlineSize: 30,
-                  blockSize: 30,
-                  flexShrink: 0,
-                  borderRadius: '50%',
-                  bgcolor: 'background.paper',
-                  color: 'secondary.main',
-                  display: 'grid',
-                  placeItems: 'center',
-                  '& svg': { fontSize: 22 },
-                }}
-              >
-                <Icon />
-              </Box>
-              <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                sx={{
-                  gap: { xs: 0.25, sm: 1.5 },
-                  minInlineSize: 0,
-                  alignItems: { sm: 'baseline' },
-                }}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: 700, minInlineSize: { sm: 90 }, fontSize: '0.6875rem' }}
-                >
-                  {audienceCopy(id + '.title')}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {audienceCopy(id + '.body')}
-                </Typography>
-              </Stack>
-            </Stack>
+          {levels.map((level) => (
+            <LevelRow key={level} level={level} />
           ))}
         </Stack>
         <LevelIllustration />
@@ -640,7 +622,7 @@ function Pricing() {
                   {t('price')}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {t('forever')}
+                  {t('duringPilot')}
                 </Typography>
               </Stack>
             </Stack>
@@ -670,22 +652,7 @@ function Faq() {
   const t = useTranslations('landing.faq');
   const landing = useTranslations('landing');
   return (
-    <Section
-      id="faq"
-      eyebrow={landing('eyebrows.faq')}
-      title={t('title')}
-      action={
-        <Button
-          component={Link}
-          href="#faq"
-          variant="outlined"
-          endIcon={<ArrowForward />}
-          sx={{ flexShrink: 0, bgcolor: 'background.paper' }}
-        >
-          {t('viewAll')}
-        </Button>
-      }
-    >
+    <Section id="faq" eyebrow={landing('eyebrows.faq')} title={t('title')}>
       <Box>
         {questions.map((id, index) => (
           <Accordion

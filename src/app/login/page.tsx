@@ -3,6 +3,10 @@ import Login from '@/components/auth/Login';
 import { authConfigured } from '@/lib/auth/config';
 import { currentUser } from '@/lib/auth/server';
 import { waitForLoadingPreview } from '@/lib/dev-loading';
+import { pageMetadata } from '@/lib/i18n/metadata';
+export function generateMetadata() {
+  return pageMetadata('login');
+}
 export default async function LoginPage({
   searchParams,
 }: {

@@ -3,6 +3,10 @@ import { currentUser } from '@/lib/auth/server';
 import { loadToday } from '@/lib/db/today';
 import { nextTask } from '@/lib/next-task';
 import { firstSessionGuide } from '@/lib/first-session';
+import { pageMetadata } from '@/lib/i18n/metadata';
+export function generateMetadata() {
+  return pageMetadata('today');
+}
 export default async function Page() {
   const user = await currentUser();
   const { submissions, progress, practice, preferences, learningPath } =

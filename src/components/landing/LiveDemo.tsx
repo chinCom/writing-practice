@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -15,7 +14,6 @@ import MarkedText from '@/components/feedback/MarkedText';
 import WritingField from '@/components/shared/WritingField';
 import type { LocatedCorrection } from '@/lib/feedback/schema';
 import { analyzeWriting, repeatedWord, type HintTask, type WritingHint } from '@/lib/writing-hints';
-import ActionButton from '@/components/shared/ActionButton';
 import { SkeletonMask } from '@/components/shared/ContentSkeleton';
 
 const demoTask: HintTask = { id: 'landing-demo', minWords: 1, maxWords: 60, targetLevel: 'A2' };
@@ -83,38 +81,9 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
   const [text, setText] = useState(() => t('demoText'));
   const [draft, setDraft] = useState('');
   const [active, setActive] = useState(0);
-  const [ignored, setIgnored] = useState<Set<number>>(() => new Set());
-  const allMarks = useDemoMarks(text);
-  const marks = useMemo(
-    () => allMarks.filter((mark) => !ignored.has(mark.correction.start)),
-    [allMarks, ignored],
-  );
+  const marks = useDemoMarks(text);
   const current = marks[Math.min(active, Math.max(marks.length - 1, 0))];
   const currentIndex = current ? marks.indexOf(current) : -1;
-  const tabs = ['grammar', 'clarity', 'tone', 'vocabulary'] as const;
-
-  function applyAll() {
-    if (!marks.length) return;
-    const next = [...marks]
-      .sort((left, right) => right.correction.start - left.correction.start)
-      .reduce(
-        (value, mark) =>
-          value.slice(0, mark.correction.start) +
-          mark.correction.suggestion +
-          value.slice(mark.correction.end),
-        text,
-      );
-    setText(next);
-    setDraft(next);
-    setActive(0);
-    setIgnored(new Set());
-  }
-
-  function ignoreCurrent() {
-    if (!current) return;
-    setIgnored((previous) => new Set(previous).add(current.correction.start));
-    setActive(0);
-  }
 
   function step(direction: 1 | -1) {
     if (!marks.length) return;
@@ -161,35 +130,7 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
           pb: { xs: 2.25, sm: 13 },
         }}
       >
-        <Stack
-          direction="row"
-          sx={{
-            gap: 0.75,
-            flexWrap: 'wrap',
-            pb: 0.5,
-            borderBlockEnd: 1,
-            borderColor: 'divider',
-          }}
-        >
-          {tabs.map((tab, index) => (
-            <Chip
-              key={tab}
-              label={t('demoTabs.' + tab)}
-              size="small"
-              variant={index === 0 ? 'tonal' : 'outlined'}
-              color={index === 0 ? 'primary' : 'default'}
-              icon={index === 0 ? <AutoAwesomeOutlined /> : undefined}
-              sx={{
-                height: 28,
-                fontSize: '0.75rem',
-                color: index === 0 ? 'secondary.main' : 'text.secondary',
-                bgcolor: index === 0 ? 'tonal.primary' : 'transparent',
-                borderColor: 'divider',
-              }}
-            />
-          ))}
-        </Stack>
-        <Box role="region" aria-label={t('demoResult')} aria-live="polite" sx={{ pt: 1 }}>
+        <Box role="region" aria-label={t('demoResult')} aria-live="polite">
           <SkeletonMask loading={loading}>
             <Box
               sx={{
@@ -240,7 +181,6 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
                 setDraft(value);
                 setText(value);
                 setActive(0);
-                setIgnored(new Set());
               }}
               multiline
               minRows={1}
@@ -260,6 +200,9 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
               }}
             />
           </SkeletonMask>
+          <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 1 }}>
+            {t('demoLocal')}
+          </Typography>
         </Box>
       </Paper>
       <Paper
@@ -280,31 +223,18 @@ export default function LiveDemo({ loading = false }: { loading?: boolean }) {
         <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
           <AutoAwesomeOutlined sx={{ color: 'secondary.main', fontSize: 20 }} />
           <Typography variant="landingCard" component="p">
-            {t('demoTabs.grammar')}
+            {t('demoMarkTitle')}
           </Typography>
         </Stack>
         <SkeletonMask loading={loading}>
-          <Typography sx={{ mt: 0.75, fontSize: '0.75rem', lineHeight: 1.5, fontWeight: 500 }}>
-            {current
-              ? text.slice(0, current.correction.start) +
-                current.correction.suggestion +
-                text.slice(current.correction.end)
-              : text}
+          <Typography sx={{ mt: 0.75, fontSize: '0.8125rem', lineHeight: 1.5, fontWeight: 500 }}>
+            {current ? current.message : text}
           </Typography>
         </SkeletonMask>
         <Stack direction="row" sx={{ gap: 1, mt: 1, alignItems: 'center' }}>
-          <ActionButton tone="primary" size="small" disabled={!marks.length} onClick={applyAll}>
-            {t('acceptAll')}
-          </ActionButton>
-          <ActionButton
-            tone="secondary"
-            size="small"
-            disabled={!current}
-            onClick={ignoreCurrent}
-            sx={{ bgcolor: 'background.paper' }}
-          >
-            {t('ignore')}
-          </ActionButton>
+          <Typography variant="caption" color="text.secondary">
+            {t('demoRevise')}
+          </Typography>
           <Stack
             direction="row"
             sx={{ gap: 0.25, alignItems: 'center', marginInlineStart: 'auto' }}

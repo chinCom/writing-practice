@@ -1,6 +1,8 @@
-import type { Metadata } from 'next';
 import LegalPage from '@/components/landing/LegalPage';
-export const metadata: Metadata = { title: 'Privacy policy · Writing coach' };
+import { pageMetadata } from '@/lib/i18n/metadata';
+export function generateMetadata() {
+  return pageMetadata('privacy');
+}
 export default function PrivacyPage() {
   return <LegalPage document="privacy" />;
 }

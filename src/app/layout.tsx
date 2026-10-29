@@ -8,6 +8,7 @@ import Providers from '@/components/layout/Providers';
 import AppShell from '@/components/layout/AppShell';
 import { currentUser } from '@/lib/auth/server';
 import WebVitals from '@/components/layout/WebVitals';
+import { rootMetadata } from '@/lib/i18n/metadata';
 const handwriting = localFont({
   src: '../../public/fonts/caveat-variable.ttf',
   variable: '--font-handwriting',
@@ -47,10 +48,9 @@ const vietnameseCanvas = localFont({
   display: 'swap',
   preload: false,
 });
-export const metadata: Metadata = {
-  title: 'Writing coach',
-  description: 'A quiet space to practice English writing.',
-};
+export function generateMetadata(): Promise<Metadata> {
+  return rootMetadata();
+}
 export default async function Layout({ children }: { children: ReactNode }) {
   const [locale, user] = await Promise.all([getLocale(), currentUser()]);
   return (

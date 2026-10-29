@@ -2,6 +2,10 @@ import { redirect } from 'next/navigation';
 import { currentUser } from '@/lib/auth/server';
 import { loadPath } from '@/lib/db/curriculum';
 import LearningPath from '@/components/curriculum/LearningPath';
+import { pageMetadata } from '@/lib/i18n/metadata';
+export function generateMetadata() {
+  return pageMetadata('path');
+}
 export default async function Page({
   searchParams,
 }: {

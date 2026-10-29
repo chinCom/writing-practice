@@ -11,8 +11,8 @@ import CheckCircle from '@mui/icons-material/CheckCircle';
  * The floating browser panel and checklist card from the landing reference.
  */
 export default function LevelIllustration() {
-  const t = useTranslations('landing.levels');
-  const checks = t.raw('checks') as string[];
+  const t = useTranslations('landing');
+  const checks = t.raw('growthLines') as string[];
   return (
     <Box
       aria-hidden="true"

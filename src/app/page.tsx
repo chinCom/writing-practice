@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import Landing from '@/components/landing/Landing';
 import { currentUser } from '@/lib/auth/server';
 import { waitForLoadingPreview } from '@/lib/dev-loading';
+import { landingMetadata } from '@/lib/i18n/metadata';
+export const generateMetadata = landingMetadata;
 export default async function Page({
   searchParams,
 }: {
