@@ -639,7 +639,6 @@
     "zero": "Mới bắt đầu · Pre-A1",
     "minutes": "{n} phút",
     "selfReported": "Trình độ ban đầu do bạn tự chọn. Đây không phải bài kiểm tra xếp lớp.",
-    "currentScope": "Hồ sơ không đổi trình độ bắt đầu. Dùng bài kiểm tra đầu vào để chọn lộ trình A1–B1. Giải thích vẫn bằng tiếng Anh.",
     "save": "Lưu hồ sơ học tập",
     "continue": "Tiếp tục đến Hôm nay",
     "loading": "Đang tải hồ sơ học tập…",
@@ -647,7 +646,17 @@
     "saved": "Đã lưu hồ sơ học tập vào tài khoản.",
     "error": "Chưa lưu được hồ sơ học tập. Các lựa chọn của bạn vẫn còn ở đây.",
     "expired": "Đăng nhập lại để lưu hồ sơ học tập.",
-    "signInAgain": "Đăng nhập lại"
+    "signInAgain": "Đăng nhập lại",
+    "targetLevel": "Trình độ mục tiêu",
+    "targetLevelHelp": "Trình độ bạn muốn viết được. Đạt 3 trên 5 ở các bài cùng trình độ nghĩa là bạn đã đạt.",
+    "targetScore": "Điểm luyện tập mục tiêu",
+    "targetScoreOption": "{score} trên 5",
+    "targetScoreHelp": "Thang điểm luyện tập 1–5 cho bài IELTS. Đây không phải điểm band IELTS chính thức.",
+    "targetDate": "Ngày mục tiêu (không bắt buộc)",
+    "targetDateHelp": "Thêm ngày để xem tốc độ cần đạt mỗi tuần.",
+    "goalScopeCore": "Mục tiêu của bạn là đích mà trang Hôm nay và Tiến độ dùng để đo, theo lộ trình Core. Bài tìm trình độ quyết định nơi bắt đầu. Giải thích của huấn luyện viên vẫn bằng tiếng Anh.",
+    "goalScopeIelts": "Mục tiêu IELTS đưa các học phần IELTS lên trang Hôm nay và so điểm luyện tập của bạn với mục tiêu. Giải thích của huấn luyện viên vẫn bằng tiếng Anh.",
+    "toeflNote": "Chưa có bài riêng cho TOEFL, nên mục tiêu TOEFL dùng lộ trình Core."
   },
   "firstSession": {
     "title": "Buổi học đầu tiên",

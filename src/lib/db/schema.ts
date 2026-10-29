@@ -1,7 +1,9 @@
 import {
   boolean,
+  date,
   integer,
   jsonb,
+  numeric,
   pgSchema,
   primaryKey,
   text,
@@ -50,6 +52,9 @@ export const profiles = writing.table('profiles', {
   goal: text('goal').notNull(),
   startingLevel: text('starting_level').notNull(),
   dailyMinutes: integer('daily_minutes').notNull(),
+  targetLevel: text('target_level'),
+  targetScore: numeric('target_score', { precision: 2, scale: 1, mode: 'number' }),
+  targetDate: date('target_date', { mode: 'string' }),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
 export const preferences = writing.table('preferences', {

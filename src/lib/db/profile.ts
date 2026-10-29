@@ -1,20 +1,27 @@
 import 'server-only';
 import { eq } from 'drizzle-orm';
-import { withUserDatabase } from './client';
+import { withUserDatabase, type Transaction } from './client';
 import { profiles } from './schema';
-import { profileInput, type LearningProfile } from '@/lib/profile';
+import { learningProfile, type LearningProfile } from '@/lib/profile';
+export async function profileInTransaction(
+  database: Transaction,
+  userId: string,
+): Promise<LearningProfile | null> {
+  const [row] = await database.select().from(profiles).where(eq(profiles.userId, userId));
+  return row
+    ? learningProfile.parse({
+        nativeLanguage: row.nativeLanguage,
+        goal: row.goal,
+        startingLevel: row.startingLevel,
+        dailyMinutes: row.dailyMinutes,
+        targetLevel: row.targetLevel,
+        targetScore: row.targetScore,
+        targetDate: row.targetDate,
+      })
+    : null;
+}
 export async function loadProfile(userId: string): Promise<LearningProfile | null> {
-  return withUserDatabase(userId, async (database) => {
-    const [row] = await database.select().from(profiles).where(eq(profiles.userId, userId));
-    return row
-      ? profileInput.parse({
-          nativeLanguage: row.nativeLanguage,
-          goal: row.goal,
-          startingLevel: row.startingLevel,
-          dailyMinutes: row.dailyMinutes,
-        })
-      : null;
-  });
+  return withUserDatabase(userId, (database) => profileInTransaction(database, userId));
 }
 export async function saveProfile(userId: string, profile: LearningProfile) {
   return withUserDatabase(userId, async (database) => {

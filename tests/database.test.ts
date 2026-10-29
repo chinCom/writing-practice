@@ -93,6 +93,7 @@ beforeAll(async () => {
   await database.exec(await readFile('drizzle/0011_self_revision.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0012_mastery_advisory.sql', 'utf8'));
   await database.exec(await readFile('drizzle/0014_benchmark_context.sql', 'utf8'));
+  await database.exec(await readFile('drizzle/0015_goal_targets.sql', 'utf8'));
 });
 afterAll(async () => {
   vi.unstubAllEnvs();
@@ -115,7 +116,15 @@ it('saves an owner-only learning profile and rejects forged owners and invalid l
   >);
   const url = 'http://localhost/api/profile';
   expect(await (await getProfile(new Request(url))).json()).toEqual({ ok: true, profile: null });
-  const profile = { nativeLanguage: 'vi', goal: 'general', startingLevel: 'A1', dailyMinutes: 15 };
+  const profile = {
+    nativeLanguage: 'vi',
+    goal: 'general',
+    startingLevel: 'A1',
+    dailyMinutes: 15,
+    targetLevel: 'B1',
+    targetScore: null,
+    targetDate: '2027-03-15',
+  };
   const request = (body: unknown, origin = 'http://localhost') =>
     new Request(url, {
       method: 'PUT',
@@ -128,6 +137,24 @@ it('saves an owner-only learning profile and rejects forged owners and invalid l
   expect(await saved.json()).toEqual({ ok: true, profile });
   expect((await saveProfile(request({ ...profile, userId: bob }))).status).toBe(400);
   expect((await saveProfile(request({ ...profile, startingLevel: 'expert' }))).status).toBe(400);
+  // A goal must name its own kind of target: a level, or an IELTS practice score.
+  for (const invalid of [
+    { ...profile, targetLevel: null },
+    { ...profile, targetScore: 4 },
+    { ...profile, goal: 'ielts' },
+    { ...profile, goal: 'ielts', targetLevel: null, targetScore: 3.7 },
+    { ...profile, targetDate: '15/03/2027' },
+  ])
+    expect((await saveProfile(request(invalid))).status).toBe(400);
+  const ielts = {
+    ...profile,
+    goal: 'ielts',
+    targetLevel: null,
+    targetScore: 4.5,
+    targetDate: null,
+  };
+  expect((await saveProfile(request(ielts))).status).toBe(200);
+  expect(await (await getProfile(new Request(url))).json()).toEqual({ ok: true, profile: ielts });
   expect((await saveProfile(request(profile, 'https://evil.example'))).status).toBe(403);
   vi.mocked(currentUser).mockResolvedValue({ id: bob } as NonNullable<
     Awaited<ReturnType<typeof currentUser>>
@@ -136,6 +163,27 @@ it('saves an owner-only learning profile and rejects forged owners and invalid l
   expect((await asUser(bob, 'SELECT * FROM writing.profiles')).rows).toHaveLength(0);
   vi.mocked(currentUser).mockResolvedValue(null);
   expect((await saveProfile(request(profile))).status).toBe(401);
+});
+it('loads profiles saved before goals had targets without inventing one', async () => {
+  const owner = '00000000-0000-4000-8000-0000000000aa';
+  await database.exec(`INSERT INTO auth.users VALUES ('${owner}');
+    INSERT INTO writing.profiles (user_id, native_language, goal, starting_level, daily_minutes)
+    VALUES ('${owner}', 'en', 'work', 'B1', 30);`);
+  vi.mocked(currentUser).mockResolvedValue({ id: owner } as NonNullable<
+    Awaited<ReturnType<typeof currentUser>>
+  >);
+  expect(await (await getProfile(new Request('http://localhost/api/profile'))).json()).toEqual({
+    ok: true,
+    profile: {
+      nativeLanguage: 'en',
+      goal: 'work',
+      startingLevel: 'B1',
+      dailyMinutes: 30,
+      targetLevel: null,
+      targetScore: null,
+      targetDate: null,
+    },
+  });
 });
 it('saves weekly goals privately, rejects invalid inputs, and loads the default for another owner', async () => {
   vi.mocked(currentUser).mockResolvedValue({ id: charlie } as NonNullable<

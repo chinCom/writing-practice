@@ -639,7 +639,6 @@
     "zero": "Zero · Pre-A1",
     "minutes": "{n} minutes",
     "selfReported": "Your starting level is self-reported. This is not a placement test.",
-    "currentScope": "Your profile does not change your starting level. Use placement to choose an A1–B1 learning path. Coach explanations remain in English.",
     "save": "Save learning profile",
     "continue": "Continue to Today",
     "loading": "Loading your learning profile…",
@@ -647,7 +646,17 @@
     "saved": "Learning profile saved to your account.",
     "error": "Your learning profile was not saved. Your choices are still here.",
     "expired": "Sign in again to save your learning profile.",
-    "signInAgain": "Sign in again"
+    "signInAgain": "Sign in again",
+    "targetLevel": "Target level",
+    "targetLevelHelp": "The level you want to write at. Scoring 3 out of 5 on tasks at this level means you meet it.",
+    "targetScore": "Target practice score",
+    "targetScoreOption": "{score} out of 5",
+    "targetScoreHelp": "Our 1–5 practice scale for IELTS tasks. It is not an official IELTS band.",
+    "targetDate": "Target date (optional)",
+    "targetDateHelp": "Add a date to see the weekly pace you need.",
+    "goalScopeCore": "Your goal sets the target that Today and Progress measure you against, using the Core path. Placement chooses where the path starts. Coach explanations stay in English.",
+    "goalScopeIelts": "An IELTS goal puts the IELTS modules on Today and measures your practice score against your target. Coach explanations stay in English.",
+    "toeflNote": "There are no TOEFL-specific tasks yet, so a TOEFL goal uses the Core path."
   },
   "firstSession": {
     "title": "Your first session",

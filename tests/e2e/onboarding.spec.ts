@@ -47,6 +47,9 @@ for (const outcome of ['saved', 'failed', 'expired'] as const) {
       goal: 'general',
       startingLevel: 'A1',
       dailyMinutes: 15,
+      targetLevel: 'B1',
+      targetScore: null,
+      targetDate: null,
     });
     await page.reload();
     await expect(page.getByRole('combobox', { name: 'Native language' })).toHaveText('Vietnamese');
@@ -56,3 +59,36 @@ for (const outcome of ['saved', 'failed', 'expired'] as const) {
     ).toBeVisible();
   });
 }
+
+test('an IELTS goal asks for a practice score and a date, and TOEFL is honest about its path', async ({
+  page,
+}) => {
+  let profile: unknown = null;
+  await page.route('**/api/profile', async (route) => {
+    if (route.request().method() === 'PUT') profile = route.request().postDataJSON();
+    await route.fulfill({ json: { ok: true, profile } });
+  });
+  await page.goto('/dev/preview/onboarding');
+  await expect(page.getByRole('combobox', { name: 'Target level' })).toHaveText('B1');
+  await page.getByRole('combobox', { name: 'Writing goal' }).click();
+  await page.getByRole('option', { name: 'TOEFL' }).click();
+  await expect(page.getByText('There are no TOEFL-specific tasks yet')).toBeVisible();
+  await page.getByRole('combobox', { name: 'Writing goal' }).click();
+  await page.getByRole('option', { name: 'IELTS' }).click();
+  await expect(page.getByRole('combobox', { name: 'Target level' })).toHaveCount(0);
+  const score = page.getByRole('combobox', { name: 'Target practice score' });
+  await expect(score).toHaveText('4 out of 5');
+  await expect(page.getByText('It is not an official IELTS band.')).toBeVisible();
+  await score.click();
+  await page.getByRole('option', { name: '4.5 out of 5' }).click();
+  await page.getByLabel('Target date (optional)').fill('2027-03-15');
+  await page.getByRole('button', { name: 'Save learning profile' }).click();
+  await expect(page.getByText('Learning profile saved to your account.')).toBeVisible();
+  expect(profile).toMatchObject({
+    goal: 'ielts',
+    targetLevel: null,
+    targetScore: 4.5,
+    targetDate: '2027-03-15',
+  });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
