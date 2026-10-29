@@ -79,6 +79,7 @@ beforeAll(async () => {
     '0010_target_evidence.sql',
     '0012_mastery_advisory.sql',
     '0014_benchmark_context.sql',
+    '0015_goal_targets.sql',
   ])
     await database.exec(await readFile(`drizzle/${migration}`, 'utf8'));
   for (const unit of [...course, ...ielts])
@@ -156,4 +157,34 @@ it('reports first-attempt improvement, revision gain, and course progress for th
   expect(other.course.core.current).toBeNull();
   expect(report.benchmarks).toEqual([]);
   expect(other.benchmarks).toEqual([]);
+});
+it('measures an IELTS goal on safe IELTS first attempts only, for the owner only', async () => {
+  const carol = '00000000-0000-4000-8000-0000000000c0';
+  await database.query('INSERT INTO auth.users VALUES ($1)', [carol]);
+  await database.query(
+    `INSERT INTO writing.profiles(user_id,native_language,goal,starting_level,daily_minutes,target_score)
+     VALUES ($1,'vi','ielts','B1',15,4)`,
+    [carol],
+  );
+  const taskId = ielts[0].lessons[0].task.id;
+  for (const [daysAgo, score] of [
+    [6, 3],
+    [4, 4],
+    [2, 4],
+  ] as const)
+    await addCheck(carol, daysAgo, score, { taskId });
+  const first = await addCheck(carol, 1, 3, { taskId });
+  // A revision and a safety-flagged piece score higher but must not lift the estimate.
+  await addCheck(carol, 0, 5, { taskId, attempt: 2, parent: first });
+  await addCheck(carol, 0, 5, { taskId, safety: true });
+  const goal = (await loadProgress(carol)).goal;
+  expect(goal).toMatchObject({
+    state: 'active',
+    track: 'ielts',
+    target: { kind: 'ielts', score: 4 },
+    evidence: { count: 4, needed: 0 },
+    estimate: { average: 3.5, low: 3, high: 4, basedOn: 4 },
+    status: 'close',
+  });
+  expect((await loadProgress(bob)).goal).toEqual({ state: 'none' });
 });

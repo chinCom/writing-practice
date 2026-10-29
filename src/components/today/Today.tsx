@@ -22,6 +22,8 @@ import LearningSnapshot, { type LearningSnapshotData } from './LearningSnapshot'
 import type { ProgressReport } from '@/lib/db/progress';
 import type { CurriculumTrack } from '@/lib/curriculum';
 import type { NextTask } from '@/lib/next-task';
+import type { GoalSummary } from '@/lib/goal';
+import GoalCard from '@/components/goal/GoalCard';
 import type { FirstSessionGuideState } from '@/lib/first-session';
 import FirstSessionGuide from '@/components/onboarding/FirstSessionGuide';
 import TargetRecommendations from '@/components/curriculum/TargetRecommendations';
@@ -351,6 +353,7 @@ export default function Today({
   preview = false,
   signedIn = false,
   track = 'core',
+  goal,
   submissions = [],
   progress,
   due = 0,
@@ -364,6 +367,7 @@ export default function Today({
   preview?: boolean;
   signedIn?: boolean;
   track?: CurriculumTrack;
+  goal?: GoalSummary;
   submissions?: SavedSubmission[];
   progress?: ProgressReport;
   next?: NextTask;
@@ -408,6 +412,11 @@ export default function Today({
             feedbackId={firstSession.feedbackId}
             preview={preview}
           />
+        </Box>
+      ) : null}
+      {account && goal ? (
+        <Box sx={{ mb: { xs: 2, md: 2.5 } }}>
+          <GoalCard summary={goal} next={next} preview={preview} />
         </Box>
       ) : null}
       <Box

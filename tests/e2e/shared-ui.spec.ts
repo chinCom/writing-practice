@@ -9,7 +9,7 @@ test('report and Practice sections share padding, named headings and shrink-safe
   page,
 }, info) => {
   await page.goto('/dev/preview/progress');
-  await expect(panels(page)).toHaveCount(4);
+  await expect(panels(page)).toHaveCount(5);
   const padding = await panels(page)
     .first()
     .evaluate((element) => getComputedStyle(element).padding);
@@ -70,7 +70,7 @@ test('shared error notices retain explicit keyboard retry without replaying on t
   expect(reads).toBe(baseline);
   failed = false;
   await page.keyboard.press('Enter');
-  await expect(panels(page)).toHaveCount(4);
+  await expect(panels(page)).toHaveCount(5);
   await expect(notice).toHaveCount(0);
   expect(reads).toBeGreaterThan(baseline);
 });
@@ -110,7 +110,7 @@ test('shared panels wrap Vietnamese content in dark mode without changing Englis
   await page.addInitScript(() => localStorage.setItem('mui-mode', 'dark'));
   await page.goto('/dev/preview/progress');
   await expect(page.locator('[data-ui="loading-content"]')).toHaveCount(0);
-  await expect(panels(page)).toHaveCount(4);
+  await expect(panels(page)).toHaveCount(5);
   for (const panel of await panels(page).all()) {
     await expect(panel).toBeVisible();
     const bounds = await panel.boundingBox();
@@ -168,7 +168,7 @@ test('shared soft chips and content skeletons preserve status and accessible lab
   const loading = page.locator('[data-ui="progress-panels-skeleton"]');
   await expect(loading).toBeVisible();
   await expect(page.getByRole('status')).toHaveText('Loading progress');
-  await expect(panels(page)).toHaveCount(4);
+  await expect(panels(page)).toHaveCount(5);
   await expect(loading).toHaveCount(0);
   const chips = page.locator('.MuiChip-root');
   await expect(chips.first()).toBeVisible();

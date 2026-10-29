@@ -1082,5 +1082,43 @@
     "onboarding": "Chào mừng",
     "privacy": "Chính sách quyền riêng tư",
     "terms": "Điều khoản sử dụng"
+  },
+  "goal": {
+    "title": "Mục tiêu của bạn",
+    "setTitle": "Đặt mục tiêu",
+    "setBody": "Chọn điều bạn đang hướng tới. Writing coach sẽ đo bài viết mới của bạn so với mục tiêu và lên kế hoạch cho tuần.",
+    "setAction": "Đặt mục tiêu",
+    "addTargetTitle": "Thêm đích cho mục tiêu",
+    "addTargetBody": "Mục tiêu của bạn chưa có đích. Thêm trình độ hoặc điểm luyện tập IELTS để xem bạn còn cách bao xa.",
+    "addTargetAction": "Thêm đích",
+    "headlineLevel": "Viết ở trình độ {level}",
+    "headlineIelts": "Điểm luyện tập IELTS {score}",
+    "byDate": "trước {date}",
+    "collectingLevel": "Viết thêm {n} bài được kiểm tra ở trình độ {level} để xem bạn đang ở đâu.",
+    "collectingIelts": "Viết thêm {n} bài IELTS được kiểm tra để xem bạn đang ở đâu.",
+    "nowLevel": "Ở trình độ {level}, các lần viết đầu gần đây đạt {average} trên 5 (từ {low} đến {high}). Đạt 3 là đạt trình độ.",
+    "nowIelts": "Các lần viết IELTS đầu gần đây đạt {average} trên 5 (từ {low} đến {high}). Mục tiêu của bạn là {target}.",
+    "estimateLabel": "Điểm gần đây {average} trên 5",
+    "levelsToGo": "{level} cao hơn {n} trình độ, còn {lessons} bài học.",
+    "lessonsToGo": "{lessons, plural, =0 {Đã xong mọi bài học trên lộ trình này.} other {Còn # bài học.}}",
+    "status": {
+      "collecting": "Đang thu thập",
+      "working": "Đang tiến tới",
+      "close": "Gần đạt",
+      "reached": "Đã đạt"
+    },
+    "holdingBack": "Đang kéo bạn lại",
+    "skillScore": "{skill}: {score} trên 5",
+    "weekTitle": "Tuần này",
+    "weekDone": "{done} trên {planned} bài được kiểm tra.",
+    "focus": "Tập trung vào {skill}.",
+    "next": "Tiếp theo: {title}",
+    "nextPlacement": "Tiếp theo: tìm trình độ bắt đầu",
+    "nextWrite": "Tiếp theo: viết một tin nhắn ngắn",
+    "paceOnPace": "Đúng tiến độ: khoảng {n} bài mỗi tuần đến {date}.",
+    "paceBehind": "Để đạt trước {date}, hãy viết khoảng {n} bài mỗi tuần. Con số này nhiều hơn mục tiêu tuần {goal} bài của bạn.",
+    "paceDatePassed": "Ngày mục tiêu đã qua. Hãy chọn ngày mới trong hồ sơ học tập.",
+    "edit": "Đổi mục tiêu",
+    "caption": "Ước tính luyện tập từ các lần viết đầu, không tính bản sửa. Đây không phải điểm band IELTS hay chứng chỉ CEFR chính thức."
   }
 }

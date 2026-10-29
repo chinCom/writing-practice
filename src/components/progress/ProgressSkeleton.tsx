@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import SectionPanel from '@/components/shared/SectionPanel';
+import GoalSkeleton from '@/components/goal/GoalSkeleton';
 import PageHeader from '@/components/shared/PageHeader';
 import StatTilesSkeleton from '@/components/shared/StatTilesSkeleton';
 import OverviewCard from './OverviewCard';
@@ -158,8 +159,12 @@ function ReviewInsightsSkeleton() {
 
 export function ProgressPanelsSkeleton() {
   const t = useTranslations('progress');
+  const goal = useTranslations('goal');
   return (
     <Stack data-ui="progress-panels-skeleton" sx={{ gap: 3 }}>
+      <SectionPanel title={goal('title')}>
+        <GoalSkeleton />
+      </SectionPanel>
       <StatTilesSkeleton labels={['words', 'sessions', 'streak', 'xp'].map((key) => t(key))} />
       <Box
         sx={{

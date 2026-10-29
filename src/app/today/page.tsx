@@ -9,7 +9,7 @@ export function generateMetadata() {
 }
 export default async function Page() {
   const user = await currentUser();
-  const { submissions, progress, practice, preferences, learningPath, track, paths } =
+  const { submissions, progress, practice, preferences, learningPath, track, paths, goal } =
     user && process.env.DATABASE_URL
       ? await loadToday(user.id)
       : {
@@ -20,6 +20,7 @@ export default async function Page() {
           learningPath: undefined,
           track: 'core' as const,
           paths: undefined,
+          goal: undefined,
         };
   const unit = learningPath?.units.find((item) =>
     item.lessons.some((lesson) => lesson.state === 'current'),
@@ -45,6 +46,7 @@ export default async function Page() {
     <Today
       signedIn={Boolean(user)}
       track={track}
+      goal={goal}
       progress={progress}
       path={path}
       next={next}

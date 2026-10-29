@@ -11,6 +11,9 @@ import { growthTargetsEnabled, visibleFeedback } from '@/lib/targets';
 import type { TargetProgress } from '@/lib/target-progress';
 import { summarizeBenchmarks } from '@/lib/benchmarks';
 import { traceOperation } from '@/lib/observability/server';
+import { goalFromPaths, type GoalAttempt, type GoalSummary } from '@/lib/goal';
+import { profileInTransaction } from './profile';
+import { preferencesInTransaction } from './preferences';
 
 export type ProgressReport = ProgressSummary & {
   improvement: Improvement;
@@ -19,19 +22,32 @@ export type ProgressReport = ProgressSummary & {
 export type ProgressPageData = ProgressReport & {
   course: { core: CourseProgress; ielts: CourseProgress };
   targets: TargetProgress[];
+  goal: GoalSummary;
 };
+/** The report the page shows, plus first-attempt scores that stay on the server for the goal. */
+export type ProgressHistory = { report: ProgressReport; attempts: GoalAttempt[] };
 
 export function loadProgress(userId: string): Promise<ProgressPageData> {
   return withUserDatabase(userId, async (database) => {
     const now = new Date();
-    const report = await traceOperation('progress.history', () =>
-      progressInTransaction(database, now),
+    const { report, attempts } = await traceOperation('progress.history', () =>
+      progressHistoryInTransaction(database, now),
     );
-    const { core, ielts } = await traceOperation('progress.courses', () =>
-      coursePathsInTransaction(database),
-    );
+    const [{ core, ielts }, profile, preferences] = await Promise.all([
+      traceOperation('progress.courses', () => coursePathsInTransaction(database)),
+      profileInTransaction(database, userId),
+      preferencesInTransaction(database, userId),
+    ]);
     return {
       ...report,
+      goal: goalFromPaths({
+        profile,
+        paths: { core, ielts },
+        attempts,
+        weeklyGoal: preferences.weeklyGoal,
+        weeklySessions: report.weeklySessions,
+        now,
+      }),
       targets: growthTargetsEnabled()
         ? await traceOperation('progress.targets', () => targetsInTransaction(database, now))
         : [],
@@ -42,13 +58,14 @@ export function loadProgress(userId: string): Promise<ProgressPageData> {
     };
   });
 }
-export async function progressInTransaction(
+export async function progressHistoryInTransaction(
   database: Transaction,
   now = new Date(),
-): Promise<ProgressReport> {
+): Promise<ProgressHistory> {
   const writingQuery = database
     .select({
       id: submissions.id,
+      taskId: submissions.taskId,
       text: submissions.text,
       context: submissions.benchmarkContext,
       model: feedbackRows.model,
@@ -116,5 +133,13 @@ export async function progressInTransaction(
         targets: visibleFeedback(row.feedback).target_report,
       })),
   );
-  return { ...summary, improvement, benchmarks };
+  return {
+    report: { ...summary, improvement, benchmarks },
+    attempts: writing.map((row) => ({
+      at: row.at.toISOString(),
+      taskId: row.taskId,
+      attempt: row.attempt,
+      scores: row.feedback.scores,
+    })),
+  };
 }

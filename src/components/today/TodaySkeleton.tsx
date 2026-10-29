@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import PageHeader from '@/components/shared/PageHeader';
+import GoalSkeleton from '@/components/goal/GoalSkeleton';
 import {
   ContentSkeleton,
   SkeletonButton,
@@ -28,6 +29,9 @@ export default function TodaySkeleton() {
         }
       />
       <Stack sx={{ gap: { xs: 2, md: 2.5 } }}>
+        <SkeletonPanel>
+          <GoalSkeleton />
+        </SkeletonPanel>
         <Box
           sx={{
             display: 'grid',

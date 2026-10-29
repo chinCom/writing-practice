@@ -33,7 +33,7 @@ function countedErrors(check: CheckEvent) {
     (correction) => correction.confidence >= 0.7 && correction.severity !== 'style',
   ).length;
 }
-function averageScore(scores: Feedback['scores']) {
+export function averageScore(scores: Feedback['scores']) {
   return scoreKeys.reduce((sum, key) => sum + scores[key], 0) / scoreKeys.length;
 }
 function mean(checks: CheckEvent[], pick: (check: CheckEvent) => number) {
@@ -51,6 +51,10 @@ function snapshot(checks: CheckEvent[]): SkillSnapshot {
     errorsPer100Words: words ? roundOne((errors / words) * 100) : 0,
   };
 }
+/** Growth is measured on new writing: a revision never counts as a first attempt. */
+export function isFirstAttempt(check: { attempt: number }) {
+  return check.attempt === 1;
+}
 export function weekStartUtc(at: string) {
   const day = new Date(at.slice(0, 10) + 'T00:00:00Z');
   const monday = day.getTime() - ((day.getUTCDay() + 6) % 7) * dayMilliseconds;
@@ -60,7 +64,7 @@ export function summarizeImprovement(checks: CheckEvent[], now = new Date()): Im
   const past = checks
     .filter((check) => new Date(check.at) <= now)
     .sort((a, b) => a.at.localeCompare(b.at));
-  const firstAttempts = past.filter((check) => check.attempt === 1);
+  const firstAttempts = past.filter(isFirstAttempt);
   const weeks = new Map<string, CheckEvent[]>();
   for (const check of firstAttempts) {
     const key = weekStartUtc(check.at);

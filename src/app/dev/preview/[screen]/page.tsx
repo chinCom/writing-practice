@@ -21,6 +21,15 @@ import { locateCorrections } from '@/lib/feedback/locate';
 import { sampleDraft } from '@/mocks/draft.sample';
 import { markedPageSample } from '@/mocks/markedPage.sample';
 import { manyCorrectionsSample, manyCorrectionsText } from '@/mocks/manyCorrections.sample';
+import {
+  goalCollectingSample,
+  goalIeltsNext,
+  goalIeltsSample,
+  goalNoTargetSample,
+  goalNoneSample,
+  goalWorkingSample,
+} from '@/mocks/goal.sample';
+import type { GoalSummary } from '@/lib/goal';
 import { progressSample } from '@/mocks/progress.sample';
 import {
   todayProgressSample,
@@ -29,6 +38,14 @@ import {
   todayNextSample,
   todayGoalMetSample,
 } from '@/mocks/today.sample';
+// `?goal=` picks a goal state for the Today preview; each sample runs through the real goal rules.
+const goalSamples: Record<string, GoalSummary> = {
+  none: goalNoneSample,
+  'no-target': goalNoTargetSample,
+  collecting: goalCollectingSample,
+  working: goalWorkingSample,
+  ielts: goalIeltsSample,
+};
 export default async function Page({
   params,
   searchParams,
@@ -41,6 +58,7 @@ export default async function Page({
     task?: string;
     track?: string;
     delay?: string;
+    goal?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== 'development') notFound();
@@ -146,8 +164,10 @@ export default async function Page({
     return (
       <Today
         preview
+        goal={goalSamples[query.goal ?? 'working'] ?? goalWorkingSample}
+        track={query.goal === 'ielts' ? 'ielts' : 'core'}
         progress={todayProgressSample}
-        next={todayNextSample}
+        next={query.goal === 'ielts' ? goalIeltsNext : todayNextSample}
         submissions={todaySubmissionsSample}
         due={12}
         path={todayPathSample}

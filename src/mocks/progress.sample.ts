@@ -7,6 +7,7 @@ import coreDraft from '../../curriculum/course.draft.json';
 import { curriculumSchema } from '@/lib/curriculum';
 import { buildCoursePath } from '@/lib/curriculum-path';
 import type { ProgressPageData } from '@/lib/db/progress';
+import { goalNoneSample, goalWorkingSample } from './goal.sample';
 
 const now = new Date('2026-10-15T12:00:00Z');
 // Day, task, organization, grammar, vocabulary, counted errors.
@@ -113,10 +114,12 @@ export const progressSample: ProgressPageData = {
     ),
     ielts: summarizeCourse([], 'ielts', now),
   },
+  goal: goalWorkingSample,
 };
 export const progressEmptySample: ProgressPageData = {
   ...progressSample,
   improvement: summarizeImprovement([], now),
   targets: [],
   benchmarks: [],
+  goal: goalNoneSample,
 };

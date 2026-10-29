@@ -18,6 +18,7 @@ import Improvement from './Improvement';
 import Benchmarks from './Benchmarks';
 import Targets from './Targets';
 import { CourseProgressPanel } from './CourseProgress';
+import GoalPanel from '@/components/goal/GoalPanel';
 import type { ProgressPageData } from '@/lib/db/progress';
 import StatTile from '@/components/shared/StatTile';
 import OverviewCard from './OverviewCard';
@@ -113,6 +114,7 @@ export default function ProgressPanels({
   const maximum = Math.max(1, ...data.errors.map((item) => item.count));
   return (
     <Stack sx={{ gap: 3 }}>
+      <GoalPanel summary={data.goal} preview={preview} />
       <Box
         sx={{
           display: 'grid',

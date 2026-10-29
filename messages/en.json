@@ -1082,5 +1082,43 @@
     "onboarding": "Welcome",
     "privacy": "Privacy policy",
     "terms": "Terms of use"
+  },
+  "goal": {
+    "title": "Your goal",
+    "setTitle": "Set your goal",
+    "setBody": "Choose what you are working towards. Writing coach will measure your new writing against it and plan your week.",
+    "setAction": "Set your goal",
+    "addTargetTitle": "Add a target to your goal",
+    "addTargetBody": "Your goal has no target yet. Add a level or an IELTS practice score to see how close you are.",
+    "addTargetAction": "Add a target",
+    "headlineLevel": "Write at {level}",
+    "headlineIelts": "IELTS practice score {score}",
+    "byDate": "by {date}",
+    "collectingLevel": "Write {n, plural, one {# more checked piece} other {# more checked pieces}} at {level} to see where you are.",
+    "collectingIelts": "Write {n, plural, one {# more checked IELTS piece} other {# more checked IELTS pieces}} to see where you are.",
+    "nowLevel": "At {level}, your recent first attempts score {average} out of 5 (from {low} to {high}). 3 meets the level.",
+    "nowIelts": "Your recent IELTS first attempts score {average} out of 5 (from {low} to {high}). Your target is {target}.",
+    "estimateLabel": "Recent score {average} out of 5",
+    "levelsToGo": "{level} is {n, plural, one {# level} other {# levels}} up, with {lessons, plural, one {# lesson} other {# lessons}} to go.",
+    "lessonsToGo": "{lessons, plural, =0 {All lessons on this path are done.} one {# lesson to go.} other {# lessons to go.}}",
+    "status": {
+      "collecting": "Collecting evidence",
+      "working": "Working towards it",
+      "close": "Close",
+      "reached": "Reached"
+    },
+    "holdingBack": "Holding you back",
+    "skillScore": "{skill}: {score} out of 5",
+    "weekTitle": "This week",
+    "weekDone": "{done} of {planned} checked pieces.",
+    "focus": "Focus on {skill}.",
+    "next": "Next: {title}",
+    "nextPlacement": "Next: find your starting level",
+    "nextWrite": "Next: write a short message",
+    "paceOnPace": "On pace: about {n} a week until {date}.",
+    "paceBehind": "To reach it by {date}, aim for about {n} a week. That is more than your weekly goal of {goal}.",
+    "paceDatePassed": "Your target date has passed. Choose a new date in your learning profile.",
+    "edit": "Change goal",
+    "caption": "Practice estimate from your first attempts, not revisions. It is not an official IELTS band or CEFR certificate."
   }
 }
